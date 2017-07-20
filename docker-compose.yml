@@ -21,10 +21,12 @@ services:
       context: ./Cellar.Hub.Sql
       dockerfile: Dockerfile
     ports:
-    - "5433:5432"
+    - "5434:5432"
 
   broker:
     image: cellar.hub.mqtt
     build: 
       context: ./Cellar.Hub.Mqtt
       dockerfile: Dockerfile
+    ports:
+    - "1883:1883"
