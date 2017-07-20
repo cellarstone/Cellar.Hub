@@ -1,0 +1,8 @@
+version: '2.1'
+
+services:
+  cellar.hub:
+    image: cellar.hub
+    build: .
+    ports:
+      - 3000:3000
