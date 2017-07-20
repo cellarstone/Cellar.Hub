@@ -1,8 +1,30 @@
-version: '2.1'
+version: '2'
 
 services:
-  cellar.hub:
-    image: cellar.hub
-    build: .
+  cellar.hub.web:
+    image: cellar.hub.web
+    build:
+      context: ./Cellar.Hub.Web
+      dockerfile: Dockerfile
+
+  cellar.hub.dataflow:
+    image: cellar.hub.dataflow
+    build:
+      context: ./Cellar.Hub.DataFlow
+      dockerfile: Dockerfile
+    links:
+      - cellar.hub.sql
+
+  cellar.hub.sql:
+    image: cellar.hub.sql
+    build: 
+      context: ./Cellar.Hub.Sql
+      dockerfile: Dockerfile
     ports:
-      - 3000:3000
+    - "5433:5432"
+
+  broker:
+    image: cellar.hub.mqtt
+    build: 
+      context: ./Cellar.Hub.Mqtt
+      dockerfile: Dockerfile

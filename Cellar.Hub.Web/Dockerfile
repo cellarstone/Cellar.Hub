@@ -1,8 +1,19 @@
+# Sample contents of Dockerfile
+ # Stage 1
+ FROM microsoft/aspnetcore-build AS builder
+ WORKDIR /source
 
-FROM microsoft/aspnetcore:1
-LABEL Name=cellar.hub Version=0.0.1 
-ARG source=.
-WORKDIR /app
-EXPOSE 3000
-COPY $source .
-ENTRYPOINT dotnet cellar.hub.dll
+ # caches restore result by copying csproj file separately
+ COPY *.csproj .
+ RUN dotnet restore
+
+ # copies the rest of your code
+ COPY . .
+ RUN dotnet publish --output /app/ --configuration Release
+
+ # Stage 2
+ FROM microsoft/aspnetcore
+ WORKDIR /app
+ EXPOSE 80
+ COPY --from=builder /app .
+ ENTRYPOINT ["dotnet", "Cellar.Hub.Web.dll"]

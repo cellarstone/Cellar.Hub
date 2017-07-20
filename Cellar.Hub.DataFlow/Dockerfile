@@ -1,8 +1,4 @@
-
-FROM microsoft/aspnetcore:1
-LABEL Name=cellar.hub Version=0.0.1 
-ARG source=.
+FROM microsoft/dotnet:1.1-runtime
 WORKDIR /app
-EXPOSE 3000
-COPY $source .
-ENTRYPOINT dotnet cellar.hub.dll
+COPY . .
+ENTRYPOINT ["dotnet", "Cellar.Hub.DataFlow.dll"]
