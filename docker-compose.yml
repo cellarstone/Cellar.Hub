@@ -4,26 +4,31 @@ services:
   cellar.hub.web:
     image: cellar.hub.web
     build:
-      context: ./Cellar.Hub.Web
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile_Cellar.Hub.Web
+    links:
+      - cellar.hub.db
+    ports:
+    - "5001:5001"
 
   cellar.hub.dataflow:
     image: cellar.hub.dataflow
     build:
-      context: ./Cellar.Hub.DataFlow
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile_Cellar.Hub.DataFlow
     links:
-      - cellar.hub.sql
+      - cellar.hub.db
+      - cellar.hub.mqtt
 
-  cellar.hub.sql:
-    image: cellar.hub.sql
+  cellar.hub.db:
+    image: cellar.hub.db
     build: 
-      context: ./Cellar.Hub.Sql
+      context: ./Cellar.Hub.Db
       dockerfile: Dockerfile
     ports:
-    - "5434:5432"
+    - "27017:27017"
 
-  broker:
+  cellar.hub.mqtt:
     image: cellar.hub.mqtt
     build: 
       context: ./Cellar.Hub.Mqtt

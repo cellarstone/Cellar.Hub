@@ -1,0 +1,19 @@
+# Sample contents of Dockerfile
+ # Stage 1
+ FROM microsoft/dotnet:2.0.0-preview2-sdk AS builder
+ WORKDIR /source
+
+ # caches restore result by copying csproj file separately
+ COPY . .
+ RUN dotnet restore ./Cellar.Hub.Web
+
+ # copies the rest of your code
+#  COPY . .
+ RUN dotnet publish ./Cellar.Hub.Web --output /app/ --configuration Release
+
+ # Stage 2
+ FROM microsoft/dotnet:2.0.0-preview2-runtime
+ WORKDIR /app
+ EXPOSE 5001
+ COPY --from=builder /app .
+ ENTRYPOINT ["dotnet", "Cellar.Hub.Web.dll"]

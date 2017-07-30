@@ -3,13 +3,13 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
+
+   <ItemGroup>
+    <ProjectReference Include="..\Cellar.Hub.Core\Cellar.Hub.Core.csproj" />
+  </ItemGroup>   
+
   <ItemGroup>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="1.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.2" PrivateAssets="All" />
-    <!-- For scaffolding support -->
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" PrivateAssets="All" />
-  </ItemGroup>
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.1" />
+    <PackageReference Include="MQTTnet" Version="2.1.4" />
+    <PackageReference Include="MongoDB.Driver" Version="2.4.4" /> 
   </ItemGroup>
 </Project>

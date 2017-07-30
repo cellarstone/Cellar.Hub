@@ -1,37 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Cellar.Hub.Web.Models;
 
-namespace Cellar.Hub.Web.Controllers
+namespace Cellar.Hub.Web
 {
-    public class HomeController : Controller
+  public class HomeController : Controller
+  {
+    [HttpPost]
+    public ActionResult MyTest()
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+      return Json("Tohel je muj test");
     }
+  }
 }
