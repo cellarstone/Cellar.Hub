@@ -1,7 +1,7 @@
 
 import { CellarSenzorSettings } from './CellarSenzorSettings';
 
-export interface CellarSenzor {
+export class CellarSenzor {
 
     Id: string;
 

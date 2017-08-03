@@ -82,19 +82,14 @@ import {TreeModule} from 'primeng/primeng';
 import {TreeTableModule} from 'primeng/primeng';
 
 
-//Others
-import { DragulaModule } from 'ng2-dragula/ng2-dragula';
-import { CKEditorModule } from 'ng2-ckeditor';
-
-
-
-
 
 import {AppComponent}  from './app.component';
 
+import { SharedService } from './service/shared.service';
 import { IoTService } from './service/iot.service';
 
 import { Dashboard } from './view/dashboard/dashboard';
+import { Login } from './view/login/login';
 import { SenzorDetail } from './view/senzor/senzor-detail';
 import { SpaceDetail } from './view/space/space-detail';
 
@@ -169,19 +164,19 @@ import { SpaceDetail } from './view/space/space-detail';
         ToolbarModule,
         TooltipModule,
         TreeModule,
-        TreeTableModule,
-        DragulaModule,
-        CKEditorModule
+        TreeTableModule
     ],
     declarations: [
         AppComponent,
         Dashboard,
+        Login,
         SenzorDetail,
         SpaceDetail
     ],
     providers: [
-        //{ provide: LocationStrategy, useClass: HashLocationStrategy },
-        IoTService
+        { provide: LocationStrategy, useClass: HashLocationStrategy },
+        IoTService,
+        SharedService
     ],
     bootstrap:[AppComponent]
 })

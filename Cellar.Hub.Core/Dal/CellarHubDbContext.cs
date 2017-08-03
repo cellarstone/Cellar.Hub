@@ -34,7 +34,7 @@ namespace Cellar.Hub.Core
 
             try
             {
-                MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl("mongodb://cellar.hub.db:27017/"));
+                MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl("mongodb://localhost:27017/"));
                 if (IsSSL)
                 {
                     settings.SslSettings = new SslSettings { EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12 };

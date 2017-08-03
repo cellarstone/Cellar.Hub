@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Cellar.Hub.Core;
 
-namespace Cellar.Hub.Web
+namespace Cellar.Hub.Api.Controllers
 {
+    // [Route("[controller]")]
     public class ApiController : Controller
     {
         CellarHubDbContext _db;
@@ -16,11 +17,16 @@ namespace Cellar.Hub.Web
             _db = db;
         }
 
-        
+
+        [HttpGet]
+        public int GetValue()
+        {
+            return 5;
+        }
 
 
-        [HttpPost]
-        public CellarDTO GetCellarSpace([FromBody]int id)
+        [HttpGet]
+        public CellarDTO GetCellarSpace()
         {
 
 

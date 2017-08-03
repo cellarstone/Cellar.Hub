@@ -52,7 +52,7 @@ export class IoTService
         }
         else if (this.isProduction == false && this.isHttps == false)
         {
-            this.serverUrl = "http://localhost:50713";
+            this.serverUrl = "http://localhost:5005";
         }
 
         this.url_getCellarSpace = this.serverUrl + '/api/GetCellarSpace';
@@ -66,6 +66,31 @@ export class IoTService
 
     
 
+
+    private setHeaders()
+    {
+
+        console.log('setHeaders started');
+
+        this.headers = new Headers();
+        this.headers.append('Content-Type', 'application/json');
+        this.headers.append('Accept', 'application/json');
+
+        this.headers.append('Access-Control-Allow-Methods', '*');
+        this.headers.append('Access-Control-Allow-Origin', '*');
+
+        // let token = this._securityService.GetToken();
+        // if (token !== '')
+        // {
+        //     let tokenValue = 'Bearer ' + token;
+        //     console.log('tokenValue:' + tokenValue);
+        //     this.headers.append('Authorization', tokenValue);
+        // }
+    }
+
+
+
+
     /**********************************************/
     /*       GET  COLLECTIONS                     */
     /**********************************************/
@@ -74,9 +99,8 @@ export class IoTService
     {
         console.log('IoTHubService GetCellarSpace()');
 
-        let body = JSON.stringify({ spaceId });
-
-        let options = new RequestOptions({ headers: this.headers, body: body });
+        this.setHeaders();
+        let options = new RequestOptions({ headers: this.headers, body: '' });
 
         return this.http.get(this.url_getCellarSpace, options)
             .map(this.extractData)

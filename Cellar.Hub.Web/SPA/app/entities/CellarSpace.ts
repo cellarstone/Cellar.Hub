@@ -2,19 +2,19 @@
 import { CellarSpaceType } from './CellarSpaceType';
 import { CellarSenzor } from './CellarSenzor';
 
-export interface CellarSpace {
+export class CellarSpace {
 
 
-    Id: string;
+    public Id: string;
 
 
-    Name: string;
+    public Name: string;
 
 
-    Type: CellarSpaceType;
+    public Type: CellarSpaceType;
 
 
-    Senzors: CellarSenzor[];
+    public Senzors: CellarSenzor[];
 
 
 

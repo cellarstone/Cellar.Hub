@@ -1,5 +1,5 @@
 
-export interface CellarSenzorSettings {
+export class CellarSenzorSettings {
     WifiSSID: string;
     WifiPassword: string;
 
