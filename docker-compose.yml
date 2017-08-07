@@ -11,6 +11,16 @@ services:
     ports:
     - "5001:5001"
 
+  cellar.hub.api:
+    image: cellar.hub.api
+    build:
+      context: .
+      dockerfile: Dockerfile_Cellar.Hub.Api
+    links:
+      - cellar.hub.api
+    ports:
+    - "5005:5005"
+
   cellar.hub.dataflow:
     image: cellar.hub.dataflow
     build:
