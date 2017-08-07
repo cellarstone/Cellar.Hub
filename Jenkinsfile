@@ -41,7 +41,7 @@ pipeline {
             sh 'docker build -t hubdb ./Cellar.Hub.Db'
             sh 'docker tag hubdb eu.gcr.io/cellarstone-1488228226623/hubdb:dev.0.0.1'
             sh 'gcloud docker -- hubdb eu.gcr.io/cellarstone-1488228226623/hubdb:dev.0.0.1'
-          }
+          },
           mqtt: {
             sh 'dotnet restore ./Cellar.Hub.Mqtt'
             sh 'dotnet build ./Cellar.Hub.Mqtt --configuration Release'
@@ -97,7 +97,7 @@ pipeline {
             sh 'docker build -t hubdb ./Cellar.Hub.Db'
             sh 'docker tag hubdb eu.gcr.io/cellarstone-1488228226623/hubdb:prod.0.0.1'
             sh 'gcloud docker -- hubdb eu.gcr.io/cellarstone-1488228226623/hubdb:prod.0.0.1'
-          }
+          },
           mqtt: {
             sh 'dotnet restore ./Cellar.Hub.Mqtt'
             sh 'dotnet build ./Cellar.Hub.Mqtt --configuration Release'
