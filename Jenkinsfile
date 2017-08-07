@@ -7,29 +7,17 @@ pipeline {
       steps {
         parallel (
           dataflow: {
-            sh 'dotnet restore ./Cellar.Hub.DataFlow'
-            sh 'dotnet build ./Cellar.Hub.DataFlow --configuration Release'
-            sh 'dotnet publish ./Cellar.Hub.DataFlow --configuration Release'
-            
-            sh 'docker build -t hubdataflow ./Cellar.Hub.DataFlow'
+            sh 'docker build -t hubdataflow -f Dockerfile_Cellar.Hub.DataFlow .'
             sh 'docker tag hubdataflow eu.gcr.io/cellarstone-1488228226623/hubdataflow:dev.0.0.1'
             sh 'gcloud docker -- push eu.gcr.io/cellarstone-1488228226623/hubdataflow:dev.0.0.1'
           },
           api: {
-            sh 'dotnet restore ./Cellar.Hub.Api'
-            sh 'dotnet build ./Cellar.Hub.Api --configuration Release'
-            sh 'dotnet publish ./Cellar.Hub.Api --configuration Release'
-            
-            sh 'docker build -t hubapi ./Cellar.Hub.Api'
+            sh 'docker build -t hubapi -f Dockerfile_Cellar.Hub.Api .'
             sh 'docker tag hubapi eu.gcr.io/cellarstone-1488228226623/hubapi:dev.0.0.1'
             sh 'gcloud docker -- push eu.gcr.io/cellarstone-1488228226623/hubapi:dev.0.0.1'
           },
           web: {
-            sh 'dotnet restore ./Cellar.Hub.Web'
-            sh 'dotnet build ./Cellar.Hub.Web --configuration Release'
-            sh 'dotnet publish ./Cellar.Hub.Web --configuration Release'
-            
-            sh 'docker build -t hubweb ./Cellar.Hub.Web'
+            sh 'docker build -t hubweb -f Dockerfile_Cellar.Hub.Web .'
             sh 'docker tag hubweb eu.gcr.io/cellarstone-1488228226623/hubweb:dev.0.0.1'
             sh 'gcloud docker -- hubweb eu.gcr.io/cellarstone-1488228226623/hubweb:dev.0.0.1'
           },
@@ -55,29 +43,17 @@ pipeline {
       steps {
         parallel (
           dataflow: {
-            sh 'dotnet restore ./Cellar.Hub.DataFlow'
-            sh 'dotnet build ./Cellar.Hub.DataFlow --configuration Release'
-            sh 'dotnet publish ./Cellar.Hub.DataFlow --configuration Release'
-            
-            sh 'docker build -t hubdataflow ./Cellar.Hub.DataFlow'
+            sh 'docker build -t hubdataflow -f Dockerfile_Cellar.Hub.DataFlow .'
             sh 'docker tag hubdataflow eu.gcr.io/cellarstone-1488228226623/hubdataflow:prod.0.0.1'
             sh 'gcloud docker -- push eu.gcr.io/cellarstone-1488228226623/hubdataflow:prod.0.0.1'
           },
           api: {
-            sh 'dotnet restore ./Cellar.Hub.Api'
-            sh 'dotnet build ./Cellar.Hub.Api --configuration Release'
-            sh 'dotnet publish ./Cellar.Hub.Api --configuration Release'
-            
-            sh 'docker build -t hubapi ./Cellar.Hub.Api'
+            sh 'docker build -t hubapi -f Dockerfile_Cellar.Hub.Api .'
             sh 'docker tag hubapi eu.gcr.io/cellarstone-1488228226623/hubapi:prod.0.0.1'
             sh 'gcloud docker -- push eu.gcr.io/cellarstone-1488228226623/hubapi:prod.0.0.1'
           },
           web: {
-            sh 'dotnet restore ./Cellar.Hub.Web'
-            sh 'dotnet build ./Cellar.Hub.Web --configuration Release'
-            sh 'dotnet publish ./Cellar.Hub.Web --configuration Release'
-            
-            sh 'docker build -t hubweb ./Cellar.Hub.Web'
+            sh 'docker build -t hubweb -f Dockerfile_Cellar.Hub.Web .'
             sh 'docker tag hubweb eu.gcr.io/cellarstone-1488228226623/hubweb:prod.0.0.1'
             sh 'gcloud docker -- hubweb eu.gcr.io/cellarstone-1488228226623/hubweb:prod.0.0.1'
           },
