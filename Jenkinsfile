@@ -34,19 +34,11 @@ pipeline {
             sh 'gcloud docker -- hubweb eu.gcr.io/cellarstone-1488228226623/hubweb:dev.0.0.1'
           },
           db: {
-            sh 'dotnet restore ./Cellar.Hub.Db'
-            sh 'dotnet build ./Cellar.Hub.Db --configuration Release'
-            sh 'dotnet publish ./Cellar.Hub.Db --configuration Release'
-            
             sh 'docker build -t hubdb ./Cellar.Hub.Db'
             sh 'docker tag hubdb eu.gcr.io/cellarstone-1488228226623/hubdb:dev.0.0.1'
             sh 'gcloud docker -- hubdb eu.gcr.io/cellarstone-1488228226623/hubdb:dev.0.0.1'
           },
           mqtt: {
-            sh 'dotnet restore ./Cellar.Hub.Mqtt'
-            sh 'dotnet build ./Cellar.Hub.Mqtt --configuration Release'
-            sh 'dotnet publish ./Cellar.Hub.Mqtt --configuration Release'
-            
             sh 'docker build -t hubmqtt ./Cellar.Hub.Mqtt'
             sh 'docker tag hubmqtt eu.gcr.io/cellarstone-1488228226623/hubmqtt:dev.0.0.1'
             sh 'gcloud docker -- hubmqtt eu.gcr.io/cellarstone-1488228226623/hubmqtt:dev.0.0.1'
@@ -90,19 +82,11 @@ pipeline {
             sh 'gcloud docker -- hubweb eu.gcr.io/cellarstone-1488228226623/hubweb:prod.0.0.1'
           },
           db: {
-            sh 'dotnet restore ./Cellar.Hub.Db'
-            sh 'dotnet build ./Cellar.Hub.Db --configuration Release'
-            sh 'dotnet publish ./Cellar.Hub.Db --configuration Release'
-            
             sh 'docker build -t hubdb ./Cellar.Hub.Db'
             sh 'docker tag hubdb eu.gcr.io/cellarstone-1488228226623/hubdb:prod.0.0.1'
             sh 'gcloud docker -- hubdb eu.gcr.io/cellarstone-1488228226623/hubdb:prod.0.0.1'
           },
           mqtt: {
-            sh 'dotnet restore ./Cellar.Hub.Mqtt'
-            sh 'dotnet build ./Cellar.Hub.Mqtt --configuration Release'
-            sh 'dotnet publish ./Cellar.Hub.Mqtt --configuration Release'
-            
             sh 'docker build -t hubmqtt ./Cellar.Hub.Mqtt'
             sh 'docker tag hubmqtt eu.gcr.io/cellarstone-1488228226623/hubmqtt:prod.0.0.1'
             sh 'gcloud docker -- hubmqtt eu.gcr.io/cellarstone-1488228226623/hubmqtt:prod.0.0.1'
