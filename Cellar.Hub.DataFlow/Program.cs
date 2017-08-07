@@ -27,6 +27,8 @@ namespace Cellar.Hub.DataFlow
                 Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
                 Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
                 Console.WriteLine();
+
+                
             }; 
 
             client.Connected += async (s, e) =>
