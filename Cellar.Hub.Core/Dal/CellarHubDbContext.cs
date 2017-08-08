@@ -72,7 +72,13 @@ namespace Cellar.Hub.Core
                 return _database.GetCollection<CellarSpace>("Spaces");
             }
         }
-
+        public IMongoCollection<CellarSenzorData> SenzorsData
+        {
+            get
+            {
+                return _database.GetCollection<CellarSenzorData>("SenzorsData");
+            }
+        }
 
 
         /// </// <summary>
