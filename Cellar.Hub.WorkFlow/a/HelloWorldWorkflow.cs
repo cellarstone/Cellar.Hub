@@ -6,7 +6,8 @@ using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
 namespace Cellar.Hub.WorkFlow.a
-{public class HelloWorldWorkflow : IWorkflow
+{
+    public class HelloWorldWorkflow : IWorkflow
     {
         public void Build(IWorkflowBuilder<object> builder)
         {

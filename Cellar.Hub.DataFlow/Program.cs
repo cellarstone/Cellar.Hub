@@ -34,7 +34,7 @@ namespace Cellar.Hub.DataFlow
 
             var options = new MqttClientOptions
             {
-                Server = "192.168.1.234"
+                Server = "127.0.0.1"
             };
 
             var client = new MqttClientFactory().CreateMqttClient(options);
@@ -135,64 +135,6 @@ namespace Cellar.Hub.DataFlow
                 Console.WriteLine(e.Message);
             }
 
-
-
-
-
-
-
-
-
-
-
-            // var cItem = db.SenzorsData.Find(filter).SingleOrDefault();
-            // if (cItem != null)
-            // {
-            //     cItem.Values.Add(value);
-
-            //     var updateBuilder = Builders<CellarSenzorData>.Update;
-            //     var update = updateBuilder;
-
-            //     //                 db.SenzorsData.Update({ }, Update.Replace(modifiedCar), UpdateFlags.Upsert);
-
-
-
-            //     //                 FindAndModifyArgs args = new FindAndModifyArgs()
-            //     //                 {
-            //     //                     Query = Query.EQ("_id", ObjectId.Parse(updateCarViewModel.Id))
-            //     // ,
-            //     //                     Update = Update<Car>.Set(c => c.DailyRentalFee, 3)
-            //     // ,
-            //     //                     Upsert = false
-            //     // ,
-            //     //                     SortBy = SortBy<Car>.Ascending(c => c.Id)
-            //     // ,
-            //     //                     VersionReturned = FindAndModifyDocumentVersion.Original
-            //     //                 };
-            //     //                 FindAndModifyResult res = CarRentalContext.Cars.FindAndModify(args);
-
-
-            // }
-            // else
-            // {
-            //     CellarSenzorData data = new CellarSenzorData();
-            //     data.SenzorId = senzorId;
-            //     data.Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 1, 0, 0);
-            //     data.Measurement = measurement;
-            //     data.Values.Add(Encoding.UTF8.GetString(e.ApplicationMessage.Payload));
-
-            //     db.SenzorsData.InsertOneAsync(data);
-            // }
-
-            // var filter2 = Builders<CellarSenzorData>.Filter.Eq("SenzorId", senzorId).Filter.Eq("Date", new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 1, 0, 0));
-            // var update2 = Builders<CellarSenzorData>.Update.Push("Values", value);
-            // var options2 = new FindOneAndUpdateOptions<CellarSenzorData> { IsUpsert = true, ReturnDocument = ReturnDocument.After };
-            // var result2 = db.SenzorsData.FindOneAndUpdate(filter2, update2, options2);
-
-
-            // var filter = new BsonDocument("SenzorId", senzorId);
-            // db.SenzorsData.FindOneAndUpdateAsync(Builders<BsonDocument>.Filter.Eq("MasterID", 1110),
-            //       Builders<BsonDocument>.Update.Set("MasterID", 1120), new FindOneAndUpdateOptions().returnDocument(ReturnDocument.after));
 
 
 
