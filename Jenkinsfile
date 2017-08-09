@@ -8,8 +8,8 @@ pipeline {
         parallel (
           dataflow: {
             sh 'docker build -t hubdataflow -f Dockerfile_Cellar.Hub.DataFlow .'
-            sh 'docker tag hubdataflow eu.gcr.io/cellarstone-1488228226623/hubdataflow:dev.0.0.1'
-            sh 'gcloud docker -- push eu.gcr.io/cellarstone-1488228226623/hubdataflow:dev.0.0.1'
+            sh 'docker tag hubdataflow eu.gcr.io/cellarstone-1488228226623/hubdataflow:dev.0.0.2'
+            sh 'gcloud docker -- push eu.gcr.io/cellarstone-1488228226623/hubdataflow:dev.0.0.2'
           },
           api: {
             sh 'docker build -t hubapi -f Dockerfile_Cellar.Hub.Api .'
@@ -44,8 +44,8 @@ pipeline {
         parallel (
           dataflow: {
             sh 'docker build -t hubdataflow -f Dockerfile_Cellar.Hub.DataFlow .'
-            sh 'docker tag hubdataflow eu.gcr.io/cellarstone-1488228226623/hubdataflow:prod.0.0.1'
-            sh 'gcloud docker -- push eu.gcr.io/cellarstone-1488228226623/hubdataflow:prod.0.0.1'
+            sh 'docker tag hubdataflow eu.gcr.io/cellarstone-1488228226623/hubdataflow:prod.0.0.2'
+            sh 'gcloud docker -- push eu.gcr.io/cellarstone-1488228226623/hubdataflow:prod.0.0.2'
           },
           api: {
             sh 'docker build -t hubapi -f Dockerfile_Cellar.Hub.Api .'
