@@ -98,7 +98,7 @@ namespace Cellar.Hub.Core
                 //FIND
                 var results = R.Db("HubDatabase").Table("SenzorData")
                 .Filter(x => x["SenzorId"] == senzorId)
-                .Filter(x => x["Date"] == new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Utc))
+                // .Filter(x => x["Date"] == new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Utc))
                 .Filter(x => x["Measurement"] == measurement)
                 //.Update(x => x["Values"].Add(value))
                 .RunResult<List<CellarSenzorData>>(conn);
