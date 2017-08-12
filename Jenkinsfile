@@ -2,7 +2,11 @@ pipeline {
   agent any
   
   stages {
-    
+    stage('Development') {
+      steps {
+        sh 'docker login -u cellarstone -p Cllrs456IoT'
+      }
+    }
     stage('Development') {
       steps {
         parallel (
