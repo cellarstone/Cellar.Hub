@@ -11,34 +11,34 @@ pipeline {
       steps {
         parallel (
           dataflow: {
-            sh 'docker build -t hubdataflow -f Dockerfile_Cellar.Hub.DataFlow .'
-            sh 'docker tag hubdataflow cellarstone/hubdataflow:dev.0.0.3'
-            sh 'docker push cellarstone/hubdataflow:dev.0.0.3'
+            sh 'docker build -t cellar.hub.dataflow -f Dockerfile_Cellar.Hub.DataFlow .'
+            sh 'docker tag cellar.hub.dataflow cellarstone/cellar.hub.dataflow:dev.0.0.3'
+            sh 'docker push cellarstone/cellar.hub.dataflow:dev.0.0.3'
           },
           api: {
-            sh 'docker build -t hubapi -f Dockerfile_Cellar.Hub.Api .'
-            sh 'docker tag hubapi cellarstone/hubapi:dev.0.0.2'
-            sh 'docker push cellarstone/hubapi:dev.0.0.2'
+            sh 'docker build -t cellar.hub.api -f Dockerfile_Cellar.Hub.Api .'
+            sh 'docker tag cellar.hub.api cellarstone/cellar.hub.api:dev.0.0.2'
+            sh 'docker push cellarstone/cellar.hub.api:dev.0.0.2'
           },
           web: {
-            sh 'docker build -t hubweb -f Dockerfile_Cellar.Hub.Web .'
-            sh 'docker tag hubweb cellarstone/hubweb:dev.0.0.2'
-            sh 'docker push cellarstone/hubweb:dev.0.0.2'
+            sh 'docker build -t cellar.hub.web -f Dockerfile_Cellar.Hub.Web .'
+            sh 'docker tag cellar.hub.web cellarstone/cellar.hub.web:dev.0.0.2'
+            sh 'docker push cellarstone/cellar.hub.web:dev.0.0.2'
           },
           mongodb: {
-            sh 'docker build -t hubmongodb ./Cellar.Hub.MongoDb'
-            sh 'docker tag hubmongodb cellarstone/hubmongodb:dev.0.0.2'
-            sh 'docker push cellarstone/hubmongodb:dev.0.0.2'
+            sh 'docker build -t cellar.hub.mongodb ./Cellar.Hub.MongoDb'
+            sh 'docker tag cellar.hub.mongodb cellarstone/cellar.hub.mongodb:dev.0.0.2'
+            sh 'docker push cellarstone/cellar.hub.mongodb:dev.0.0.2'
           },
           rethinkdb: {
-            sh 'docker build -t rethinkdb ./Cellar.Hub.RethinkDb'
-            sh 'docker tag rethinkdb cellarstone/rethinkdb:dev.0.0.2'
-            sh 'docker push cellarstone/rethinkdb:dev.0.0.2'
+            sh 'docker build -t cellar.hub.rethinkdb ./Cellar.Hub.RethinkDb'
+            sh 'docker tag cellar.hub.rethinkdb cellarstone/cellar.hub.rethinkdb:dev.0.0.2'
+            sh 'docker push cellarstone/cellar.hub.rethinkdb:dev.0.0.2'
           },
           mqtt: {
-            sh 'docker build -t hubmqtt ./Cellar.Hub.Mqtt'
-            sh 'docker tag hubmqtt cellarstone/hubmqtt:dev.0.0.2'
-            sh 'docker push cellarstone/hubmqtt:dev.0.0.2'
+            sh 'docker build -t cellar.hub.mqtt ./Cellar.Hub.Mqtt'
+            sh 'docker tag cellar.hub.mqtt cellarstone/cellar.hub.mqtt:dev.0.0.2'
+            sh 'docker push cellarstone/cellar.hub.mqtt:dev.0.0.2'
           }
         )
       }
@@ -52,34 +52,34 @@ pipeline {
       steps {
         parallel (
           dataflow: {
-            sh 'docker build -t hubdataflow -f Dockerfile_Cellar.Hub.DataFlow .'
-            sh 'docker tag hubdataflow cellarstone/hubdataflow:prod.0.0.3'
-            sh 'docker push cellarstone/hubdataflow:prod.0.0.3'
+            sh 'docker build -t cellar.hub.dataflow -f Dockerfile_Cellar.Hub.DataFlow .'
+            sh 'docker tag cellar.hub.dataflow cellarstone/cellar.hub.dataflow:prod.0.0.3'
+            sh 'docker push cellarstone/cellar.hub.dataflow:prod.0.0.3'
           },
           api: {
-            sh 'docker build -t hubapi -f Dockerfile_Cellar.Hub.Api .'
-            sh 'docker tag hubapi cellarstone/hubapi:prod.0.0.2'
-            sh 'docker push cellarstone/hubapi:prod.0.0.2'
+            sh 'docker build -t cellar.hub.api -f Dockerfile_Cellar.Hub.Api .'
+            sh 'docker tag cellar.hub.api cellarstone/cellar.hub.api:prod.0.0.2'
+            sh 'docker push cellarstone/cellar.hub.api:prod.0.0.2'
           },
           web: {
-            sh 'docker build -t hubweb -f Dockerfile_Cellar.Hub.Web .'
-            sh 'docker tag hubweb cellarstone/hubweb:prod.0.0.2'
-            sh 'docker push cellarstone/hubweb:prod.0.0.2'
+            sh 'docker build -t cellar.hub.web -f Dockerfile_Cellar.Hub.Web .'
+            sh 'docker tag cellar.hub.web cellarstone/cellar.hub.web:prod.0.0.2'
+            sh 'docker push cellarstone/cellar.hub.web:prod.0.0.2'
           },
           mongodb: {
-            sh 'docker build -t hubmongodb ./Cellar.Hub.MongoDb'
-            sh 'docker tag hubmongodb cellarstone/hubmongodb:prod.0.0.2'
-            sh 'docker push cellarstone/hubmongodb:prod.0.0.2'
+            sh 'docker build -t cellar.hub.mongodb ./Cellar.Hub.MongoDb'
+            sh 'docker tag cellar.hub.mongodb cellarstone/cellar.hub.mongodb:prod.0.0.2'
+            sh 'docker push cellarstone/cellar.hub.mongodb:prod.0.0.2'
           },
           rethinkdb: {
-            sh 'docker build -t rethinkdb ./Cellar.Hub.RethinkDb'
-            sh 'docker tag rethinkdb cellarstone/rethinkdb:prod.0.0.2'
-            sh 'docker push cellarstone/rethinkdb:prod.0.0.2'
+            sh 'docker build -t cellar.hub.rethinkdb ./Cellar.Hub.RethinkDb'
+            sh 'docker tag cellar.hub.rethinkdb cellarstone/cellar.hub.rethinkdb:prod.0.0.2'
+            sh 'docker push cellarstone/cellar.hub.rethinkdb:prod.0.0.2'
           },
           mqtt: {
-            sh 'docker build -t hubmqtt ./Cellar.Hub.Mqtt'
-            sh 'docker tag hubmqtt cellarstone/hubmqtt:prod.0.0.2'
-            sh 'docker push cellarstone/hubmqtt:prod.0.0.2'
+            sh 'docker build -t cellar.hub.mqtt ./Cellar.Hub.Mqtt'
+            sh 'docker tag cellar.hub.mqtt cellarstone/cellar.hub.mqtt:prod.0.0.2'
+            sh 'docker push cellarstone/cellar.hub.mqtt:prod.0.0.2'
           }
         )
       }
