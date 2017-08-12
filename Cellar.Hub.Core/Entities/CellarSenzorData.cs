@@ -9,8 +9,8 @@ namespace Cellar.Hub.Core
 
     public class CellarSenzorData
     {
-        [BsonId]
-        public ObjectId Id { get; set; }
+        // [BsonId]
+        public string Id { get; set; }
 
 
         public string SenzorId { get; set; }

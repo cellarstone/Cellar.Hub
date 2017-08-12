@@ -28,7 +28,7 @@ namespace Cellar.Hub.Api
 
             services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
 
-            services.AddScoped<CellarHubDbContext,CellarHubDbContext>();
+            services.AddScoped<CellarHubMongoDbContext,CellarHubMongoDbContext>();
 
             services.AddMvc();
             

@@ -6,8 +6,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile_Cellar.Hub.Web
-    links:
-      - cellar.hub.db
     ports:
     - "5001:5001"
 
@@ -17,26 +15,27 @@ services:
       context: .
       dockerfile: Dockerfile_Cellar.Hub.Api
     links:
-      - cellar.hub.api
+      - cellar.hub.mongodb
     ports:
     - "5005:5005"
 
-  cellar.hub.dataflow:
-    image: cellar.hub.dataflow
-    build:
-      context: .
-      dockerfile: Dockerfile_Cellar.Hub.DataFlow
-    links:
-      - cellar.hub.db
-      - cellar.hub.mqtt
-
-  cellar.hub.db:
-    image: cellar.hub.db
+  cellar.hub.mongodb:
+    image: cellar.hub.mongodb
     build: 
-      context: ./Cellar.Hub.Db
+      context: ./Cellar.Hub.MongoDb
       dockerfile: Dockerfile
     ports:
     - "27017:27017"
+
+  cellar.hub.rethinkdb:
+    image: cellar.hub.rethinkdb
+    build: 
+      context: ./Cellar.Hub.RethinkDb
+      dockerfile: Dockerfile
+    ports:
+    - "28015:28015"
+    - "29015:29015"
+    - "8080:8080"
 
   cellar.hub.mqtt:
     image: cellar.hub.mqtt
@@ -45,3 +44,13 @@ services:
       dockerfile: Dockerfile
     ports:
     - "1883:1883"
+
+  cellar.hub.dataflow:
+    image: cellar.hub.dataflow
+    build:
+      context: .
+      dockerfile: Dockerfile_Cellar.Hub.DataFlow
+    links:
+      - cellar.hub.mqtt
+      - cellar.hub.mongodb
+      - cellar.hub.rethinkdb

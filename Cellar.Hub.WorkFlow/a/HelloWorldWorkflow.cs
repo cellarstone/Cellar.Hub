@@ -11,14 +11,14 @@ namespace Cellar.Hub.WorkFlow.a
     {
         public void Build(IWorkflowBuilder<object> builder)
         {
-            builder                
+            builder
                 .StartWith<HelloWorld>()
                 .Then<GoodbyeWorld>();
         }
 
         public string Id => "HelloWorld";
-            
+
         public int Version => 1;
-                 
+
     }
 }

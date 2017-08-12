@@ -16,9 +16,10 @@ namespace Cellar.Hub.Core
     /// <summary>
     /// Store for users
     /// </summary>
-    public class CellarHubDbContext
+    public class CellarHubMongoDbContext
     {
-        //public string ConnectionString { get; set; } = "";
+        public static string CellarHubMongoDB_url = "mongodb://cellar.hub.mongodb:27017/";
+
         public string DatabaseName { get; set; } = "HubDatabase";
         public bool IsSSL { get; set; } = false;
 
@@ -26,15 +27,15 @@ namespace Cellar.Hub.Core
 
         private readonly ILogger _logger;
 
-        public CellarHubDbContext(
-            ILogger<CellarHubDbContext> logger)
+        public CellarHubMongoDbContext(
+            ILogger<CellarHubMongoDbContext> logger)
         {
             //this.ConnectionString = connString;
             _logger = logger;
 
             try
             {
-                MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl("mongodb://localhost:27017/"));
+                MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(CellarHubMongoDB_url));
                 if (IsSSL)
                 {
                     settings.SslSettings = new SslSettings { EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12 };
@@ -79,6 +80,46 @@ namespace Cellar.Hub.Core
                 return _database.GetCollection<CellarSenzorData>("SenzorsData");
             }
         }
+
+
+
+
+
+
+
+        public async void InsertToSenzorData(string senzorId, string measurement, string value)
+        {
+            try
+            {
+
+                var filterBuilder = Builders<CellarSenzorData>.Filter;
+                var filter = filterBuilder.Eq("SenzorId", senzorId) &
+                    filterBuilder.Eq("Date", new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Utc)) &
+                    filterBuilder.Eq("Measurement", measurement);
+
+                var update = Builders<CellarSenzorData>.Update.Push(p => p.Values, value);
+
+                //updatuje zaznam, kdyz neexistuje tak ho vytvori 
+                var aaa = await SenzorsData.UpdateOneAsync(filter, update, new UpdateOptions() { IsUpsert = true });
+
+                //Console.WriteLine(aaa.Values);
+
+                //Console.WriteLine("MatchedCount: " + aaa.MatchedCount + " - ModifiedCount: " + aaa.ModifiedCount + " - UpsertId: " + aaa.UpsertedId);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+        }
+
+
+
+
+
+
+
 
 
         /// </// <summary>

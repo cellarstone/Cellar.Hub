@@ -9,8 +9,11 @@
   </ItemGroup>   
 
   <ItemGroup>
-    <PackageReference Include="MQTTnet" Version="2.1.4" />
+    <PackageReference Include="M2MqttDotnetCore" Version="1.0.6" />
     <PackageReference Include="MongoDB.Driver" Version="2.4.4" /> 
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0-preview1-final" /> 
+    <PackageReference Include="RethinkDb.Driver" Version="2.3.19" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0-preview2-final" /> 
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.0-preview2-final" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0-preview2-final" />
   </ItemGroup>
 </Project>

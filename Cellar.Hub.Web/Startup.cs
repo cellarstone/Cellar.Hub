@@ -31,7 +31,7 @@ namespace Cellar.Hub.Web
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddScoped<CellarHubDbContext,CellarHubDbContext>();
+            // services.AddScoped<CellarHubDbContext,CellarHubDbContext>();
 
 
             // Add framework services.

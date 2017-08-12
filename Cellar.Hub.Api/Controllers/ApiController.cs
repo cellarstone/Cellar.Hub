@@ -10,9 +10,9 @@ namespace Cellar.Hub.Api.Controllers
     // [Route("[controller]")]
     public class ApiController : Controller
     {
-        CellarHubDbContext _db;
+        CellarHubMongoDbContext _db;
 
-        public ApiController(CellarHubDbContext db)
+        public ApiController(CellarHubMongoDbContext db)
         {
             _db = db;
         }

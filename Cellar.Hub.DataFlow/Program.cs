@@ -1,143 +1,141 @@
-﻿using MQTTnet;
-using MQTTnet.Core.Client;
-using MQTTnet.Core.Packets;
-using MQTTnet.Core.Protocol;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Cellar.Hub.Core;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Driver;
+
+using uPLibrary.Networking.M2Mqtt;
+using uPLibrary.Networking.M2Mqtt.Messages;
 
 namespace Cellar.Hub.DataFlow
 {
     class Program
     {
-        public static CellarHubDbContext dbcontext { get; set; }
+        public static CellarHubMongoDbContext _mongodbcontext { get; set; }
+        public static CellarHubRethinkDbContext _rethinkdbcontext { get; set; }
+        public static ILogger _logger { get; set; }
+
+
+
+        public static string CellarHubMQTT_url = "cellar.hub.mqtt";
+        
 
 
         static void Main(string[] args)
         {
-
-            //setup our DI
-            var serviceProvider = new ServiceCollection()
-                .AddLogging()
-                .AddScoped<CellarHubDbContext, CellarHubDbContext>()
-                .BuildServiceProvider();
-
-
-            dbcontext = serviceProvider.GetService<CellarHubDbContext>();
-
-
-
-            var options = new MqttClientOptions
+            try
             {
-                Server = "127.0.0.1"
-            };
 
-            var client = new MqttClientFactory().CreateMqttClient(options);
-            client.ApplicationMessageReceived += (s, e) =>
+                //setup our DI
+                var serviceProvider = new ServiceCollection()
+                    .AddLogging()
+                    .AddScoped<CellarHubMongoDbContext, CellarHubMongoDbContext>()
+                    .AddScoped<CellarHubRethinkDbContext, CellarHubRethinkDbContext>()
+                    .BuildServiceProvider();
+
+                _mongodbcontext = serviceProvider.GetService<CellarHubMongoDbContext>();
+                _rethinkdbcontext = serviceProvider.GetService<CellarHubRethinkDbContext>();
+                _logger = serviceProvider.GetService<ILogger>();
+
+                // create client instance 
+                MqttClient client = new MqttClient(CellarHubMQTT_url);
+
+                // register to message received 
+                client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
+
+                string clientId = Guid.NewGuid().ToString();
+                client.Connect(clientId);
+
+
+
+                /***********************************************/
+                /* PRECIST Z DB, KTERE SENZORID MAME SLEDOVAT */
+                /***********************************************/
+
+                // subscribe to the topic "/home/temperature" with QoS 2 
+                client.Subscribe(new string[] { "alza/p1/z1/s2315/teplota" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                client.Subscribe(new string[] { "alza/p1/z1/s2316/teplota" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                client.Subscribe(new string[] { "alza/p1/z1/s2317/teplota" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                client.Subscribe(new string[] { "alza/p1/z1/s2318/teplota" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+
+                client.Subscribe(new string[] { "alza/p1/z1/s2315/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                client.Subscribe(new string[] { "alza/p1/z1/s2316/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                client.Subscribe(new string[] { "alza/p1/z1/s2317/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                client.Subscribe(new string[] { "alza/p1/z1/s2318/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+
+                
+
+
+
+
+                
+
+                Console.ReadLine();
+
+            }
+            catch (Exception ex)
             {
+                LogException(ex);
+            }
+        }
+
+        static void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
+        {
+            try
+            {
+
                 Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
-                Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
-                Console.WriteLine($"+ Payload = {Encoding.UTF8.GetString(e.ApplicationMessage.Payload)}");
-                Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
-                Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
+                Console.WriteLine($"+ Topic = {e.Topic}");
+                Console.WriteLine($"+ Payload = {Encoding.UTF8.GetString(e.Message)}");
+                Console.WriteLine($"+ QoS = {e.QosLevel}");
+                Console.WriteLine($"+ Retain = {e.Retain}");
                 Console.WriteLine();
 
-
-                var topic = e.ApplicationMessage.Topic;
+                var topic = e.Topic;
 
                 //prozatimni hack nez prenastavim senzory
                 string senzorId = topic.Split('/')[3];
                 string measurement = topic.Split('/')[4];
-                string value = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+                string value = Encoding.UTF8.GetString(e.Message);
 
                 //exist senzorId and Timestamp (Hourly)
 
-
-                InsertToDB(senzorId, measurement, value);
-
-
-            };
-
-            client.Connected += async (s, e) =>
-            {
-                Console.WriteLine("### CONNECTED WITH SERVER ###");
-
-                await client.SubscribeAsync(new List<TopicFilter>
-                {
-                    new TopicFilter("#", MqttQualityOfServiceLevel.AtMostOnce)
-                });
-
-                Console.WriteLine("### SUBSCRIBED ###");
-            };
-
-            client.Disconnected += async (s, e) =>
-            {
-                Console.WriteLine("### DISCONNECTED FROM SERVER ###");
-                await Task.Delay(TimeSpan.FromSeconds(5));
-
-                try
-                {
-                    await client.ConnectAsync();
-                }
-                catch
-                {
-                    Console.WriteLine("### RECONNECTING FAILED ###");
-                }
-            };
-
-            try
-            {
-                client.ConnectAsync();
+                // _mongodbcontext.InsertToSenzorData(senzorId, measurement, value);
+                _rethinkdbcontext.InsertToSenzorData(senzorId, measurement, value);
             }
-            catch
+            catch (Exception ex)
             {
-                Console.WriteLine("### CONNECTING FAILED ###");
+                LogException(ex);
             }
-
-            Console.WriteLine("### WAITING FOR APPLICATION MESSAGES ###");
-
-
-
-            Console.ReadLine();
         }
 
 
 
 
 
-        public static async void InsertToDB(string senzorId, string measurement, string value)
+
+        /// </// <summary>
+        /// HELPER return and log exception
+        /// </summary>
+        public static void LogException(Exception exception)
         {
-            try
-            {
+            Guid errNo = Guid.NewGuid();
 
-                var filterBuilder = Builders<CellarSenzorData>.Filter;
-                var filter = filterBuilder.Eq("SenzorId", senzorId)
-                                 & filterBuilder.Eq("Date", new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Utc))
-                                 & filterBuilder.Eq("Measurement", measurement);
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(errNo.ToString());
+            sb.AppendLine(exception.Message);
+            if (exception.InnerException != null)
+                sb.AppendLine(exception.InnerException.Message);
+            sb.AppendLine(exception.StackTrace);
 
-                var update = Builders<CellarSenzorData>.Update.Push(p => p.Values, value);
-
-                //updatuje zaznam, kdyz neexistuje tak ho vytvori 
-                var aaa = await dbcontext.SenzorsData.UpdateOneAsync(filter, update, new UpdateOptions(){IsUpsert=true});
-
-                //Console.WriteLine(aaa.Values);
-
-                //Console.WriteLine("MatchedCount: " + aaa.MatchedCount + " - ModifiedCount: " + aaa.ModifiedCount + " - UpsertId: " + aaa.UpsertedId);
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
-
-
-
+            Console.WriteLine(sb.ToString());
+            _logger.LogCritical(sb.ToString());
         }
     }
 }
