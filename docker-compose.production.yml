@@ -1,39 +1,43 @@
 version: '2'
 
 services:
+  cellar.hub.dataflow:
+    image: eu.gcr.io/cellarstone-1488228226623/hubdataflow:prod.0.0.3
+    links:
+      - cellar.hub.db
+      - cellar.hub.mqtt
+
   cellar.hub.web:
-    image: eu.gcr.io/cellarstone-1488228226623/hubweb:prod.0.0.1
+    image: eu.gcr.io/cellarstone-1488228226623/hubweb:prod.0.0.2
     links:
       - cellar.hub.db
     ports:
     - "5001:5001"
 
   cellar.hub.api:
-    image: eu.gcr.io/cellarstone-1488228226623/hubapi:prod.0.0.1
+    image: eu.gcr.io/cellarstone-1488228226623/hubapi:prod.0.0.2
     links:
       - cellar.hub.api
     ports:
     - "5005:5005"
 
-  cellar.hub.dataflow:
-    image: eu.gcr.io/cellarstone-1488228226623/hubdataflow:prod.0.0.2
-    links:
-      - cellar.hub.db
-      - cellar.hub.mqtt
-
   cellar.hub.mongodb:
-    image: eu.gcr.io/cellarstone-1488228226623/hubmongodb:prod.0.0.1
+    image: eu.gcr.io/cellarstone-1488228226623/hubmongodb:prod.0.0.2
     ports:
     - "27017:27017"
+    volumes:
+     - /data/db1:/data/db 
 
   cellar.hub.rethinkdb:
-    image: eu.gcr.io/cellarstone-1488228226623/hubrethinkdb:prod.0.0.1
+    image: eu.gcr.io/cellarstone-1488228226623/hubrethinkdb:prod.0.0.2
     ports:
     - "28015:28015"
     - "29015:29015"
     - "8080:8080"
+    volumes:
+     - /data/db2:/data
 
   cellar.hub.mqtt:
-    image: eu.gcr.io/cellarstone-1488228226623/hubmqtt:prod.0.0.1
+    image: eu.gcr.io/cellarstone-1488228226623/hubmqtt:prod.0.0.2
     ports:
     - "1883:1883"

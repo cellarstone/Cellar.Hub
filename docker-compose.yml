@@ -26,6 +26,8 @@ services:
       dockerfile: Dockerfile
     ports:
     - "27017:27017"
+    volumes:
+     - /data/db1:/data/db 
 
   cellar.hub.rethinkdb:
     image: cellar.hub.rethinkdb
@@ -36,6 +38,8 @@ services:
     - "28015:28015"
     - "29015:29015"
     - "8080:8080"
+    volumes:
+     - /data/db2:/data
 
   cellar.hub.mqtt:
     image: cellar.hub.mqtt
