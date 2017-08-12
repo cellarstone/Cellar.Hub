@@ -106,6 +106,7 @@ namespace Cellar.Hub.DataFlow
 
                 //exist senzorId and Timestamp (Hourly)
 
+
                 // _mongodbcontext.InsertToSenzorData(senzorId, measurement, value);
                 _rethinkdbcontext.InsertToSenzorData(senzorId, measurement, value);
             }
