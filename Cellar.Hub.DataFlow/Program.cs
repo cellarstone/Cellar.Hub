@@ -90,12 +90,12 @@ namespace Cellar.Hub.DataFlow
             try
             {
 
-                Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
-                Console.WriteLine($"+ Topic = {e.Topic}");
-                Console.WriteLine($"+ Payload = {Encoding.UTF8.GetString(e.Message)}");
-                Console.WriteLine($"+ QoS = {e.QosLevel}");
-                Console.WriteLine($"+ Retain = {e.Retain}");
-                Console.WriteLine();
+                // Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
+                // Console.WriteLine($"+ Topic = {e.Topic}");
+                // Console.WriteLine($"+ Payload = {Encoding.UTF8.GetString(e.Message)}");
+                // Console.WriteLine($"+ QoS = {e.QosLevel}");
+                // Console.WriteLine($"+ Retain = {e.Retain}");
+                // Console.WriteLine();
 
                 var topic = e.Topic;
 

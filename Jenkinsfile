@@ -12,8 +12,8 @@ pipeline {
         parallel (
           dataflow: {
             sh 'docker build -t cellar.hub.dataflow -f Dockerfile_Cellar.Hub.DataFlow .'
-            sh 'docker tag cellar.hub.dataflow cellarstone/cellar.hub.dataflow:dev.0.0.3'
-            sh 'docker push cellarstone/cellar.hub.dataflow:dev.0.0.3'
+            sh 'docker tag cellar.hub.dataflow cellarstone/cellar.hub.dataflow:dev.0.0.4'
+            sh 'docker push cellarstone/cellar.hub.dataflow:dev.0.0.4'
           },
           api: {
             sh 'docker build -t cellar.hub.api -f Dockerfile_Cellar.Hub.Api .'
@@ -53,8 +53,8 @@ pipeline {
         parallel (
           dataflow: {
             sh 'docker build -t cellar.hub.dataflow -f Dockerfile_Cellar.Hub.DataFlow .'
-            sh 'docker tag cellar.hub.dataflow cellarstone/cellar.hub.dataflow:prod.0.0.3'
-            sh 'docker push cellarstone/cellar.hub.dataflow:prod.0.0.3'
+            sh 'docker tag cellar.hub.dataflow cellarstone/cellar.hub.dataflow:prod.0.0.4'
+            sh 'docker push cellarstone/cellar.hub.dataflow:prod.0.0.4'
           },
           api: {
             sh 'docker build -t cellar.hub.api -f Dockerfile_Cellar.Hub.Api .'
