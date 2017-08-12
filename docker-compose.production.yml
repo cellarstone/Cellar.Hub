@@ -4,20 +4,19 @@ services:
   cellar.hub.dataflow:
     image: eu.gcr.io/cellarstone-1488228226623/hubdataflow:prod.0.0.3
     links:
-      - cellar.hub.db
       - cellar.hub.mqtt
+      - cellar.hub.mongodb
+      - cellar.hub.rethinkdb
 
   cellar.hub.web:
     image: eu.gcr.io/cellarstone-1488228226623/hubweb:prod.0.0.2
-    links:
-      - cellar.hub.db
     ports:
     - "5001:5001"
 
   cellar.hub.api:
     image: eu.gcr.io/cellarstone-1488228226623/hubapi:prod.0.0.2
     links:
-      - cellar.hub.api
+      - cellar.hub.mongodb
     ports:
     - "5005:5005"
 

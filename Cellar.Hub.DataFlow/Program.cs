@@ -109,6 +109,9 @@ namespace Cellar.Hub.DataFlow
 
                 // _mongodbcontext.InsertToSenzorData(senzorId, measurement, value);
                 _rethinkdbcontext.InsertToSenzorData(senzorId, measurement, value);
+
+
+                
             }
             catch (Exception ex)
             {
