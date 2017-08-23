@@ -41,7 +41,26 @@
 
     <!-- <script src="https://cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script> -->
 
+    <!-- <script>
+        var protocol = location.protocol === "https:" ? "wss:" : "ws:";
+        var wsUri = protocol + "//" + "localhost:5000/test";
+        var socket = new WebSocket(wsUri);
+        socket.onopen = e => {
+            console.log("socket opened", e);
+        };
 
+        socket.onclose = function (e) {
+            console.log("socket closed", e);
+        };
+
+        socket.onmessage = function (e) {
+            console.log(e);
+        };
+
+        socket.onerror = function (e) {
+            console.error(e.data);
+        };
+    </script> -->
 </body>
 
 </html>

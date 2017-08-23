@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Observable } from 'rxjs/Observable'
+import { Observable } from 'rxjs/Observable';
+import { Subscriber } from 'rxjs/Subscriber';
 
 import { CellarSpace } from '../../entities/CellarSpace';
 import { CellarSpaceType } from '../../entities/CellarSpaceType';
 
 import { IoTService } from '../../service/iot.service';
 import { SharedService } from '../../service/shared.service';
+import { WebsocketService2 } from '../../service/websocket2.service';
 
 
 
@@ -29,6 +31,8 @@ export class Dashboard implements OnInit {
 
     constructor(private iotService: IoTService,
         private sharedService: SharedService,
+        private websocketService1: WebsocketService2,
+        private websocketService2: WebsocketService2,
         private route: ActivatedRoute,
         private router: Router) { }
 
@@ -48,15 +52,235 @@ export class Dashboard implements OnInit {
 
 
     getRandomNumberRounded(min: number, max: number) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-  }
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+    }
 
-  getRandomNumber(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-  }
+    getRandomNumber(min: number, max: number) {
+        return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+    }
 
+
+
+    private s2315_temperature_Value: string;
+    private s2315_humidity_Value: string;
+
+    private s2316_temperature_Value: string;
+    private s2316_humidity_Value: string;
+
+    private s2317_temperature_Value: string;
+    private s2317_humidity_Value: string;
+
+    private s2318_temperature_Value: string;
+    private s2318_humidity_Value: string;
+
+
+    startWebSocketStreaming() {
+
+        // this.watchS2315temperature()
+        //     .subscribe(
+        //     data => {
+        //         console.log(data);
+
+        //         var socketId = data.split(['|||'])[0];
+        //         var data = data.split(['|||'])[1];
+
+        //         var senzorId = data.split(['|'])[0];
+        //         var measurement = data.split(['|'])[1];
+        //         var value = data.split(['|'])[2];
+
+        //         this.s2315_temperature_Value = value;
+        //     },
+        //     error => console.error(error));
+
+        // this.watchS2315humidity()
+        //     .subscribe(
+        //     data => {
+        //         console.log(data);
+
+        //         var socketId = data.split(['|||'])[0];
+        //         var data = data.split(['|||'])[1];
+
+        //         var senzorId = data.split(['|'])[0];
+        //         var measurement = data.split(['|'])[1];
+        //         var value = data.split(['|'])[2];
+
+        //         this.s2315_humidity_Value = value;
+        //     },
+        //     error => console.error(error));
+
+
+        // this.watchS2316temperature()
+        //     .subscribe(
+        //     data => {
+        //         console.log(data);
+
+        //         var socketId = data.split(['|||'])[0];
+        //         var data = data.split(['|||'])[1];
+
+        //         var senzorId = data.split(['|'])[0];
+        //         var measurement = data.split(['|'])[1];
+        //         var value = data.split(['|'])[2];
+
+        //         this.s2316_temperature_Value = value;
+        //     },
+        //     error => console.error(error));
+
+        // this.watchS2316humidity()
+        // .subscribe(
+        // data => {
+        //     console.log(data);
+
+        //     var socketId = data.split(['|||'])[0];
+        //     var data = data.split(['|||'])[1];
+
+        //     var senzorId = data.split(['|'])[0];
+        //     var measurement = data.split(['|'])[1];
+        //     var value = data.split(['|'])[2];
+
+        //     this.s2316_humidity_Value = value;
+        // },
+        // error => console.error(error));
+
+        this.watchS2317temperature()
+            .subscribe(
+            data => {
+                console.log(data);
+
+                if (data.includes(['|||'])) {
+
+                    var socketId = data.split(['|||'])[0];
+                    var data = data.split(['|||'])[1];
+
+                    var senzorId = data.split(['|'])[0];
+                    var measurement = data.split(['|'])[1];
+                    var value = data.split(['|'])[2];
+
+                    this.s2317_temperature_Value = value;
+                }
+            },
+            error => console.error(error));
+
+        this.watchS2317humidity()
+            .subscribe(
+            data => {
+                console.log(data);
+
+
+                if (data.includes(['|||'])) {
+                    var socketId = data.split(['|||'])[0];
+                    var data = data.split(['|||'])[1];
+
+                    var senzorId = data.split(['|'])[0];
+                    var measurement = data.split(['|'])[1];
+                    var value = data.split(['|'])[2];
+
+
+                    this.s2317_humidity_Value = value;
+                }
+            },
+            error => console.error(error));
+
+        // this.watchS2318temperature()
+        //     .subscribe(
+        //     data => {
+        //         console.log(data);
+
+        //         var socketId = data.split(['|||'])[0];
+        //         var data = data.split(['|||'])[1];
+
+        //         var senzorId = data.split(['|'])[0];
+        //         var measurement = data.split(['|'])[1];
+        //         var value = data.split(['|'])[2];
+
+        //         this.s2318_temperature_Value = value;
+        //     },
+        //     error => console.error(error));
+
+        // this.watchS2318humidity()
+        // .subscribe(
+        // data => {
+        //     console.log(data);
+
+        //     var socketId = data.split(['|||'])[0];
+        //     var data = data.split(['|||'])[1];
+
+        //     var senzorId = data.split(['|'])[0];
+        //     var measurement = data.split(['|'])[1];
+        //     var value = data.split(['|'])[2];
+
+        //     this.s2318_humidity_Value = value;
+        // },
+        // error => console.error(error));
+    }
+
+
+
+    // watchS2315temperature(): Observable<any> {
+    //     let openSubscriber = Subscriber.create(
+    //         () => this.websocketService.send({ productId: 56464564644 }));
+
+    //     return this.websocketService.createObservableSocket('ws://localhost:5000/s2315/temperature', openSubscriber)
+    //         .map(message => '{' + message + '}');
+    // }
+
+    // watchS2315humidity(): Observable<any> {
+    //     let openSubscriber = Subscriber.create(
+    //         () => this.websocketService.send({ productId: 56464564644 }));
+
+    //     return this.websocketService.createObservableSocket('ws://localhost:5000/s2315/humidity', openSubscriber)
+    //         .map(message => '{' + message + '}');
+    // }
+
+    // watchS2316temperature(): Observable<any> {
+    //     let openSubscriber = Subscriber.create(
+    //         () => this.websocketService.send({ productId: 56464564644 }));
+
+    //     return this.websocketService.createObservableSocket('ws://localhost:5000/s2316/temperature', openSubscriber)
+    //         .map(message => '{' + message + '}');
+    // }
+
+    // watchS2316humidity(): Observable<any> {
+    //     let openSubscriber = Subscriber.create(
+    //         () => this.websocketService.send({ productId: 56464564644 }));
+
+    //     return this.websocketService.createObservableSocket('ws://localhost:5000/s2316/humidity', openSubscriber)
+    //         .map(message => '{' + message + '}');
+    // }
+
+
+    watchS2317temperature(): Observable<any> {
+        let openSubscriber = Subscriber.create(
+            () => {});
+
+        return this.websocketService1.createObservableSocket('ws://localhost:5000/s2317/temperature', openSubscriber)
+            .map(message => message );
+    }
+
+    watchS2317humidity(): Observable<any> {
+        let openSubscriber = Subscriber.create(
+            () => {});
+
+        return this.websocketService2.createObservableSocket('ws://localhost:5000/s2317/humidity', openSubscriber)
+            .map(message => message);
+    }
+
+    // watchS2318temperature(): Observable<any> {
+    //     let openSubscriber = Subscriber.create(
+    //         () => this.websocketService.send({ productId: 56464564644 }));
+
+    //     return this.websocketService.createObservableSocket('ws://localhost:5000/s2318/temperature', openSubscriber)
+    //         .map(message => '{' + message + '}');
+    // }
+
+    // watchS2318humidity(): Observable<any> {
+    //     let openSubscriber = Subscriber.create(
+    //         () => this.websocketService.send({ productId: 56464564644 }))
+
+    //     return this.websocketService.createObservableSocket('ws://localhost:5000/s2318/humidity', openSubscriber)
+    //         .map(message => '{' + message + '}');
+    // }
 
 
 

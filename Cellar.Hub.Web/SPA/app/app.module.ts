@@ -87,6 +87,7 @@ import {AppComponent}  from './app.component';
 
 import { SharedService } from './service/shared.service';
 import { IoTService } from './service/iot.service';
+import { WebsocketService2 } from './service/websocket2.service';
 
 import { Dashboard } from './view/dashboard/dashboard';
 import { Login } from './view/login/login';
@@ -176,7 +177,8 @@ import { SpaceDetail } from './view/space/space-detail';
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         IoTService,
-        SharedService
+        SharedService,
+        WebsocketService2
     ],
     bootstrap:[AppComponent]
 })
