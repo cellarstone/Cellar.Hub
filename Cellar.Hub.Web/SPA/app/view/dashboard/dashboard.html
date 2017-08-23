@@ -875,6 +875,9 @@
               <rect class="cls-47" x="605.79" y="459.49" width="29.89" height="16.88" />
               <rect class="cls-47" x="605.79" y="437.46" width="29.89" height="5.86" />
             </g>
+          </g>
+          <g id="building4">
+            <rect class="cls-51" x="330.47" y="367.12" width="66.85" height="133.84" />
             <g>
               <rect class="cls-48" x="596.14" y="465.6" width="19.3" height="10.78" />
               <polygon class="cls-49" points="598.12 476.38 596.14 476.38 599.55 465.6 601.53 465.6 598.12 476.38" />
@@ -940,6 +943,9 @@
               <rect class="cls-57" x="382.58" y="448.21" width="17.27" height="5.67" />
               <rect class="cls-57" x="382.58" y="460.92" width="17.27" height="5.68" />
             </g>
+            <rect class="cls-53" x="324.59" y="481.45" width="78.66" height="26.09" />
+            <polygon class="cls-60" points="331.98 486.81 403.25 502.33 403.25 485.83 331.98 486.81" />
+            <rect class="cls-60" x="324.59" y="481.45" width="78.66" height="6.37" />
             <g>
               <g>
                 <rect class="cls-59" x="327.93" y="371.98" width="17.27" height="1.08" />
@@ -1343,6 +1349,39 @@
         <span class="overview-box-count">{{s2318_temperature_Value}}</span>
         <span class="overview-box-name">°C</span>
       </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div id="dashboard" class="ui-g" style="margin: auto;
+position: absolute;
+top: 100; left: 0; bottom: 0; right: 0;
+  z-index: 2;">
+<div class="ui-g-3">
+  <div class="ui-g card">
+      <button pButton type="button" class="ui-button-info" (click)="createObjectToMongoDB()" label="CLICK and create mongo db object"></button>
+    </div>
+  </div>
+  <div class="ui-g-3">
+    <div class="ui-g card">
+      <button pButton type="button" class="ui-button-info" (click)="publishtowebsocket()" label="CLICK and push value to websocket"></button>
+    </div>
+  </div>
+  <div class="ui-g-3">
+    <div class="ui-g card">
+      <button pButton type="button" class="ui-button-info" (click)="subscribewebsocket()" label="CLICK and subscribe values from websocket"></button>
+    </div>
+  </div>
+  <div class="ui-g-3">
+    <div class="ui-g card">
+        <div *ngIf="messages">
+            <div>
+              {{messages.topic}} {{messages.data}}
+            </div>
+          </div>
     </div>
   </div>
 </div>

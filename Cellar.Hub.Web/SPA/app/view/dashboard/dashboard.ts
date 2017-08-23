@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { Subscriber } from 'rxjs/Subscriber';
 
+import { Subscriber } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
+import { Subject } from 'rxjs/Subject'
+
+import { WebsocketMessage } from '../../entities/websocket/WebsocketMessage';
 import { CellarSpace } from '../../entities/CellarSpace';
 import { CellarSpaceType } from '../../entities/CellarSpaceType';
 
 import { IoTService } from '../../service/iot.service';
+import { WebsocketService } from '../../service/websocket.service';
 import { SharedService } from '../../service/shared.service';
 import { WebsocketService2 } from '../../service/websocket2.service';
 
@@ -27,9 +31,11 @@ declare var morphSVG: any;
 })
 export class Dashboard implements OnInit {
 
-
+    CHAT_URL = 'ws://localhost:4000/';
+    public messages: Subject<WebsocketMessage>;
 
     constructor(private iotService: IoTService,
+        private websocketService: WebsocketService,
         private sharedService: SharedService,
         private websocketService1: WebsocketService2,
         private websocketService2: WebsocketService2,
@@ -339,4 +345,20 @@ export class Dashboard implements OnInit {
             });
 
     }
+
+
+    private subscribewebsocket() {
+        this.messages = <Subject<WebsocketMessage>>this.websocketService
+        .connect(this.CHAT_URL)
+        .map((response: MessageEvent): WebsocketMessage => {
+            let data = JSON.parse(response.data);
+            return {
+                topic: data.topic,
+                data: data.data
+            }
+        });
+    }
+
+
+
 }
