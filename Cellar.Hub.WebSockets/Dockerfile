@@ -3,8 +3,8 @@ FROM golang:latest
 # if left blank app will run with dev settings
 # to build production image run:
 # $ docker build ./api --build-args app_env=production
-ARG app_env
-ENV APP_ENV $app_env
+# ARG app_env
+ENV APP_ENV "production"
 
 RUN mkdir /app 
 # ADD . /app/ 

@@ -75,7 +75,7 @@ var rethinkDBName string
 func setEnvironment() {
 	if os.Getenv("APP_ENV") == "production" {
 
-		rethinkDBUrl = "cellar.hub.rethinkdb"
+		rethinkDBUrl = "cellar.hub.rethinkdb:28015"
 		rethinkDBName = "HubDatabase"
 
 	} else {
