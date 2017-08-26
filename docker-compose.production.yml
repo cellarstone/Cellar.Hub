@@ -2,21 +2,21 @@ version: '2'
 
 services:
   cellar.hub.dataflow:
-    image: cellarstone/cellar.hub.dataflow:prod.0.0.5
+    image: cellarstone/cellar.hub.dataflow:prod.0.0.6
     links:
       - cellar.hub.mqtt
       - cellar.hub.mongodb
       - cellar.hub.rethinkdb
 
   cellar.hub.websockets:
-    image: cellarstone/cellar.hub.websockets:prod.0.0.1
+    image: cellarstone/cellar.hub.websockets:prod.0.0.2
     links:
       - cellar.hub.rethinkdb
     ports:
     - "4000:4000"
 
   cellar.hub.web:
-    image: cellarstone/cellar.hub.web:prod.0.0.2
+    image: cellarstone/cellar.hub.web:prod.0.0.3
     ports:
     - "5001:5001"
 
