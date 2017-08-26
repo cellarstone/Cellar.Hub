@@ -2,40 +2,40 @@ version: '2'
 
 services:
   cellar.hub.dataflow:
-    image: cellarstone/cellar.hub.dataflow:prod.0.0.8
+    image: cellarstone/cellar.hub.dataflow:prod.0.0.9
     links:
       - cellar.hub.mqtt
       - cellar.hub.mongodb
       - cellar.hub.rethinkdb
 
   cellar.hub.websockets:
-    image: cellarstone/cellar.hub.websockets:prod.0.0.4
+    image: cellarstone/cellar.hub.websockets:prod.0.0.5
     links:
       - cellar.hub.rethinkdb
     ports:
     - "4000:4000"
 
   cellar.hub.web:
-    image: cellarstone/cellar.hub.web:prod.0.0.5
+    image: cellarstone/cellar.hub.web:prod.0.0.6
     ports:
-    - "6001:5001"
+    - "5001:5001"
 
   cellar.hub.api:
-    image: cellarstone/cellar.hub.api:prod.0.0.4
+    image: cellarstone/cellar.hub.api:prod.0.0.5
     links:
       - cellar.hub.mongodb
     ports:
     - "5005:5005"
 
   cellar.hub.mongodb:
-    image: cellarstone/cellar.hub.mongodb:prod.0.0.4
+    image: cellarstone/cellar.hub.mongodb:prod.0.0.5
     ports:
     - "27017:27017"
     volumes:
      - /data/db1:/data/db 
 
   cellar.hub.rethinkdb:
-    image: cellarstone/cellar.hub.rethinkdb:prod.0.0.5
+    image: cellarstone/cellar.hub.rethinkdb:prod.0.0.6
     ports:
     - "28015:28015"
     - "29015:29015"
@@ -44,6 +44,6 @@ services:
      - /data/db2:/data
 
   cellar.hub.mqtt:
-    image: cellarstone/cellar.hub.mqtt:prod.0.0.4
+    image: cellarstone/cellar.hub.mqtt:prod.0.0.5
     ports:
     - "1883:1883"
