@@ -2,7 +2,7 @@ version: '2'
 
 services:
   cellar.hub.dataflow:
-    image: cellarstone/cellar.hub.dataflow:prod.0.0.4
+    image: cellarstone/cellar.hub.dataflow:prod.0.0.5
     links:
       - cellar.hub.mqtt
       - cellar.hub.mongodb
@@ -35,7 +35,7 @@ services:
      - /data/db1:/data/db 
 
   cellar.hub.rethinkdb:
-    image: cellarstone/cellar.hub.rethinkdb:prod.0.0.2
+    image: cellarstone/cellar.hub.rethinkdb:prod.0.0.3
     ports:
     - "28015:28015"
     - "29015:29015"

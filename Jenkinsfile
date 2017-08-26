@@ -12,8 +12,8 @@ pipeline {
         parallel (
           dataflow: {
             sh 'docker build -t cellar.hub.dataflow -f Dockerfile_Cellar.Hub.DataFlow .'
-            sh 'docker tag cellar.hub.dataflow cellarstone/cellar.hub.dataflow:dev.0.0.4'
-            sh 'docker push cellarstone/cellar.hub.dataflow:dev.0.0.4'
+            sh 'docker tag cellar.hub.dataflow cellarstone/cellar.hub.dataflow:dev.0.0.5'
+            sh 'docker push cellarstone/cellar.hub.dataflow:dev.0.0.5'
           },
           websocket: {
             sh 'docker build -t cellar.hub.websockets ./Cellar.Hub.WebSockets'
@@ -37,8 +37,8 @@ pipeline {
           },
           rethinkdb: {
             sh 'docker build -t cellar.hub.rethinkdb ./Cellar.Hub.RethinkDb'
-            sh 'docker tag cellar.hub.rethinkdb cellarstone/cellar.hub.rethinkdb:dev.0.0.2'
-            sh 'docker push cellarstone/cellar.hub.rethinkdb:dev.0.0.2'
+            sh 'docker tag cellar.hub.rethinkdb cellarstone/cellar.hub.rethinkdb:dev.0.0.3'
+            sh 'docker push cellarstone/cellar.hub.rethinkdb:dev.0.0.3'
           },
           mqtt: {
             sh 'docker build -t cellar.hub.mqtt ./Cellar.Hub.Mqtt'
@@ -58,8 +58,8 @@ pipeline {
         parallel (
           dataflow: {
             sh 'docker build -t cellar.hub.dataflow -f Dockerfile_Cellar.Hub.DataFlow .'
-            sh 'docker tag cellar.hub.dataflow cellarstone/cellar.hub.dataflow:prod.0.0.4'
-            sh 'docker push cellarstone/cellar.hub.dataflow:prod.0.0.4'
+            sh 'docker tag cellar.hub.dataflow cellarstone/cellar.hub.dataflow:prod.0.0.5'
+            sh 'docker push cellarstone/cellar.hub.dataflow:prod.0.0.5'
           },
           websocket: {
             sh 'docker build -t cellar.hub.websockets ./Cellar.Hub.WebSockets'
@@ -83,8 +83,8 @@ pipeline {
           },
           rethinkdb: {
             sh 'docker build -t cellar.hub.rethinkdb ./Cellar.Hub.RethinkDb'
-            sh 'docker tag cellar.hub.rethinkdb cellarstone/cellar.hub.rethinkdb:prod.0.0.2'
-            sh 'docker push cellarstone/cellar.hub.rethinkdb:prod.0.0.2'
+            sh 'docker tag cellar.hub.rethinkdb cellarstone/cellar.hub.rethinkdb:prod.0.0.3'
+            sh 'docker push cellarstone/cellar.hub.rethinkdb:prod.0.0.3'
           },
           mqtt: {
             sh 'docker build -t cellar.hub.mqtt ./Cellar.Hub.Mqtt'
