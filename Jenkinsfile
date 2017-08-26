@@ -101,7 +101,7 @@ pipeline {
     }
     stage('Hub dropbox') {
       steps {
-         dropbox configName:'cellarstone' sourceFiles='docker-compose.production.yml' remoreDirectory:'Cellar.Hub'
+         dropbox "configName:'cellarstone' sourceFiles='docker-compose.production.yml' remoreDirectory:'Cellar.Hub'"
       }
     }
   }
