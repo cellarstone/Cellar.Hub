@@ -8,11 +8,11 @@ using Cellar.Hub.Core;
 namespace Cellar.Hub.Api.Controllers
 {
     // [Route("[controller]")]
-    public class ApiController : Controller
+    public class SpaceController : Controller
     {
-        CellarHubMongoDbContext _db;
+        CellarHubRethinkDbContext _db;
 
-        public ApiController(CellarHubMongoDbContext db)
+        public SpaceController(CellarHubRethinkDbContext db)
         {
             _db = db;
         }
@@ -28,18 +28,16 @@ namespace Cellar.Hub.Api.Controllers
         [HttpGet]
         public CellarDTO GetCellarSpace()
         {
-
-
-            CellarSpace newOne = new CellarSpace();
-            newOne.Name = "HALL";
-            // newOne.Type = CellarSpaceType.Building;
-
-            _db.Spaces.InsertOne(newOne);
-
-
-
-            return CellarDTO.Ok();
+            var spaces = _db.GetSpaces();
+            return CellarDTO.Data(spaces);
         }
+
+
+
+
+
+
+
 
         [HttpPost]
         public CellarDTO AddCellarSpace([FromBody]CellarSpace space)

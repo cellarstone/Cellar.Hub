@@ -7,7 +7,6 @@ import { Subject } from 'rxjs/Subject'
 
 import { WebsocketMessage } from '../../entities/websocket/WebsocketMessage';
 import { CellarSpace } from '../../entities/CellarSpace';
-import { CellarSpaceType } from '../../entities/CellarSpaceType';
 
 import { IoTService } from '../../service/iot.service';
 import { WebsocketService } from '../../service/websocket.service';
@@ -31,8 +30,8 @@ declare var morphSVG: any;
 })
 export class Dashboard implements OnInit {
 
-    CHAT_URL = 'ws://localhost:4000/';
-    public messages: Subject<WebsocketMessage>;
+    CHAT_URL = 'ws://localhost:4000';
+    public message: string;
 
     constructor(private iotService: IoTService,
         private websocketService: WebsocketService,
@@ -44,15 +43,41 @@ export class Dashboard implements OnInit {
 
     ngOnInit() {
 
-        let building1 = document.getElementById("building1");
-        let building4 = document.getElementById("building4");
-        let building5 = document.getElementById("building5");
+        // let building1 = document.getElementById("building1");
+        // let building2 = document.getElementById("building2");
 
-        let scene_buildings = new TimelineMax({ yoyo: true, repeat: -1 });
-        scene_buildings.from(building1, 1, { scale: this.getRandomNumber(0.7, 1.5), transformOrigin: "50% 50%", ease: Power0.easeOut, yoyo: true })
-            .from(building4, 1, { scale: this.getRandomNumber(0.7, 1.5), transformOrigin: "50% 50%", ease: Power0.easeOut, yoyo: true }, 0)
-            .from(building5, 1, { scale: this.getRandomNumber(0.7, 1.5), transformOrigin: "50% 50%", ease: Power0.easeOut, yoyo: true }, 0);
+        // let scene_buildings = new TimelineMax({ yoyo: true, repeat: -1 });
+        // scene_buildings.from(building1, 1, { scale: this.getRandomNumber(0.7, 1.5), transformOrigin: "50% 50%", ease: Power0.easeOut, yoyo: true })
+        //     .from(building2, 1, { scale: this.getRandomNumber(0.7, 1.5), transformOrigin: "50% 50%", ease: Power0.easeOut, yoyo: true }, 0);
 
+        this.getSpaces();
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // 1. Get Spaces with parentId = 0
+    getSpaces(){
+
+
+
+        this.iotService.GetCellarSpace().subscribe(
+                data => {
+                    console.log(data);
+    
+                    
+                },
+                error => console.error(error));
     }
 
 
@@ -69,17 +94,17 @@ export class Dashboard implements OnInit {
 
 
 
-    private s2315_temperature_Value: string;
-    private s2315_humidity_Value: string;
+    // private s2315_temperature_Value: string;
+    // private s2315_humidity_Value: string;
 
-    private s2316_temperature_Value: string;
-    private s2316_humidity_Value: string;
+    // private s2316_temperature_Value: string;
+    // private s2316_humidity_Value: string;
 
-    private s2317_temperature_Value: string;
-    private s2317_humidity_Value: string;
+    // private s2317_temperature_Value: string;
+    // private s2317_humidity_Value: string;
 
-    private s2318_temperature_Value: string;
-    private s2318_humidity_Value: string;
+    // private s2318_temperature_Value: string;
+    // private s2318_humidity_Value: string;
 
 
     startWebSocketStreaming() {
@@ -149,44 +174,44 @@ export class Dashboard implements OnInit {
         // },
         // error => console.error(error));
 
-        this.watchS2317temperature()
-            .subscribe(
-            data => {
-                console.log(data);
+        // this.watchS2317temperature()
+        //     .subscribe(
+        //     data => {
+        //         console.log(data);
 
-                if (data.includes(['|||'])) {
+        //         if (data.includes(['|||'])) {
 
-                    var socketId = data.split(['|||'])[0];
-                    var data = data.split(['|||'])[1];
+        //             var socketId = data.split(['|||'])[0];
+        //             var data = data.split(['|||'])[1];
 
-                    var senzorId = data.split(['|'])[0];
-                    var measurement = data.split(['|'])[1];
-                    var value = data.split(['|'])[2];
+        //             var senzorId = data.split(['|'])[0];
+        //             var measurement = data.split(['|'])[1];
+        //             var value = data.split(['|'])[2];
 
-                    this.s2317_temperature_Value = value;
-                }
-            },
-            error => console.error(error));
+        //             this.s2317_temperature_Value = value;
+        //         }
+        //     },
+        //     error => console.error(error));
 
-        this.watchS2317humidity()
-            .subscribe(
-            data => {
-                console.log(data);
-
-
-                if (data.includes(['|||'])) {
-                    var socketId = data.split(['|||'])[0];
-                    var data = data.split(['|||'])[1];
-
-                    var senzorId = data.split(['|'])[0];
-                    var measurement = data.split(['|'])[1];
-                    var value = data.split(['|'])[2];
+        // this.watchS2317humidity()
+        //     .subscribe(
+        //     data => {
+        //         console.log(data);
 
 
-                    this.s2317_humidity_Value = value;
-                }
-            },
-            error => console.error(error));
+        //         if (data.includes(['|||'])) {
+        //             var socketId = data.split(['|||'])[0];
+        //             var data = data.split(['|||'])[1];
+
+        //             var senzorId = data.split(['|'])[0];
+        //             var measurement = data.split(['|'])[1];
+        //             var value = data.split(['|'])[2];
+
+
+        //             this.s2317_humidity_Value = value;
+        //         }
+        //     },
+        //     error => console.error(error));
 
         // this.watchS2318temperature()
         //     .subscribe(
@@ -219,6 +244,23 @@ export class Dashboard implements OnInit {
         //     this.s2318_humidity_Value = value;
         // },
         // error => console.error(error));
+
+
+
+
+
+
+
+
+        this.subscribewebsocket()
+        .subscribe(
+        data => {
+            console.log(data);
+
+
+            this.message = data;
+        },
+        error => console.error(error));
     }
 
 
@@ -258,15 +300,15 @@ export class Dashboard implements OnInit {
 
     watchS2317temperature(): Observable<any> {
         let openSubscriber = Subscriber.create(
-            () => {});
+            () => { });
 
         return this.websocketService1.createObservableSocket('ws://localhost:5000/s2317/temperature', openSubscriber)
-            .map(message => message );
+            .map(message => message);
     }
 
     watchS2317humidity(): Observable<any> {
         let openSubscriber = Subscriber.create(
-            () => {});
+            () => { });
 
         return this.websocketService2.createObservableSocket('ws://localhost:5000/s2317/humidity', openSubscriber)
             .map(message => message);
@@ -296,67 +338,63 @@ export class Dashboard implements OnInit {
     }
 
 
-    private createObjectToMongoDB() {
+    // private createObjectToMongoDB() {
 
-        console.log('Dashboard GetCellarSpace()');
+    //     console.log('Dashboard GetCellarSpace()');
 
-        var newOne = new CellarSpace();
-        newOne.Name = "test-" + Math.random();
-        newOne.Type = CellarSpaceType.Building;
+    //     var newOne = new CellarSpace();
+    //     newOne.Name = "test-" + Math.random();
+    //     // newOne.Type = CellarSpaceType.Building;
 
-        // HTTP call
-        this.iotService.GetCellarSpace(1)
-            .subscribe(res => {
-                let response = res;
+    //     // HTTP call
+    //     this.iotService.GetCellarSpace(1)
+    //         .subscribe(res => {
+    //             let response = res;
 
-                //BEZ CHYB ze serveru
-                if (response.isOK) {
-
-
-                    var i = 5;
-                }
-                //NON-VALID ze serveru
-                else if (!response.isValid) {
-                    //???
-                    console.error(response.validations);
-                }
-                //custom ERROR ze serveru
-                else if (response.isCustomError) {
-                    //???
-                    console.error(response.customErrorText);
-                }
-                //identity ERROR ze serveru
-                else if (response.isIdentityError) {
-                    //???
-                    console.error(response.identityErrorText);
-                }
-                //EXCEPTION ze serveru
-                else if (response.isException) {
-                    //???
-                    console.error(response.exceptionText);
-                }
-
-            },
-            error => {
-                console.error(error);
-            },
-            () => {
-                console.log('getData() completed');
-            });
-
-    }
+    //             //BEZ CHYB ze serveru
+    //             if (response.isOK) {
 
 
-    private subscribewebsocket() {
-        this.messages = <Subject<WebsocketMessage>>this.websocketService
-        .connect(this.CHAT_URL)
-        .map((response: MessageEvent): WebsocketMessage => {
-            let data = JSON.parse(response.data);
-            return {
-                topic: data.topic,
-                data: data.data
-            }
-        });
+    //                 var i = 5;
+    //             }
+    //             //NON-VALID ze serveru
+    //             else if (!response.isValid) {
+    //                 //???
+    //                 console.error(response.validations);
+    //             }
+    //             //custom ERROR ze serveru
+    //             else if (response.isCustomError) {
+    //                 //???
+    //                 console.error(response.customErrorText);
+    //             }
+    //             //identity ERROR ze serveru
+    //             else if (response.isIdentityError) {
+    //                 //???
+    //                 console.error(response.identityErrorText);
+    //             }
+    //             //EXCEPTION ze serveru
+    //             else if (response.isException) {
+    //                 //???
+    //                 console.error(response.exceptionText);
+    //             }
+
+    //         },
+    //         error => {
+    //             console.error(error);
+    //         },
+    //         () => {
+    //             console.log('getData() completed');
+    //         });
+
+    // }
+
+
+    subscribewebsocket(): Observable<any> {
+        let openSubscriber = Subscriber.create(
+            () => {});
+
+        return this.websocketService1.createObservableSocket('ws://localhost:4000', openSubscriber)
+            .map(message => message);
     }
 
 

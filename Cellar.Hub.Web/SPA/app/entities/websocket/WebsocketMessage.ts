@@ -1,4 +1,4 @@
 export interface WebsocketMessage {
-	topic: string,
+	name: string,
 	data: any
 }

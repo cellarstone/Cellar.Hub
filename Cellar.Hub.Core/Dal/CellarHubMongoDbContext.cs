@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System;
 using MongoDB.Driver;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Text;
 
 namespace Cellar.Hub.Core
@@ -18,7 +19,7 @@ namespace Cellar.Hub.Core
     /// </summary>
     public class CellarHubMongoDbContext
     {
-        public static string CellarHubMongoDB_url = "mongodb://cellar.hub.mongodb:27017/";
+        private readonly HubCoreOptions _options;
 
         public string DatabaseName { get; set; } = "HubDatabase";
         public bool IsSSL { get; set; } = false;
@@ -27,15 +28,19 @@ namespace Cellar.Hub.Core
 
         private readonly ILogger _logger;
 
-        public CellarHubMongoDbContext(
-            ILogger<CellarHubMongoDbContext> logger)
+        public CellarHubMongoDbContext(IOptions<HubCoreOptions> options,
+                                      ILogger<CellarHubMongoDbContext> logger)
         {
-            //this.ConnectionString = connString;
+            if (options == null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+            _options = options.Value;
             _logger = logger;
 
             try
             {
-                MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl(CellarHubMongoDB_url));
+                MongoClientSettings settings = MongoClientSettings.FromUrl(new MongoUrl("mongodb://localhost:27017/"));
                 if (IsSSL)
                 {
                     settings.SslSettings = new SslSettings { EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12 };
@@ -62,7 +67,7 @@ namespace Cellar.Hub.Core
             catch (Exception ex)
             {
                 LogException(ex);
-                throw new Exception("Can not access to db server.", ex);
+                throw new Exception("Can not access to mongo db server.", ex);
             }
         }
 
@@ -97,7 +102,7 @@ namespace Cellar.Hub.Core
                     filterBuilder.Eq("Date", new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Utc)) &
                     filterBuilder.Eq("Measurement", measurement);
 
-                var update = Builders<CellarSenzorData>.Update.Push(p => p.Values, value);
+                var update = Builders<CellarSenzorData>.Update.Push(p => p.values, value);
 
                 //updatuje zaznam, kdyz neexistuje tak ho vytvori 
                 var aaa = await SenzorsData.UpdateOneAsync(filter, update, new UpdateOptions() { IsUpsert = true });

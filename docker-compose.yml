@@ -58,3 +58,11 @@ services:
       - cellar.hub.mqtt
       - cellar.hub.mongodb
       - cellar.hub.rethinkdb
+
+  cellar.hub.websockets:
+    image: cellar.hub.websockets
+    build:
+      context: ./Cellar.Hub.WebSockets
+      dockerfile: Dockerfile
+    links:
+      - cellar.hub.rethinkdb

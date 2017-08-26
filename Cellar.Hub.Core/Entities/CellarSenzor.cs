@@ -1,16 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
 
 namespace Cellar.Hub.Core
 {
     public class CellarSenzor
     {
         
-        [BsonId]
-        public ObjectId Id { get; set; }
-
+        public string id { get; set; } = Guid.NewGuid().ToString();
         
         public string Name { get; set; }
 

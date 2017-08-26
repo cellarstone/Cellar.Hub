@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable'
 import { CellarSenzor } from '../entities/CellarSenzor';
 import { CellarSenzorSettings } from '../entities/CellarSenzorSettings';
 import { CellarSpace } from '../entities/CellarSpace';
-import { CellarSpaceType } from '../entities/CellarSpaceType';
+// import { CellarSpaceType } from '../entities/CellarSpaceType';
 
 
 import { CellarDTO } from '../entities/http/CellarDTO';
@@ -55,7 +55,7 @@ export class IoTService
             this.serverUrl = "http://localhost:5005";
         }
 
-        this.url_getCellarSpace = this.serverUrl + '/api/GetCellarSpace';
+        this.url_getCellarSpace = this.serverUrl + '/space/GetCellarSpace';
 
         this.url_addCellarSpace = this.serverUrl + '/api/AddCellarSpace';
 
@@ -95,7 +95,7 @@ export class IoTService
     /*       GET  COLLECTIONS                     */
     /**********************************************/
     
-    public GetCellarSpace(spaceId: number): Observable<CellarDTO>
+    public GetCellarSpace(): Observable<CellarDTO>
     {
         console.log('IoTHubService GetCellarSpace()');
 

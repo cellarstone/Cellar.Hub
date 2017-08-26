@@ -3,7 +3,6 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs/Observable'
 
 import { CellarSpace } from '../../entities/CellarSpace';
-import { CellarSpaceType } from '../../entities/CellarSpaceType';
 
 import { IoTService } from '../../service/iot.service';
 import { SharedService } from '../../service/shared.service';

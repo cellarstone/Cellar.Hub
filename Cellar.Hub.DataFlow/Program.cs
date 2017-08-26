@@ -1,10 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Cellar.Hub.Core;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
@@ -17,14 +19,16 @@ namespace Cellar.Hub.DataFlow
 {
     class Program
     {
-        public static CellarHubMongoDbContext _mongodbcontext { get; set; }
-        public static CellarHubRethinkDbContext _rethinkdbcontext { get; set; }
+        // public static CellarHubMongoDbContext _mongodbcontext { get; set; }
+        // public static CellarHubRethinkDbContext _rethinkdbcontext { get; set; }
         public static ILogger _logger { get; set; }
+        public static IConfigurationRoot Configuration { get; set; }
+
+
+        //public static string CellarHubMQTT_url = "cellar.hub.mqtt";
 
 
 
-        public static string CellarHubMQTT_url = "cellar.hub.mqtt";
-        
 
 
         static void Main(string[] args)
@@ -32,25 +36,45 @@ namespace Cellar.Hub.DataFlow
             try
             {
 
+                string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                Console.WriteLine("************************ " + environment + " ************************");
+
+                var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environment}.json", optional: true);
+                Configuration = builder.Build();
+
+
                 //setup our DI
                 var serviceProvider = new ServiceCollection()
                     .AddLogging()
-                    .AddScoped<CellarHubMongoDbContext, CellarHubMongoDbContext>()
-                    .AddScoped<CellarHubRethinkDbContext, CellarHubRethinkDbContext>()
+                    .AddCellarHubCore(o =>
+                    {
+                        o.mongoDbConnectionString = Configuration.GetSection("ConnectionStrings:mongoDb").Value;
+                        o.rethinkDbConnectionString = Configuration.GetSection("ConnectionStrings:rethinkDb").Value;
+                        o.mosquittoMqttConnectionString = Configuration.GetSection("ConnectionStrings:mosquittoMqtt").Value;
+                    })
+                    // .AddSingleton<IConfigurationRoot>(Configuration)
+                    .AddSingleton<CellarMqttClient>()
+                    .Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"))
                     .BuildServiceProvider();
 
-                _mongodbcontext = serviceProvider.GetService<CellarHubMongoDbContext>();
-                _rethinkdbcontext = serviceProvider.GetService<CellarHubRethinkDbContext>();
+                
+
+                // _mongodbcontext = serviceProvider.GetService<CellarHubMongoDbContext>();
+                // _rethinkdbcontext = serviceProvider.GetService<CellarHubRethinkDbContext>();
                 _logger = serviceProvider.GetService<ILogger>();
 
-                // create client instance 
-                MqttClient client = new MqttClient(CellarHubMQTT_url);
+                // // create client instance 
+                // MqttClient client = new MqttClient(Configuration.GetSection("ConnectionStrings:mosquittoMqtt").Value);
 
                 // register to message received 
-                client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
+                CellarMqttClient celllarclient = serviceProvider.GetService<CellarMqttClient>();
+                // client.MqttMsgPublishReceived += celllarclient.client_MqttMsgPublishReceived;
 
-                string clientId = Guid.NewGuid().ToString();
-                client.Connect(clientId);
+                // string clientId = Guid.NewGuid().ToString();
+                // client.Connect(clientId);
 
 
 
@@ -59,22 +83,32 @@ namespace Cellar.Hub.DataFlow
                 /***********************************************/
 
                 // subscribe to the topic "/home/temperature" with QoS 2 
-                client.Subscribe(new string[] { "alza/p1/z1/s2315/teplota" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                client.Subscribe(new string[] { "alza/p1/z1/s2316/teplota" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                client.Subscribe(new string[] { "alza/p1/z1/s2317/teplota" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                client.Subscribe(new string[] { "alza/p1/z1/s2318/teplota" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-
-                client.Subscribe(new string[] { "alza/p1/z1/s2315/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                client.Subscribe(new string[] { "alza/p1/z1/s2316/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                client.Subscribe(new string[] { "alza/p1/z1/s2317/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                client.Subscribe(new string[] { "alza/p1/z1/s2318/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-
+                celllarclient.client.Subscribe(new string[] { "+/temperature" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                celllarclient.client.Subscribe(new string[] { "+/humidity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                // celllarclient.client.Subscribe(new string[] { "s2316/temperature" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                // celllarclient.client.Subscribe(new string[] { "s2316/humidity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                // celllarclient.client.Subscribe(new string[] { "s2317/temperature" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                // celllarclient.client.Subscribe(new string[] { "s2317/humidity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                // celllarclient.client.Subscribe(new string[] { "s2318/temperature" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                // celllarclient.client.Subscribe(new string[] { "s2318/humidity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                // celllarclient.client.Subscribe(new string[] { "s2319/temperature" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                // celllarclient.client.Subscribe(new string[] { "s2319/humidity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
                 
+                // celllarclient.client.Subscribe(new string[] { "*/humidity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                // celllarclient.client.Subscribe(new string[] { "alza/p1/z1/s2317/teplota" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                // celllarclient.client.Subscribe(new string[] { "alza/p1/z1/s2318/teplota" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+
+                // celllarclient.client.Subscribe(new string[] { "alza/p1/z1/s2315/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                // celllarclient.client.Subscribe(new string[] { "alza/p1/z1/s2316/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                // celllarclient.client.Subscribe(new string[] { "alza/p1/z1/s2317/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                // celllarclient.client.Subscribe(new string[] { "alza/p1/z1/s2318/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
 
 
 
 
-                
+
+
+
 
                 Console.ReadLine();
 
@@ -85,39 +119,7 @@ namespace Cellar.Hub.DataFlow
             }
         }
 
-        static void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
-        {
-            try
-            {
-
-                // Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
-                // Console.WriteLine($"+ Topic = {e.Topic}");
-                // Console.WriteLine($"+ Payload = {Encoding.UTF8.GetString(e.Message)}");
-                // Console.WriteLine($"+ QoS = {e.QosLevel}");
-                // Console.WriteLine($"+ Retain = {e.Retain}");
-                // Console.WriteLine();
-
-                var topic = e.Topic;
-
-                //prozatimni hack nez prenastavim senzory
-                string senzorId = topic.Split('/')[3];
-                string measurement = topic.Split('/')[4];
-                string value = Encoding.UTF8.GetString(e.Message);
-
-                //exist senzorId and Timestamp (Hourly)
-
-
-                // _mongodbcontext.InsertToSenzorData(senzorId, measurement, value);
-                _rethinkdbcontext.InsertToSenzorData(senzorId, measurement, value);
-
-
-                
-            }
-            catch (Exception ex)
-            {
-                LogException(ex);
-            }
-        }
+        
 
 
 

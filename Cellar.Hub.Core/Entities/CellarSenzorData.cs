@@ -1,24 +1,22 @@
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-using System;
 
 namespace Cellar.Hub.Core
 {
-
     public class CellarSenzorData
     {
-        // [BsonId]
-        // public string id { get; set; }
+        
+        public string id { get; set; } = Guid.NewGuid().ToString();
+        
+        public string senzorId { get; set; }
 
+        public string measurement { get; set; }
 
-        public string SenzorId { get; set; }
-        public DateTime Date { get; set; }
+        public List<string> values { get; set; }
 
-        public string Measurement { get; set; }
+        public DateTime date {get; set;}
 
-        public List<string> Values { get; set; } = new List<string>();
 
     }
 }

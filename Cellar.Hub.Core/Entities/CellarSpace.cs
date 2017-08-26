@@ -1,25 +1,23 @@
 using System.Collections.Generic;
 using System.Security.Claims;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
 
 namespace Cellar.Hub.Core
 {
     public class CellarSpace
     {
         
-        [BsonId]
-        public ObjectId Id { get; set; }
+        public string Id { get; set; }
 
         
         public string Name { get; set; }
 
-        
-        public CellarSpaceType Type { get; set; }
+        // Building, Room, Floor, Land
+        public string Type { get; set; }
 
 
         public ICollection<CellarSenzor> Senzors {get;set;} = new List<CellarSenzor>();
 
+public ICollection<CellarSpace> Subspaces {get;set;} = new List<CellarSpace>();
 
         
         // GPS - latitude, longtitude

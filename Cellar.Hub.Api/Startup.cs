@@ -14,6 +14,22 @@ namespace Cellar.Hub.Api
 {
     public class Startup
     {
+
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
+
+        public IConfigurationRoot Configuration { get; set; }
+
+
+
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -28,10 +44,15 @@ namespace Cellar.Hub.Api
 
             services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
 
-            services.AddScoped<CellarHubMongoDbContext,CellarHubMongoDbContext>();
+            services.AddCellarHubCore(o =>
+                    {
+                        o.mongoDbConnectionString = Configuration.GetSection("ConnectionStrings:mongoDb").Value;
+                        o.rethinkDbConnectionString = Configuration.GetSection("ConnectionStrings:rethinkDb").Value;
+                        o.mosquittoMqttConnectionString = Configuration.GetSection("ConnectionStrings:mosquittoMqtt").Value;
+                    });
 
             services.AddMvc();
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

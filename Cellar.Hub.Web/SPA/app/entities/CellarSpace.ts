@@ -1,5 +1,4 @@
 
-import { CellarSpaceType } from './CellarSpaceType';
 import { CellarSenzor } from './CellarSenzor';
 
 export class CellarSpace {
@@ -10,12 +9,14 @@ export class CellarSpace {
 
     public Name: string;
 
-
-    public Type: CellarSpaceType;
+    // Building, Room, Floor, Land
+    public Type: string;
 
 
     public Senzors: CellarSenzor[];
 
+
+    public Subspaces: CellarSpace[];
 
 
     // GPS - latitude, longtitude
@@ -26,7 +27,7 @@ export class CellarSpace {
 
     //GameObject
 
-
+    //Image, Picture
 
 
 }

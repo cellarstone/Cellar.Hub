@@ -12,6 +12,7 @@ using RethinkDb.Driver.Ast;
 using RethinkDb.Driver.Net;
 using Microsoft.Extensions.Logging;
 using System.Text;
+using Microsoft.Extensions.Options;
 
 namespace Cellar.Hub.Core
 {
@@ -20,20 +21,24 @@ namespace Cellar.Hub.Core
     /// </summary>
     public class CellarHubRethinkDbContext
     {
+        private readonly HubCoreOptions _options;
+
         public string DatabaseName { get; set; } = "HubDatabase";
 
-        public static string CellarHubRethinkDB_url = "cellar.hub.rethinkdb";
-
-        public static RethinkDB R = RethinkDB.R;
-        public static Connection conn;
+        public RethinkDB R = RethinkDB.R;
+        public Connection conn;
 
 
         private readonly ILogger _logger;
 
-        public CellarHubRethinkDbContext(
-            ILogger<CellarHubRethinkDbContext> logger)
+        public CellarHubRethinkDbContext(IOptions<HubCoreOptions> options,
+                                        ILogger<CellarHubRethinkDbContext> logger)
         {
-            //this.ConnectionString = connString;
+            if (options == null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+            _options = options.Value;
             _logger = logger;
 
             try
@@ -46,7 +51,7 @@ namespace Cellar.Hub.Core
             catch (Exception ex)
             {
                 LogException(ex);
-                throw new Exception("Can not access to db server.", ex);
+                throw new Exception("Can not access to rethink db server.", ex);
             }
         }
 
@@ -54,7 +59,7 @@ namespace Cellar.Hub.Core
         public void can_connect()
         {
             conn = R.Connection()
-                .Hostname(CellarHubRethinkDB_url)
+                .Hostname(_options.rethinkDbConnectionString)
                 .Port(28015)
                 .Timeout(60)
                 .Connect();
@@ -66,6 +71,7 @@ namespace Cellar.Hub.Core
         {
             List<string> tableNames = new List<string>();
             tableNames.Add("SenzorData");
+            tableNames.Add("Spaces");
 
             //create database
             var resultDb = R.DbList().RunAtom<List<string>>(conn);
@@ -90,46 +96,83 @@ namespace Cellar.Hub.Core
         }
 
 
-
-        public void InsertToSenzorData(string senzorId, string measurement, string value)
+        public List<CellarSpace> GetSpaces()
         {
             try
             {
-                //FIND
-                var results = R.Db("HubDatabase").Table("SenzorData")
-                .Filter(x => x["SenzorId"] == senzorId)
-                // .Filter(x => x["Date"] == new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Utc))
-                .Filter(x => x["Measurement"] == measurement)
-                //.Update(x => x["Values"].Add(value))
-                .RunResult<List<CellarSenzorData>>(conn);
 
 
-                if (results.Count == 0)
+                Cursor<CellarSpace> asdf = R.Db("HubDatabase").Table("Spaces").Run<CellarSpace>(conn);
+
+                List<CellarSpace> foo = asdf.ToList();
+
+
+                return foo;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
+        }
+
+
+        public async void InsertToSenzorData(string senzorId, string measurement, string value)
+        {
+
+            try
+            {
+
+                var utcnow = DateTime.UtcNow;
+                var localTime = DateTime.Now;
+
+                //FIND - podle local time
+                var results = await R.Db("HubDatabase").Table("SenzorData")
+                .Filter(x => x["senzorId"] == senzorId)
+                .Filter(x => x["date"] == new DateTime(utcnow.Year, utcnow.Month, utcnow.Day, utcnow.Hour, 0, 0, DateTimeKind.Utc))
+                .Filter(x => x["measurement"] == measurement)
+                .RunResultAsync<List<CellarSenzorData>>(conn);
+
+                var results2 = await R.Db("HubDatabase").Table("SenzorData")
+                .Filter(x => x["senzorId"] == senzorId)
+                .Filter(x => x["date"] == new DateTime(localTime.Year, localTime.Month, localTime.Day, localTime.Hour, 0, 0, DateTimeKind.Local))
+                .Filter(x => x["measurement"] == measurement)
+                .RunResultAsync<List<CellarSenzorData>>(conn);
+
+                var results3 = await R.Db("HubDatabase").Table("SenzorData")
+                .Filter(x => x["senzorId"] == senzorId)
+                // .Filter(x => x["date"] == new DateTime(utcnow.Year, utcnow.Month, utcnow.Day, utcnow.Hour, 0, 0, DateTimeKind.Local))
+                .Filter(x => x["measurement"] == measurement)
+                .RunResultAsync<List<CellarSenzorData>>(conn);
+
+
+                if (results2.Count == 0)
                 {
                     CellarSenzorData newOne = new CellarSenzorData();
-                    newOne.SenzorId = senzorId;
-                    newOne.Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Utc);
-                    newOne.Measurement = measurement;
-                    newOne.Values = new List<string>();
-                    newOne.Values.Add(value);
+                    newOne.senzorId = senzorId;
+                    newOne.date = new DateTime(utcnow.Year, utcnow.Month, utcnow.Day, utcnow.Hour, 0, 0, DateTimeKind.Utc);
+                    newOne.measurement = measurement;
+                    newOne.values = new List<string>();
+                    newOne.values.Add(value);
 
-                    R.Db("HubDatabase").Table("SenzorData").Insert(newOne).Run(conn);
+                    var aaa = R.Db("HubDatabase").Table("SenzorData").Insert(newOne).Run(conn);
                 }
                 else
                 {
-                    var aaa = results.First();
+                    var aaa = results2.First();
 
                     //CHANGE
-                    aaa.Values.Add(value);
+                    aaa.values.Add(value);
 
 
 
                     //UPDATE
-                    var updateResult = R
+                    var updateResult = await R
                     .Db("HubDatabase")
                     .Table("SenzorData")
                     .Update(aaa)
-                    .RunResult(conn);
+                    .RunResultAsync(conn);
 
                 }
 
@@ -138,6 +181,7 @@ namespace Cellar.Hub.Core
             {
                 Console.WriteLine(e.Message);
             }
+
         }
 
 

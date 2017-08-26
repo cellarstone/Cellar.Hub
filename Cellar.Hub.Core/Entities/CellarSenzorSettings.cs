@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Security.Claims;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
 
 namespace Cellar.Hub.Core
 {
