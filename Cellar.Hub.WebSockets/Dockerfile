@@ -1,32 +1,54 @@
-FROM golang:latest
+# FROM golang:latest AS builder
+# WORKDIR /go/src/github.com/cellarstone
 
-# if left blank app will run with dev settings
-# to build production image run:
-# $ docker build ./api --build-args app_env=production
-# ARG app_env
+
+# ENV APP_ENV "production"
+
+# COPY . .
+
+
+# RUN go get .
+
+# RUN ls -l
+
+# RUN set GOOS=linux
+# RUN go build -o app .
+
+# RUN ls -l
+
+
+
+# FROM alpine:latest
+# RUN apk --no-cache add ca-certificates
+
+# ENV APP_ENV "production"
+# WORKDIR /root
+
+# COPY --from=builder /go/src/github.com/cellarstone/app .
+
+# RUN ls
+# # RUN cd /root
+# # RUN ls
+# # CMD ["ls -l"]
+# # CMD ["cd root"]
+# RUN pwd
+
+# # ENTRYPOINT ["/root/app"]
+# RUN go run main.go client.go
+
+
+# EXPOSE 4000
+
+
+
+FROM golang:1.8
+
+WORKDIR /go/src/app
+COPY . .
+
 ENV APP_ENV "production"
 
-RUN mkdir /app 
-# ADD . /app/ 
+RUN go-wrapper download   # "go get -d -v ./..."
+RUN go-wrapper install    # "go install -v ./..."
 
-# it is okay to leave user/GoDoRP as long as you do not want to share code with other libraries
-COPY . /go/src/github.com/Cellar.Hub.WebSocket
-WORKDIR /go/src/github.com/Cellar.Hub.WebSocket
-
-# added vendor services will need to be included here
-# RUN go get ./vendor/database
-
-RUN go get ./
-RUN go build
-
-# # if dev setting will use pilu/fresh for code reloading via docker-compose volume sharing with local machine
-# # if production setting will build binary
-# CMD if [ ${APP_ENV} = production ]; \
-# 	then \
-# 	api; \
-# 	else \
-# 	go get github.com/pilu/fresh && \
-# 	fresh; \
-# 	fi
-	
-EXPOSE 4000
+CMD ["go-wrapper", "run"] # ["app"]

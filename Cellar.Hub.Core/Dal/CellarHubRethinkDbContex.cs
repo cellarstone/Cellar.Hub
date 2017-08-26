@@ -58,6 +58,8 @@ namespace Cellar.Hub.Core
 
         public void can_connect()
         {
+            Console.WriteLine("---" + _options.rethinkDbConnectionString + "---");
+
             conn = R.Connection()
                 .Hostname(_options.rethinkDbConnectionString)
                 .Port(28015)

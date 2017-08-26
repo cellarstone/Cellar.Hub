@@ -41,9 +41,13 @@ namespace Cellar.Hub.DataFlow
 
                 var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{environment}.json", optional: true);
                 Configuration = builder.Build();
+
+
+                Console.WriteLine("----" + Configuration.GetSection("ConnectionStrings:rethinkDb").Value + "----");
+                Console.WriteLine("----" + Configuration.GetSection("ConnectionStrings:mosquitoMqtt").Value + "----");
 
 
                 //setup our DI
@@ -141,7 +145,7 @@ namespace Cellar.Hub.DataFlow
             sb.AppendLine(exception.StackTrace);
 
             Console.WriteLine(sb.ToString());
-            _logger.LogCritical(sb.ToString());
+            // _logger.LogCritical(sb.ToString());
         }
     }
 }

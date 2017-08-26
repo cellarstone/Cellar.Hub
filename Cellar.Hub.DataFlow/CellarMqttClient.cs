@@ -35,7 +35,7 @@ namespace Cellar.Hub.DataFlow
 
 
         public CellarMqttClient(
-            // CellarHubMongoDbContext mongodbcontext,
+                                // CellarHubMongoDbContext mongodbcontext,
                                 CellarHubRethinkDbContext rethinkdbcontext,
                                 IOptions<ConnectionStrings> configuration,
                                 ILogger<CellarMqttClient> logger)
@@ -45,10 +45,16 @@ namespace Cellar.Hub.DataFlow
             _configuration = configuration.Value;
             _logger = logger;
 
+
+
             var mqttUrl = _configuration.mosquittoMqtt;
             var wsUrl = _configuration.websocketserver;
 
-
+            Console.WriteLine("-"+_configuration.mongoDb+"-");
+            Console.WriteLine("-"+_configuration.mosquittoMqtt+"-");
+            Console.WriteLine("-"+_configuration.websocketserver+"-");
+            Console.WriteLine("-"+_configuration.rethinkDb+"-");
+            Console.WriteLine("-"+mqttUrl+"-");
 
             /******************************/
             /* MQTT */

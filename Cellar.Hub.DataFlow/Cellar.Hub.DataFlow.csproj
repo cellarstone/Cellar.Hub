@@ -4,6 +4,13 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+
+<ItemGroup>
+<None Include="appsettings.json" CopyToPublishDirectory="Always" />
+<None Include="appsettings.development.json" CopyToPublishDirectory="Always" />
+   <None Include="appsettings.production.json" CopyToPublishDirectory="Always" />
+</ItemGroup>
+
    <ItemGroup>
     <ProjectReference Include="..\Cellar.Hub.Core\Cellar.Hub.Core.csproj" />
   </ItemGroup>   
