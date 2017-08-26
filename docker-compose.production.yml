@@ -8,6 +8,13 @@ services:
       - cellar.hub.mongodb
       - cellar.hub.rethinkdb
 
+  cellar.hub.websockets:
+    image: cellarstone/cellar.hub.websockets:prod.0.0.1
+    links:
+      - cellar.hub.rethinkdb
+    ports:
+    - "4000:4000"
+
   cellar.hub.web:
     image: cellarstone/cellar.hub.web:prod.0.0.2
     ports:
