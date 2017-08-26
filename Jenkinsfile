@@ -94,5 +94,15 @@ pipeline {
         )
       }
     }
+    stage('Human Check - Publish files to Dropbox') {
+      steps {
+        input "Can I ?"
+      }
+    }
+    stage('Hub dropbox') {
+      steps {
+         sh 'dropbox configName:"cellarstone" sourceFiles="docker-compose.production.yml" remoreDirectory:"Cellar.Hub"'
+      }
+    }
   }
 }
