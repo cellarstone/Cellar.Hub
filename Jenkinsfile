@@ -101,7 +101,7 @@ pipeline {
     }
     stage('Hub dropbox') {
       steps {
-         dropbox cleanRemote: true, configName: 'cellarstone', remoteDirectory: 'Cellar.Hub', removePrefix: '', sourceFiles: 'docker-compose.production.yml'
+         dropbox cleanRemote: true, configName: 'cellarstone', remoteDirectory: '', removePrefix: '', sourceFiles: 'docker-compose.production.yml'
       }
     }
   }
