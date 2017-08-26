@@ -16,3 +16,4 @@ $Env:ASPNETCORE_ENVIRONMENT = "Development"
 
 dotnet build
 dotnet run
+
