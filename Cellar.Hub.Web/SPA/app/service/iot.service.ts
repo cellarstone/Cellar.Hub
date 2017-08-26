@@ -40,11 +40,11 @@ export class IoTService
     {
         if (this.isProduction == true && this.isHttps == true)
         {
-            this.serverUrl = "https://api.internetaveci.cz";
+            this.serverUrl = "https://cellar.hub.api:5005";
         }
         else if (this.isProduction == true && this.isHttps == false)
         {
-            this.serverUrl = "http://api.internetaveci.cz";
+            this.serverUrl = "http://cellar.hub.api:5005";
         }
         else if (this.isProduction == false && this.isHttps == true)
         {
@@ -52,7 +52,7 @@ export class IoTService
         }
         else if (this.isProduction == false && this.isHttps == false)
         {
-            this.serverUrl = "http://localhost:5005";
+            this.serverUrl = "http://192.168.1.234:5005";
         }
 
         this.url_getCellarSpace = this.serverUrl + '/space/GetCellarSpace';

@@ -30,7 +30,7 @@ declare var morphSVG: any;
 })
 export class Dashboard implements OnInit {
 
-    CHAT_URL = 'ws://localhost:4000';
+    // CHAT_URL = 'ws://192.168.1.234:4000';
     public message: string;
 
     constructor(private iotService: IoTService,
@@ -393,7 +393,7 @@ export class Dashboard implements OnInit {
         let openSubscriber = Subscriber.create(
             () => {});
 
-        return this.websocketService1.createObservableSocket('ws://localhost:4000', openSubscriber)
+        return this.websocketService1.createObservableSocket('', openSubscriber)
             .map(message => message);
     }
 

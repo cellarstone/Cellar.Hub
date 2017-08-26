@@ -134,7 +134,7 @@ export class Login implements OnInit {
 
 
 
-    private login() {
+    public login() {
 
         console.log('loginclicked');
         this.router.navigate(['/dashboard']);
