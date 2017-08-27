@@ -27,6 +27,7 @@ pipeline {
           },
           web: {
             sh 'cd Cellar.Hub.Web'
+            sh 'ls'
             sh 'npm install'
             sh 'ng build --prod'
             sh 'cd ..'
