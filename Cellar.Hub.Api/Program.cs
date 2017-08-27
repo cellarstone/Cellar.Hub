@@ -19,7 +19,8 @@ namespace Cellar.Hub.Api
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseUrls("http://127.0.0.1:5005")
+                .UseUrls("http://*:8885")
+                // .UseUrls("http://127.0.0.1:8885", "http://0.0.0.0:8885", "http://localhost:8885")
                 .UseStartup<Startup>()
                 .Build();
     }

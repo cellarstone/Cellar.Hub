@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile_Cellar.Hub.Web
     ports:
-    - "5001:5001"
+    - "8881:8881"
 
   cellar.hub.api:
     image: cellar.hub.api
@@ -17,7 +17,7 @@ services:
     links:
       - cellar.hub.mongodb
     ports:
-    - "5005:5005"
+    - "8885:8885"
 
   cellar.hub.mongodb:
     image: cellar.hub.mongodb
@@ -66,3 +66,5 @@ services:
       dockerfile: Dockerfile
     links:
       - cellar.hub.rethinkdb
+    ports:
+    - "4000:4000"
