@@ -4,8 +4,8 @@ services:
   cellar.hub.web:
     image: cellar.hub.web
     build:
-      context: .
-      dockerfile: Dockerfile_Cellar.Hub.Web
+      context: ./Cellar.Hub.Web
+      dockerfile: Dockerfile
     ports:
     - "8881:8881"
 

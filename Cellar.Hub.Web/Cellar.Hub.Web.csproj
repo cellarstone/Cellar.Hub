@@ -7,9 +7,9 @@
     <UserSecretsId>aspnet-Cellar.Hub.Web-91F7D0A1-0A10-4213-8F77-7C97103EB24F</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <ProjectReference Include="..\Cellar.Hub.Core\Cellar.Hub.Core.csproj" />
-  </ItemGroup>   
+  </ItemGroup>    -->
 
 
 <ItemGroup>
