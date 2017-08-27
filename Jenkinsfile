@@ -26,7 +26,7 @@ pipeline {
             sh 'docker push cellarstone/cellar.hub.api:dev.0.0.8'
           },
           web: {
-            sh './Cellar.Hub.Web/aaa.sh'
+            sh 'cd Cellar.Hub.Web && npm install && ng build --prod'
             sh 'docker build -t cellar.hub.web ./Cellar.Hub.Web'
             sh 'docker tag cellar.hub.web cellarstone/cellar.hub.web:dev.0.0.9'
             sh 'docker push cellarstone/cellar.hub.web:dev.0.0.9'
