@@ -52,7 +52,7 @@ export class IoTService
         }
         else if (this.isProduction == false && this.isHttps == false)
         {
-            this.serverUrl = "http://192.168.1.234:5005";
+            this.serverUrl = "http://192.168.1.234:8885";
         }
 
         this.url_getCellarSpace = this.serverUrl + '/space/GetCellarSpace';

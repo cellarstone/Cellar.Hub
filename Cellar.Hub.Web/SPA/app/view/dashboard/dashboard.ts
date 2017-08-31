@@ -26,7 +26,8 @@ declare var morphSVG: any;
 
 
 @Component({
-    templateUrl: './dashboard.html'
+    templateUrl: './dashboard.html',
+    styleUrls: ['./dashboard.scss']
 })
 export class Dashboard implements OnInit {
 
@@ -51,7 +52,7 @@ export class Dashboard implements OnInit {
         //     .from(building2, 1, { scale: this.getRandomNumber(0.7, 1.5), transformOrigin: "50% 50%", ease: Power0.easeOut, yoyo: true }, 0);
 
         this.getSpaces();
-
+        this.startWebSocketStreaming();
     }
 
 
@@ -68,9 +69,6 @@ export class Dashboard implements OnInit {
 
     // 1. Get Spaces with parentId = 0
     getSpaces(){
-
-
-
         this.iotService.GetCellarSpace().subscribe(
                 data => {
                     console.log(data);
@@ -298,21 +296,21 @@ export class Dashboard implements OnInit {
     // }
 
 
-    watchS2317temperature(): Observable<any> {
-        let openSubscriber = Subscriber.create(
-            () => { });
+    // watchS2317temperature(): Observable<any> {
+    //     let openSubscriber = Subscriber.create(
+    //         () => { });
 
-        return this.websocketService1.createObservableSocket('ws://localhost:5000/s2317/temperature', openSubscriber)
-            .map(message => message);
-    }
+    //     return this.websocketService1.createObservableSocket('ws://localhost:5000/s2317/temperature', openSubscriber)
+    //         .map(message => message);
+    // }
 
-    watchS2317humidity(): Observable<any> {
-        let openSubscriber = Subscriber.create(
-            () => { });
+    // watchS2317humidity(): Observable<any> {
+    //     let openSubscriber = Subscriber.create(
+    //         () => { });
 
-        return this.websocketService2.createObservableSocket('ws://localhost:5000/s2317/humidity', openSubscriber)
-            .map(message => message);
-    }
+    //     return this.websocketService2.createObservableSocket('ws://localhost:5000/s2317/humidity', openSubscriber)
+    //         .map(message => message);
+    // }
 
     // watchS2318temperature(): Observable<any> {
     //     let openSubscriber = Subscriber.create(
@@ -333,9 +331,9 @@ export class Dashboard implements OnInit {
 
 
 
-    private redirectToSenzor() {
-        this.router.navigate(['/senzor/1']);
-    }
+    // private redirectToSenzor() {
+    //     this.router.navigate(['/senzor/1']);
+    // }
 
 
     // private createObjectToMongoDB() {
@@ -387,6 +385,16 @@ export class Dashboard implements OnInit {
     //         });
 
     // }
+
+
+
+    onBackButton(){
+        this.router.navigate(['/']);
+    }
+
+    onBuilding1(){
+        this.router.navigate(['/space']);
+    }
 
 
     subscribewebsocket(): Observable<any> {

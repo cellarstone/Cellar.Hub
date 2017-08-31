@@ -130,11 +130,11 @@ namespace Cellar.Hub.Core
                 var localTime = DateTime.Now;
 
                 //FIND - podle local time
-                var results = await R.Db("HubDatabase").Table("SenzorData")
-                .Filter(x => x["senzorId"] == senzorId)
-                .Filter(x => x["date"] == new DateTime(utcnow.Year, utcnow.Month, utcnow.Day, utcnow.Hour, 0, 0, DateTimeKind.Utc))
-                .Filter(x => x["measurement"] == measurement)
-                .RunResultAsync<List<CellarSenzorData>>(conn);
+                // var results = await R.Db("HubDatabase").Table("SenzorData")
+                // .Filter(x => x["senzorId"] == senzorId)
+                // .Filter(x => x["date"] == new DateTime(utcnow.Year, utcnow.Month, utcnow.Day, utcnow.Hour, 0, 0, DateTimeKind.Utc))
+                // .Filter(x => x["measurement"] == measurement)
+                // .RunResultAsync<List<CellarSenzorData>>(conn);
 
                 var results2 = await R.Db("HubDatabase").Table("SenzorData")
                 .Filter(x => x["senzorId"] == senzorId)
@@ -142,11 +142,11 @@ namespace Cellar.Hub.Core
                 .Filter(x => x["measurement"] == measurement)
                 .RunResultAsync<List<CellarSenzorData>>(conn);
 
-                var results3 = await R.Db("HubDatabase").Table("SenzorData")
-                .Filter(x => x["senzorId"] == senzorId)
-                // .Filter(x => x["date"] == new DateTime(utcnow.Year, utcnow.Month, utcnow.Day, utcnow.Hour, 0, 0, DateTimeKind.Local))
-                .Filter(x => x["measurement"] == measurement)
-                .RunResultAsync<List<CellarSenzorData>>(conn);
+                // var results3 = await R.Db("HubDatabase").Table("SenzorData")
+                // .Filter(x => x["senzorId"] == senzorId)
+                // // .Filter(x => x["date"] == new DateTime(utcnow.Year, utcnow.Month, utcnow.Day, utcnow.Hour, 0, 0, DateTimeKind.Local))
+                // .Filter(x => x["measurement"] == measurement)
+                // .RunResultAsync<List<CellarSenzorData>>(conn);
 
 
                 if (results2.Count == 0)
@@ -174,7 +174,7 @@ namespace Cellar.Hub.Core
                     .Db("HubDatabase")
                     .Table("SenzorData")
                     .Update(aaa)
-                    .RunResultAsync(conn);
+                    .RunAsync(conn);
 
                 }
 

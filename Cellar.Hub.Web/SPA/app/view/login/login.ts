@@ -53,6 +53,8 @@ export class Login implements OnInit {
     let grass1 = $("#grass111 path");
     let grass2 = $("#grass222 path");
 
+    let motionPath = $("#motionPath");
+
     //TweenMax.to(cloud1, 1, {opacity:0, y: 50});
 
 
@@ -84,6 +86,7 @@ export class Login implements OnInit {
 
     //MOTION PATH
     var bezier = MorphSVGPlugin.pathDataToBezier("#motionPath");
+    
 
     // BIRDS
     let scene_birds = new TimelineMax();
@@ -98,21 +101,21 @@ export class Login implements OnInit {
     // GRASS RIGHT
     for (var index = 0; index < grass2.length; index++) {
       var elementttt = grass2[index];
-      TweenMax.to(elementttt, 1, {drawSVG:"50% 50%"});
+      TweenMax.to(elementttt, 1, { skewX: this.getRandomNumber(5, 10), transformOrigin: "50% 50%", ease: Power0.easeOut, yoyo: true, repeat: -1 });
     }
 
-    TweenMax.to("#motionPath", 5, {drawSVG:"0%"});
+    // TweenMax.to("#motionPath", 5, {drawSVG:"0%"});
 
     // FOREST BOOM - PHYSICS 2D
-    var element = $("#forest path");
-    for (var index = 0; index < element.length; index++) {
-      var elementttt = element[index];
+    // var element = $("#forest path");
+    // for (var index = 0; index < element.length; index++) {
+    //   var elementttt = element[index];
 
-      var rn1 = this.getRandomNumberRounded(300, 500);
-      var an1 = this.getRandomNumberRounded(-90, -45);
+    //   var rn1 = this.getRandomNumberRounded(300, 500);
+    //   var an1 = this.getRandomNumberRounded(-90, -45);
 
-      TweenMax.to(elementttt, 6, { physics2D: { velocity: rn1, angle: an1, gravity: 300 } });
-    }
+    //   TweenMax.to(elementttt, 6, { physics2D: { velocity: rn1, angle: an1, gravity: 300 } });
+    // }
 
 
 
