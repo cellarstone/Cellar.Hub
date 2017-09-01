@@ -23,6 +23,7 @@ export class SpaceDetail implements OnInit {
           id: ''
         },
         connected: false
+        
     }
 
     public socket: Socket;
