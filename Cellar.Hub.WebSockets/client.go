@@ -23,7 +23,7 @@ func (client *Client) Read() {
 			break
 		}
 		go func() {
-			err := r.Table("messages").
+			err := r.Table("SenzorData").
 				Insert(message).
 				Exec(client.session)
 			if err != nil {

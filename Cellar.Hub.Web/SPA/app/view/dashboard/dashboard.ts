@@ -51,8 +51,8 @@ export class Dashboard implements OnInit {
         // scene_buildings.from(building1, 1, { scale: this.getRandomNumber(0.7, 1.5), transformOrigin: "50% 50%", ease: Power0.easeOut, yoyo: true })
         //     .from(building2, 1, { scale: this.getRandomNumber(0.7, 1.5), transformOrigin: "50% 50%", ease: Power0.easeOut, yoyo: true }, 0);
 
-        this.getSpaces();
-        this.startWebSocketStreaming();
+        // this.getSpaces();
+        // this.startWebSocketStreaming();
     }
 
 
@@ -250,15 +250,15 @@ export class Dashboard implements OnInit {
 
 
 
-        this.subscribewebsocket()
-        .subscribe(
-        data => {
-            console.log(data);
+        // this.subscribewebsocket()
+        // .subscribe(
+        // data => {
+        //     console.log(data);
 
 
-            this.message = data;
-        },
-        error => console.error(error));
+        //     this.message = data;
+        // },
+        // error => console.error(error));
     }
 
 
@@ -393,7 +393,7 @@ export class Dashboard implements OnInit {
     }
 
     onBuilding1(){
-        this.router.navigate(['/space']);
+        this.router.navigate(['/space/1']);
     }
 
 
