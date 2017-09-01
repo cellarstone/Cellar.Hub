@@ -55,6 +55,7 @@ export class SpaceDetail implements OnInit {
         this.socket.on('user edit', this.onEditUser.bind(this));
         this.socket.on('user remove', this.onRemoveUser.bind(this));
         this.socket.on('message add', this.onMessageAdd.bind(this));
+        this.socket.on('message edit', this.onMessageEdit.bind(this));
     }
 
     // subscribewebsocket(): Observable<any> {
@@ -71,6 +72,11 @@ export class SpaceDetail implements OnInit {
         messages.push(message);
         this.state.messages = messages;
       }
+
+      onMessageEdit(message){
+        console.log(message);
+      }
+
       onRemoveUser(removeUser){
         let {users} = this.state;
         users = users.filter(user => {
