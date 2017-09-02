@@ -28,8 +28,8 @@ pipeline {
           web: {
             sh 'cd Cellar.Hub.Web && npm install && ng build --prod'
             sh 'docker build -t cellar.hub.web ./Cellar.Hub.Web'
-            sh 'docker tag cellar.hub.web cellarstone/cellar.hub.web:dev.0.0.12'
-            sh 'docker push cellarstone/cellar.hub.web:dev.0.0.12'
+            sh 'docker tag cellar.hub.web cellarstone/cellar.hub.web:dev.0.0.13'
+            sh 'docker push cellarstone/cellar.hub.web:dev.0.0.13'
           },
           mongodb: {
             sh 'docker build -t cellar.hub.mongodb ./Cellar.Hub.MongoDb'
@@ -74,8 +74,8 @@ pipeline {
           },
           web: {
             sh 'docker build -t cellar.hub.web ./Cellar.Hub.Web'
-            sh 'docker tag cellar.hub.web cellarstone/cellar.hub.web:prod.0.0.12'
-            sh 'docker push cellarstone/cellar.hub.web:prod.0.0.12'
+            sh 'docker tag cellar.hub.web cellarstone/cellar.hub.web:prod.0.0.13'
+            sh 'docker push cellarstone/cellar.hub.web:prod.0.0.13'
           },
           mongodb: {
             sh 'docker build -t cellar.hub.mongodb ./Cellar.Hub.MongoDb'

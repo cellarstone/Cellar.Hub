@@ -16,7 +16,7 @@ services:
     - "4000:4000"
 
   cellar.hub.web:
-    image: cellarstone/cellar.hub.web:prod.0.0.12
+    image: cellarstone/cellar.hub.web:prod.0.0.13
     ports:
     - "8881:8881"
 
