@@ -23,7 +23,7 @@ export class SpaceDetail implements OnInit {
           id: ''
         },
         connected: false
-        
+
     }
 
     public socket: Socket;
@@ -51,10 +51,10 @@ export class SpaceDetail implements OnInit {
         this.socket = new Socket(); 
         this.socket.on('connect', this.onConnect.bind(this));
         this.socket.on('disconnect', this.onDisconnect.bind(this));
-        this.socket.on('channel add', this.onAddChannel.bind(this));
-        this.socket.on('user add', this.onAddUser.bind(this));
-        this.socket.on('user edit', this.onEditUser.bind(this));
-        this.socket.on('user remove', this.onRemoveUser.bind(this));
+        // this.socket.on('channel add', this.onAddChannel.bind(this));
+        // this.socket.on('user add', this.onAddUser.bind(this));
+        // this.socket.on('user edit', this.onEditUser.bind(this));
+        // this.socket.on('user remove', this.onRemoveUser.bind(this));
         this.socket.on('message add', this.onMessageAdd.bind(this));
         this.socket.on('message edit', this.onMessageEdit.bind(this));
     }
@@ -78,28 +78,28 @@ export class SpaceDetail implements OnInit {
         console.log(message);
       }
 
-      onRemoveUser(removeUser){
-        let {users} = this.state;
-        users = users.filter(user => {
-          return user.id !== removeUser.id;
-        });
-        this.state.users = users;
-      }
-      onAddUser(user){
-        let {users} = this.state;
-        users.push(user);
-        this.state.users = users;
-      }
-      onEditUser(editUser){
-        let {users} = this.state;
-        users = users.map(user => {
-          if(editUser.id === user.id){
-            return editUser;
-          }
-          return user;
-        });
-        this.state.users = users;
-      }
+      // onRemoveUser(removeUser){
+      //   let {users} = this.state;
+      //   users = users.filter(user => {
+      //     return user.id !== removeUser.id;
+      //   });
+      //   this.state.users = users;
+      // }
+      // onAddUser(user){
+      //   let {users} = this.state;
+      //   users.push(user);
+      //   this.state.users = users;
+      // }
+      // onEditUser(editUser){
+      //   let {users} = this.state;
+      //   users = users.map(user => {
+      //     if(editUser.id === user.id){
+      //       return editUser;
+      //     }
+      //     return user;
+      //   });
+      //   this.state.users = users;
+      // }
       onConnect(){
         this.state.connected = true;
         this.socket.emit('channel subscribe',{});
@@ -108,28 +108,28 @@ export class SpaceDetail implements OnInit {
       onDisconnect(){
         this.state.connected = false;
       }
-      onAddChannel(channel){
-        let {channels} = this.state;
-        channels.push(channel);
-        this.state.channels = channels;
-      }
-      addChannel(name){
-        this.socket.emit('channel add', {name});
-      }
-      setChannel(activeChannel){
-        this.state.activeChannel = activeChannel;
-        this.socket.emit('message unsubscribe',{});
+      // onAddChannel(channel){
+      //   let {channels} = this.state;
+      //   channels.push(channel);
+      //   this.state.channels = channels;
+      // }
+      // addChannel(name){
+      //   this.socket.emit('channel add', {name});
+      // }
+      // setChannel(activeChannel){
+      //   this.state.activeChannel = activeChannel;
+      //   this.socket.emit('message unsubscribe',{});
 
-        this.state.messages = [];
-        this.socket.emit('message subscribe',
-          {channelId: activeChannel.id});
-      }
-      setUserName(name){
-        this.socket.emit('user edit', {name});
-      }
-      addMessage(body){
-        let activeChannel = this.state.activeChannel;
-        this.socket.emit('message add',
-          {channelId: activeChannel.id, body});
-      }
+      //   this.state.messages = [];
+      //   this.socket.emit('message subscribe',
+      //     {channelId: activeChannel.id});
+      // }
+      // setUserName(name){
+      //   this.socket.emit('user edit', {name});
+      // }
+      // addMessage(body){
+      //   let activeChannel = this.state.activeChannel;
+      //   this.socket.emit('message add',
+      //     {channelId: activeChannel.id, body});
+      // }
 }

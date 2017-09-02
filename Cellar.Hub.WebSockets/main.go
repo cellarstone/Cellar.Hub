@@ -120,7 +120,7 @@ func handler(w http.ResponseWriter, req *http.Request) {
 	}
 	client := NewClient(socket, session)
 	go client.Write()
-	go client.Read()
+	// go client.Read()
 	subscribeSenzorData(client)
 
 	// socket, err := upgrader.Upgrade(w, r, nil)
@@ -187,7 +187,7 @@ func subscribeSenzorData(client *Client) {
 	go func() {
 		// stop := client.NewStopChannel(UserStop)
 		cursor, err := r.Table("SenzorData").
-			Changes(r.ChangesOpts{IncludeInitial: true}).
+			Changes(r.ChangesOpts{IncludeInitial: false}).
 			Run(client.session)
 
 		if err != nil {
