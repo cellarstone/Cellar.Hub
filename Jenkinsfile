@@ -17,8 +17,8 @@ pipeline {
           },
           websocket: {
             sh 'docker build -t cellar.hub.websockets ./Cellar.Hub.WebSockets'
-            sh 'docker tag cellar.hub.websockets cellarstone/cellar.hub.websockets:dev.0.0.11'
-            sh 'docker push cellarstone/cellar.hub.websockets:dev.0.0.11'
+            sh 'docker tag cellar.hub.websockets cellarstone/cellar.hub.websockets:dev.0.0.12'
+            sh 'docker push cellarstone/cellar.hub.websockets:dev.0.0.12'
           },
           api: {
             sh 'docker build -t cellar.hub.api -f Dockerfile_Cellar.Hub.Api .'
@@ -64,8 +64,8 @@ pipeline {
           },
           websocket: {
             sh 'docker build -t cellar.hub.websockets ./Cellar.Hub.WebSockets'
-            sh 'docker tag cellar.hub.websockets cellarstone/cellar.hub.websockets:prod.0.0.11'
-            sh 'docker push cellarstone/cellar.hub.websockets:prod.0.0.11'
+            sh 'docker tag cellar.hub.websockets cellarstone/cellar.hub.websockets:prod.0.0.12'
+            sh 'docker push cellarstone/cellar.hub.websockets:prod.0.0.12'
           },
           api: {
             sh 'docker build -t cellar.hub.api -f Dockerfile_Cellar.Hub.Api .'

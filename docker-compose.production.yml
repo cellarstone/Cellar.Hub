@@ -9,7 +9,7 @@ services:
       - cellar.hub.rethinkdb
 
   cellar.hub.websockets:
-    image: cellarstone/cellar.hub.websockets:prod.0.0.11
+    image: cellarstone/cellar.hub.websockets:prod.0.0.12
     links:
       - cellar.hub.rethinkdb
     ports:
