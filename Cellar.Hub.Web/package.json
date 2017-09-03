@@ -30,7 +30,8 @@
     "rxjs": "^5.2.0",
     "web-animations-js": "^2.2.2",
     "zone.js": "0.8.5",
-    "gsap": "1.20.2"
+    "gsap": "1.20.2",
+    "ng-inline-svg":"4.0.1"
   },
   "devDependencies": {
     "@angular/cli": "^1.0.0",

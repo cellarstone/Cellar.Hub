@@ -82,6 +82,8 @@ import {TreeModule} from 'primeng/primeng';
 import {TreeTableModule} from 'primeng/primeng';
 
 
+import { InlineSVGModule } from 'ng-inline-svg';
+
 
 import {AppComponent}  from './app.component';
 
@@ -94,6 +96,8 @@ import { Dashboard } from './view/dashboard/dashboard';
 import { Login } from './view/login/login';
 import { SenzorDetail } from './view/senzor/senzor-detail';
 import { SpaceDetail } from './view/space/space-detail';
+import { Space2Detail } from './view/space2/space2-detail';
+import { SubspaceDetail } from './view/subspace/subspace-detail';
 
 
 @NgModule({
@@ -166,14 +170,17 @@ import { SpaceDetail } from './view/space/space-detail';
         ToolbarModule,
         TooltipModule,
         TreeModule,
-        TreeTableModule
+        TreeTableModule,
+        InlineSVGModule
     ],
     declarations: [
         AppComponent,
         Dashboard,
         Login,
         SenzorDetail,
-        SpaceDetail
+        SpaceDetail,
+        SubspaceDetail,
+        Space2Detail
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

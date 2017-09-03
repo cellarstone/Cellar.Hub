@@ -5,17 +5,17 @@ import { Subscriber } from 'rxjs'
 import { Observable } from 'rxjs/Observable'
 import { Subject } from 'rxjs/Subject'
 
-// import { WebsocketService2 } from '../../service/websocket2.service';
+import { SVGCacheService } from 'ng-inline-svg';
+
 import { Socket } from '../../service/Socket';
 
-import { SVGCacheService } from 'ng-inline-svg';
 
 
 @Component({
-  templateUrl: './senzor-detail.html',
-  styleUrls: ['./senzor-detail.scss']
+  templateUrl: './subspace-detail.html',
+  styleUrls: ['./subspace-detail.scss']
 })
-export class SenzorDetail implements OnInit {
+export class SubspaceDetail implements OnInit {
 
   public temperatureValue: string;
 
@@ -50,17 +50,33 @@ export class SenzorDetail implements OnInit {
   public senzor3Values_humidity = [];
 
 
+  public reservationsLayer: any;
+  public temperatureLayer: any;
+  public humidityLayer: any;
+  public camerasLayer: any;
+  public opencloseLayer: any;
+
   public socket: Socket;
 
   constructor(private router: Router,
               private svgService: SVGCacheService) {
-    svgService.setBaseUrl({ baseUrl: 'http://localhost:8881/' });
-  }
+      svgService.setBaseUrl({ baseUrl: 'http://localhost:8881/' });
+   }
+  
+  
 
 
 
 
   ngOnInit() {
+
+    this.humidityLayer = document.getElementById("Humidities");
+    this.reservationsLayer = document.getElementById("Reservations");
+    this.camerasLayer = document.getElementById("Cameras");
+    this.opencloseLayer = document.getElementById("OpenCloses");
+    this.temperatureLayer = document.getElementById("Temperatures");
+
+
     // this.subscribewebsocket()
     // .subscribe(
     // data => {
@@ -192,8 +208,65 @@ export class SenzorDetail implements OnInit {
   // }
 
 
+showHumidity(){
+  //others hide
+  this.camerasLayer.setAttribute("style","display: none;");
+  // this.humidityLayer.setAttribute("style","display: none;");
+  this.opencloseLayer.setAttribute("style","display: none;");
+  this.reservationsLayer.setAttribute("style","display: none;");
+  this.temperatureLayer.setAttribute("style","display: none;");
 
+  //this layer show
+  this.humidityLayer.setAttribute("style","display: inline;");
+}
 
+showCalendar(){
+  //others hide
+  this.camerasLayer.setAttribute("style","display: none;");
+  this.humidityLayer.setAttribute("style","display: none;");
+  this.opencloseLayer.setAttribute("style","display: none;");
+  // this.reservationsLayer.setAttribute("style","display: none;");
+  this.temperatureLayer.setAttribute("style","display: none;");
+
+  //this layer show
+  this.reservationsLayer.setAttribute("style","display: inline;");
+}
+
+showCamera(){
+  //others hide
+  // this.camerasLayer.setAttribute("style","display: none;");
+  this.humidityLayer.setAttribute("style","display: none;");
+  this.opencloseLayer.setAttribute("style","display: none;");
+  this.reservationsLayer.setAttribute("style","display: none;");
+  this.temperatureLayer.setAttribute("style","display: none;");
+
+  //this layer show
+  this.camerasLayer.setAttribute("style","display: inline;");
+}
+
+showOpenClose(){
+  //others hide
+  this.camerasLayer.setAttribute("style","display: none;");
+  this.humidityLayer.setAttribute("style","display: none;");
+  // this.opencloseLayer.setAttribute("style","display: none;");
+  this.reservationsLayer.setAttribute("style","display: none;");
+  this.temperatureLayer.setAttribute("style","display: none;");
+
+  //this layer show
+  this.opencloseLayer.setAttribute("style","display: inline;");
+}
+
+showTemperature(){
+  //others hide
+  this.camerasLayer.setAttribute("style","display: none;");
+  this.humidityLayer.setAttribute("style","display: none;");
+  this.opencloseLayer.setAttribute("style","display: none;");
+  this.reservationsLayer.setAttribute("style","display: none;");
+  // this.temperatureLayer.setAttribute("style","display: none;");
+
+  //this layer show
+  this.temperatureLayer.setAttribute("style","display: inline;");
+}
 
 
   onBackButton() {

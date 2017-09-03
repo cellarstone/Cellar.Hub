@@ -1,4 +1,4 @@
-import { Component,OnInit,AfterViewInit,ElementRef,Renderer,ViewChild} from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, Renderer, ViewChild } from '@angular/core';
 
 
 @Component({
@@ -7,27 +7,13 @@ import { Component,OnInit,AfterViewInit,ElementRef,Renderer,ViewChild} from '@an
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterViewInit {
-    
-    constructor() { }
 
+  constructor() {
+  }
 
+  ngOnInit() {
+  }
 
-
-
-
-    ngOnInit()
-    {
-        
-
-    }
-
-
-
-
-    ngAfterViewInit() {
-        
-    }
-
-    
-
+  ngAfterViewInit() {
+  }
 }

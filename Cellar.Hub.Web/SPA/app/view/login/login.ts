@@ -37,7 +37,7 @@ export class Login implements OnInit {
     let cloud4 = document.getElementById("cloud4");
 
 
-    let sun = document.getElementById("main");
+    let sun = document.getElementById("sun");
     let shine1 = document.getElementById("shine1");
     let shine2 = document.getElementById("shine2");
     let shine3 = document.getElementById("shine3");
@@ -85,12 +85,14 @@ export class Login implements OnInit {
 
 
     //MOTION PATH
-    var bezier = MorphSVGPlugin.pathDataToBezier("#motionPath");
-    
+    var bird1Path = MorphSVGPlugin.pathDataToBezier("#bird1Path");
+    var bird3Path = MorphSVGPlugin.pathDataToBezier("#bird3Path");
 
     // BIRDS
     let scene_birds = new TimelineMax();
-    scene_birds.to(bird1, 10, { bezier, ease: Power0.easeIns, yoyo: true, repeat: -1 })
+    scene_birds.to(bird1, 10, { bird1Path, ease: Power0.easeIns, yoyo: true, repeat: -1 })
+    scene_birds.to(bird3, 10, { bird3Path, ease: Power0.easeIns, yoyo: true, repeat: -1 })
+
 
     // GRASS LEFT
     for (var index = 0; index < grass1.length; index++) {
