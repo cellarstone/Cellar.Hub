@@ -61,24 +61,43 @@ FROM golang:1.8
 
 # ------------------------
 
-WORKDIR /go/src/app
-COPY . .
+# WORKDIR /go/src/app
+# COPY . .
 
-ENV APP_ENV "production"
-
-
-RUN git config --global url."https://3b772d9ffbab825bf21215c5357205c704e4e87e:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+# ENV APP_ENV "production"
 
 
-RUN go get "gopkg.in/mgo.v2"
+# RUN git config --global url."https://3b772d9ffbab825bf21215c5357205c704e4e87e:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 
-RUN go get -u github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/abstraction
+# RUN go env
 
-RUN go-wrapper download 
+# RUN go get "gopkg.in/mgo.v2"
+
+# RUN go get -u -f github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/abstraction
+
+#RUN go-wrapper download 
 
 
 # RUN go-wrapper download   # "go get -d -v ./..."
 # RUN go-wrapper install    # "go install -v ./..."
-RUN go build
+#RUN go build
 
-CMD ["go-wrapper", "run"] # ["app"]
+
+#CMD ["go-wrapper", "run"] # ["app"]
+
+# by this https://divan.github.io/posts/go_get_private/
+# RUN git config --global url."git@github.com:".insteadOf "https://github.com/"
+
+
+
+FROM golang:1.8
+
+ADD . /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow
+
+CMD cd /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow
+
+# CMD go get github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/abstraction
+CMD go build -o /go/bin/foo
+
+
+RUN echo "END"
