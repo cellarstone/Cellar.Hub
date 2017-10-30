@@ -12,7 +12,7 @@ bld/
 node_modules/
 wwwroot/
 .vscode/
-
+*.zip
 
 
 

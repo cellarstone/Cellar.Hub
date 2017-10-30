@@ -16,7 +16,7 @@ import (
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/abstraction"
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/decision"
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/human"
-	mylog "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/log"
+	mylog "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/others"
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/send"
 )
 
