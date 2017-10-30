@@ -25,6 +25,7 @@
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.0.0" />
+    <PackageReference Include="Ngonzalez.ImageProcessorCore" Version="0.0.1" />
   </ItemGroup>
 
   <ItemGroup>

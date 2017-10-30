@@ -55,64 +55,29 @@ namespace Cellar.Hub.DataFlow
                     .AddLogging()
                     .AddCellarHubCore(o =>
                     {
-                        o.mongoDbConnectionString = Configuration.GetSection("ConnectionStrings:mongoDb").Value;
                         o.rethinkDbConnectionString = Configuration.GetSection("ConnectionStrings:rethinkDb").Value;
                         o.mosquittoMqttConnectionString = Configuration.GetSection("ConnectionStrings:mosquittoMqtt").Value;
                     })
-                    // .AddSingleton<IConfigurationRoot>(Configuration)
                     .AddSingleton<CellarMqttClient>()
                     .Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"))
                     .BuildServiceProvider();
 
                 
 
-                // _mongodbcontext = serviceProvider.GetService<CellarHubMongoDbContext>();
-                // _rethinkdbcontext = serviceProvider.GetService<CellarHubRethinkDbContext>();
                 _logger = serviceProvider.GetService<ILogger>();
 
-                // // create client instance 
-                // MqttClient client = new MqttClient(Configuration.GetSection("ConnectionStrings:mosquittoMqtt").Value);
-
-                // register to message received 
+                // create client instance 
                 CellarMqttClient celllarclient = serviceProvider.GetService<CellarMqttClient>();
-                // client.MqttMsgPublishReceived += celllarclient.client_MqttMsgPublishReceived;
-
-                // string clientId = Guid.NewGuid().ToString();
-                // client.Connect(clientId);
-
-
-
+                
                 /***********************************************/
-                /* PRECIST Z DB, KTERE SENZORID MAME SLEDOVAT */
+                /* DODELAT PRECIST Z DB, KTERE SENZORID MAME SLEDOVAT */
                 /***********************************************/
 
-                // subscribe to the topic "/home/temperature" with QoS 2 
+                // subscribe 
                 celllarclient.client.Subscribe(new string[] { "+/temperature" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
                 celllarclient.client.Subscribe(new string[] { "+/humidity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                // celllarclient.client.Subscribe(new string[] { "s2316/temperature" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                // celllarclient.client.Subscribe(new string[] { "s2316/humidity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                // celllarclient.client.Subscribe(new string[] { "s2317/temperature" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                // celllarclient.client.Subscribe(new string[] { "s2317/humidity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                // celllarclient.client.Subscribe(new string[] { "s2318/temperature" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                // celllarclient.client.Subscribe(new string[] { "s2318/humidity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                // celllarclient.client.Subscribe(new string[] { "s2319/temperature" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                // celllarclient.client.Subscribe(new string[] { "s2319/humidity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
+                celllarclient.client.Subscribe(new string[] { "+/pir" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
                 
-                // celllarclient.client.Subscribe(new string[] { "*/humidity" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                // celllarclient.client.Subscribe(new string[] { "alza/p1/z1/s2317/teplota" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                // celllarclient.client.Subscribe(new string[] { "alza/p1/z1/s2318/teplota" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-
-                // celllarclient.client.Subscribe(new string[] { "alza/p1/z1/s2315/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                // celllarclient.client.Subscribe(new string[] { "alza/p1/z1/s2316/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                // celllarclient.client.Subscribe(new string[] { "alza/p1/z1/s2317/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-                // celllarclient.client.Subscribe(new string[] { "alza/p1/z1/s2318/vlhkost" }, new byte[] { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE });
-
-
-
-
-
-
-
 
                 Console.ReadLine();
 

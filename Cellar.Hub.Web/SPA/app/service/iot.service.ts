@@ -40,11 +40,11 @@ export class IoTService
     {
         if (this.isProduction == true && this.isHttps == true)
         {
-            this.serverUrl = "https://cellar.hub.api:5005";
+            this.serverUrl = "https://cellar.hub.api:8885";
         }
         else if (this.isProduction == true && this.isHttps == false)
         {
-            this.serverUrl = "http://cellar.hub.api:5005";
+            this.serverUrl = "http://cellar.hub.api:8885";
         }
         else if (this.isProduction == false && this.isHttps == true)
         {

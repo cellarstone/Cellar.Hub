@@ -12,3 +12,10 @@ docker run -d -p 1883:1883 -p 9001:9001 -t cellar.hub.mqtt
 docker build -t cellar.hub.rethinkdb .
 docker run -d -p 28015:28015 -p 29015:29015 -p 8080:8080 -t cellar.hub.rethinkdb
 
+
+
+# DataFlow
+$Env:ASPNETCORE_ENVIRONMENT = "Development"
+dotnet restore
+dotnet build 
+dotnet run

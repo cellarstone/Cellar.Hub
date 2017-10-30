@@ -1,0 +1,128 @@
+﻿.newState
+{
+    background-color: #F0B518;
+    height: 30px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.approvedState
+{
+    background-color: #48A746;
+    height: 30px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.forbiddenState
+{
+    background-color: #DD5826;
+    height: 30px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+
+.ui-widget-header
+{
+    background-color: #81858a !important;
+}
+
+
+.ui-datatable table
+{
+    table-layout: auto !important;
+}
+
+
+
+
+
+.text-center
+{
+    text-align: center !important;
+}
+
+
+
+
+
+//Bootstrap button
+
+.btn
+{
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.25;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .5rem 1rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+
+.btn-primary
+{
+    color: #fff;
+    background-color: #0275d8;
+    border-color: #0275d8;
+}
+
+.btn-primary:hover
+{
+    color: #fff;
+    background-color: #025aa5;
+    border-color: #01549b;
+}
+
+.btn-success
+{
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #5cb85c;
+}
+
+.btn-success:hover
+{
+    color: #fff;
+    background-color: #449d44;
+    border-color: #419641;
+}
+
+.btn-warning
+{
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #f0ad4e;
+}
+
+.btn-warning:hover
+{
+    color: #fff;
+    background-color: #ec971f;
+    border-color: #eb9316;
+}
+
+
+.btn-danger
+{
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d9534f;
+}
+
+.btn-danger:hover
+{
+    color: #fff;
+    background-color: #c9302c;
+    border-color: #c12e2a;
+}

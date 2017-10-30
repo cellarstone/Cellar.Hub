@@ -9,6 +9,14 @@ services:
     ports:
     - "8881:8881"
 
+  cellar.hub.admin:
+    image: cellar.hub.admin
+    build:
+      context: ./Cellar.Hub.Admin
+      dockerfile: Dockerfile
+    ports:
+    - "8889:8889"
+
   cellar.hub.api:
     image: cellar.hub.api
     build:

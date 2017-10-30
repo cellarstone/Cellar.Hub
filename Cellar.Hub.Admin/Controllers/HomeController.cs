@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Cellar.Hub.Admin
+{
+  public class HomeController : Controller
+  {
+    [HttpPost]
+    public ActionResult MyTest()
+    {
+      return Json("This is my test");
+    }
+  }
+}

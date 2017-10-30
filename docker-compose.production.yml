@@ -20,6 +20,11 @@ services:
     ports:
     - "8881:8881"
 
+  cellar.hub.admin:
+    image: cellarstone/cellar.hub.admin:prod.0.0.1
+    ports:
+    - "8889:8889"
+
   cellar.hub.api:
     image: cellarstone/cellar.hub.api:prod.0.0.11
     links:

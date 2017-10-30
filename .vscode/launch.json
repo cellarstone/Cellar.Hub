@@ -30,14 +30,14 @@
             }
         },
         {
-            "name": "WebSockets debug",
+            "name": "WebApi debug",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceRoot}/Cellar.Hub.WebSockets/bin/Debug/netcoreapp2.0/Cellar.Hub.WebSockets.dll",
+            "program": "${workspaceRoot}/Cellar.Hub.Api/bin/Debug/netcoreapp2.0/Cellar.Hub.Api.dll",
             "args": [],
-            "cwd": "${workspaceRoot}/Cellar.Hub.WebSockets",
+            "cwd": "${workspaceRoot}/Cellar.Hub.Api",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
             "console": "internalConsole",
             "stopAtEntry": false,

@@ -31,6 +31,12 @@ pipeline {
             sh 'docker tag cellar.hub.web cellarstone/cellar.hub.web:dev.0.0.14'
             sh 'docker push cellarstone/cellar.hub.web:dev.0.0.14'
           },
+          admin: {
+            sh 'cd Cellar.Hub.Admin && npm install && ng build --prod'
+            sh 'docker build -t cellar.hub.admin ./Cellar.Hub.Admin'
+            sh 'docker tag cellar.hub.admin cellarstone/cellar.hub.admin:dev.0.0.1'
+            sh 'docker push cellarstone/cellar.hub.admin:dev.0.0.1'
+          },
           mongodb: {
             sh 'docker build -t cellar.hub.mongodb ./Cellar.Hub.MongoDb'
             sh 'docker tag cellar.hub.mongodb cellarstone/cellar.hub.mongodb:dev.0.0.11'
@@ -76,6 +82,11 @@ pipeline {
             sh 'docker build -t cellar.hub.web ./Cellar.Hub.Web'
             sh 'docker tag cellar.hub.web cellarstone/cellar.hub.web:prod.0.0.14'
             sh 'docker push cellarstone/cellar.hub.web:prod.0.0.14'
+          },
+          admin: {
+            sh 'docker build -t cellar.hub.admin ./Cellar.Hub.Admin'
+            sh 'docker tag cellar.hub.admin cellarstone/cellar.hub.admin:prod.0.0.1'
+            sh 'docker push cellarstone/cellar.hub.admin:prod.0.0.1'
           },
           mongodb: {
             sh 'docker build -t cellar.hub.mongodb ./Cellar.Hub.MongoDb'

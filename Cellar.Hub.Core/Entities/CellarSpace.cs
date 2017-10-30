@@ -1,35 +1,40 @@
 using System.Collections.Generic;
 using System.Security.Claims;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace Cellar.Hub.Core
 {
+    //OBJECT FOR TREE STRUCTURE
     public class CellarSpace
     {
-        
-        public string Id { get; set; }
 
-        
+        [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
+        [BsonElement("id")]
+        public string Id { get; set; }  
+
+        [BsonElement("name")]
         public string Name { get; set; }
 
+        [BsonElement("state")]
+        public string State { get; set; }
+
         // Building, Room, Floor, Land
-        public string Type { get; set; }
+        // [BsonElement("type")]
+        // public string Type { get; set; }
 
+        [BsonElement("senzors")]
+        public ICollection<CellarSenzor> Senzors { get; set; } = new List<CellarSenzor>();
 
-        public ICollection<CellarSenzor> Senzors {get;set;} = new List<CellarSenzor>();
+        /*****************************/
+        /*  Solve Tree structure     */
+        /* https://docs.mongodb.com/manual/tutorial/model-tree-structures-with-child-references/ */
+        /*****************************/
+        [BsonElement("path")]
+        public string Path { get; set; }
 
-public ICollection<CellarSpace> Subspaces {get;set;} = new List<CellarSpace>();
-
-        
-        // GPS - latitude, longtitude
-        // Country, City, Street
-
-
-        // Height, Weight, Z = 3D view
-
-        //GameObject
-
-        
-
+        [BsonElement("image")]
+        public string Image {get; set;}
 
     }
 }

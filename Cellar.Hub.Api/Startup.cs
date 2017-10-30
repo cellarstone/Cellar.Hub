@@ -34,6 +34,8 @@ namespace Cellar.Hub.Api
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddSingleton<IConfigurationRoot>((provider) => Configuration);
+
             services.AddCors();
 
             var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();

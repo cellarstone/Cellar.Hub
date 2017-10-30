@@ -140,10 +140,14 @@ export class Login implements OnInit {
 
 
     public login() {
-
-        console.log('loginclicked');
+      console.log("login clicked")
         this.router.navigate(['/dashboard']);
     }
+
+    public login2() {
+      console.log("login2 clicked")
+              this.router.navigate(['/dashboard2']);
+          }
 
 
 }

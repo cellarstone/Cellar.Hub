@@ -1,5 +1,6 @@
 ﻿using Cellar.Hub.Core;
 using System;
+using Cellar.Hub.Core.Business;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -23,10 +24,12 @@ namespace Microsoft.Extensions.DependencyInjection
             //connectionString si vezme sam DbContext z IOptions<>
             //services.AddDbContext<GamingDbContext>();
 
-            //REPOSITORY - Mozne ADO nebo EF
+            //REPOSITORY
             services.AddScoped<CellarHubMongoDbContext, CellarHubMongoDbContext>();
             services.AddScoped<CellarHubRethinkDbContext, CellarHubRethinkDbContext>();
 
+            //SERVIE
+            services.AddScoped<CellarHubService, CellarHubService>();
 
             return services;
         }

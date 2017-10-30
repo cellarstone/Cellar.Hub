@@ -9,7 +9,8 @@ import { SVGCacheService } from 'ng-inline-svg';
 
 import { Socket } from '../../service/Socket';
 
-
+//others
+declare var jQuery: any;
 
 @Component({
   templateUrl: './subspace-detail.html',
@@ -31,6 +32,11 @@ export class SubspaceDetail implements OnInit {
   }
 
 
+
+  public fillColor = "#00aa00";
+  public freeColor = "##a02c2c";
+
+
   public senzor1 = "s2315";
   public senzor1ActualValue_temperature = 0;
   public senzor1Values_temperature = [];
@@ -49,6 +55,42 @@ export class SubspaceDetail implements OnInit {
   public senzor3ActualValue_humidity = 0;
   public senzor3Values_humidity = [];
 
+  public senzor4 = "s2318";
+  public senzor4ActualValue_temperature = 0;
+  public senzor4Values_temperature = [];
+  public senzor4ActualValue_humidity = 0;
+  public senzor4Values_humidity = [];
+
+  public senzor5 = "s2319";
+  public senzor5ActualValue_temperature = 0;
+  public senzor5Values_temperature = [];
+  public senzor5ActualValue_humidity = 0;
+  public senzor5Values_humidity = [];
+
+  public senzor6 = "s3102";
+  public senzor6ActualValue_pir = 0;
+  public senzor6Values_pir = [];
+  public senzor6Color = this.fillColor;
+
+  public senzor7 = "s3103";
+  public senzor7ActualValue_pir = 0;
+  public senzor7Values_pir = [];
+  public senzor7Color = "";
+
+  public senzor8 = "s3104";
+  public senzor8ActualValue_pir = 0;
+  public senzor8Values_pir = [];
+  public senzor8Color = "";
+
+  public senzor9 = "s3107";
+  public senzor9ActualValue_pir = 0;
+  public senzor9Values_pir = [];
+  public senzor9Color = "";
+
+  public senzor10 = "s3106";
+  public senzor10ActualValue_pir = 0;
+  public senzor10Values_pir = [];
+  public senzor10Color = "";
 
   public reservationsLayer: any;
   public temperatureLayer: any;
@@ -59,11 +101,11 @@ export class SubspaceDetail implements OnInit {
   public socket: Socket;
 
   constructor(private router: Router,
-              private svgService: SVGCacheService) {
-      svgService.setBaseUrl({ baseUrl: 'http://localhost:8881/' });
-   }
-  
-  
+    private svgService: SVGCacheService) {
+    svgService.setBaseUrl({ baseUrl: 'http://localhost:8881/' });
+  }
+
+
 
 
 
@@ -115,7 +157,33 @@ export class SubspaceDetail implements OnInit {
   }
 
   onMessageEdit(message) {
+
     console.log(message);
+
+    if (message.senzorId == "s3102") {
+      console.log(message);
+    }
+
+    if (message.senzorId == "s3103") {
+      console.log(message);
+    }
+
+    if (message.senzorId == "s3104") {
+      console.log(message);
+    }
+
+    if (message.senzorId == "s3106") {
+      console.log(message);
+    }
+
+    if (message.senzorId == "s3107") {
+      console.log(message);
+    }
+
+
+    /***************************************/
+    /* TEMPERATURE - HUMIDITY */
+    /***************************************/
 
     if (message.senzorId == this.senzor1) {
       if (message.measurement == "temperature") {
@@ -147,6 +215,101 @@ export class SubspaceDetail implements OnInit {
       if (message.measurement == "humidity") {
         this.senzor3ActualValue_humidity = message.values[message.values.length - 1];
         this.senzor3Values_humidity = message.values;
+      }
+    }
+
+    if (message.senzorId == this.senzor4) {
+      if (message.measurement == "temperature") {
+        this.senzor4ActualValue_temperature = message.values[message.values.length - 1];
+        this.senzor4Values_temperature = message.values;
+      }
+      if (message.measurement == "humidity") {
+        this.senzor4ActualValue_humidity = message.values[message.values.length - 1];
+        this.senzor4Values_humidity = message.values;
+      }
+    }
+
+    if (message.senzorId == this.senzor5) {
+      if (message.measurement == "temperature") {
+        this.senzor5ActualValue_temperature = message.values[message.values.length - 1];
+        this.senzor5Values_temperature = message.values;
+      }
+      if (message.measurement == "humidity") {
+        this.senzor5ActualValue_humidity = message.values[message.values.length - 1];
+        this.senzor5Values_humidity = message.values;
+      }
+    }
+
+    /***************************************/
+    /* PIR */
+    /***************************************/
+    if (message.senzorId == this.senzor6) {
+      if (message.measurement == "pir") {
+        this.senzor6ActualValue_pir = message.values[message.values.length - 1];
+        this.senzor6Values_pir = message.values;
+
+
+
+        if (this.senzor6ActualValue_pir == 1) {
+          this.senzor6Color = this.fillColor;
+        }
+        else {
+          this.senzor6Color = this.freeColor;
+        }
+
+        var asdf2 = document.getElementById("reservationD")
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        asdf2.style.fill = 'rgb(' + r + ', ' + g + ' , ' + b + ')';
+      }
+    }
+    if (message.senzorId == this.senzor7) {
+      if (message.measurement == "pir") {
+        this.senzor7ActualValue_pir = message.values[message.values.length - 1];
+        this.senzor7Values_pir = message.values;
+
+        var asdf2 = document.getElementById("reservationK")
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        asdf2.style.fill = 'rgb(' + r + ', ' + g + ' , ' + b + ')';
+      }
+    }
+    if (message.senzorId == this.senzor8) {
+      if (message.measurement == "pir") {
+        this.senzor8ActualValue_pir = message.values[message.values.length - 1];
+        this.senzor8Values_pir = message.values;
+
+        var asdf2 = document.getElementById("reservationE")
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        asdf2.style.fill = 'rgb(' + r + ', ' + g + ' , ' + b + ')';
+      }
+    }
+    if (message.senzorId == this.senzor9) {
+      if (message.measurement == "pir") {
+        this.senzor9ActualValue_pir = message.values[message.values.length - 1];
+        this.senzor9Values_pir = message.values;
+
+        var asdf2 = document.getElementById("reservationL")
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        asdf2.style.fill = 'rgb(' + r + ', ' + g + ' , ' + b + ')';
+      }
+    }
+    if (message.senzorId == this.senzor10) {
+      if (message.measurement == "pir") {
+        this.senzor10ActualValue_pir = message.values[message.values.length - 1];
+        this.senzor10Values_pir = message.values;
+
+        var asdf2 = document.getElementById("rect1485")
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        asdf2.style.fill = 'rgb(' + r + ', ' + g + ' , ' + b + ')';
       }
     }
 
@@ -208,65 +371,65 @@ export class SubspaceDetail implements OnInit {
   // }
 
 
-showHumidity(){
-  //others hide
-  this.camerasLayer.setAttribute("style","display: none;");
-  // this.humidityLayer.setAttribute("style","display: none;");
-  this.opencloseLayer.setAttribute("style","display: none;");
-  this.reservationsLayer.setAttribute("style","display: none;");
-  this.temperatureLayer.setAttribute("style","display: none;");
+  showHumidity() {
+    //others hide
+    this.camerasLayer.setAttribute("style", "display: none;");
+    // this.humidityLayer.setAttribute("style","display: none;");
+    this.opencloseLayer.setAttribute("style", "display: none;");
+    this.reservationsLayer.setAttribute("style", "display: none;");
+    this.temperatureLayer.setAttribute("style", "display: none;");
 
-  //this layer show
-  this.humidityLayer.setAttribute("style","display: inline;");
-}
+    //this layer show
+    this.humidityLayer.setAttribute("style", "display: inline;");
+  }
 
-showCalendar(){
-  //others hide
-  this.camerasLayer.setAttribute("style","display: none;");
-  this.humidityLayer.setAttribute("style","display: none;");
-  this.opencloseLayer.setAttribute("style","display: none;");
-  // this.reservationsLayer.setAttribute("style","display: none;");
-  this.temperatureLayer.setAttribute("style","display: none;");
+  showCalendar() {
+    //others hide
+    this.camerasLayer.setAttribute("style", "display: none;");
+    this.humidityLayer.setAttribute("style", "display: none;");
+    this.opencloseLayer.setAttribute("style", "display: none;");
+    // this.reservationsLayer.setAttribute("style","display: none;");
+    this.temperatureLayer.setAttribute("style", "display: none;");
 
-  //this layer show
-  this.reservationsLayer.setAttribute("style","display: inline;");
-}
+    //this layer show
+    this.reservationsLayer.setAttribute("style", "display: inline;");
+  }
 
-showCamera(){
-  //others hide
-  // this.camerasLayer.setAttribute("style","display: none;");
-  this.humidityLayer.setAttribute("style","display: none;");
-  this.opencloseLayer.setAttribute("style","display: none;");
-  this.reservationsLayer.setAttribute("style","display: none;");
-  this.temperatureLayer.setAttribute("style","display: none;");
+  showCamera() {
+    //others hide
+    // this.camerasLayer.setAttribute("style","display: none;");
+    this.humidityLayer.setAttribute("style", "display: none;");
+    this.opencloseLayer.setAttribute("style", "display: none;");
+    this.reservationsLayer.setAttribute("style", "display: none;");
+    this.temperatureLayer.setAttribute("style", "display: none;");
 
-  //this layer show
-  this.camerasLayer.setAttribute("style","display: inline;");
-}
+    //this layer show
+    this.camerasLayer.setAttribute("style", "display: inline;");
+  }
 
-showOpenClose(){
-  //others hide
-  this.camerasLayer.setAttribute("style","display: none;");
-  this.humidityLayer.setAttribute("style","display: none;");
-  // this.opencloseLayer.setAttribute("style","display: none;");
-  this.reservationsLayer.setAttribute("style","display: none;");
-  this.temperatureLayer.setAttribute("style","display: none;");
+  showOpenClose() {
+    //others hide
+    this.camerasLayer.setAttribute("style", "display: none;");
+    this.humidityLayer.setAttribute("style", "display: none;");
+    // this.opencloseLayer.setAttribute("style","display: none;");
+    this.reservationsLayer.setAttribute("style", "display: none;");
+    this.temperatureLayer.setAttribute("style", "display: none;");
 
-  //this layer show
-  this.opencloseLayer.setAttribute("style","display: inline;");
-}
+    //this layer show
+    this.opencloseLayer.setAttribute("style", "display: inline;");
+  }
 
-showTemperature(){
-  //others hide
-  this.camerasLayer.setAttribute("style","display: none;");
-  this.humidityLayer.setAttribute("style","display: none;");
-  this.opencloseLayer.setAttribute("style","display: none;");
-  this.reservationsLayer.setAttribute("style","display: none;");
-  // this.temperatureLayer.setAttribute("style","display: none;");
+  showTemperature() {
+    //others hide
+    this.camerasLayer.setAttribute("style", "display: none;");
+    this.humidityLayer.setAttribute("style", "display: none;");
+    this.opencloseLayer.setAttribute("style", "display: none;");
+    this.reservationsLayer.setAttribute("style", "display: none;");
+    // this.temperatureLayer.setAttribute("style","display: none;");
 
-  //this layer show
-  this.temperatureLayer.setAttribute("style","display: inline;");
-}
+    //this layer show
+    this.temperatureLayer.setAttribute("style", "display: inline;");
+  }
 
 
   onBackButton() {

@@ -93,6 +93,7 @@ import { WebsocketService2 } from './service/websocket2.service';
 import { WebsocketService } from './service/websocket.service';
 
 import { Dashboard } from './view/dashboard/dashboard';
+import { Dashboard2 } from './view/dashboard2/dashboard2';
 import { Login } from './view/login/login';
 import { SenzorDetail } from './view/senzor/senzor-detail';
 import { SpaceDetail } from './view/space/space-detail';
@@ -180,7 +181,8 @@ import { SubspaceDetail } from './view/subspace/subspace-detail';
         SenzorDetail,
         SpaceDetail,
         SubspaceDetail,
-        Space2Detail
+        Space2Detail,
+        Dashboard2
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

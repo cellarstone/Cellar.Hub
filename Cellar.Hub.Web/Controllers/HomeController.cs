@@ -11,7 +11,7 @@ namespace Cellar.Hub.Web
     [HttpPost]
     public ActionResult MyTest()
     {
-      return Json("Tohel je muj test");
+      return Json("This is my test");
     }
   }
 }
