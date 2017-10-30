@@ -41,7 +41,7 @@
 
 
 
-FROM golang:1.8
+# FROM golang:1.8
 
 # prepare environment ----
 # RUN echo "[url \"git@github.com:\"]\n\tinsteadOf = https://github.com/" >> /root/.gitconfig
@@ -97,7 +97,6 @@ ADD . /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow
 CMD cd /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow
 
 # CMD go get github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/abstraction
-CMD go build -o /go/bin/foo
+RUN go build -o main . 
+CMD ["/go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/main"]
 
-
-RUN echo "END"
