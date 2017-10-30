@@ -43,13 +43,42 @@
 
 FROM golang:1.8
 
+# prepare environment ----
+# RUN echo "[url \"git@github.com:\"]\n\tinsteadOf = https://github.com/" >> /root/.gitconfig
+# RUN mkdir /root/.ssh && echo "StrictHostKeyChecking no " > /root/.ssh/config
+
+# RUN go get "gopkg.in/mgo.v2"
+
+# RUN git config --global url."https://3b772d9ffbab825bf21215c5357205c704e4e87e:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+
+# RUN go-wrapper download 
+# RUN go get "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/abstraction"
+
+
+# RUN git config --global url."git@github.com:".insteadOf "https://github.com/"
+
+
+
+# ------------------------
+
 WORKDIR /go/src/app
 COPY . .
 
 ENV APP_ENV "production"
 
-RUN go-wrapper download   # "go get -d -v ./..."
-RUN go-wrapper install    # "go install -v ./..."
+
+RUN git config --global url."https://3b772d9ffbab825bf21215c5357205c704e4e87e:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+
+
+RUN go get "gopkg.in/mgo.v2"
+
+RUN go get -u github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/abstraction
+
+RUN go-wrapper download 
+
+
+# RUN go-wrapper download   # "go get -d -v ./..."
+# RUN go-wrapper install    # "go install -v ./..."
 RUN go build
 
 CMD ["go-wrapper", "run"] # ["app"]

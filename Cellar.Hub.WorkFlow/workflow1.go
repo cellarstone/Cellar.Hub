@@ -1,12 +1,19 @@
 package main
 
 import (
-	"./core/abstraction"
-	"./core/decision"
-	"./core/human"
-	"./core/log"
-	"./core/send"
-	"./core/workflow"
+	// "./core/abstraction"
+	// "./core/decision"
+	// "./core/human"
+	// "./core/log"
+	// "./core/send"
+	// "./core/workflow"
+
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/abstraction"
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/decision"
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/human"
+	mylog "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/others"
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/send"
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/workflow"
 
 	"gopkg.in/mgo.v2/bson"
 )
@@ -38,7 +45,7 @@ func RunWorkflow1(name string) {
 			// PIPELINE ------------------
 
 			//normal task
-			wf.AddTask(&log.LogTask{
+			wf.AddTask(&mylog.LogTask{
 				BaseTask: abstraction.BaseTask{
 					Type:            "LogTask",
 					Name:            "myTask1",
@@ -97,7 +104,7 @@ func RunWorkflow1(name string) {
 					OutChannel:      ch7out}, Topic: "house/alarm"})
 
 			//normal task
-			wf.AddTask(&log.LogTask{
+			wf.AddTask(&mylog.LogTask{
 				BaseTask: abstraction.BaseTask{
 					Type:            "LogTask",
 					Name:            "myTask8",
