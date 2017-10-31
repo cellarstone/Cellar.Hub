@@ -113,6 +113,7 @@ RUN go build
 
 RUN echo 'END building'
 RUN echo 'START running'
+RUN echo $GOPATH
 
-CMD ["~/go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/cmd/workflow1/workflow1"]
+CMD ["/home/go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow1/workflow1"]
 
