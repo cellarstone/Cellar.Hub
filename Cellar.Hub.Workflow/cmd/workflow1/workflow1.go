@@ -117,7 +117,7 @@ func RunWorkflow1(name string) {
 				}})
 
 			//---------------------------
-			workflow.SaveWorkflow(wf)
+			//workflow.SaveWorkflow(wf)
 			//---------------------------
 
 			wf.Run()

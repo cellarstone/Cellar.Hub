@@ -92,42 +92,27 @@
 
 FROM golang:1.8
 
-ADD . $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow
-CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow
+#set token based github private repository access
+RUN git config --global url."https://3b772d9ffbab825bf21215c5357205c704e4e87e:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 
-CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/cmd/workflow1
-RUN go-wrapper download 
-RUN go-wrapper install
+ADD . $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow
 
-CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/src/abstraction
-RUN go-wrapper download 
-RUN go-wrapper install
-
-CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/src/decision
-RUN go-wrapper download 
-RUN go-wrapper install
-
-CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/src/human
-RUN go-wrapper download 
-RUN go-wrapper install
-
-CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/src/others
-RUN go-wrapper download 
-RUN go-wrapper install
-
-CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/src/send
-RUN go-wrapper download 
-RUN go-wrapper install
-
-CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/src/workflow
-RUN go-wrapper download 
+# WORKFLOW 1
+WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow1
+RUN go-wrapper download
 RUN go-wrapper install
 
 
+RUN echo 'START download packages'
 
-# CMD go get github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/src/abstraction
+RUN echo 'END download packages'
+RUN echo 'START building'
 
-CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/cmd/workflow1
-RUN go build -o main . 
-CMD ["/go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow1/main"]
+# WORKFLOW 1
+RUN go build  
+
+RUN echo 'END building'
+RUN echo 'START running'
+
+CMD ["~/go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/cmd/workflow1/workflow1"]
 
