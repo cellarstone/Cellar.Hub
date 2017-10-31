@@ -92,13 +92,42 @@
 
 FROM golang:1.8
 
-ADD . $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow
+ADD . $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow
+CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow
 
-CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow
+CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/cmd/workflow1
+RUN go-wrapper download 
+RUN go-wrapper install
 
-# CMD go get github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/abstraction
+CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/src/abstraction
+RUN go-wrapper download 
+RUN go-wrapper install
+
+CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/src/decision
+RUN go-wrapper download 
+RUN go-wrapper install
+
+CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/src/human
+RUN go-wrapper download 
+RUN go-wrapper install
+
+CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/src/others
+RUN go-wrapper download 
+RUN go-wrapper install
+
+CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/src/send
+RUN go-wrapper download 
+RUN go-wrapper install
+
+CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/src/workflow
+RUN go-wrapper download 
+RUN go-wrapper install
 
 
+
+# CMD go get github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/src/abstraction
+
+CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.WorkFlow/cmd/workflow1
 RUN go build -o main . 
-CMD ["/go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/main"]
+CMD ["/go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow1/main"]
 
