@@ -92,11 +92,13 @@
 
 FROM golang:1.8
 
-ADD . /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow
+ADD . $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow
 
-CMD cd /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow
+CMD cd $GOPATH/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow
 
 # CMD go get github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/abstraction
+
+
 RUN go build -o main . 
 CMD ["/go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/main"]
 

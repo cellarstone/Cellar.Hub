@@ -4,25 +4,25 @@ import (
 	"fmt"
 
 	// abs "../abstraction"
-	abs "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/abstraction"
+	abs "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
 )
 
 //**********************************
-//TASK - Send email
+//TASK - Send gRPC
 //**********************************
-type SendEmailTask struct {
+type SendRpcTask struct {
 	abs.BaseTask
-	EmailAddress string `json:"emailAddress" bson:"emailAddress"`
+	address string `json:"address" bson:"address"`
 }
 
-func (t *SendEmailTask) Execute() error {
-	fmt.Println("SendEmailTask execute")
+func (t *SendRpcTask) Execute() error {
+	fmt.Println("SendRpcTask execute")
 
 	for value := range t.InChannel {
 		t.State = "inprogress"
 		//*****************
 		// DOING SOMETHING
-		fmt.Println("SendEmailTask value - " + value)
+		fmt.Println("SendRpcTask value - " + value)
 		//*****************
 		t.OutChannel <- value
 	}
@@ -31,11 +31,11 @@ func (t *SendEmailTask) Execute() error {
 	return nil
 }
 
-func (t *SendEmailTask) ExecuteParallel(value string) error {
+func (t *SendRpcTask) ExecuteParallel(value string) error {
 	t.State = "inprogress"
 	//*****************
 	// DOING SOMETHING
-	fmt.Println("SendEmailTask parallel value - " + value)
+	fmt.Println("SendRpcTask parallel value - " + value)
 	//*****************
 	t.State = "completed"
 	return nil

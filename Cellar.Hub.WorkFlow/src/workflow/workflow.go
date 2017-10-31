@@ -13,11 +13,11 @@ import (
 	// mylog "../log"
 	// "../send"
 
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/abstraction"
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/decision"
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/human"
-	mylog "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/others"
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/send"
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/decision"
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/human"
+	mylog "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/others"
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/send"
 )
 
 // Workflow contains tasks list of workflow definition.

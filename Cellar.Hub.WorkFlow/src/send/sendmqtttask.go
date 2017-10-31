@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	// "../abstraction"
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/core/abstraction"
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
 )
 
 //**********************************
