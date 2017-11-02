@@ -65,6 +65,19 @@
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickProcess}"
+        },
+        {
+            "name": "Workflow/manager",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "remotePath": "",
+            "port": 3000,
+            "host": "127.0.0.1",
+            "program": "${workspaceRoot}/Cellar.Hub.Workflow/cmd/manager",
+            "env": {},
+            "args": [],
+            "showLog": true
         }
     ]
 }
