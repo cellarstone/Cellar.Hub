@@ -18,7 +18,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-func RunWorkflow1(name string) {
+func RunWorkflow(name string) {
 
 	// wfdb := workflow.GetWorkflow(&workflow.Workflow{Name: name})
 

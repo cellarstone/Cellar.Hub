@@ -5,7 +5,6 @@ import (
 	"math/rand"
 	"os"
 	"os/signal"
-	"strconv"
 	"time"
 
 	"github.com/erikdubbelboer/gspt"
@@ -17,15 +16,16 @@ var workflowOut chan string
 func main() {
 	fmt.Println("START")
 
-	environment := os.Getenv("APP_ENV")
-	fmt.Println(environment)
-
-	workflowName := os.Args[1]
-	gspt.SetProcTitle(workflowName)
-
 	// Set up channel on which to send signal notifications.
 	sigc := make(chan os.Signal, 1)
 	signal.Notify(sigc, os.Interrupt, os.Kill)
+
+	// environment := os.Getenv("APP_ENV")
+	// fmt.Println(environment)
+
+	workflowName := os.Args[1]
+	topic := os.Args[2]
+	gspt.SetProcTitle(workflowName)
 
 	workflowIn = make(chan string)
 	workflowOut = make(chan string)
@@ -37,16 +37,10 @@ func main() {
 
 	//-------------------------------------------------------------------
 	//-------------------------------------------------------------------
-	// each 2 seconds send message
 
-	go func() {
-		for i := 0; i < 1000; i++ {
-			time.Sleep(2 * time.Second)
-			randomNumber := random(1, 100)
-			workflowIn <- strconv.Itoa(randomNumber)
-		}
-		close(workflowIn)
-	}()
+	randomClientName := RandStringBytesMaskImprSrc(10)
+
+	RunMqttTrigger("127.0.0.1:1883", randomClientName, topic)
 
 	//-------------------------------------------------------------------
 	//-------------------------------------------------------------------
@@ -72,4 +66,31 @@ func main() {
 func random(min, max int) int {
 	rand.Seed(time.Now().Unix())
 	return rand.Intn(max-min) + min
+}
+
+var src = rand.NewSource(time.Now().UnixNano())
+
+const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const (
+	letterIdxBits = 6                    // 6 bits to represent a letter index
+	letterIdxMask = 1<<letterIdxBits - 1 // All 1-bits, as many as letterIdxBits
+	letterIdxMax  = 63 / letterIdxBits   // # of letter indices fitting in 63 bits
+)
+
+func RandStringBytesMaskImprSrc(n int) string {
+	b := make([]byte, n)
+	// A src.Int63() generates 63 random bits, enough for letterIdxMax characters!
+	for i, cache, remain := n-1, src.Int63(), letterIdxMax; i >= 0; {
+		if remain == 0 {
+			cache, remain = src.Int63(), letterIdxMax
+		}
+		if idx := int(cache & letterIdxMask); idx < len(letterBytes) {
+			b[i] = letterBytes[idx]
+			i--
+		}
+		cache >>= letterIdxBits
+		remain--
+	}
+
+	return string(b)
 }
