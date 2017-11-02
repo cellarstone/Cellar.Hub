@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"html/template"
 	"log"
@@ -12,7 +11,6 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
-	"syscall"
 	"time"
 )
 
@@ -140,28 +138,28 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 // However, on Unix systems, os.FindProcess always succeeds and returns
 // a Process for the given pid...regardless of whether the process exists
 // or not.
-func getProcessRunningStatus(pid int) (*os.Process, error) {
-	proc, err := os.FindProcess(pid)
-	if err != nil {
-		return nil, err
-	}
+// func getProcessRunningStatus(pid int) (*os.Process, error) {
+// 	proc, err := os.FindProcess(pid)
+// 	if err != nil {
+// 		return nil, err
+// 	}
 
-	//double check if process is running and alive
-	//by sending a signal 0
-	//NOTE : syscall.Signal is not available in Windows
+// 	//double check if process is running and alive
+// 	//by sending a signal 0
+// 	//NOTE : syscall.Signal is not available in Windows
 
-	err = proc.Signal(syscall.Signal(0))
-	if err == nil {
-		return proc, nil
-	}
+// 	err = proc.Signal(syscall.Signal(0))
+// 	if err == nil {
+// 		return proc, nil
+// 	}
 
-	if err == syscall.ESRCH {
-		return nil, errors.New("process not running")
-	}
+// 	if err == syscall.ESRCH {
+// 		return nil, errors.New("process not running")
+// 	}
 
-	// default
-	return nil, errors.New("process running but query operation not permitted")
-}
+// 	// default
+// 	return nil, errors.New("process running but query operation not permitted")
+// }
 
 //HELPER
 func layoutFiles() []string {

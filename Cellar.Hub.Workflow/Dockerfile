@@ -34,7 +34,8 @@ RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflo
 # helpers
 # RUN echo $GOPATH
 # RUN pwd
-# RUN ls -l
+RUN ls -l
+
 
 # -----------------------
 # Stage 2
@@ -49,8 +50,8 @@ RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflo
 
 
 
+CMD cellarworkflowmanager
 
-
-CMD ["./cellarworkflowmanager"]
+#CMD ["./cellarworkflowmanager"]
 # CMD ["/go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow1/workflow1"]
 # CMD workflow1
