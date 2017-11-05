@@ -9,4 +9,58 @@
 #ln -s ~/Dropbox/Cellar.Hub hubDropbox
 cd Dropbox/Cellar.Hub
 
+
+# Mosquitto - MQTT
+sudo docker build -t cellar.hub.mqtt .
+sudo docker run -d -p 1883:1883 -p 9001:9001 -t cellar.hub.mqtt
+
+# MongoDB
+sudo docker build -t cellar.hub.mongodb .
+sudo docker run -d -p 27017:27017 -t cellar.hub.mongodb
+
+#Fluentd
+#http://localhost:9880/myapp.access?json={"event":"data"}
+sudo docker build -t cellar.hub.log.fluentd .
+sudo docker run -d -p 9880:9880 -p 24224:24224 -t cellar.hub.log.fluentd
+
+#Elasticsearch
+#http://localhost:9200
+# or http://localhost:9200/_count?pretty
+# username : elastic
+# password : changeme
+
+sudo docker build -t cellar.hub.log.elasticsearch .
+sudo docker run -d -p 9200:9200 -p 9300:9300 -t cellar.hub.log.elasticsearch
+
+#Kibana
+#http://localhost:5601
+# username : kibana
+# password : changeme
+sudo docker build -t cellar.hub.log.kibana .
+sudo docker run -d -p 5601:5601 -t cellar.hub.log.kibana
+
+#Prometheus
+#http://localhost:9090
+sudo docker build -t cellar.hub.log.prometheus .
+sudo docker run -d -p 9090:9090 -t cellar.hub.log.prometheus
+
+#Grafana
+#http://localhost:3000
+# username : admin
+# password : admin
+sudo docker build -t cellar.hub.log.grafana .
+sudo docker run -d -p 3000:3000 -t cellar.hub.log.grafana
+
+# logging docker logs to fluentd
+#docker run --log-driver=fluentd --log-opt fluentd-address=192.168.0.1:24224 IMAGE echo "Hello Fluentd"
+# or specify logging with fluentd in docker-compose.yml
+
+
+# Workflow
+sudo docker build -t cellar.hub.workflow .
+sudo docker run -d -p 3000:3000 -t cellar.hub.workflow
+sudo docker run -it cellar.hub.workflow
+
+
+sudo docker-compose -f docker-compose.workflow.yml up
 sudo docker-compose -f docker-compose.production.yml up

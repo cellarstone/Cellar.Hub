@@ -6,6 +6,13 @@ services:
     build:
       context: ./Cellar.Hub.Web
       dockerfile: Dockerfile
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.web
     ports:
     - "8881:8881"
 
@@ -14,6 +21,13 @@ services:
     build:
       context: ./Cellar.Hub.Admin
       dockerfile: Dockerfile
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.admin
     ports:
     - "8889:8889"
 
@@ -23,9 +37,48 @@ services:
       context: .
       dockerfile: Dockerfile_Cellar.Hub.Api
     links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.api
+    links:
       - cellar.hub.mongodb
     ports:
     - "8885:8885"
+
+  cellar.hub.workflow:
+    image: cellar.hub.workflow
+    build:
+      context: ./Cellar.Hub.Workflow
+      dockerfile: Dockerfile
+    links:
+      - cellar.hub.mongodb
+      - fluentd
+      - pushgateway
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.workflow
+    ports:
+      - "5000:5000"
+
+  cellar.hub.websockets:
+    image: cellar.hub.websockets
+    build:
+      context: ./Cellar.Hub.WebSockets
+      dockerfile: Dockerfile
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.websockets
+    ports:
+    - "4000:4000"
 
   cellar.hub.mongodb:
     image: cellar.hub.mongodb
@@ -35,19 +88,7 @@ services:
     ports:
     - "27017:27017"
     volumes:
-     - /data/db1:/data/db 
-
-  cellar.hub.rethinkdb:
-    image: cellar.hub.rethinkdb
-    build: 
-      context: ./Cellar.Hub.RethinkDb
-      dockerfile: Dockerfile
-    ports:
-    - "28015:28015"
-    - "29015:29015"
-    - "8080:8080"
-    volumes:
-     - /data/db2:/data
+     - /data/cellarstone.hub/mongodb:/data/db 
 
   cellar.hub.mqtt:
     image: cellar.hub.mqtt
@@ -57,22 +98,54 @@ services:
     ports:
     - "1883:1883"
 
-  cellar.hub.dataflow:
-    image: cellar.hub.dataflow
-    build:
-      context: .
-      dockerfile: Dockerfile_Cellar.Hub.DataFlow
+  fluentd:
+    image: cellar.hub.fluentd
+    build: ./Cellar.Hub.Log/fluentd
+    volumes:
+      - ./Cellar.Hub.Log/fluentd/conf:/fluentd/etc
     links:
-      - cellar.hub.mqtt
-      - cellar.hub.mongodb
-      - cellar.hub.rethinkdb
-
-  cellar.hub.websockets:
-    image: cellar.hub.websockets
-    build:
-      context: ./Cellar.Hub.WebSockets
-      dockerfile: Dockerfile
-    links:
-      - cellar.hub.rethinkdb
+      - "elasticsearch"
     ports:
-    - "4000:4000"
+      - "24224:24224"
+      - "24224:24224/udp"
+
+  elasticsearch:
+    image: elasticsearch
+    volumes:
+        - /data/cellarstone.hub/elasticsearch:/var/lib/elasticsearch
+    expose:
+      - 9200
+    ports:
+      - "9200:9200"
+
+  kibana:
+    image: kibana
+    links:
+      - "elasticsearch"
+    ports:
+      - "5601:5601"
+
+  prometheus:
+    image: cellar.hub.prometheus
+    build:
+      context: ./Cellar.Hub.Log/prometheus
+      dockerfile: Dockerfile
+    volumes:
+      - /data/cellarstone.hub/prometheus:/prometheus
+    ports:
+      - '9090:9090'
+    links:
+      - pushgateway
+    
+  #prometheus pushgateway
+  pushgateway:
+    image: prom/pushgateway
+    ports:
+      - 9091:9091
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - /data/cellarstone.hub/grafana:/var/lib/grafana
+    ports:
+      - '3000:3000'

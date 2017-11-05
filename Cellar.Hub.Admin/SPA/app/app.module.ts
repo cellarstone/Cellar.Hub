@@ -61,7 +61,7 @@ import {PanelModule} from 'primeng/primeng';
 import {PanelMenuModule} from 'primeng/primeng';
 import {PasswordModule} from 'primeng/primeng';
 import {PickListModule} from 'primeng/primeng';
-import {ProgressBarModule} from 'primeng/primeng';
+// import {ProgressBarModule} from 'primeng/primeng';
 import {RadioButtonModule} from 'primeng/primeng';
 import {RatingModule} from 'primeng/primeng';
 import {ScheduleModule} from 'primeng/primeng';
@@ -161,7 +161,7 @@ import {SenzorList} from './view/senzor/list/senzor-list';
         PanelMenuModule,
         PasswordModule,
         PickListModule,
-        ProgressBarModule,
+        // ProgressBarModule,
         RadioButtonModule,
         RatingModule,
         ScheduleModule,

@@ -5,13 +5,46 @@ import (
 	"math/rand"
 	"os"
 	"os/signal"
+	"strconv"
+	"strings"
 	"time"
+
+	log "github.com/sirupsen/logrus"
+
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/push"
 
 	"github.com/erikdubbelboer/gspt"
 )
 
 var workflowIn chan string
 var workflowOut chan string
+
+//Metrics
+var gatewayUrl = "http://pushgateway:9091/"
+var (
+	metricTemp = prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: "cellar_mqttnumber",
+		Help: "Mqtt value from cellarstone program.",
+	})
+	metricTempCount = prometheus.NewCounter(
+		prometheus.CounterOpts{
+			Name: "cellar_mqttcount",
+			Help: "Number of Mqtt numbers.",
+		})
+)
+
+func init() {
+	// Log as JSON instead of the default ASCII formatter.
+	log.SetFormatter(&log.JSONFormatter{})
+
+	// Output to stdout instead of the default stderr
+	// Can be any io.Writer, see below for File example
+	log.SetOutput(os.Stdout)
+
+	// Only log the warning severity or above.
+	log.SetLevel(log.InfoLevel)
+}
 
 func main() {
 	fmt.Println("START")
@@ -25,7 +58,10 @@ func main() {
 
 	workflowName := os.Args[1]
 	topic := os.Args[2]
+	senzor := strings.Split(topic, "/")[0]
 	gspt.SetProcTitle(workflowName)
+
+	log.Info("main.go of Workflow2 with name(" + workflowName + ")START")
 
 	workflowIn = make(chan string)
 	workflowOut = make(chan string)
@@ -40,7 +76,7 @@ func main() {
 
 	randomClientName := RandStringBytesMaskImprSrc(10)
 
-	RunMqttTrigger("127.0.0.1:1883", randomClientName, topic)
+	RunMqttTrigger("cellar.hub.mqtt:1883", randomClientName, topic)
 
 	//-------------------------------------------------------------------
 	//-------------------------------------------------------------------
@@ -48,6 +84,23 @@ func main() {
 
 	go func() {
 		for value := range workflowOut {
+
+			valueFloat, _ := strconv.ParseFloat(value, 64)
+
+			//set metrics
+			metricTemp.Set(valueFloat)
+			metricTempCount.Inc()
+
+			err := push.AddCollectors("pushgateway",
+				map[string]string{"instance": workflowName, "senzor": senzor},
+				gatewayUrl,
+				metricTemp,
+				metricTempCount,
+			)
+			if err != nil {
+				fmt.Println("Could not push completion time to Pushgateway:", err)
+			}
+
 			fmt.Println("OUT > " + value)
 		}
 		close(workflowOut)
@@ -58,8 +111,6 @@ func main() {
 
 	// Wait for receiving a signal.
 	<-sigc
-
-	fmt.Println("END")
 }
 
 //HELPER

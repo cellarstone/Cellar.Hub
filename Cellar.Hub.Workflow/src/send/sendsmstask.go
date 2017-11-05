@@ -1,10 +1,11 @@
 package send
 
 import (
-	"fmt"
 
 	// abs "../abstraction"
 	abs "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
+
+	log "github.com/sirupsen/logrus"
 )
 
 //**********************************
@@ -16,20 +17,16 @@ type SendSmsTask struct {
 }
 
 func (t *SendSmsTask) Execute() error {
-	fmt.Println("SendSmsTask execute")
-
 	for value := range t.InChannel {
 		t.State = "inprogress"
 		//*****************
 		// DOING SOMETHING
-		fmt.Println("SendSmsTask value - " + value)
+		log.Debug("SendSmsTask value - " + value)
 		//*****************
 		t.OutChannel <- value
 	}
 
-	//SEM SE TO NEDOSTANE ???
-	fmt.Println("SendSmsTask - COMPLETE")
-
+	//SEM SE TO NIKDY NEDOSTANE !!!
 	t.State = "completed"
 	return nil
 }
@@ -38,7 +35,7 @@ func (t *SendSmsTask) ExecuteParallel(value string) error {
 	t.State = "inprogress"
 	//*****************
 	// DOING SOMETHING
-	fmt.Println("SendSmsTask parallel value - " + value)
+	log.Debug("SendSmsTask parallel value - " + value)
 	//*****************
 	t.State = "completed"
 	return nil

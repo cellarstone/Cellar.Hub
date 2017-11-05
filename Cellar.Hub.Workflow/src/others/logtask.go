@@ -1,10 +1,11 @@
 package others
 
 import (
-	"fmt"
-
 	// "../abstraction"
+
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
+
+	log "github.com/sirupsen/logrus"
 )
 
 //**********************************
@@ -15,28 +16,19 @@ type LogTask struct {
 }
 
 func (t *LogTask) Execute() error {
-
-	fmt.Println("LogTask execute")
-
 	for value := range t.InChannel {
-
-		fmt.Println("LogTask value - " + value)
-
+		log.Debug("LogTask value - " + value)
 		t.OutChannel <- value
 	}
 
-	//SEM SE TO NEDOSTANE ??? vim proc
-	fmt.Println("LogTask - COMPLETE")
-
-	//wg.Done()
+	//SEM SE TO NIKDY NEDOSTANE !!!
 	t.State = "completed"
 	return nil
 }
 
 func (t *LogTask) ExecuteParallel(value string) error {
 	t.State = "inprogress"
-	// t.Value = value
-	fmt.Println("LogTask parallel value - " + value)
+	log.Debug("LogTask parallel value - " + value)
 	t.State = "completed"
 	return nil
 }

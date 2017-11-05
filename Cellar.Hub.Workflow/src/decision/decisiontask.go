@@ -1,7 +1,6 @@
 package decision
 
 import (
-	"fmt"
 	"strconv"
 
 	"gopkg.in/mgo.v2/bson"
@@ -35,8 +34,6 @@ func NewDecisionTask(name string, inchannelindex int, outchannelsindex []int, in
 
 // Execute implement Task.Execute.
 func (t *BaseDecisionTask) Execute() error {
-	fmt.Println("BaseDecisionTask execute")
-
 	t.State = "inprogress"
 
 	for value := range t.InChannel {
@@ -53,6 +50,7 @@ func (t *BaseDecisionTask) Execute() error {
 
 	}
 
+	//SEM SE TO NIKDY NEDOSTANE !!!
 	t.State = "completed"
 	return nil
 }

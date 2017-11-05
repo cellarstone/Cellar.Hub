@@ -1,7 +1,6 @@
 package human
 
 import (
-	"fmt"
 
 	// abs "../abstraction"
 	abs "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
@@ -89,8 +88,6 @@ func NewHumanTask(name string, inchannelindex int, outchannelindex int, inchanne
 
 func (t *BaseHumanTask) Execute() error {
 
-	fmt.Println("BaseHumanTask execute")
-
 	for value := range t.InChannel {
 		t.State = "inprogress"
 		//*****************
@@ -99,12 +96,12 @@ func (t *BaseHumanTask) Execute() error {
 		result := "done"
 
 		if result == "done" {
-			fmt.Println("BaseHumanTask value - " + value)
 			t.OutChannel <- value
 		}
 		//*****************
 	}
 
+	//SEM SE TO NIKDY NEDOSTANE !!!
 	t.State = "completed"
 	return nil
 }
@@ -113,7 +110,6 @@ func (t *BaseHumanTask) ExecuteParallel(value string) error {
 	t.State = "inprogress"
 	//*****************
 	// DOING SOMETHING
-	fmt.Println("BaseHumanTask parallel value - " + value)
 	//*****************
 	t.State = "completed"
 	return nil

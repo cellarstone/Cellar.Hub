@@ -1,9 +1,6 @@
 package workflow
 
 import (
-	"fmt"
-	"log"
-
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 
@@ -18,6 +15,8 @@ import (
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/human"
 	mylog "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/others"
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/send"
+
+	log "github.com/sirupsen/logrus"
 )
 
 // Workflow contains tasks list of workflow definition.
@@ -114,49 +113,49 @@ func (wf *Workflow) run(tasks []interface{}) error {
 
 		switch nttype := nt.(type) {
 		case *mylog.LogTask:
-			fmt.Println("LogTask - ", nttype)
+			log.Debug("LogTask - ", nttype)
 			// RUN IT in separate goroutine
 			go func(t abstraction.Task) {
 				t.Execute()
 			}(nttype)
 		case *decision.BaseDecisionTask:
-			fmt.Println("BaseDecisionTask - ", nttype)
+			log.Debug("BaseDecisionTask - ", nttype)
 			// RUN IT in separate goroutine
 			go func(t abstraction.Task) {
 				t.Execute()
 			}(nttype)
 		case *human.BaseHumanTask:
-			fmt.Println("BaseHumanTask - ", nttype)
+			log.Debug("BaseHumanTask - ", nttype)
 			// RUN IT in separate goroutine
 			go func(t abstraction.Task) {
 				t.Execute()
 			}(nttype)
 		case *send.SendEmailTask:
-			fmt.Println("SendEmailTask -", nttype)
+			log.Debug("SendEmailTask -", nttype)
 			// RUN IT in separate goroutine
 			go func(t abstraction.Task) {
 				t.Execute()
 			}(nttype)
 		case *send.SendSmsTask:
-			fmt.Println("SendSmsTask -", nttype)
+			log.Debug("SendSmsTask -", nttype)
 			// RUN IT in separate goroutine
 			go func(t abstraction.Task) {
 				t.Execute()
 			}(nttype)
 		case *send.SendMqttTask:
-			fmt.Println("SendMqttTask -", nttype)
+			log.Debug("SendMqttTask -", nttype)
 			// RUN IT in separate goroutine
 			go func(t abstraction.Task) {
 				t.Execute()
 			}(nttype)
 		case *send.SendRpcTask:
-			fmt.Println("SendRpcTask -", nttype)
+			log.Debug("SendRpcTask -", nttype)
 			// RUN IT in separate goroutine
 			go func(t abstraction.Task) {
 				t.Execute()
 			}(nttype)
 		default:
-			fmt.Println("----default-----", nttype)
+			log.Debug("----default-----", nttype)
 			// fmt.Println(nttype)
 		}
 

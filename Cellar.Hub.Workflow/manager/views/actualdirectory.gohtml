@@ -1,0 +1,13 @@
+{{define "yield"}}
+
+  <h1>Actual Directory</h1>  
+ 
+  <div>{{.ID}}</div>
+
+  {{range .Data}} 
+    <div class="container"> 
+        {{.}}
+    </div>  
+  {{end}}
+
+{{end}}

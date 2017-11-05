@@ -1,0 +1,70 @@
+version: '2'
+
+#podle https://github.com/kzk/docker-compose-efk
+
+services:
+  cellar.hub.workflow:
+    image: cellar.hub.workflow
+    build:
+      context: ./Cellar.Hub.Workflow
+      dockerfile: Dockerfile
+    links:
+      - fluentd
+      - pushgateway
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.workflow
+    ports:
+      - "5000:5000"
+
+  fluentd:
+    build: ./Cellar.Hub.Log/fluentd
+    volumes:
+      - ./Cellar.Hub.Log/fluentd/conf:/fluentd/etc
+    links:
+      - "elasticsearch"
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+
+  elasticsearch:
+    image: elasticsearch
+    volumes:
+        - /data/cellarstone.hub/elasticsearch:/var/lib/elasticsearch
+    expose:
+      - 9200
+    ports:
+      - "9200:9200"
+
+  kibana:
+    image: kibana
+    links:
+      - "elasticsearch"
+    ports:
+      - "5601:5601"
+
+  prometheus:
+    image: cellar.prometheus
+    build:
+      context: ./Cellar.Hub.Log/prometheus
+      dockerfile: Dockerfile
+    volumes:
+      - /data/cellarstone.hub/prometheus:/prometheus
+    ports:
+      - '9090:9090'
+    links:
+      - pushgateway
+    
+  pushgateway:
+    image: prom/pushgateway
+    ports:
+      - 9091:9091
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - /data/cellarstone.hub/grafana:/var/lib/grafana
+    ports:
+      - '3000:3000'
