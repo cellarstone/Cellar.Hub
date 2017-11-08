@@ -157,6 +157,12 @@ func (wf *Workflow) run(tasks []interface{}) error {
 			go func(t abstraction.Task) {
 				t.Execute()
 			}(nttype)
+		case *send.SendToPrometheusTask:
+			log.Debug("SendToPrometheusTask -", nttype)
+			// RUN IT in separate goroutine
+			go func(t abstraction.Task) {
+				t.Execute()
+			}(nttype)
 		default:
 			log.Debug("----default-----", nttype)
 			// fmt.Println(nttype)
