@@ -12,8 +12,8 @@ import (
 
 var (
 	metricTemp = prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "cellar_mqttnumber",
-		Help: "Mqtt value from cellarstone program.",
+		Name: "value",
+		Help: "Cellarstone Time Serie",
 	})
 )
 
@@ -51,7 +51,7 @@ func (t *SendToPrometheusTask) Execute() error {
 		//Prometheus - set metrics
 		metricTemp.Set(valueFloat)
 		err = push.AddCollectors("pushgateway",
-			map[string]string{"instance": "AAA", "senzor": t.Senzor},
+			map[string]string{"measurement": t.Topic, "senzor": t.Senzor},
 			t.PrometheusUrl,
 			metricTemp,
 		)
@@ -84,7 +84,7 @@ func (t *SendToPrometheusTask) ExecuteParallel(value string) error {
 	//Prometheus - set metrics
 	metricTemp.Set(valueFloat)
 	err := push.AddCollectors("pushgateway",
-		map[string]string{"senzor": t.Senzor},
+		map[string]string{"measurement": t.Topic, "senzor": t.Senzor},
 		t.PrometheusUrl,
 		metricTemp,
 	)
