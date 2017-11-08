@@ -90,15 +90,3 @@ func (t *SendToPrometheusTask) ExecuteParallel(value string) error {
 	t.State = "completed"
 	return nil
 }
-
-func logme(level string, method string, message string) {
-	var data = map[string]string{
-		"level":   level,
-		"method":  method,
-		"message": message,
-	}
-	error := logger.Post(tag, data)
-	if error != nil {
-		panic(error)
-	}
-}
