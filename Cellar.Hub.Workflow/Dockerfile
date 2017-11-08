@@ -17,6 +17,13 @@ RUN go-wrapper download
 RUN go-wrapper install
 RUN go build -o bin/cellarworkf2
 
+# Cellar savetoprometheus - get packages & build
+WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/savetoprometheus
+RUN go-wrapper download
+RUN go-wrapper install
+RUN go build -o bin/savetoprometheus
+
+
 # Cellar workflow manager - get packages & build
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 RUN go-wrapper download
@@ -28,6 +35,7 @@ RUN go build -o cellarworkflowmanager
 # copy all workflow to manager
 RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow1/bin/cellarworkf1 /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow2/bin/cellarworkf2 /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
+RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/savetoprometheus/bin/savetoprometheus /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 
 
 

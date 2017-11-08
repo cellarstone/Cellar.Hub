@@ -2,7 +2,7 @@ package send
 
 import (
 	// abs "../abstraction"
-
+	"fmt"
 	"strconv"
 
 	abs "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
@@ -37,6 +37,9 @@ func (t *SendToPrometheusTask) Execute() error {
 		t.State = "inprogress"
 		//*****************
 		// DOING SOMETHING
+
+		fmt.Println("sendtoprometheustask - " + value)
+
 		valueFloat, _ := strconv.ParseFloat(value, 64)
 
 		//Prometheus - set metrics

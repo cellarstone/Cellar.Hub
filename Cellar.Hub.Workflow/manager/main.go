@@ -209,7 +209,6 @@ func actualdirectoryHandler(w http.ResponseWriter, r *http.Request) {
 
 	processes.ExecuteTemplate(w, "layouttemplate", dto)
 }
-
 func taillogsHandler(w http.ResponseWriter, r *http.Request) {
 
 	var (
@@ -272,14 +271,14 @@ func runworkflow2Handler(w http.ResponseWriter, r *http.Request) {
 		cmdArgs := []string{}
 
 		if workflowType == "workflow1" {
-
 			cmdName = "./cellarworkf1"
 			cmdArgs = []string{workflowName}
-
 		} else if workflowType == "workflow2" {
 			cmdName = "./cellarworkf2"
 			cmdArgs = []string{workflowName, topic}
-
+		} else if workflowType == "savetoprometheus" {
+			cmdName = "./savetoprometheus"
+			cmdArgs = []string{workflowName, topic}
 		}
 
 		cmd := exec.Command(cmdName, cmdArgs...)
@@ -292,7 +291,7 @@ func runworkflow2Handler(w http.ResponseWriter, r *http.Request) {
 		go func() {
 			for scanner.Scan() {
 				//low-level exception logging
-				fmt.Printf("workflow2 process | %s\n", scanner.Text())
+				fmt.Printf("workflow process | %s\n", scanner.Text())
 			}
 		}()
 
