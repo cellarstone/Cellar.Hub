@@ -6,16 +6,9 @@ import (
 	"strconv"
 
 	abs "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
-	"github.com/fluent/fluent-logger-golang/fluent"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/push"
 )
-
-//Fluentd
-var fluentdUrl = "fluentd"
-var logger *fluent.Fluent
-var tag = "SaveToPrometheusWorkflow"
-var err error
 
 var (
 	metricTemp = prometheus.NewGauge(prometheus.GaugeOpts{
@@ -36,21 +29,11 @@ type SendToPrometheusTask struct {
 
 func (t *SendToPrometheusTask) Execute() error {
 
-	//set logging
-	logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: fluentdUrl})
-	if err != nil {
-		//stop program
-		panic(err)
-	}
-	defer logger.Close()
-
-	logme("Debug", "SendToPrometheusTask", "TEST message")
-
-	fmt.Println("sendtoprometheustask - START")
-
 	metricTemp = prometheus.NewGauge(prometheus.GaugeOpts{
 		Name: t.Topic,
 	})
+
+	fmt.Println("sendtoprometheustask - " + t.Senzor + " - " + t.Topic + " - " + t.PrometheusUrl)
 
 	for value := range t.InChannel {
 		t.State = "inprogress"
