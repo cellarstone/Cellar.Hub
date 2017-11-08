@@ -42,12 +42,16 @@ func (t *SendToPrometheusTask) Execute() error {
 
 		fmt.Println("sendtoprometheustask - " + value)
 
-		valueFloat, _ := strconv.ParseFloat(value, 64)
+		valueFloat, err := strconv.ParseFloat(value, 64)
+		if err != nil {
+			panic(err)
+			// logme("Error", "main", "Could not push completion time to Pushgateway > "+err.Error())
+		}
 
 		//Prometheus - set metrics
 		metricTemp.Set(valueFloat)
-		err := push.AddCollectors("pushgateway",
-			map[string]string{"senzor": t.Senzor},
+		err = push.AddCollectors("pushgateway",
+			map[string]string{"instance": "AAA", "senzor": t.Senzor},
 			t.PrometheusUrl,
 			metricTemp,
 		)
@@ -56,6 +60,8 @@ func (t *SendToPrometheusTask) Execute() error {
 			// logme("Error", "main", "Could not push completion time to Pushgateway > "+err.Error())
 		}
 		//*****************
+
+		fmt.Println("sendtoprometheustask2222 - " + value)
 		t.OutChannel <- value
 	}
 
