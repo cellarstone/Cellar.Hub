@@ -11,6 +11,7 @@ services:
     links:
       - fluentd
       - pushgateway
+      - cellar.hub.mongodb
     logging:
       driver: "fluentd"
       options:
@@ -18,6 +19,29 @@ services:
         tag: docker.cellar.hub.workflow
     ports:
       - "5000:5000"
+
+  cellar.hub.mongodb:
+    image: cellar.hub.mongodb
+    build: 
+      context: ./Cellar.Hub.Db/mongodb
+      dockerfile: Dockerfile
+    ports:
+    - "27017:27017"
+    volumes:
+     - /data/cellarstone.hub/mongodb:/data/db 
+
+  cellar.hub.mqtt:
+    image: cellar.hub.mqtt
+    build: 
+      context: ./Cellar.Hub.Mqtt
+      dockerfile: Dockerfile
+    ports:
+    - "1883:1883"
+  
+
+# don't rename to the cellar.hub.** pattern
+# some stuffs with elaticsearch require the simple name pattern
+
 
   fluentd:
     build: ./Cellar.Hub.Log/fluentd

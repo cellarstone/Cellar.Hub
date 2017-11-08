@@ -3,9 +3,9 @@ package others
 import (
 	// "../abstraction"
 
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
+	"fmt"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
 )
 
 //**********************************
@@ -17,7 +17,7 @@ type LogTask struct {
 
 func (t *LogTask) Execute() error {
 	for value := range t.InChannel {
-		log.Debug("LogTask value - " + value)
+		fmt.Println("LogTask value - " + value)
 		t.OutChannel <- value
 	}
 
@@ -28,7 +28,7 @@ func (t *LogTask) Execute() error {
 
 func (t *LogTask) ExecuteParallel(value string) error {
 	t.State = "inprogress"
-	log.Debug("LogTask parallel value - " + value)
+	fmt.Println("LogTask parallel value - " + value)
 	t.State = "completed"
 	return nil
 }

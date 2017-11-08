@@ -1,36 +1,6 @@
 version: '2'
 
 services:
-  cellar.hub.web:
-    image: cellar.hub.web
-    build:
-      context: ./Cellar.Hub.Web
-      dockerfile: Dockerfile
-    links:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: docker.cellar.hub.web
-    ports:
-    - "8881:8881"
-
-  cellar.hub.admin:
-    image: cellar.hub.admin
-    build:
-      context: ./Cellar.Hub.Admin
-      dockerfile: Dockerfile
-    links:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: docker.cellar.hub.admin
-    ports:
-    - "8889:8889"
-
   cellar.hub.api:
     image: cellar.hub.api
     build:
@@ -47,38 +17,6 @@ services:
     ports:
     - "8885:8885"
 
-  cellar.hub.workflow:
-    image: cellar.hub.workflow
-    build:
-      context: ./Cellar.Hub.Workflow
-      dockerfile: Dockerfile
-    links:
-      - cellar.hub.mongodb
-      - fluentd
-      - pushgateway
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: docker.cellar.hub.workflow
-    ports:
-      - "5000:5000"
-
-  cellar.hub.websockets:
-    image: cellar.hub.websockets
-    build:
-      context: ./Cellar.Hub.WebSockets
-      dockerfile: Dockerfile
-    links:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: docker.cellar.hub.websockets
-    ports:
-    - "4000:4000"
-
   cellar.hub.mongodb:
     image: cellar.hub.mongodb
     build: 
@@ -88,20 +26,13 @@ services:
     - "27017:27017"
     volumes:
      - /data/cellarstone.hub/mongodb:/data/db 
-
-  cellar.hub.mqtt:
-    image: cellar.hub.mqtt
-    build: 
-      context: ./Cellar.Hub.Mqtt
-      dockerfile: Dockerfile
-    ports:
-    - "1883:1883"
+  
 
 # don't rename to the cellar.hub.** pattern
 # some stuffs with elaticsearch require the simple name pattern
 
+
   fluentd:
-    image: cellar.hub.fluentd
     build: ./Cellar.Hub.Log/fluentd
     volumes:
       - ./Cellar.Hub.Log/fluentd/conf:/fluentd/etc
@@ -128,7 +59,7 @@ services:
       - "5601:5601"
 
   prometheus:
-    image: cellar.hub.prometheus
+    image: cellar.prometheus
     build:
       context: ./Cellar.Hub.Log/prometheus
       dockerfile: Dockerfile
@@ -139,7 +70,6 @@ services:
     links:
       - pushgateway
     
-  #prometheus pushgateway
   pushgateway:
     image: prom/pushgateway
     ports:

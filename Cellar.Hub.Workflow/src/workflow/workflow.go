@@ -28,6 +28,9 @@ type Workflow struct {
 	ChannelsCount int           `json:"channelsCount" bson:"channelsCount"`
 }
 
+var MongoUrl = "cellar.hub.mongodb"
+var MongoDatabase = "test"
+
 // NewWorkflow creates a new workflow definition.
 func NewWorkflow(name string) *Workflow {
 	wf := &Workflow{
@@ -40,14 +43,14 @@ func NewWorkflow(name string) *Workflow {
 }
 
 func GetWorkflowById(id string) *Workflow {
-	session, err := mgo.Dial("localhost")
+	session, err := mgo.Dial(MongoUrl)
 	if err != nil {
 		panic(err)
 	}
 	defer session.Close()
 
 	//SELECT TABLE
-	workflowsTable := session.DB("test").C("workflows")
+	workflowsTable := session.DB(MongoDatabase).C("workflows")
 
 	//CHECK IF STATE IS DONE
 	result := Workflow{}
@@ -60,14 +63,14 @@ func GetWorkflowById(id string) *Workflow {
 }
 
 func GetWorkflow(wf *Workflow) *Workflow {
-	session, err := mgo.Dial("localhost")
+	session, err := mgo.Dial(MongoUrl)
 	if err != nil {
 		panic(err)
 	}
 	defer session.Close()
 
 	//SELECT TABLE
-	workflowsTable := session.DB("test").C("workflows")
+	workflowsTable := session.DB(MongoDatabase).C("workflows")
 
 	//CHECK IF STATE IS DONE
 	result := Workflow{}
@@ -80,14 +83,14 @@ func GetWorkflow(wf *Workflow) *Workflow {
 }
 
 func SaveWorkflow(wf *Workflow) {
-	session, err := mgo.Dial("localhost")
+	session, err := mgo.Dial(MongoUrl)
 	if err != nil {
 		panic(err)
 	}
 	defer session.Close()
 
 	//SELECT TABLE
-	workflowsTable := session.DB("test").C("workflows")
+	workflowsTable := session.DB(MongoDatabase).C("workflows")
 
 	//INSERT
 	err = workflowsTable.Insert(wf)

@@ -49,8 +49,6 @@ namespace Cellar.Hub.Api
             services.AddCellarHubCore(o =>
                     {
                         o.mongoDbConnectionString = Configuration.GetSection("ConnectionStrings:mongoDb").Value;
-                        o.rethinkDbConnectionString = Configuration.GetSection("ConnectionStrings:rethinkDb").Value;
-                        o.mosquittoMqttConnectionString = Configuration.GetSection("ConnectionStrings:mosquittoMqtt").Value;
                     });
 
             services.AddMvc();

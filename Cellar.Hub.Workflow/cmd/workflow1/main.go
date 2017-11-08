@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/fluent/fluent-logger-golang/fluent"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/push"
@@ -18,6 +18,12 @@ import (
 
 var workflowIn chan string
 var workflowOut chan string
+
+//Logging
+var fluentdUrl = "fluentd"
+var logger *fluent.Fluent
+var tag = "Cellar.Hub.Workflow.Manager"
+var err error
 
 //Metrics
 var gatewayUrl = "http://pushgateway:9091/"
@@ -33,25 +39,19 @@ var (
 		})
 )
 
-func init() {
-	// Log as JSON instead of the default ASCII formatter.
-	log.SetFormatter(&log.JSONFormatter{})
-
-	// Output to stdout instead of the default stderr
-	// Can be any io.Writer, see below for File example
-	log.SetOutput(os.Stdout)
-
-	// Only log the warning severity or above.
-	log.SetLevel(log.InfoLevel)
-}
-
 func main() {
+	//set logging
+	logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: fluentdUrl})
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer logger.Close()
 
 	// environment := os.Getenv("APP_ENV")
 	workflowName := os.Args[1]
 	gspt.SetProcTitle(workflowName)
 
-	log.Info("main.go of Workflow1 with name(" + workflowName + ")START")
+	log("Info", "workflow1", "main.go of Workflow1 with name("+workflowName+")START")
 
 	// Set up channel on which to send signal notifications.
 	sigc := make(chan os.Signal, 1)
@@ -75,7 +75,7 @@ func main() {
 			// randomNumber := random(1, 100)
 			randomNumberFloat := rand.Float64() * 1000
 
-			log.Info(workflowName + " - " + strconv.FormatFloat(randomNumberFloat, 'E', -1, 64))
+			log("Info", "workflow1", workflowName+" - "+strconv.FormatFloat(randomNumberFloat, 'E', -1, 64))
 
 			//set metrics
 			metricTemp.Set(randomNumberFloat)
@@ -88,7 +88,7 @@ func main() {
 				metricTempCount,
 			)
 			if err != nil {
-				fmt.Println("Could not push completion time to Pushgateway:", err)
+				log("Fatal", "workflow1", "Could not push completion time to Pushgateway > "+err.Error())
 			}
 
 			//send value to the channel
@@ -105,7 +105,7 @@ func main() {
 		for value := range workflowOut {
 			//ulozit vysledek workflow vcetne celeho contextu
 			//neukladat hodnotu z kazdeho workflow zvlast !!!!!
-			log.Info("OUT > " + value)
+			log("Info", "workflow1", "OUT > "+value)
 		}
 		close(workflowOut)
 	}()
@@ -117,7 +117,20 @@ func main() {
 	<-sigc
 }
 
-//HELPER
+//-------------------------------------
+//HELPERS
+//-------------------------------------
+func log(level string, method string, message string) {
+	var data = map[string]string{
+		"level":   level,
+		"method":  method,
+		"message": message,
+	}
+	error := logger.Post(tag, data)
+	if error != nil {
+		panic(error)
+	}
+}
 func random(min, max int) int {
 	rand.Seed(time.Now().Unix())
 	return rand.Intn(max-min) + min

@@ -10,12 +10,16 @@ using Microsoft.Net.Http.Headers;
 using System.IO;
 using ImageCore = ImageProcessorCore;
 using Microsoft.Extensions.Configuration;
+using Serilog;
+using Microsoft.Extensions.Logging;
 
 namespace Cellar.Hub.Api.Controllers
 {
     public class SpaceController : Controller
     {
         CellarHubService _service;
+
+        ILogger<SpaceController> _log;
 
         private string _fileStoreUrl_temp;
         private string _fileStoreUrl_products_small;
@@ -24,8 +28,9 @@ namespace Cellar.Hub.Api.Controllers
         private string _fileStoreUrl_ImageServer;
 
 
-        public SpaceController(CellarHubService service, IConfigurationRoot configuration)
+        public SpaceController(CellarHubService service, IConfigurationRoot configuration, ILogger<SpaceController> log)
         {
+            _log = log;
             _service = service;
             _fileStoreUrl_temp = configuration.GetValue<string>("Paths:Cellar.TempImagePath");
             _fileStoreUrl_products_small = configuration.GetValue<string>("Paths:Cellar.ImagePath") + "\\products\\small";
@@ -38,6 +43,7 @@ namespace Cellar.Hub.Api.Controllers
         [HttpGet]
         public int GetValue()
         {
+            _log.LogInformation("Test of logging");
             return 5;
         }
 

@@ -2,6 +2,8 @@ package main
 
 import (
 	"bufio"
+	"bytes"
+	"errors"
 	"fmt"
 	"html/template"
 	"math/rand"
@@ -31,25 +33,26 @@ type CellarDTO struct {
 	Data  []string `json:"Data"`
 }
 
-var logger *fluent.Fluent
-var tag string
-var err error
-
 type CellarProcess struct {
 	PID  int    `json:"PID"`
 	Name string `json:"Name"`
 }
 
+var fluentdUrl = "fluentd"
+var logger *fluent.Fluent
+var tag = "Cellar.Hub.Workflow.Manager"
+var err error
+
 var runningProcesses []CellarProcess
 
 func main() {
 	//set logging
-	logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: "fluentd"})
+	logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: fluentdUrl})
 	if err != nil {
+		//low-level exception logging
 		fmt.Println(err)
 	}
 	defer logger.Close()
-	tag = "Cellar.Hub.Workflow.Manager"
 
 	//Set process name of current program
 	//port := ":" + os.Args[1]
@@ -66,44 +69,76 @@ func main() {
 	files := append(layoutFiles(), "views/index.gohtml")
 	index, err = template.ParseFiles(files...)
 	if err != nil {
-		panic(err)
+		//low-level exception logging
+		fmt.Println(err)
 	}
 	files = append(layoutFiles(), "views/contact.gohtml")
 	contact, err = template.ParseFiles(files...)
 	if err != nil {
-		panic(err)
+		//low-level exception logging
+		fmt.Println(err)
 	}
 	files = append(layoutFiles(), "views/processes.gohtml")
 	processes, err = template.ParseFiles(files...)
 	if err != nil {
-		panic(err)
+		//low-level exception logging
+		fmt.Println(err)
 	}
 	files = append(layoutFiles(), "views/taillogs.gohtml")
 	taillogs, err = template.ParseFiles(files...)
 	if err != nil {
-		panic(err)
+		//low-level exception logging
+		fmt.Println(err)
 	}
 	files = append(layoutFiles(), "views/actualdirectory.gohtml")
 	actualDirectory, err = template.ParseFiles(files...)
 	if err != nil {
-		panic(err)
+		//low-level exception logging
+		fmt.Println(err)
 	}
 	files = append(layoutFiles(), "views/runworkflow.gohtml")
 	runworkflow, err = template.ParseFiles(files...)
 	if err != nil {
-		panic(err)
+		//low-level exception logging
+		fmt.Println(err)
 	}
 
 	r := mux.NewRouter()
-	r.HandleFunc("/", indexHandler)
-	r.HandleFunc("/contact", contactHandler)
-	r.HandleFunc("/processes", processesHandler)
-	r.HandleFunc("/actualdirectory", actualdirectoryHandler)
-	r.HandleFunc("/taillogs", taillogsHandler)
-	r.HandleFunc("/runworkflow", runworkflowHandler)
-	r.HandleFunc("/runworkflow2", runworkflow2Handler)
-	r.HandleFunc("/killprocess/{id}", killprocessHandler)
+	r.Handle("/", RecoverWrap(http.HandlerFunc(indexHandler)))
+	r.Handle("/contact", RecoverWrap(http.HandlerFunc(contactHandler)))
+	r.Handle("/processes", RecoverWrap(http.HandlerFunc(processesHandler)))
+	r.Handle("/actualdirectory", RecoverWrap(http.HandlerFunc(actualdirectoryHandler)))
+	r.Handle("/taillogs", RecoverWrap(http.HandlerFunc(taillogsHandler)))
+	r.Handle("/runworkflow1", RecoverWrap(http.HandlerFunc(runworkflow1Handler)))
+	r.Handle("/runworkflow2", RecoverWrap(http.HandlerFunc(runworkflow2Handler)))
+	r.Handle("/killprocess/{id}", RecoverWrap(http.HandlerFunc(killprocessHandler)))
 	http.ListenAndServe(":5000", r)
+}
+
+//Exception Handling - Panic handler
+func RecoverWrap(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var err error
+		defer func() {
+			r := recover()
+			if r != nil {
+				switch t := r.(type) {
+				case string:
+					err = errors.New(t)
+				case error:
+					err = t
+				default:
+					err = errors.New("Unknown error")
+				}
+
+				//low-level exception logging
+				fmt.Println("RecoverWrap > " + err.Error())
+
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+			}
+		}()
+		h.ServeHTTP(w, r)
+	})
 }
 
 //--------------------------------
@@ -125,13 +160,12 @@ func processesHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Combine stdout and stderr
 	output, err := cmd.CombinedOutput()
-	printError(err)
-	data := printOutput(output) // => go version go1.3 darwin/amd64
-
-	logInfo("processesHandler", data)
+	if err != nil {
+		logme("Error", "processesHandler", err.Error())
+	}
+	data := printOutput(output)
 
 	dataFormatted := strings.Split(data, "\n")
-
 	dto := CellarDTO{
 		ID:    RandStringBytesMaskImprSrc(5),
 		Error: "",
@@ -141,7 +175,6 @@ func processesHandler(w http.ResponseWriter, r *http.Request) {
 	processes.ExecuteTemplate(w, "layouttemplate", dto)
 }
 func killprocessHandler(w http.ResponseWriter, r *http.Request) {
-
 	vars := mux.Vars(r)
 	id := vars["id"]
 
@@ -150,10 +183,8 @@ func killprocessHandler(w http.ResponseWriter, r *http.Request) {
 	proc, _ := os.FindProcess(idnumber)
 	err := proc.Kill()
 	if err != nil {
-		panic(err)
+		logme("Error", "killprocessHandler", "process can't be killed > "+err.Error())
 	}
-
-	logInfo("killprocessHandler", "PID ("+id+") - OK")
 }
 func actualdirectoryHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -163,14 +194,11 @@ func actualdirectoryHandler(w http.ResponseWriter, r *http.Request) {
 	)
 	cmd := "ls"
 	args := []string{"-l"}
-	if cmdOut, err = exec.Command(cmd, args...).Output(); err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+	cmdOut, err = exec.Command(cmd, args...).Output()
+	if err != nil {
+		logme("Error", "actualdirectoryHandler", "can't run command > "+err.Error())
 	}
 	cmdOutText := string(cmdOut)
-
-	logInfo("actualdirectoryhandler", cmdOutText)
-
 	dataFormatted := strings.Split(cmdOutText, "\n")
 
 	dto := CellarDTO{
@@ -190,14 +218,11 @@ func taillogsHandler(w http.ResponseWriter, r *http.Request) {
 	)
 	cmd := "tail"
 	args := []string{"-f", "/var/log/lastlog"}
-	if cmdOut, err = exec.Command(cmd, args...).Output(); err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+	cmdOut, err = exec.Command(cmd, args...).Output()
+	if err != nil {
+		logme("Error", "taillogsHandler", "can't run command > "+err.Error())
 	}
 	cmdOutText := string(cmdOut)
-
-	logInfo("taillogsHandler", cmdOutText)
-
 	dataFormatted := strings.Split(cmdOutText, "\n")
 
 	dto := CellarDTO{
@@ -217,6 +242,27 @@ func runworkflow2Handler(w http.ResponseWriter, r *http.Request) {
 		runworkflow.ExecuteTemplate(w, "layouttemplate", randomWorkflowName)
 	} else {
 		r.ParseForm()
+
+		// cmdName2 := "ls"
+		// cmdArgs2 := []string{"-l"}
+		// cmdOut2, err := exec.Command(cmdName2, cmdArgs2...).Output()
+		// if err != nil {
+		// 	log("Fatal", "runworkflow2Handler", "There was an error running git rev-parse command > "+err.Error())
+		// 	os.Exit(1)
+		// }
+		// sha := string(cmdOut2)
+		// log("Info", "runworkflow2Handler", sha)
+
+		formData := ""
+
+		for key, value := range r.Form {
+			var buffer bytes.Buffer
+			buffer.WriteString(key)
+			buffer.WriteString(" - ")
+			buffer.WriteString(value[0])
+			buffer.WriteString("\n")
+			formData += string(buffer.String())
+		}
 
 		workflowType := r.Form.Get("workflowType")
 		workflowName := r.Form.Get("workflowName")
@@ -239,21 +285,20 @@ func runworkflow2Handler(w http.ResponseWriter, r *http.Request) {
 		cmd := exec.Command(cmdName, cmdArgs...)
 		cmdReader, err := cmd.StdoutPipe()
 		if err != nil {
-			fmt.Fprintln(os.Stderr, "Error creating StdoutPipe for Cmd", err)
-			os.Exit(1)
+			logme("Error", "runworkflow2Handler", "can't run command > "+err.Error())
 		}
 
 		scanner := bufio.NewScanner(cmdReader)
 		go func() {
 			for scanner.Scan() {
-				fmt.Printf("docker build out | %s\n", scanner.Text())
+				//low-level exception logging
+				fmt.Printf("workflow2 process | %s\n", scanner.Text())
 			}
 		}()
 
 		err = cmd.Start()
 		if err != nil {
-			fmt.Fprintln(os.Stderr, "Error starting Cmd", err)
-			os.Exit(1)
+			logme("Error", "runworkflow2Handler", "can't start command > "+err.Error())
 		}
 
 		// err = cmd.Wait()
@@ -262,16 +307,14 @@ func runworkflow2Handler(w http.ResponseWriter, r *http.Request) {
 		// 	os.Exit(1)
 		// }
 
-		pid := strconv.Itoa(cmd.Process.Pid)
-
 		process := CellarProcess{
 			PID:  cmd.Process.Pid,
 			Name: workflowName,
 		}
 		runningProcesses = append(runningProcesses, process)
 
-		logInfo("runworkflowHandler", "PID ("+pid+") - NAME ("+workflowName+") OK")
-
+		// pid := strconv.Itoa(cmd.Process.Pid)
+		// logme("Info", "runworkflowHandler", "PID ("+pid+") - NAME ("+workflowName+") OK")
 	}
 
 }
@@ -279,7 +322,7 @@ func runworkflow2Handler(w http.ResponseWriter, r *http.Request) {
 //--------------------------------
 // API method
 //--------------------------------
-func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
+func runworkflow1Handler(w http.ResponseWriter, r *http.Request) {
 
 	// cmd = exec.Command("./cellarworkf1 " + randomWorkflowName)
 	// cmd.Stdout = os.Stdout
@@ -317,21 +360,20 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 	cmd := exec.Command(cmdName, cmdArgs...)
 	cmdReader, err := cmd.StdoutPipe()
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Error creating StdoutPipe for Cmd", err)
-		os.Exit(1)
+		logme("Error", "runworkflowHandler", "can't run command > "+err.Error())
 	}
 
 	scanner := bufio.NewScanner(cmdReader)
 	go func() {
 		for scanner.Scan() {
-			fmt.Printf("docker build out | %s\n", scanner.Text())
+			//low-level exception logging
+			fmt.Printf("workflow1 process | %s\n", scanner.Text())
 		}
 	}()
 
 	err = cmd.Start()
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Error starting Cmd", err)
-		os.Exit(1)
+		logme("Error", "runworkflowHandler", "can't start command > "+err.Error())
 	}
 
 	// err = cmd.Wait()
@@ -340,43 +382,46 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 	// 	os.Exit(1)
 	// }
 
-	pid := strconv.Itoa(cmd.Process.Pid)
-
 	process := CellarProcess{
 		PID:  cmd.Process.Pid,
 		Name: randomWorkflowName,
 	}
 	runningProcesses = append(runningProcesses, process)
 
-	logInfo("runworkflowHandler", "PID ("+pid+") - NAME ("+randomWorkflowName+") OK")
+	// pid := strconv.Itoa(cmd.Process.Pid)
+	// logme("Info", "runworkflowHandler", "PID ("+pid+") - NAME ("+randomWorkflowName+") OK")
 }
 
-//HELPER
-func logInfo(method string, message string) {
+//-------------------------------------
+//HELPERS
+//-------------------------------------
+func logme(level string, method string, message string) {
 	var data = map[string]string{
+		"level":   level,
 		"method":  method,
 		"message": message,
 	}
 	error := logger.Post(tag, data)
 	if error != nil {
-		panic(error)
+		//low-level exception logging
+		fmt.Println(error.Error())
 	}
 }
 
-//HELPER
 func layoutFiles() []string {
 	files, err := filepath.Glob(LayoutDir + "/*.gohtml")
 	if err != nil {
-		panic(err)
+		//low-level exception logging
+		fmt.Println(err.Error())
 	}
 	return files
 }
 
-func printError(err error) {
-	if err != nil {
-		os.Stderr.WriteString(fmt.Sprintf("==> Error: %s\n", err.Error()))
-	}
-}
+// func printError(err error) {
+// 	if err != nil {
+// 		os.Stderr.WriteString(fmt.Sprintf("==> Error: %s\n", err.Error()))
+// 	}
+// }
 
 func printOutput(outs []byte) string {
 	result := ""

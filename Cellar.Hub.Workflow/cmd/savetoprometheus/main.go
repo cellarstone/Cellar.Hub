@@ -5,15 +5,11 @@ import (
 	"math/rand"
 	"os"
 	"os/signal"
-	"strconv"
 	"strings"
 	"time"
 
-	"github.com/fluent/fluent-logger-golang/fluent"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/push"
-
 	"github.com/erikdubbelboer/gspt"
+	"github.com/fluent/fluent-logger-golang/fluent"
 )
 
 var workflowIn chan string
@@ -22,20 +18,10 @@ var workflowOut chan string
 //Mqtt url
 var MqttUrl = "cellar.hub.mqtt:1883"
 
-//Metrics
+//Prometheus url
 var gatewayUrl = "http://pushgateway:9091/"
-var (
-	metricTemp = prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "cellar_mqttnumber",
-		Help: "Mqtt value from cellarstone program.",
-	})
-	metricTempCount = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "cellar_mqttcount",
-			Help: "Number of Mqtt numbers.",
-		})
-)
 
+//Fluentd
 var fluentdUrl = "fluentd"
 var logger *fluent.Fluent
 var tag = "Cellar.Hub.Workflow.Workflow2"
@@ -105,20 +91,8 @@ func main() {
 	go func() {
 		for value := range workflowOut {
 
-			valueFloat, _ := strconv.ParseFloat(value, 64)
-
-			//Prometheus - set metrics
-			metricTemp.Set(valueFloat)
-			metricTempCount.Inc()
-			err := push.AddCollectors("pushgateway",
-				map[string]string{"instance": workflowName, "senzor": senzor},
-				gatewayUrl,
-				metricTemp,
-				metricTempCount,
-			)
-			if err != nil {
-				logme("Error", "main", "Could not push completion time to Pushgateway > "+err.Error())
-			}
+			//DO NOTHING
+			value = value
 
 		}
 		close(workflowOut)

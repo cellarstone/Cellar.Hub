@@ -62,5 +62,7 @@ sudo docker run -d -p 3000:3000 -t cellar.hub.workflow
 sudo docker run -it cellar.hub.workflow
 
 
-sudo docker-compose -f docker-compose.workflow.yml up
-sudo docker-compose -f docker-compose.production.yml up
+# docker-compose variants
+sudo docker-compose -f docker-compose.api.yml up --build
+sudo docker-compose -f docker-compose.workflow.yml up --build
+sudo docker-compose -f docker-compose.production.yml up --build
