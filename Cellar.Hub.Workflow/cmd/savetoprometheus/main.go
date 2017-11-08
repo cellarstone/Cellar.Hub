@@ -49,8 +49,8 @@ func main() {
 	//set logging
 	logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: fluentdUrl})
 	if err != nil {
-		//low-level exception logging
-		fmt.Println(err)
+		//stop program
+		panic(err)
 	}
 	defer logger.Close()
 

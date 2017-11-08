@@ -69,6 +69,7 @@ func processMessage(topicName, message []byte) {
 	// senzorID := strings.Split(topic, "/")[0]
 	// measurement := strings.Split(topic, "/")[1]
 	value := string(message)
+	logme("Debug", "mqttprocessmessage", value)
 
 	workflowIn <- value
 }
