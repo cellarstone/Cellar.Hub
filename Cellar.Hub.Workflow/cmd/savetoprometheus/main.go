@@ -29,6 +29,7 @@ var err error
 
 //INPUT PARAMETERS
 var senzor string
+var measurement string
 var topic string
 
 // func init() {
@@ -68,6 +69,7 @@ func main() {
 	workflowName := os.Args[1]
 	topic = os.Args[2]
 	senzor = strings.Split(topic, "/")[0]
+	measurement = strings.Split(topic, "/")[0]
 	gspt.SetProcTitle(workflowName)
 
 	// log.Info("main.go of Workflow2 with name(" + workflowName + ")START")

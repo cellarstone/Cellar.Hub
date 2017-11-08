@@ -29,9 +29,9 @@ type SendToPrometheusTask struct {
 
 func (t *SendToPrometheusTask) Execute() error {
 
-	// metricTemp = prometheus.NewGauge(prometheus.GaugeOpts{
-	// 	Name: t.Topic,
-	// })
+	metricTemp = prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: t.Topic,
+	})
 
 	fmt.Println("sendtoprometheustask - " + t.Senzor + " - " + t.Topic + " - " + t.PrometheusUrl)
 

@@ -37,7 +37,7 @@ func RunWorkflow(name string) {
 					OutChannel:      workflowOut,
 				},
 				Senzor:        senzor,
-				Topic:         topic,
+				Topic:         measurement,
 				PrometheusUrl: gatewayUrl,
 			})
 
