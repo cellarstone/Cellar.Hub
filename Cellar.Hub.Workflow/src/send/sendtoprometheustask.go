@@ -10,12 +10,12 @@ import (
 	"github.com/prometheus/client_golang/prometheus/push"
 )
 
-// var (
-// 	metricTemp = prometheus.NewGauge(prometheus.GaugeOpts{
-// 		Name: "cellar_mqttnumber",
-// 		Help: "Mqtt value from cellarstone program.",
-// 	})
-// )
+var (
+	metricTemp = prometheus.NewGauge(prometheus.GaugeOpts{
+		Name: "cellar_mqttnumber",
+		Help: "Mqtt value from cellarstone program.",
+	})
+)
 
 //**********************************
 //TASK - Send to prometheus
@@ -29,9 +29,9 @@ type SendToPrometheusTask struct {
 
 func (t *SendToPrometheusTask) Execute() error {
 
-	metricTemp := prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: t.Topic,
-	})
+	// metricTemp := prometheus.NewGauge(prometheus.GaugeOpts{
+	// 	Name: t.Topic,
+	// })
 
 	fmt.Println("sendtoprometheustask - " + t.Senzor + " - " + t.Topic + " - " + t.PrometheusUrl)
 
@@ -72,9 +72,9 @@ func (t *SendToPrometheusTask) Execute() error {
 
 func (t *SendToPrometheusTask) ExecuteParallel(value string) error {
 
-	metricTemp := prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: t.Topic,
-	})
+	// metricTemp := prometheus.NewGauge(prometheus.GaugeOpts{
+	// 	Name: t.Topic,
+	// })
 
 	t.State = "inprogress"
 	//*****************
