@@ -45,6 +45,9 @@ var err error
 //var runningProcesses []CellarProcess
 
 func main() {
+
+	fmt.Println("AAAA")
+
 	//set logging
 	logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: fluentdUrl})
 	if err != nil {
@@ -53,65 +56,13 @@ func main() {
 	}
 	defer logger.Close()
 
+	logme("Warning", "main", "BBBBB")
+
 	//Set process name of current program
 	//port := ":" + os.Args[1]
 
 	//programName := os.Args[2]
 	//gspt.SetProcTitle("cellarworkflowmanager")
-
-	//--------------------------------------------------------
-	//--------------------------------------------------------
-	// Run Worfklows from DB
-	//--------------------------------------------------------
-	//--------------------------------------------------------
-
-	collection := GetAllWorkflowEntity()
-
-	//*************************
-	//*************************
-	//*************************
-	//*************************
-
-	for _, entity := range collection {
-
-		cmdName := ""
-		cmdArgs := []string{}
-
-		cmdName = "./" + entity.Type
-		cmdArgs = entity.Parameters
-
-		// if entity.Type == "workflow1" {
-		// 	cmdName = "./" + entity.Type
-		// 	cmdArgs = entity.Parameters
-		// } else if entity.Type == "workflow2" {
-		// 	cmdName = "./cellarworkf2"
-		// 	cmdArgs = entity.Parameters
-		// } else if entity.Type == "savetoprometheus" {
-		// 	cmdName = "./savetoprometheus"
-		// 	cmdArgs = entity.Parameters
-		// }
-
-		//run
-		cmd := exec.Command(cmdName, cmdArgs...)
-		cmdReader, err := cmd.StdoutPipe()
-		if err != nil {
-			logme("Error", "main", "can't run command > "+err.Error())
-		}
-
-		scanner := bufio.NewScanner(cmdReader)
-		go func() {
-			for scanner.Scan() {
-				//low-level exception logging
-				fmt.Printf("workflow process | %s\n", scanner.Text())
-			}
-		}()
-
-		err = cmd.Start()
-		if err != nil {
-			logme("Error", "main", "can't start command > "+err.Error())
-		}
-
-	}
 
 	//--------------------------------------------------------
 	//--------------------------------------------------------
@@ -164,6 +115,7 @@ func main() {
 	r.Handle("/runworkflow", RecoverWrap(http.HandlerFunc(runworkflowHandler)))
 	r.Handle("/workflowsindb", RecoverWrap(http.HandlerFunc(workflowindbHandler)))
 	r.Handle("/killprocess/{id}", RecoverWrap(http.HandlerFunc(killprocessHandler)))
+	r.Handle("/deleteworkflow/{id}", RecoverWrap(http.HandlerFunc(deleteworkflowHandler)))
 	http.ListenAndServe(":5000", r)
 }
 
@@ -200,6 +152,73 @@ func RecoverWrap(h http.Handler) http.Handler {
 // 	fmt.Println("TEST")
 // }
 func indexHandler(w http.ResponseWriter, r *http.Request) {
+	//--------------------------------------------------------
+	//--------------------------------------------------------
+	// Run Worfklows from DB
+	//--------------------------------------------------------
+	//--------------------------------------------------------
+
+	collection := GetAllWorkflowEntity()
+	fmt.Println(collection)
+	aa := ""
+	for _, entity := range collection {
+		aa += entity.Type
+	}
+	logme("Warning", "main", aa)
+
+	//*************************
+	//*************************
+	//*************************
+	//*************************
+
+	for _, entity := range collection {
+
+		cmdName := ""
+		cmdArgs := []string{}
+
+		cmdName = "./" + entity.Type
+		cmdArgs = entity.Parameters
+
+		// if entity.Type == "workflow1" {
+		// 	cmdName = "./" + entity.Type
+		// 	cmdArgs = entity.Parameters
+		// } else if entity.Type == "workflow2" {
+		// 	cmdName = "./cellarworkf2"
+		// 	cmdArgs = entity.Parameters
+		// } else if entity.Type == "savetoprometheus" {
+		// 	cmdName = "./savetoprometheus"
+		// 	cmdArgs = entity.Parameters
+		// }
+		aa := ""
+		for _, entity := range cmdArgs {
+			aa += " " + entity
+		}
+		fmt.Println(cmdName + " " + aa)
+		logme("Warning", "main", cmdName+" "+aa)
+
+		//run
+		cmd := exec.Command(cmdName, cmdArgs...)
+		cmdReader, err := cmd.StdoutPipe()
+		if err != nil {
+			logme("Error", "main", "can't run command > "+err.Error())
+		}
+
+		scanner := bufio.NewScanner(cmdReader)
+		go func() {
+			for scanner.Scan() {
+				//low-level exception logging
+				fmt.Printf("workflow process | %s\n", scanner.Text())
+				logme("Fatal", "main", scanner.Text())
+			}
+		}()
+
+		err = cmd.Start()
+		if err != nil {
+			logme("Error", "main", "can't start command > "+err.Error())
+		}
+
+	}
+
 	index.ExecuteTemplate(w, "layouttemplate", nil)
 }
 func processesHandler(w http.ResponseWriter, r *http.Request) {
@@ -222,18 +241,6 @@ func processesHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	processes.ExecuteTemplate(w, "layouttemplate", dto)
-}
-func killprocessHandler(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
-
-	idnumber, _ := strconv.Atoi(id)
-
-	proc, _ := os.FindProcess(idnumber)
-	err := proc.Kill()
-	if err != nil {
-		logme("Error", "killprocessHandler", "process can't be killed > "+err.Error())
-	}
 }
 func actualdirectoryHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -383,6 +390,28 @@ func workflowindbHandler(w http.ResponseWriter, r *http.Request) {
 //--------------------------------
 // API method
 //--------------------------------
+func killprocessHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	idnumber, _ := strconv.Atoi(id)
+
+	proc, _ := os.FindProcess(idnumber)
+	err := proc.Kill()
+	if err != nil {
+		logme("Error", "killprocessHandler", "process can't be killed > "+err.Error())
+	}
+}
+
+func deleteworkflowHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	err := DeleteWorklfowEntity(id)
+	if err != nil {
+		logme("Error", "deleteworkflowHandler", "workflow can't be deleted > "+err.Error())
+	}
+}
 
 //-------------------------------------
 //HELPERS

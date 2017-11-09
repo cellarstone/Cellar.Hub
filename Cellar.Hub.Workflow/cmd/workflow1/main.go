@@ -75,7 +75,7 @@ func main() {
 	// each 2 seconds send message
 
 	go func() {
-		for i := 0; i < 1000; i++ {
+		for {
 			time.Sleep(1 * time.Second)
 			// randomNumber := random(1, 100)
 			randomNumberFloat := rand.Float64() * 1000

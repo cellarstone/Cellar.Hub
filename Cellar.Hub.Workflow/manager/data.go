@@ -40,10 +40,10 @@ func GetAllWorkflowEntity() []WorkflowEntity {
 	}
 	defer session.Close()
 
-	//SELECT TABLE
+	//Select table
 	workflowsTable := session.DB(MongoDatabase).C("workflowentity")
 
-	//CHECK IF STATE IS DONE
+	//Return data
 	var result []WorkflowEntity
 	err = workflowsTable.Find(nil).All(&result)
 	if err != nil && err.Error() != "not found" {
@@ -51,4 +51,27 @@ func GetAllWorkflowEntity() []WorkflowEntity {
 	}
 
 	return result
+}
+
+func DeleteWorklfowEntity(id string) error {
+	// Get session
+	session, err := mgo.Dial(MongoUrl)
+	if err != nil {
+		return err
+	}
+	defer session.Close()
+
+	// Error check on every access
+	session.SetSafe(&mgo.Safe{})
+
+	// Get collection
+	collection := session.DB(MongoDatabase).C("workflowentity")
+
+	// Delete record
+	err = collection.RemoveId(bson.ObjectIdHex(id))
+	if err != nil && err.Error() != "not found" {
+		return err
+	}
+
+	return nil
 }
