@@ -40,6 +40,9 @@ var (
 )
 
 func main() {
+
+	fmt.Println("ASDFADFAFDASFAFASF")
+
 	//set logging
 	logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: fluentdUrl})
 	if err != nil {
