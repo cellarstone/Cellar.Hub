@@ -9,13 +9,13 @@ ADD . $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow1
 RUN go-wrapper download
 RUN go-wrapper install
-RUN go build -o bin/cellarworkf1 
+RUN go build -o bin/workflow1 
 
 # Cellar workflow2 - get packages & build
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow2
 RUN go-wrapper download
 RUN go-wrapper install
-RUN go build -o bin/cellarworkf2
+RUN go build -o bin/workflow2
 
 # Cellar savetoprometheus - get packages & build
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/savetoprometheus

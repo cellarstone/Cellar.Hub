@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"bytes"
 	"errors"
 	"fmt"
 	"html/template"
@@ -33,17 +32,17 @@ type CellarDTO struct {
 	Data  []string `json:"Data"`
 }
 
-type CellarProcess struct {
-	PID  int    `json:"PID"`
-	Name string `json:"Name"`
-}
+// type CellarProcess struct {
+// 	PID  int    `json:"PID"`
+// 	Name string `json:"Name"`
+// }
 
 var fluentdUrl = "fluentd"
 var logger *fluent.Fluent
 var tag = "Cellar.Hub.Workflow.Manager"
 var err error
 
-var runningProcesses []CellarProcess
+//var runningProcesses []CellarProcess
 
 func main() {
 	//set logging
@@ -59,6 +58,60 @@ func main() {
 
 	//programName := os.Args[2]
 	//gspt.SetProcTitle("cellarworkflowmanager")
+
+	//--------------------------------------------------------
+	//--------------------------------------------------------
+	// Run Worfklows from DB
+	//--------------------------------------------------------
+	//--------------------------------------------------------
+
+	collection := GetAllWorkflowEntity()
+
+	//*************************
+	//*************************
+	//*************************
+	//*************************
+
+	for _, entity := range collection {
+
+		cmdName := ""
+		cmdArgs := []string{}
+
+		cmdName = "./" + entity.Type
+		cmdArgs = entity.Parameters
+
+		// if entity.Type == "workflow1" {
+		// 	cmdName = "./" + entity.Type
+		// 	cmdArgs = entity.Parameters
+		// } else if entity.Type == "workflow2" {
+		// 	cmdName = "./cellarworkf2"
+		// 	cmdArgs = entity.Parameters
+		// } else if entity.Type == "savetoprometheus" {
+		// 	cmdName = "./savetoprometheus"
+		// 	cmdArgs = entity.Parameters
+		// }
+
+		//run
+		cmd := exec.Command(cmdName, cmdArgs...)
+		cmdReader, err := cmd.StdoutPipe()
+		if err != nil {
+			logme("Error", "runworkflowHandler", "can't run command > "+err.Error())
+		}
+
+		scanner := bufio.NewScanner(cmdReader)
+		go func() {
+			for scanner.Scan() {
+				//low-level exception logging
+				fmt.Printf("workflow process | %s\n", scanner.Text())
+			}
+		}()
+
+		err = cmd.Start()
+		if err != nil {
+			logme("Error", "runworkflowHandler", "can't start command > "+err.Error())
+		}
+
+	}
 
 	//--------------------------------------------------------
 	//--------------------------------------------------------
@@ -250,16 +303,16 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 		// sha := string(cmdOut2)
 		// log("Info", "runworkflow2Handler", sha)
 
-		formData := ""
+		// formData := ""
 
-		for key, value := range r.Form {
-			var buffer bytes.Buffer
-			buffer.WriteString(key)
-			buffer.WriteString(" - ")
-			buffer.WriteString(value[0])
-			buffer.WriteString("\n")
-			formData += string(buffer.String())
-		}
+		// for key, value := range r.Form {
+		// 	var buffer bytes.Buffer
+		// 	buffer.WriteString(key)
+		// 	buffer.WriteString(" - ")
+		// 	buffer.WriteString(value[0])
+		// 	buffer.WriteString("\n")
+		// 	formData += string(buffer.String())
+		// }
 
 		workflowType := r.Form.Get("workflowType")
 		workflowName := r.Form.Get("workflowName")
@@ -279,10 +332,18 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 			cmdArgs = []string{workflowName, topic}
 		}
 
+		//befor run, save it
+		entity := WorkflowEntity{
+			Type:       workflowType,
+			Parameters: cmdArgs,
+		}
+		SaveWorkflowEntity(&entity)
+
+		//run
 		cmd := exec.Command(cmdName, cmdArgs...)
 		cmdReader, err := cmd.StdoutPipe()
 		if err != nil {
-			logme("Error", "runworkflow2Handler", "can't run command > "+err.Error())
+			logme("Error", "runworkflowHandler", "can't run command > "+err.Error())
 		}
 
 		scanner := bufio.NewScanner(cmdReader)
@@ -295,7 +356,7 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 
 		err = cmd.Start()
 		if err != nil {
-			logme("Error", "runworkflow2Handler", "can't start command > "+err.Error())
+			logme("Error", "runworkflowHandler", "can't start command > "+err.Error())
 		}
 
 		// err = cmd.Wait()
@@ -304,11 +365,11 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 		// 	os.Exit(1)
 		// }
 
-		process := CellarProcess{
-			PID:  cmd.Process.Pid,
-			Name: workflowName,
-		}
-		runningProcesses = append(runningProcesses, process)
+		// process := CellarProcess{
+		// 	PID:  cmd.Process.Pid,
+		// 	Name: workflowName,
+		// }
+		// runningProcesses = append(runningProcesses, process)
 
 		// pid := strconv.Itoa(cmd.Process.Pid)
 		// logme("Info", "runworkflowHandler", "PID ("+pid+") - NAME ("+workflowName+") OK")
