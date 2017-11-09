@@ -322,10 +322,10 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 		cmdArgs := []string{}
 
 		if workflowType == "workflow1" {
-			cmdName = "./cellarworkf1"
+			cmdName = "./workflow1"
 			cmdArgs = []string{workflowName}
 		} else if workflowType == "workflow2" {
-			cmdName = "./cellarworkf2"
+			cmdName = "./workflow2"
 			cmdArgs = []string{workflowName, topic}
 		} else if workflowType == "savetoprometheus" {
 			cmdName = "./savetoprometheus"
