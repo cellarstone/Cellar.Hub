@@ -8,6 +8,11 @@ services:
     build:
       context: ./Cellar.Hub.Workflow
       dockerfile: Dockerfile
+    depends_on: 
+      - cellar.hub.mongodb
+      - cellar.hub.mqtt
+      - fluentd
+      - pushgateway
     links:
       - fluentd
       - pushgateway

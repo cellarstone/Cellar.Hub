@@ -47,6 +47,8 @@ func main() {
 	}
 	defer logger.Close()
 
+	log("Info", "workflow1", "BEFORE START")
+
 	// environment := os.Getenv("APP_ENV")
 	workflowName := os.Args[1]
 	gspt.SetProcTitle(workflowName)
