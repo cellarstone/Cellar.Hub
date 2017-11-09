@@ -11,10 +11,6 @@ import (
 	// "../send"
 
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/decision"
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/human"
-	mylog "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/others"
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/send"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -115,54 +111,60 @@ func (wf *Workflow) run(tasks []interface{}) error {
 	for _, nt := range tasks {
 
 		switch nttype := nt.(type) {
-		case *mylog.LogTask:
-			log.Debug("LogTask - ", nttype)
+		case abstraction.Task:
+			// log.Debug("LogTask - ", nttype)
 			// RUN IT in separate goroutine
 			go func(t abstraction.Task) {
 				t.Execute()
 			}(nttype)
-		case *decision.BaseDecisionTask:
-			log.Debug("BaseDecisionTask - ", nttype)
-			// RUN IT in separate goroutine
-			go func(t abstraction.Task) {
-				t.Execute()
-			}(nttype)
-		case *human.BaseHumanTask:
-			log.Debug("BaseHumanTask - ", nttype)
-			// RUN IT in separate goroutine
-			go func(t abstraction.Task) {
-				t.Execute()
-			}(nttype)
-		case *send.SendEmailTask:
-			log.Debug("SendEmailTask -", nttype)
-			// RUN IT in separate goroutine
-			go func(t abstraction.Task) {
-				t.Execute()
-			}(nttype)
-		case *send.SendSmsTask:
-			log.Debug("SendSmsTask -", nttype)
-			// RUN IT in separate goroutine
-			go func(t abstraction.Task) {
-				t.Execute()
-			}(nttype)
-		case *send.SendMqttTask:
-			log.Debug("SendMqttTask -", nttype)
-			// RUN IT in separate goroutine
-			go func(t abstraction.Task) {
-				t.Execute()
-			}(nttype)
-		case *send.SendRpcTask:
-			log.Debug("SendRpcTask -", nttype)
-			// RUN IT in separate goroutine
-			go func(t abstraction.Task) {
-				t.Execute()
-			}(nttype)
-		case *send.SendToPrometheusTask:
-			log.Debug("SendToPrometheusTask -", nttype)
-			// RUN IT in separate goroutine
-			go func(t abstraction.Task) {
-				t.Execute()
-			}(nttype)
+		// case *mylog.LogTask:
+		// 	log.Debug("LogTask - ", nttype)
+		// 	// RUN IT in separate goroutine
+		// 	go func(t abstraction.Task) {
+		// 		t.Execute()
+		// 	}(nttype)
+		// case *decision.BaseDecisionTask:
+		// 	log.Debug("BaseDecisionTask - ", nttype)
+		// 	// RUN IT in separate goroutine
+		// 	go func(t abstraction.Task) {
+		// 		t.Execute()
+		// 	}(nttype)
+		// case *human.BaseHumanTask:
+		// 	log.Debug("BaseHumanTask - ", nttype)
+		// 	// RUN IT in separate goroutine
+		// 	go func(t abstraction.Task) {
+		// 		t.Execute()
+		// 	}(nttype)
+		// case *send.SendEmailTask:
+		// 	log.Debug("SendEmailTask -", nttype)
+		// 	// RUN IT in separate goroutine
+		// 	go func(t abstraction.Task) {
+		// 		t.Execute()
+		// 	}(nttype)
+		// case *send.SendSmsTask:
+		// 	log.Debug("SendSmsTask -", nttype)
+		// 	// RUN IT in separate goroutine
+		// 	go func(t abstraction.Task) {
+		// 		t.Execute()
+		// 	}(nttype)
+		// case *send.SendMqttTask:
+		// 	log.Debug("SendMqttTask -", nttype)
+		// 	// RUN IT in separate goroutine
+		// 	go func(t abstraction.Task) {
+		// 		t.Execute()
+		// 	}(nttype)
+		// case *send.SendRpcTask:
+		// 	log.Debug("SendRpcTask -", nttype)
+		// 	// RUN IT in separate goroutine
+		// 	go func(t abstraction.Task) {
+		// 		t.Execute()
+		// 	}(nttype)
+		// case *send.SendToPrometheusTask:
+		// 	log.Debug("SendToPrometheusTask -", nttype)
+		// 	// RUN IT in separate goroutine
+		// 	go func(t abstraction.Task) {
+		// 		t.Execute()
+		// 	}(nttype)
 		default:
 			log.Debug("----default-----", nttype)
 			// fmt.Println(nttype)

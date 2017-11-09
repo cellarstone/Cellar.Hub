@@ -109,8 +109,7 @@ func main() {
 	r.Handle("/processes", RecoverWrap(http.HandlerFunc(processesHandler)))
 	r.Handle("/actualdirectory", RecoverWrap(http.HandlerFunc(actualdirectoryHandler)))
 	r.Handle("/taillogs", RecoverWrap(http.HandlerFunc(taillogsHandler)))
-	r.Handle("/runworkflow1", RecoverWrap(http.HandlerFunc(runworkflow1Handler)))
-	r.Handle("/runworkflow2", RecoverWrap(http.HandlerFunc(runworkflow2Handler)))
+	r.Handle("/runworkflow", RecoverWrap(http.HandlerFunc(runworkflowHandler)))
 	r.Handle("/killprocess/{id}", RecoverWrap(http.HandlerFunc(killprocessHandler)))
 	http.ListenAndServe(":5000", r)
 }
@@ -232,8 +231,7 @@ func taillogsHandler(w http.ResponseWriter, r *http.Request) {
 
 	taillogs.ExecuteTemplate(w, "layouttemplate", dto)
 }
-
-func runworkflow2Handler(w http.ResponseWriter, r *http.Request) {
+func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "GET" {
 		randomWorkflowName := "cellarworkflow_" + RandStringBytesMaskImprSrc(5)
@@ -321,75 +319,6 @@ func runworkflow2Handler(w http.ResponseWriter, r *http.Request) {
 //--------------------------------
 // API method
 //--------------------------------
-func runworkflow1Handler(w http.ResponseWriter, r *http.Request) {
-
-	// cmd = exec.Command("./cellarworkf1 " + randomWorkflowName)
-	// cmd.Stdout = os.Stdout
-	// err := cmd.Start()
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// pid := strconv.Itoa(cmd.Process.Pid)
-	// runningProcesses = append(runningProcesses, pid)
-
-	// log.Printf("Just ran subprocess %d, exiting\n", cmd.Process.Pid)
-
-	// var (
-	// 	cmdOut []byte
-	// 	err    error
-	// )
-	// cmd := "./cellarworkf1"
-	// args := []string{randomWorkflowName}
-	// if cmdOut, err = exec.Command(cmd, args...).Run(); err != nil {
-	// 	fmt.Fprintln(os.Stderr, err)
-	// 	os.Exit(1)
-	// }
-	// pid := strconv.Itoa(cmd.Process.Pid)
-	// runningProcesses = append(runningProcesses, pid)
-
-	// log.Printf("Just ran subprocess %d, exiting\n", cmd.Process.Pid)
-
-	//cmd.Wait()
-
-	randomWorkflowName := "cellarworkflow1_" + RandStringBytesMaskImprSrc(5)
-
-	cmdName := "./cellarworkf1"
-	cmdArgs := []string{randomWorkflowName}
-
-	cmd := exec.Command(cmdName, cmdArgs...)
-	cmdReader, err := cmd.StdoutPipe()
-	if err != nil {
-		logme("Error", "runworkflowHandler", "can't run command > "+err.Error())
-	}
-
-	scanner := bufio.NewScanner(cmdReader)
-	go func() {
-		for scanner.Scan() {
-			//low-level exception logging
-			fmt.Printf("workflow1 process | %s\n", scanner.Text())
-		}
-	}()
-
-	err = cmd.Start()
-	if err != nil {
-		logme("Error", "runworkflowHandler", "can't start command > "+err.Error())
-	}
-
-	// err = cmd.Wait()
-	// if err != nil {
-	// 	fmt.Fprintln(os.Stderr, "Error waiting for Cmd", err)
-	// 	os.Exit(1)
-	// }
-
-	process := CellarProcess{
-		PID:  cmd.Process.Pid,
-		Name: randomWorkflowName,
-	}
-	runningProcesses = append(runningProcesses, process)
-
-	// pid := strconv.Itoa(cmd.Process.Pid)
-	// logme("Info", "runworkflowHandler", "PID ("+pid+") - NAME ("+randomWorkflowName+") OK")
-}
 
 //-------------------------------------
 //HELPERS
