@@ -33,8 +33,8 @@ RUN go build -o cellarworkflowmanager
 
 
 # copy all workflow to manager
-RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow1/bin/cellarworkf1 /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
-RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow2/bin/cellarworkf2 /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
+RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow1/bin/workflow1 /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
+RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow2/bin/workflow2 /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/savetoprometheus/bin/savetoprometheus /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 
 

@@ -20,11 +20,11 @@ import (
 
 var LayoutDir string = "views/layout"
 var index *template.Template
-var contact *template.Template
 var processes *template.Template
 var actualDirectory *template.Template
 var taillogs *template.Template
 var runworkflow *template.Template
+var workflowindb *template.Template
 
 type CellarDTO struct {
 	ID    string   `json:"ID"`
@@ -95,7 +95,7 @@ func main() {
 		cmd := exec.Command(cmdName, cmdArgs...)
 		cmdReader, err := cmd.StdoutPipe()
 		if err != nil {
-			logme("Error", "runworkflowHandler", "can't run command > "+err.Error())
+			logme("Error", "main", "can't run command > "+err.Error())
 		}
 
 		scanner := bufio.NewScanner(cmdReader)
@@ -108,7 +108,7 @@ func main() {
 
 		err = cmd.Start()
 		if err != nil {
-			logme("Error", "runworkflowHandler", "can't start command > "+err.Error())
+			logme("Error", "main", "can't start command > "+err.Error())
 		}
 
 	}
@@ -121,12 +121,6 @@ func main() {
 	var err error
 	files := append(layoutFiles(), "views/index.gohtml")
 	index, err = template.ParseFiles(files...)
-	if err != nil {
-		//low-level exception logging
-		fmt.Println(err)
-	}
-	files = append(layoutFiles(), "views/contact.gohtml")
-	contact, err = template.ParseFiles(files...)
 	if err != nil {
 		//low-level exception logging
 		fmt.Println(err)
@@ -155,14 +149,20 @@ func main() {
 		//low-level exception logging
 		fmt.Println(err)
 	}
+	files = append(layoutFiles(), "views/workflowsindb.gohtml")
+	workflowindb, err = template.ParseFiles(files...)
+	if err != nil {
+		//low-level exception logging
+		fmt.Println(err)
+	}
 
 	r := mux.NewRouter()
 	r.Handle("/", RecoverWrap(http.HandlerFunc(indexHandler)))
-	r.Handle("/contact", RecoverWrap(http.HandlerFunc(contactHandler)))
 	r.Handle("/processes", RecoverWrap(http.HandlerFunc(processesHandler)))
 	r.Handle("/actualdirectory", RecoverWrap(http.HandlerFunc(actualdirectoryHandler)))
 	r.Handle("/taillogs", RecoverWrap(http.HandlerFunc(taillogsHandler)))
 	r.Handle("/runworkflow", RecoverWrap(http.HandlerFunc(runworkflowHandler)))
+	r.Handle("/workflowsindb", RecoverWrap(http.HandlerFunc(workflowindbHandler)))
 	r.Handle("/killprocess/{id}", RecoverWrap(http.HandlerFunc(killprocessHandler)))
 	http.ListenAndServe(":5000", r)
 }
@@ -201,9 +201,6 @@ func RecoverWrap(h http.Handler) http.Handler {
 // }
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	index.ExecuteTemplate(w, "layouttemplate", nil)
-}
-func contactHandler(w http.ResponseWriter, r *http.Request) {
-	contact.ExecuteTemplate(w, "layouttemplate", nil)
 }
 func processesHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -375,6 +372,12 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 		// logme("Info", "runworkflowHandler", "PID ("+pid+") - NAME ("+workflowName+") OK")
 	}
 
+}
+func workflowindbHandler(w http.ResponseWriter, r *http.Request) {
+
+	data := GetAllWorkflowEntity()
+
+	workflowindb.ExecuteTemplate(w, "layouttemplate", data)
 }
 
 //--------------------------------
