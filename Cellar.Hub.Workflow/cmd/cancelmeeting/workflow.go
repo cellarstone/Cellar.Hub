@@ -2,7 +2,6 @@ package main
 
 import (
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/send"
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/workflow"
 
 	"gopkg.in/mgo.v2/bson"
@@ -14,10 +13,9 @@ func RunWorkflow(name string) {
 	go func() {
 		wf := workflow.NewWorkflow(name)
 
-		//normal task
-		wf.AddTask(&send.SendToPrometheusTask{
+		wf.AddTask(&check.CheckActualMeetingTask{
 			BaseTask: abstraction.BaseTask{
-				Type:            "SendToPrometheusTask",
+				Type:            "CheckActualMeetingTask",
 				Name:            "myTask1",
 				State:           "new",
 				ID:              bson.NewObjectId(),

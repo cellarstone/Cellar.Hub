@@ -11,16 +11,15 @@ import (
 //**********************************
 //TASK - log
 //**********************************
-type CheckMovementTask struct {
+type CheckActualMeetingTask struct {
 	abstraction.BaseTask
-	RoomID         string `json:"roomid" bson:"roomid"`
-	TimeBackPeriod string `json:"timebackperiod" bson:"timebackperiod"`
-	PrometheusUrl  string `json:"prometheusurl" bson:"prometheusurl"`
+	RoomID string `json:"roomid" bson:"roomid"`
+	ApiUrl string `json:"apiurl" bson:"apiurl"`
 }
 
-func (t *CheckMovementTask) Execute() error {
+func (t *CheckActualMeetingTask) Execute() error {
 	for value := range t.InChannel {
-
+		fmt.Println("CheckMeetingTask value - " + value)
 		t.OutChannel <- value
 	}
 
@@ -29,9 +28,9 @@ func (t *CheckMovementTask) Execute() error {
 	return nil
 }
 
-func (t *CheckMovementTask) ExecuteParallel(value string) error {
+func (t *CheckActualMeetingTask) ExecuteParallel(value string) error {
 	t.State = "inprogress"
-	fmt.Println("CheckMovementTask parallel value - " + value)
+	fmt.Println("CheckMeetingTask parallel value - " + value)
 	t.State = "completed"
 	return nil
 }
