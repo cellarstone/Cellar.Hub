@@ -8,7 +8,7 @@ import (
 
 	"github.com/erikdubbelboer/gspt"
 
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/log"
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/logging"
 )
 
 var workflowIn chan string
