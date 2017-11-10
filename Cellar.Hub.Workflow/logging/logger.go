@@ -29,3 +29,36 @@ func NewLogger(tag string) *Logger {
 
 	return &result
 }
+
+func (t *Logger) Debug(source string, message string) error {
+	return t.log("Debug", source, message)
+}
+
+func (t *Logger) Information(source string, message string) error {
+	return t.log("Information", source, message)
+}
+
+func (t *Logger) Warning(source string, message string) error {
+	return t.log("Warning", source, message)
+}
+
+func (t *Logger) Error(source string, message string) error {
+	return t.log("Error", source, message)
+}
+
+func (t *Logger) Fatal(source string, message string) error {
+	return t.log("Fatal", source, message)
+}
+
+func (t *Logger) log(level string, source string, message string) error {
+	var data = map[string]string{
+		"level":   "Debug",
+		"source":  source,
+		"message": message,
+	}
+	error := t.Logger.Post(t.Tag, data)
+	if error != nil {
+		return error
+	}
+	return nil
+}

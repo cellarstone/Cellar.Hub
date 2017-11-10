@@ -20,7 +20,7 @@ var workflowOut chan string
 // var tag = "Cellar.Hub.Workflow.Manager"
 // var err error
 
-var logger *log.Logger
+var logger *logging.Logger
 
 func main() {
 	// Set up channel on which to send signal notifications.
@@ -34,7 +34,8 @@ func main() {
 	// 	panic(err)
 	// }
 	// defer logger.Close()
-	logger := log.
+	logger := logging.NewLogger("Cellar.Hub.Workflow.Manager")
+	defer logger.Logger.Close()
 
 	// environment := os.Getenv("APP_ENV")
 	workflowName := os.Args[1]
@@ -77,17 +78,17 @@ func main() {
 //-------------------------------------
 //HELPERS
 //-------------------------------------
-func log(level string, method string, message string) {
-	var data = map[string]string{
-		"level":   level,
-		"method":  method,
-		"message": message,
-	}
-	error := logger.Post(tag, data)
-	if error != nil {
-		panic(error)
-	}
-}
+// func log(level string, method string, message string) {
+// 	var data = map[string]string{
+// 		"level":   level,
+// 		"method":  method,
+// 		"message": message,
+// 	}
+// 	error := logger.Post(tag, data)
+// 	if error != nil {
+// 		panic(error)
+// 	}
+// }
 func random(min, max int) int {
 	rand.Seed(time.Now().Unix())
 	return rand.Intn(max-min) + min
