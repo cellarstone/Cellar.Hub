@@ -21,9 +21,6 @@ func RunWorkflow(name string) {
 		ch2out := make(chan string)
 		ch3out := make(chan string)
 		ch4out := make(chan string)
-		ch5out := make(chan string)
-		ch6out := make(chan string)
-		ch7out := make(chan string)
 
 		// PIPELINE ------------------
 
@@ -45,10 +42,50 @@ func RunWorkflow(name string) {
 
 		//decision task
 		chas := make([]chan string, 2)
-		chas[0] = workflowOut
-		chas[1] = ch2out
-		dt := decision.NewTrueFalseDecisionTask("IsThereAnyRunningMeeting", 1, []int{99, 2}, ch1out, chas)
+		chas[0] = ch2out
+		chas[1] = workflowOut
+		dt := decision.NewTrueFalseDecisionTask("IsThereAnyRunningMeeting", 1, []int{2, 99}, ch1out, chas)
 		wf.AddTask(dt)
+
+		//Check if room have some movement during last XX minutes
+		wf.AddTask(&check.CheckMovementTask{
+			BaseTask: abstraction.BaseTask{
+				Type:            "CheckMovementTask",
+				Name:            "myTask2",
+				State:           "new",
+				ID:              bson.NewObjectId(),
+				InChannelIndex:  0,
+				OutChannelIndex: 1,
+				InChannel:       ch2out,
+				OutChannel:      ch3out,
+			},
+			RoomID:         "????",
+			TimeBackPeriod: "15m",
+			PrometheusUrl:  "http://prometheus",
+		})
+
+		//decision task
+		chas = make([]chan string, 2)
+		chas[0] = ch4out
+		chas[1] = workflowOut
+		dt = decision.NewTrueFalseDecisionTask("IsThereAnyMovement", 1, []int{3, 99}, ch3out, chas)
+		wf.AddTask(dt)
+
+		//Cancel actual meeting
+		wf.AddTask(&check.CancelActualMeetingTask{
+			BaseTask: abstraction.BaseTask{
+				Type:            "CancelActualMeetingTask",
+				Name:            "myTask3",
+				State:           "new",
+				ID:              bson.NewObjectId(),
+				InChannelIndex:  0,
+				OutChannelIndex: 1,
+				InChannel:       ch4out,
+				OutChannel:      workflowOut,
+			},
+			RoomID: "????",
+			ApiUrl: "http://cellar.hub.api/cancelactualmeetingtask",
+		})
 
 		wf.Run()
 	}()

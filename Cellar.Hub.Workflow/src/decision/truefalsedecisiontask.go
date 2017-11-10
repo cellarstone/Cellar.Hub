@@ -36,9 +36,9 @@ func (t *TrueFalseDecisionTask) Execute() error {
 
 	for value := range t.InChannel {
 
-		if value == "false" {
+		if value == "true" {
 			t.OutChannels[0] <- value
-		} else if value == "true" {
+		} else if value == "false" {
 			t.OutChannels[1] <- value
 		}
 
