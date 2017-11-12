@@ -65,7 +65,7 @@ services:
   elasticsearch:
     image: elasticsearch
     volumes:
-        - /data/cellarstone.hub/elasticsearch:/var/lib/elasticsearch
+        - C:/data/cellarstone.hub/elasticsearch:/var/lib/elasticsearch
     expose:
       - 9200
     ports:
@@ -84,7 +84,7 @@ services:
       context: ./Cellar.Hub.Log/prometheus
       dockerfile: Dockerfile
     volumes:
-      - /data/cellarstone.hub/prometheus:/prometheus
+      - C:/data/cellarstone.hub/prometheus:/prometheus
     ports:
       - '9090:9090'
     links:
@@ -98,6 +98,6 @@ services:
   grafana:
     image: grafana/grafana
     volumes:
-      - /data/cellarstone.hub/grafana:/var/lib/grafana
+      - C:/data/cellarstone.hub/grafana:/var/lib/grafana
     ports:
       - '3000:3000'

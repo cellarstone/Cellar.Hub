@@ -6,7 +6,7 @@ import (
 
 type Logger struct {
 	fluentdUrl string
-	logger     *fluent.Fluent
+	FluentLogger     *fluent.Fluent
 	tag        string
 }
 
@@ -17,7 +17,7 @@ func NewLogger(tag string) *Logger {
 	result.fluentdUrl = "fluentd"
 
 	//set logging
-	result.logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: result.fluentdUrl})
+	result.FluentLogger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: result.fluentdUrl})
 	if err != nil {
 		//stop program
 		panic(err)
@@ -56,7 +56,7 @@ func (t *Logger) log(level string, source string, message string) error {
 		"source":  source,
 		"message": message,
 	}
-	error := t.logger.Post(t.tag, data)
+	error := t.FluentLogger.Post(t.tag, data)
 	if error != nil {
 		return error
 	}

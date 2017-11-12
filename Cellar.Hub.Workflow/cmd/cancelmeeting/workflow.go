@@ -36,8 +36,8 @@ func RunWorkflow(name string) {
 				InChannel:       workflowIn,
 				OutChannel:      ch1out,
 			},
-			RoomID: "????",
-			ApiUrl: "http://cellar.hub.api/checkactualmeeting",
+			RoomID: roomID,
+			ApiUrl: apiUrl + "/checkactualmeeting",
 		})
 
 		//decision task
@@ -59,9 +59,9 @@ func RunWorkflow(name string) {
 				InChannel:       ch2out,
 				OutChannel:      ch3out,
 			},
-			RoomID:         "????",
-			TimeBackPeriod: "15m",
-			PrometheusUrl:  "http://prometheus",
+			RoomID:         roomID,
+			TimeBackPeriod: timePeriodBack,
+			PrometheusUrl:  prometheusUrl,
 		})
 
 		//decision task
@@ -83,8 +83,8 @@ func RunWorkflow(name string) {
 				InChannel:       ch4out,
 				OutChannel:      workflowOut,
 			},
-			RoomID: "????",
-			ApiUrl: "http://cellar.hub.api/cancelactualmeetingtask",
+			RoomID: roomID,
+			ApiUrl: apiUrl + "/cancelactualmeetingtask",
 		})
 
 		wf.Run()

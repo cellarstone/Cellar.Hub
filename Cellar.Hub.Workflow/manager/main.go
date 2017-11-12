@@ -37,8 +37,8 @@ var logger *logging.Logger
 func main() {
 
 	//set logging
-	logger := logging.NewLogger("Cellar.Hub.Workflow.Manager")
-	defer logger.Logger.Close()
+	logger = logging.NewLogger("Cellar.Hub.Workflow.Manager")
+	defer logger.FluentLogger.Close()
 
 	//--------------------------------------------------------
 	//--------------------------------------------------------
@@ -276,7 +276,8 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 
 		workflowType := r.Form.Get("workflowType")
 		workflowName := r.Form.Get("workflowName")
-		topic := r.Form.Get("topic")
+		parameter1 := r.Form.Get("parameter1")
+		parameter2 := r.Form.Get("parameter2")
 
 		cmdName := ""
 		cmdArgs := []string{}
@@ -286,10 +287,13 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 			cmdArgs = []string{workflowName}
 		} else if workflowType == "workflow2" {
 			cmdName = "./workflow2"
-			cmdArgs = []string{workflowName, topic}
+			cmdArgs = []string{workflowName, parameter1}
 		} else if workflowType == "savetoprometheus" {
 			cmdName = "./savetoprometheus"
-			cmdArgs = []string{workflowName, topic}
+			cmdArgs = []string{workflowName, parameter1}
+		} else if workflowType == "cancelmeeting" {
+			cmdName = "./cancelmeeting"
+			cmdArgs = []string{workflowName, parameter1, parameter2}
 		}
 
 		//befor run, save it
