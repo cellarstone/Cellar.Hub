@@ -16,6 +16,5 @@ func RunTimeRepeaterTrigger(numberOfSeconds int) {
 			//send value to the channel
 			workflowIn <- strconv.FormatFloat(randomNumberFloat, 'E', -1, 64)
 		}
-		close(workflowIn)
 	}()
 }

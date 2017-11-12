@@ -14,11 +14,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fluent/fluent-logger-golang/fluent"
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/logging"
 	"github.com/gorilla/mux"
 )
 
-var LayoutDir string = "views/layout"
+var layoutDir = "views/layout"
 var index *template.Template
 var processes *template.Template
 var actualDirectory *template.Template
@@ -26,43 +26,19 @@ var taillogs *template.Template
 var runworkflow *template.Template
 var workflowindb *template.Template
 
-type CellarDTO struct {
+type cellarDTO struct {
 	ID    string   `json:"ID"`
 	Error string   `json:"Error"`
 	Data  []string `json:"Data"`
 }
 
-// type CellarProcess struct {
-// 	PID  int    `json:"PID"`
-// 	Name string `json:"Name"`
-// }
-
-var fluentdUrl = "fluentd"
-var logger *fluent.Fluent
-var tag = "Cellar.Hub.Workflow.Manager"
-var err error
-
-//var runningProcesses []CellarProcess
+var logger *logging.Logger
 
 func main() {
 
-	fmt.Println("AAAA")
-
 	//set logging
-	logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: fluentdUrl})
-	if err != nil {
-		//low-level exception logging
-		fmt.Println(err)
-	}
-	defer logger.Close()
-
-	logme("Warning", "main", "BBBBB")
-
-	//Set process name of current program
-	//port := ":" + os.Args[1]
-
-	//programName := os.Args[2]
-	//gspt.SetProcTitle("cellarworkflowmanager")
+	logger := logging.NewLogger("Cellar.Hub.Workflow.Manager")
+	defer logger.Logger.Close()
 
 	//--------------------------------------------------------
 	//--------------------------------------------------------
@@ -148,9 +124,6 @@ func RecoverWrap(h http.Handler) http.Handler {
 //--------------------------------
 // MVC methods
 //--------------------------------
-// func testHandler(res http.ResponseWriter, req *http.Request) {
-// 	fmt.Println("TEST")
-// }
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	//--------------------------------------------------------
 	//--------------------------------------------------------
@@ -159,12 +132,12 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	//--------------------------------------------------------
 
 	collection := GetAllWorkflowEntity()
-	fmt.Println(collection)
-	aa := ""
-	for _, entity := range collection {
-		aa += entity.Type
-	}
-	logme("Warning", "main", aa)
+	// fmt.Println(collection)
+	// aa := ""
+	// for _, entity := range collection {
+	// 	aa += entity.Type
+	// }
+	// logger.Warning("main", aa)
 
 	//*************************
 	//*************************
@@ -179,28 +152,11 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		cmdName = "./" + entity.Type
 		cmdArgs = entity.Parameters
 
-		// if entity.Type == "workflow1" {
-		// 	cmdName = "./" + entity.Type
-		// 	cmdArgs = entity.Parameters
-		// } else if entity.Type == "workflow2" {
-		// 	cmdName = "./cellarworkf2"
-		// 	cmdArgs = entity.Parameters
-		// } else if entity.Type == "savetoprometheus" {
-		// 	cmdName = "./savetoprometheus"
-		// 	cmdArgs = entity.Parameters
-		// }
-		aa := ""
-		for _, entity := range cmdArgs {
-			aa += " " + entity
-		}
-		fmt.Println(cmdName + " " + aa)
-		logme("Warning", "main", cmdName+" "+aa)
-
 		//run
 		cmd := exec.Command(cmdName, cmdArgs...)
 		cmdReader, err := cmd.StdoutPipe()
 		if err != nil {
-			logme("Error", "main", "can't run command > "+err.Error())
+			logger.Error("main", "can't run command > "+err.Error())
 		}
 
 		scanner := bufio.NewScanner(cmdReader)
@@ -208,13 +164,13 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 			for scanner.Scan() {
 				//low-level exception logging
 				fmt.Printf("workflow process | %s\n", scanner.Text())
-				logme("Fatal", "main", scanner.Text())
+				logger.Fatal("main", scanner.Text())
 			}
 		}()
 
 		err = cmd.Start()
 		if err != nil {
-			logme("Error", "main", "can't start command > "+err.Error())
+			logger.Error("main", "can't start command > "+err.Error())
 		}
 
 	}
@@ -229,13 +185,13 @@ func processesHandler(w http.ResponseWriter, r *http.Request) {
 	// Combine stdout and stderr
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		logme("Error", "processesHandler", err.Error())
+		logger.Error("processesHandler", err.Error())
 	}
 	data := printOutput(output)
 
 	dataFormatted := strings.Split(data, "\n")
-	dto := CellarDTO{
-		ID:    RandStringBytesMaskImprSrc(5),
+	dto := cellarDTO{
+		ID:    randStringBytesMaskImprSrc(5),
 		Error: "",
 		Data:  dataFormatted,
 	}
@@ -252,13 +208,13 @@ func actualdirectoryHandler(w http.ResponseWriter, r *http.Request) {
 	args := []string{"-l"}
 	cmdOut, err = exec.Command(cmd, args...).Output()
 	if err != nil {
-		logme("Error", "actualdirectoryHandler", "can't run command > "+err.Error())
+		logger.Error("actualdirectoryHandler", "can't run command > "+err.Error())
 	}
 	cmdOutText := string(cmdOut)
 	dataFormatted := strings.Split(cmdOutText, "\n")
 
-	dto := CellarDTO{
-		ID:    RandStringBytesMaskImprSrc(5),
+	dto := cellarDTO{
+		ID:    randStringBytesMaskImprSrc(5),
 		Error: "",
 		Data:  dataFormatted,
 	}
@@ -275,13 +231,13 @@ func taillogsHandler(w http.ResponseWriter, r *http.Request) {
 	args := []string{"-f", "/var/log/lastlog"}
 	cmdOut, err = exec.Command(cmd, args...).Output()
 	if err != nil {
-		logme("Error", "taillogsHandler", "can't run command > "+err.Error())
+		logger.Error("taillogsHandler", "can't run command > "+err.Error())
 	}
 	cmdOutText := string(cmdOut)
 	dataFormatted := strings.Split(cmdOutText, "\n")
 
-	dto := CellarDTO{
-		ID:    RandStringBytesMaskImprSrc(5),
+	dto := cellarDTO{
+		ID:    randStringBytesMaskImprSrc(5),
 		Error: "",
 		Data:  dataFormatted,
 	}
@@ -291,7 +247,7 @@ func taillogsHandler(w http.ResponseWriter, r *http.Request) {
 func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "GET" {
-		randomWorkflowName := "cellarworkflow_" + RandStringBytesMaskImprSrc(5)
+		randomWorkflowName := "cellarworkflow_" + randStringBytesMaskImprSrc(5)
 
 		runworkflow.ExecuteTemplate(w, "layouttemplate", randomWorkflowName)
 	} else {
@@ -347,7 +303,7 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 		cmd := exec.Command(cmdName, cmdArgs...)
 		cmdReader, err := cmd.StdoutPipe()
 		if err != nil {
-			logme("Error", "runworkflowHandler", "can't run command > "+err.Error())
+			logger.Error("runworkflowHandler", "can't run command > "+err.Error())
 		}
 
 		scanner := bufio.NewScanner(cmdReader)
@@ -360,7 +316,7 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 
 		err = cmd.Start()
 		if err != nil {
-			logme("Error", "runworkflowHandler", "can't start command > "+err.Error())
+			logger.Error("runworkflowHandler", "can't start command > "+err.Error())
 		}
 
 		// err = cmd.Wait()
@@ -399,7 +355,7 @@ func killprocessHandler(w http.ResponseWriter, r *http.Request) {
 	proc, _ := os.FindProcess(idnumber)
 	err := proc.Kill()
 	if err != nil {
-		logme("Error", "killprocessHandler", "process can't be killed > "+err.Error())
+		logger.Error("killprocessHandler", "process can't be killed > "+err.Error())
 	}
 }
 
@@ -409,40 +365,22 @@ func deleteworkflowHandler(w http.ResponseWriter, r *http.Request) {
 
 	err := DeleteWorklfowEntity(id)
 	if err != nil {
-		logme("Error", "deleteworkflowHandler", "workflow can't be deleted > "+err.Error())
+		logger.Error("deleteworkflowHandler", "workflow can't be deleted > "+err.Error())
 	}
 }
 
 //-------------------------------------
 //HELPERS
 //-------------------------------------
-func logme(level string, method string, message string) {
-	var data = map[string]string{
-		"level":   level,
-		"method":  method,
-		"message": message,
-	}
-	error := logger.Post(tag, data)
-	if error != nil {
-		//low-level exception logging
-		fmt.Println(error.Error())
-	}
-}
 
 func layoutFiles() []string {
-	files, err := filepath.Glob(LayoutDir + "/*.gohtml")
+	files, err := filepath.Glob(layoutDir + "/*.gohtml")
 	if err != nil {
 		//low-level exception logging
 		fmt.Println(err.Error())
 	}
 	return files
 }
-
-// func printError(err error) {
-// 	if err != nil {
-// 		os.Stderr.WriteString(fmt.Sprintf("==> Error: %s\n", err.Error()))
-// 	}
-// }
 
 func printOutput(outs []byte) string {
 	result := ""
@@ -467,7 +405,7 @@ const (
 	letterIdxMax  = 63 / letterIdxBits   // # of letter indices fitting in 63 bits
 )
 
-func RandStringBytesMaskImprSrc(n int) string {
+func randStringBytesMaskImprSrc(n int) string {
 	b := make([]byte, n)
 	// A src.Int63() generates 63 random bits, enough for letterIdxMax characters!
 	for i, cache, remain := n-1, src.Int63(), letterIdxMax; i >= 0; {

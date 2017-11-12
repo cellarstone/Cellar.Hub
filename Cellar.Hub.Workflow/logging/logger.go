@@ -5,27 +5,27 @@ import (
 )
 
 type Logger struct {
-	FluentdUrl string
-	Logger     *fluent.Fluent
-	Tag        string
+	fluentdUrl string
+	logger     *fluent.Fluent
+	tag        string
 }
 
 func NewLogger(tag string) *Logger {
 	var err error
 
 	result := Logger{}
-	result.FluentdUrl = "fluentd"
+	result.fluentdUrl = "fluentd"
 
 	//set logging
-	result.Logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: result.FluentdUrl})
+	result.logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: result.fluentdUrl})
 	if err != nil {
 		//stop program
 		panic(err)
 	}
 	//defer logger.Close()
 
-	result.FluentdUrl = "fluentd"
-	result.Tag = tag
+	result.fluentdUrl = "fluentd"
+	result.tag = tag
 
 	return &result
 }
@@ -56,7 +56,7 @@ func (t *Logger) log(level string, source string, message string) error {
 		"source":  source,
 		"message": message,
 	}
-	error := t.Logger.Post(t.Tag, data)
+	error := t.logger.Post(t.tag, data)
 	if error != nil {
 		return error
 	}

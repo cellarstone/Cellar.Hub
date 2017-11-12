@@ -1,10 +1,8 @@
 package main
 
 import (
-	"math/rand"
 	"os"
 	"os/signal"
-	"time"
 
 	"github.com/erikdubbelboer/gspt"
 
@@ -14,12 +12,6 @@ import (
 var workflowIn chan string
 var workflowOut chan string
 
-//Logging
-// var fluentdUrl = "fluentd"
-// var logger *fluent.Fluent
-// var tag = "Cellar.Hub.Workflow.Manager"
-// var err error
-
 var logger *logging.Logger
 
 func main() {
@@ -28,13 +20,7 @@ func main() {
 	signal.Notify(sigc, os.Interrupt, os.Kill)
 
 	//set logging
-	// logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: fluentdUrl})
-	// if err != nil {
-	// 	//stop program
-	// 	panic(err)
-	// }
-	// defer logger.Close()
-	logger := logging.NewLogger("Cellar.Hub.Workflow.Manager")
+	logger := logging.NewLogger("Cellar.Hub.Workflow.cmd.cancelmeeting")
 	defer logger.Logger.Close()
 
 	// environment := os.Getenv("APP_ENV")
@@ -63,7 +49,7 @@ func main() {
 		for value := range workflowOut {
 			//ulozit vysledek workflow vcetne celeho contextu
 			//neukladat hodnotu z kazdeho workflow zvlast !!!!!
-			log("Info", "cancelMeeting", "OUT > "+value)
+			logger.Information("cancelMeeting", "OUT > "+value)
 		}
 		close(workflowOut)
 	}()
@@ -73,23 +59,4 @@ func main() {
 
 	// Wait for receiving a signal.
 	<-sigc
-}
-
-//-------------------------------------
-//HELPERS
-//-------------------------------------
-// func log(level string, method string, message string) {
-// 	var data = map[string]string{
-// 		"level":   level,
-// 		"method":  method,
-// 		"message": message,
-// 	}
-// 	error := logger.Post(tag, data)
-// 	if error != nil {
-// 		panic(error)
-// 	}
-// }
-func random(min, max int) int {
-	rand.Seed(time.Now().Unix())
-	return rand.Intn(max-min) + min
 }
