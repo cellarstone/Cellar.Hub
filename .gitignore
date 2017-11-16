@@ -11,7 +11,6 @@ bld/
 [Ll]og/
 node_modules/
 wwwroot/
-.vscode/
 *.zip
 
 
