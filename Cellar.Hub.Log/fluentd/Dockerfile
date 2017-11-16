@@ -18,3 +18,8 @@ FROM fluent/fluentd:v0.14
 RUN ["gem", "install", "fluent-plugin-elasticsearch", "--no-rdoc", "--no-ri", "--version", "1.9.5"]
 # RUN ["gem", "install", "fluent-plugin-concat", "--version", "2.1.0"] 
 # RUN ["gem", "install", "fluent-plugin-detect-exceptions"]
+
+# WORKDIR /home/fluent
+# ADD wait-for-it.sh /home/fluent
+
+# RUN ls -l

@@ -45,6 +45,9 @@ RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/savetop
 RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/cancelmeeting/bin/cancelmeeting /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 
 
+# copy : Wait-for-it script
+RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/wait-for-it.sh /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
+
 
 # helpers
 # RUN echo $GOPATH
