@@ -34,11 +34,29 @@ type cellarDTO struct {
 
 var logger *logging.Logger
 
+func init() {
+
+	// fmt.Println("BEFORE")
+
+	// //set logging
+	// logger = logging.NewLogger("Cellar.Hub.Workflow.Manager")
+
+	// fmt.Println("AFTER")
+	// logger.Error("init", "AFTER 2")
+
+	//nemuzu pouzit vzdycky  to na tom spadne ?? proc ??
+	// defer logger.FluentLogger.Close()
+}
+
 func main() {
+
+	fmt.Println("BEFORE")
 
 	//set logging
 	logger = logging.NewLogger("Cellar.Hub.Workflow.Manager")
-	defer logger.FluentLogger.Close()
+
+	fmt.Println("AFTER")
+	logger.Error("init", "AFTER 2")
 
 	//--------------------------------------------------------
 	//--------------------------------------------------------
