@@ -64,5 +64,5 @@ sudo docker run -it cellar.hub.workflow
 
 # docker-compose variants
 sudo docker-compose -f docker-compose.api.yml up --build
-sudo docker-compose -f docker-compose.workflow.yml up --build
+sudo docker-compose -f docker-compose.workflow.linux.yml up --build
 sudo docker-compose -f docker-compose.production.yml up --build
