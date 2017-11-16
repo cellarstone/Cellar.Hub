@@ -1,5 +1,7 @@
 version: '2'
 
+#podle https://github.com/kzk/docker-compose-efk
+
 services:
   cellar.hub.workflow:
     image: cellar.hub.workflow
@@ -24,7 +26,6 @@ services:
         tag: docker.cellar.hub.workflow
     ports:
       - "5000:5000"
-    # command: ["./wait-for-it.sh", "fluentd:24224"]
 
   cellar.hub.mongodb:
     image: cellar.hub.mongodb
@@ -34,7 +35,7 @@ services:
     ports:
     - "27017:27017"
     volumes:
-     - C:/data/cellarstone.hub/mongodb:/data/db 
+        - /data/cellarstone.hub/mongodb:/data/db 
 
   cellar.hub.mqtt:
     image: cellar.hub.mqtt
@@ -43,11 +44,10 @@ services:
       dockerfile: Dockerfile
     ports:
     - "1883:1883"
-    - "9001:9001"
   
 
-# don't rename to a cellar.hub.** pattern
-# some stuffs with elaticsearch require a simple name pattern
+# don't rename to the cellar.hub.** pattern
+# some stuffs with elaticsearch require the simple name pattern
 
 
   fluentd:
@@ -61,12 +61,11 @@ services:
     ports:
       - "24224:24224"
       - "24224:24224/udp"
-    # command: ["./wait-for-it.sh", "elasticsearch:9200"]
 
   elasticsearch:
     image: elasticsearch
     volumes:
-        - C:/data/cellarstone.hub/elasticsearch:/var/lib/elasticsearch
+        - /data/cellarstone.hub/elasticsearch:/var/lib/elasticsearch
     expose:
       - 9200
     ports:
@@ -74,8 +73,6 @@ services:
 
   kibana:
     image: kibana
-    depends_on: 
-      - elasticsearch
     links:
       - "elasticsearch"
     ports:
@@ -87,9 +84,11 @@ services:
       context: ./Cellar.Hub.Log/prometheus
       dockerfile: Dockerfile
     volumes:
-      - C:/data/cellarstone.hub/prometheus:/prometheus
+      - /data/cellarstone.hub/prometheus:/prometheus
     ports:
       - '9090:9090'
+    depends_on: 
+      - pushgateway
     links:
       - pushgateway
     
@@ -101,6 +100,6 @@ services:
   grafana:
     image: grafana/grafana
     volumes:
-      - C:/data/cellarstone.hub/grafana:/var/lib/grafana
+      - /data/cellarstone.hub/grafana:/var/lib/grafana
     ports:
       - '3000:3000'
