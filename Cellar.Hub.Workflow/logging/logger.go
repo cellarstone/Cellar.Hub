@@ -10,22 +10,22 @@ type Logger struct {
 	tag          string
 }
 
-func NewLogger(tag string) *Logger {
-	var err error
+func NewLogger(tag string) (logger *Logger, err error) {
+	var errtemp error
 
 	result := Logger{}
 	result.fluentdUrl = "fluentd"
 	result.tag = tag
 
 	//set logging
-	result.FluentLogger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: result.fluentdUrl})
-	if err != nil {
+	result.FluentLogger, errtemp = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: result.fluentdUrl})
+	if errtemp != nil {
 		//stop program
-		panic(err)
+		return nil, err
 	}
 	//defer logger.Close()
 
-	return &result
+	return &result, nil
 }
 
 func (t *Logger) Debug(source string, message string) error {

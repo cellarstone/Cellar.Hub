@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
+	"log"
 	"math/rand"
 	"net/http"
 	"os"
@@ -25,6 +26,7 @@ var actualDirectory *template.Template
 var taillogs *template.Template
 var runworkflow *template.Template
 var workflowindb *template.Template
+var err error
 
 type cellarDTO struct {
 	ID    string   `json:"ID"`
@@ -50,12 +52,15 @@ func init() {
 
 func main() {
 
-	fmt.Println("BEFORE")
+	log.Print("BEFORE")
 
 	//set logging
-	logger = logging.NewLogger("Cellar.Hub.Workflow.Manager")
+	err, logger = logging.NewLogger("Cellar.Hub.Workflow.Manager")
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 
-	fmt.Println("AFTER")
+	log.Print("AFTER")
 	logger.Error("init", "AFTER 2")
 
 	//--------------------------------------------------------
