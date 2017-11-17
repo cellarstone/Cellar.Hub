@@ -8,8 +8,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/fluent/fluent-logger-golang/fluent"
-
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/push"
 
@@ -20,10 +18,10 @@ var workflowIn chan string
 var workflowOut chan string
 
 //Logging
-var fluentdUrl = "fluentd"
-var logger *fluent.Fluent
-var tag = "Cellar.Hub.Workflow.Manager"
-var err error
+// var fluentdUrl = "fluentd"
+// var logger *fluent.Fluent
+// var tag = "Cellar.Hub.Workflow.Manager"
+// var err error
 
 //Metrics
 var gatewayUrl = "http://pushgateway:9091/"
@@ -42,13 +40,14 @@ var (
 func main() {
 
 	fmt.Println("ASDFADFAFDASFAFASF")
+	fmt.Println("ASDFADFAFDASFAFASF2")
 
 	//set logging
-	logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: fluentdUrl})
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer logger.Close()
+	// logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: fluentdUrl})
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
+	// defer logger.Close()
 
 	log("Info", "workflow1", "BEFORE START")
 
@@ -125,17 +124,17 @@ func main() {
 //-------------------------------------
 //HELPERS
 //-------------------------------------
-func log(level string, method string, message string) {
-	var data = map[string]string{
-		"level":   level,
-		"method":  method,
-		"message": message,
-	}
-	error := logger.Post(tag, data)
-	if error != nil {
-		panic(error)
-	}
-}
+// func log(level string, method string, message string) {
+// 	var data = map[string]string{
+// 		"level":   level,
+// 		"method":  method,
+// 		"message": message,
+// 	}
+// 	error := logger.Post(tag, data)
+// 	if error != nil {
+// 		panic(error)
+// 	}
+// }
 func random(min, max int) int {
 	rand.Seed(time.Now().Unix())
 	return rand.Intn(max-min) + min

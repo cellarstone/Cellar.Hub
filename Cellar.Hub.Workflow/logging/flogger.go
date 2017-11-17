@@ -4,16 +4,16 @@ import (
 	"github.com/fluent/fluent-logger-golang/fluent"
 )
 
-type Logger struct {
+type FLogger struct {
 	fluentdUrl   string
 	FluentLogger *fluent.Fluent
 	tag          string
 }
 
-func NewLogger(tag string) (logger *Logger, err error) {
+func NewFLogger(tag string) (logger *FLogger, err error) {
 	var errtemp error
 
-	result := Logger{}
+	result := FLogger{}
 	result.fluentdUrl = "fluentd"
 	result.tag = tag
 
@@ -21,34 +21,34 @@ func NewLogger(tag string) (logger *Logger, err error) {
 	result.FluentLogger, errtemp = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: result.fluentdUrl})
 	if errtemp != nil {
 		//stop program
-		return nil, err
+		return nil, errtemp
 	}
 	//defer logger.Close()
 
 	return &result, nil
 }
 
-func (t *Logger) Debug(source string, message string) error {
+func (t *FLogger) Debug(source string, message string) error {
 	return t.log("Debug", source, message)
 }
 
-func (t *Logger) Information(source string, message string) error {
+func (t *FLogger) Information(source string, message string) error {
 	return t.log("Information", source, message)
 }
 
-func (t *Logger) Warning(source string, message string) error {
+func (t *FLogger) Warning(source string, message string) error {
 	return t.log("Warning", source, message)
 }
 
-func (t *Logger) Error(source string, message string) error {
+func (t *FLogger) Error(source string, message string) error {
 	return t.log("Error", source, message)
 }
 
-func (t *Logger) Fatal(source string, message string) error {
+func (t *FLogger) Fatal(source string, message string) error {
 	return t.log("Fatal", source, message)
 }
 
-func (t *Logger) log(level string, source string, message string) error {
+func (t *FLogger) log(level string, source string, message string) error {
 	var data = map[string]string{
 		"level":   "Debug",
 		"source":  source,

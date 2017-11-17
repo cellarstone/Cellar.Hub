@@ -52,18 +52,19 @@ var logger *logging.Logger
 
 func main() {
 
-	log.Print("BEFORE")
-	fmt.Print("BEFORE2")
+	log.Println("BEFORE")
+	fmt.Println("BEFORE2")
 
-	//set logging
+	// set logging
 	// logger, err = logging.NewLogger("Cellar.Hub.Workflow.Manager")
 	// if err != nil {
 	// 	log.Fatal(err.Error())
 	// }
 
-	log.Print("AFTER")
-	fmt.Print("AFTER2")
-	// logger.Error("init", "AFTER 2")
+	log.Println("AFTER")
+	fmt.Println("AFTER2")
+
+	// logger.Information("AAA", "BBB")
 
 	//--------------------------------------------------------
 	//--------------------------------------------------------
