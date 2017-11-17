@@ -344,8 +344,8 @@ void createAP() {
 		Serial.println("connected");
 	  } else {
 		Serial.print("failed, rc=");
-		Serial.print(mqttClient.state());
-		Serial.println(" try again in 5 seconds");
+		Serial.println(mqttClient.state());
+		// Serial.println(" try again in 5 seconds");
 
 
 		Serial.println(MqttHostName.c_str());
