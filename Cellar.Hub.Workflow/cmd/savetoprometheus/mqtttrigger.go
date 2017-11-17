@@ -26,6 +26,7 @@ func RunMqttTrigger() {
 			//low-level exception logging
 			fmt.Println(err)
 			log.Fatalln(err)
+			logger.Fatal(err.Error())
 			os.Exit(1) // Exit a program
 		},
 	})
@@ -69,7 +70,7 @@ func processMessage(topicName, message []byte) {
 	// senzorID := strings.Split(topic, "/")[0]
 	// measurement := strings.Split(topic, "/")[1]
 	value := string(message)
-	logme("Debug", "mqttprocessmessage", value)
+	logger.Information(value)
 
 	workflowIn <- value
 }
