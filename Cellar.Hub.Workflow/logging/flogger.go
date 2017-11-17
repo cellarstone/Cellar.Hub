@@ -28,30 +28,29 @@ func NewFLogger(tag string) (logger *FLogger, err error) {
 	return &result, nil
 }
 
-func (t *FLogger) Debug(source string, message string) error {
-	return t.log("Debug", source, message)
+func (t *FLogger) Debug(message string) error {
+	return t.log("Debug", message)
 }
 
-func (t *FLogger) Information(source string, message string) error {
-	return t.log("Information", source, message)
+func (t *FLogger) Information(message string) error {
+	return t.log("Information", message)
 }
 
-func (t *FLogger) Warning(source string, message string) error {
-	return t.log("Warning", source, message)
+func (t *FLogger) Warning(message string) error {
+	return t.log("Warning", message)
 }
 
-func (t *FLogger) Error(source string, message string) error {
-	return t.log("Error", source, message)
+func (t *FLogger) Error(message string) error {
+	return t.log("Error", message)
 }
 
-func (t *FLogger) Fatal(source string, message string) error {
-	return t.log("Fatal", source, message)
+func (t *FLogger) Fatal(message string) error {
+	return t.log("Fatal", message)
 }
 
-func (t *FLogger) log(level string, source string, message string) error {
+func (t *FLogger) log(level string, message string) error {
 	var data = map[string]string{
-		"level":   "Debug",
-		"source":  source,
+		"level":   level,
 		"message": message,
 	}
 	error := t.FluentLogger.Post(t.tag, data)

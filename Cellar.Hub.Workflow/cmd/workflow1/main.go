@@ -11,6 +11,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/push"
 
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/logging"
+
 	"github.com/erikdubbelboer/gspt"
 )
 
@@ -18,10 +20,7 @@ var workflowIn chan string
 var workflowOut chan string
 
 //Logging
-// var fluentdUrl = "fluentd"
-// var logger *fluent.Fluent
-// var tag = "Cellar.Hub.Workflow.Manager"
-// var err error
+var logger *logging.CLogger
 
 //Metrics
 var gatewayUrl = "http://pushgateway:9091/"
@@ -36,6 +35,11 @@ var (
 			Help: "Number of rundom numbers.",
 		})
 )
+
+func init() {
+	//set logging
+	logger = logging.NewCLogger("Cellar.Hub.Workflow.Manager")
+}
 
 func main() {
 

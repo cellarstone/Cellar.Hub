@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
-	"log"
 	"math/rand"
 	"net/http"
 	"os"
@@ -34,37 +33,20 @@ type cellarDTO struct {
 	Data  []string `json:"Data"`
 }
 
-var logger *logging.Logger
+//Logging
+var logger *logging.CLogger
 
-// func init() {
-
-// 	// fmt.Println("BEFORE")
-
-// 	// //set logging
-// 	// logger = logging.NewLogger("Cellar.Hub.Workflow.Manager")
-
-// 	// fmt.Println("AFTER")
-// 	// logger.Error("init", "AFTER 2")
-
-// 	//nemuzu pouzit vzdycky  to na tom spadne ?? proc ??
-// 	// defer logger.FluentLogger.Close()
-// }
+func init() {
+	//set logging
+	logger, err = logging.NewCLogger("Cellar.Hub.Workflow.Manager")
+	if err != nil {
+		panic(err)
+	}
+}
 
 func main() {
 
-	log.Println("BEFORE")
-	fmt.Println("BEFORE2")
-
-	// set logging
-	// logger, err = logging.NewLogger("Cellar.Hub.Workflow.Manager")
-	// if err != nil {
-	// 	log.Fatal(err.Error())
-	// }
-
-	log.Println("AFTER")
-	fmt.Println("AFTER2")
-
-	// logger.Information("AAA", "BBB")
+	logger.Information("TEST from Workflow manager")
 
 	//--------------------------------------------------------
 	//--------------------------------------------------------
