@@ -16,6 +16,8 @@ import (
 	"github.com/erikdubbelboer/gspt"
 )
 
+var err error
+
 var workflowIn chan string
 var workflowOut chan string
 
@@ -38,28 +40,20 @@ var (
 
 func init() {
 	//set logging
-	logger = logging.NewCLogger("Cellar.Hub.Workflow.Manager")
+	logger, err = logging.NewCLogger("Cellar.Hub.Workflow.Workflow1")
+	if err != nil {
+		panic(err)
+	}
 }
 
 func main() {
+	defer recoverPanic()
 
-	fmt.Println("ASDFADFAFDASFAFASF")
-	fmt.Println("ASDFADFAFDASFAFASF2")
-
-	//set logging
-	// logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: fluentdUrl})
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// defer logger.Close()
-
-	log("Info", "workflow1", "BEFORE START")
+	logger.Information("TEST from Workflow1")
 
 	// environment := os.Getenv("APP_ENV")
 	workflowName := os.Args[1]
 	gspt.SetProcTitle(workflowName)
-
-	log("Info", "workflow1", "main.go of Workflow1 with name("+workflowName+")START")
 
 	// Set up channel on which to send signal notifications.
 	sigc := make(chan os.Signal, 1)
@@ -83,7 +77,7 @@ func main() {
 			// randomNumber := random(1, 100)
 			randomNumberFloat := rand.Float64() * 1000
 
-			log("Info", "workflow1", workflowName+" - "+strconv.FormatFloat(randomNumberFloat, 'E', -1, 64))
+			logger.Information("TEST from Workflow1 - new message")
 
 			//set metrics
 			metricTemp.Set(randomNumberFloat)
@@ -96,7 +90,7 @@ func main() {
 				metricTempCount,
 			)
 			if err != nil {
-				log("Fatal", "workflow1", "Could not push completion time to Pushgateway > "+err.Error())
+				logger.Warning("Could not push completion time to Pushgateway > " + err.Error())
 			}
 
 			//send value to the channel
@@ -113,7 +107,7 @@ func main() {
 		for value := range workflowOut {
 			//ulozit vysledek workflow vcetne celeho contextu
 			//neukladat hodnotu z kazdeho workflow zvlast !!!!!
-			log("Info", "workflow1", "OUT > "+value)
+			logger.Information("OUT > " + value)
 		}
 		close(workflowOut)
 	}()
@@ -128,18 +122,21 @@ func main() {
 //-------------------------------------
 //HELPERS
 //-------------------------------------
-// func log(level string, method string, message string) {
-// 	var data = map[string]string{
-// 		"level":   level,
-// 		"method":  method,
-// 		"message": message,
-// 	}
-// 	error := logger.Post(tag, data)
-// 	if error != nil {
-// 		panic(error)
-// 	}
-// }
 func random(min, max int) int {
 	rand.Seed(time.Now().Unix())
 	return rand.Intn(max-min) + min
+}
+
+//Error handling
+func recoverPanic() {
+	if rec := recover(); rec != nil {
+		err := rec.(error)
+		//low-level exception logging
+		fmt.Println("Handle panic > " + err.Error())
+		logger.Fatal("[PANIC] - " + err.Error())
+		// fmt.Println("recoverPanic" + err.Error())
+		// logger.Printf("Unhandled error: %v\n", err.Error())
+		// fmt.Fprintf(os.Stderr, "Program quit unexpectedly; please check your logs\n")
+		os.Exit(1)
+	}
 }

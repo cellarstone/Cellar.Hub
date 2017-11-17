@@ -8,12 +8,17 @@ import (
 	"strings"
 	"time"
 
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/logging"
 	"github.com/erikdubbelboer/gspt"
-	"github.com/fluent/fluent-logger-golang/fluent"
 )
+
+var err error
 
 var workflowIn chan string
 var workflowOut chan string
+
+//Logging
+var logger *logging.CLogger
 
 //Mqtt url
 var MqttUrl = "cellar.hub.mqtt:1883"
@@ -21,43 +26,23 @@ var MqttUrl = "cellar.hub.mqtt:1883"
 //Prometheus url
 var gatewayUrl = "http://pushgateway:9091/"
 
-//Fluentd
-var fluentdUrl = "fluentd"
-var logger *fluent.Fluent
-var tag = "SaveToPrometheusWorkflow"
-var err error
-
 //INPUT PARAMETERS
 var senzor string
 var measurement string
 var topic string
 
-// func init() {
-// 	// Log as JSON instead of the default ASCII formatter.
-// 	log.SetFormatter(&log.JSONFormatter{})
-
-// 	// Output to stdout instead of the default stderr
-// 	// Can be any io.Writer, see below for File example
-// 	log.SetOutput(os.Stdout)
-
-// 	// Only log the warning severity or above.
-// 	log.SetLevel(log.InfoLevel)
-// }
+func init() {
+	//set logging
+	logger, err = logging.NewCLogger("Cellar.Hub.Workflow.SaveToPrometheus")
+	if err != nil {
+		panic(err)
+	}
+}
 
 func main() {
 	defer recoverPanic()
 
-	//set logging
-	logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: fluentdUrl})
-	if err != nil {
-		//stop program
-		panic(err)
-	}
-	defer logger.Close()
-
-	// fmt.Println("TEST2 fmt Println")
-	// log.Println("TEST2 log Println")
-	//logme("Info", "indexHandler", "TEST2 logme")
+	logger.Information("TEST from Workflow - SaveToPrometheus")
 
 	// Set up channel on which to send signal notifications.
 	sigc := make(chan os.Signal, 1)
@@ -71,8 +56,6 @@ func main() {
 	senzor = strings.Split(topic, "/")[0]
 	measurement = strings.Split(topic, "/")[0]
 	gspt.SetProcTitle(workflowName)
-
-	// log.Info("main.go of Workflow2 with name(" + workflowName + ")START")
 
 	workflowIn = make(chan string)
 	workflowOut = make(chan string)
@@ -95,7 +78,7 @@ func main() {
 		for value := range workflowOut {
 
 			//DO NOTHING
-			fmt.Println(" >> " + value)
+			logger.Information("OUT > " + value)
 
 		}
 		close(workflowOut)
@@ -108,22 +91,12 @@ func main() {
 	<-sigc
 }
 
-//HELPER
+//-------------------------------------
+//HELPERS
+//-------------------------------------
 func random(min, max int) int {
 	rand.Seed(time.Now().Unix())
 	return rand.Intn(max-min) + min
-}
-
-func logme(level string, method string, message string) {
-	var data = map[string]string{
-		"level":   level,
-		"method":  method,
-		"message": message,
-	}
-	error := logger.Post(tag, data)
-	if error != nil {
-		panic(error)
-	}
 }
 
 //Error handling
@@ -132,6 +105,7 @@ func recoverPanic() {
 		err := rec.(error)
 		//low-level exception logging
 		fmt.Println("Handle panic > " + err.Error())
+		logger.Fatal("[PANIC] - " + err.Error())
 		// fmt.Println("recoverPanic" + err.Error())
 		// logger.Printf("Unhandled error: %v\n", err.Error())
 		// fmt.Fprintf(os.Stderr, "Program quit unexpectedly; please check your logs\n")

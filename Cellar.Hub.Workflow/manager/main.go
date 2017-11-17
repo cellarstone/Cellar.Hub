@@ -100,6 +100,7 @@ func main() {
 	r.Handle("/workflowsindb", RecoverWrap(http.HandlerFunc(workflowindbHandler)))
 	r.Handle("/killprocess/{id}", RecoverWrap(http.HandlerFunc(killprocessHandler)))
 	r.Handle("/deleteworkflow/{id}", RecoverWrap(http.HandlerFunc(deleteworkflowHandler)))
+	r.Handle("/throwexception", RecoverWrap(http.HandlerFunc(throwExceptionHandler)))
 	http.ListenAndServe(":5000", r)
 }
 
@@ -164,7 +165,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		cmd := exec.Command(cmdName, cmdArgs...)
 		cmdReader, err := cmd.StdoutPipe()
 		if err != nil {
-			logger.Error("main", "can't run command > "+err.Error())
+			logger.Error("can't run command > " + err.Error())
 		}
 
 		scanner := bufio.NewScanner(cmdReader)
@@ -172,13 +173,13 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 			for scanner.Scan() {
 				//low-level exception logging
 				fmt.Printf("workflow process | %s\n", scanner.Text())
-				logger.Fatal("main", scanner.Text())
+				logger.Fatal(scanner.Text())
 			}
 		}()
 
 		err = cmd.Start()
 		if err != nil {
-			logger.Error("main", "can't start command > "+err.Error())
+			logger.Error("can't start command > " + err.Error())
 		}
 
 	}
@@ -193,7 +194,7 @@ func processesHandler(w http.ResponseWriter, r *http.Request) {
 	// Combine stdout and stderr
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		logger.Error("processesHandler", err.Error())
+		logger.Error(err.Error())
 	}
 	data := printOutput(output)
 
@@ -216,7 +217,7 @@ func actualdirectoryHandler(w http.ResponseWriter, r *http.Request) {
 	args := []string{"-l"}
 	cmdOut, err = exec.Command(cmd, args...).Output()
 	if err != nil {
-		logger.Error("actualdirectoryHandler", "can't run command > "+err.Error())
+		logger.Error("can't run command > " + err.Error())
 	}
 	cmdOutText := string(cmdOut)
 	dataFormatted := strings.Split(cmdOutText, "\n")
@@ -239,7 +240,7 @@ func taillogsHandler(w http.ResponseWriter, r *http.Request) {
 	args := []string{"-f", "/var/log/lastlog"}
 	cmdOut, err = exec.Command(cmd, args...).Output()
 	if err != nil {
-		logger.Error("taillogsHandler", "can't run command > "+err.Error())
+		logger.Error("can't run command > " + err.Error())
 	}
 	cmdOutText := string(cmdOut)
 	dataFormatted := strings.Split(cmdOutText, "\n")
@@ -315,7 +316,7 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 		cmd := exec.Command(cmdName, cmdArgs...)
 		cmdReader, err := cmd.StdoutPipe()
 		if err != nil {
-			logger.Error("runworkflowHandler", "can't run command > "+err.Error())
+			logger.Error("can't run command > " + err.Error())
 		}
 
 		scanner := bufio.NewScanner(cmdReader)
@@ -328,7 +329,7 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 
 		err = cmd.Start()
 		if err != nil {
-			logger.Error("runworkflowHandler", "can't start command > "+err.Error())
+			logger.Error("can't start command > " + err.Error())
 		}
 
 		// err = cmd.Wait()
@@ -367,7 +368,7 @@ func killprocessHandler(w http.ResponseWriter, r *http.Request) {
 	proc, _ := os.FindProcess(idnumber)
 	err := proc.Kill()
 	if err != nil {
-		logger.Error("killprocessHandler", "process can't be killed > "+err.Error())
+		logger.Error("process can't be killed > " + err.Error())
 	}
 }
 
@@ -377,8 +378,12 @@ func deleteworkflowHandler(w http.ResponseWriter, r *http.Request) {
 
 	err := DeleteWorklfowEntity(id)
 	if err != nil {
-		logger.Error("deleteworkflowHandler", "workflow can't be deleted > "+err.Error())
+		logger.Error("workflow can't be deleted > " + err.Error())
 	}
+}
+
+func throwExceptionHandler(w http.ResponseWriter, r *http.Request) {
+	panic("XXXXXXXXXXX")
 }
 
 //-------------------------------------

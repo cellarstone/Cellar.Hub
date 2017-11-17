@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"os"
 	"os/signal"
 
@@ -10,11 +10,13 @@ import (
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/logging"
 )
 
+var err error
+
 var workflowIn chan string
 var workflowOut chan string
 
-var logger *logging.Logger
-var err error
+//Logging
+var logger *logging.CLogger
 
 //Prometheus url
 var prometheusUrl = "http://prometheus/"
@@ -26,17 +28,22 @@ var apiUrl = "http://cellar.hub.api"
 var roomID string
 var timePeriodBack string
 
+func init() {
+	//set logging
+	logger, err = logging.NewCLogger("Cellar.Hub.Workflow.CancelMeeting")
+	if err != nil {
+		panic(err)
+	}
+}
+
 func main() {
+	defer recoverPanic()
+
+	logger.Information("TEST from Workflow - CancelMeeting")
+
 	// Set up channel on which to send signal notifications.
 	sigc := make(chan os.Signal, 1)
 	signal.Notify(sigc, os.Interrupt, os.Kill)
-
-	//set logging
-	logger, err := logging.NewLogger("Cellar.Hub.Workflow.cmd.cancelmeeting")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer logger.FluentLogger.Close()
 
 	// environment := os.Getenv("APP_ENV")
 	workflowName := os.Args[1]
@@ -67,7 +74,8 @@ func main() {
 		for value := range workflowOut {
 			//ulozit vysledek workflow vcetne celeho contextu
 			//neukladat hodnotu z kazdeho workflow zvlast !!!!!
-			logger.Information("cancelMeeting", "OUT > "+value)
+			logger.Information("OUT > " + value)
+
 		}
 		close(workflowOut)
 	}()
@@ -77,4 +85,22 @@ func main() {
 
 	// Wait for receiving a signal.
 	<-sigc
+}
+
+//-------------------------------------
+//HELPERS
+//-------------------------------------
+
+//Error handling
+func recoverPanic() {
+	if rec := recover(); rec != nil {
+		err := rec.(error)
+		//low-level exception logging
+		fmt.Println("Handle panic > " + err.Error())
+		logger.Fatal("[PANIC] - " + err.Error())
+		// fmt.Println("recoverPanic" + err.Error())
+		// logger.Printf("Unhandled error: %v\n", err.Error())
+		// fmt.Fprintf(os.Stderr, "Program quit unexpectedly; please check your logs\n")
+		os.Exit(1)
+	}
 }

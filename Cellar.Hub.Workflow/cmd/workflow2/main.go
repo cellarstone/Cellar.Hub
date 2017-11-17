@@ -9,15 +9,20 @@ import (
 	"strings"
 	"time"
 
-	"github.com/fluent/fluent-logger-golang/fluent"
+	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/logging"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/push"
 
 	"github.com/erikdubbelboer/gspt"
 )
 
+var err error
+
 var workflowIn chan string
 var workflowOut chan string
+
+//Logging
+var logger *logging.CLogger
 
 //Mqtt url
 var MqttUrl = "cellar.hub.mqtt:1883"
@@ -36,38 +41,18 @@ var (
 		})
 )
 
-var fluentdUrl = "fluentd"
-var logger *fluent.Fluent
-var tag = "Cellar.Hub.Workflow.Workflow2"
-var err error
-
-// func init() {
-// 	// Log as JSON instead of the default ASCII formatter.
-// 	log.SetFormatter(&log.JSONFormatter{})
-
-// 	// Output to stdout instead of the default stderr
-// 	// Can be any io.Writer, see below for File example
-// 	log.SetOutput(os.Stdout)
-
-// 	// Only log the warning severity or above.
-// 	log.SetLevel(log.InfoLevel)
-// }
+func init() {
+	//set logging
+	logger, err = logging.NewCLogger("Cellar.Hub.Workflow.Workflow1")
+	if err != nil {
+		panic(err)
+	}
+}
 
 func main() {
 	defer recoverPanic()
 
-	//set logging
-	logger, err = fluent.New(fluent.Config{FluentPort: 24224, FluentHost: fluentdUrl})
-	if err != nil {
-		//low-level exception logging
-		fmt.Println(err)
-	}
-	defer logger.Close()
-
-	// fmt.Println("TEST2 fmt Println")
-	// log.Println("TEST2 log Println")
-	//NEFUNGUJE - PROC ?
-	logme("Info", "indexHandler", "TEST2 logme")
+	logger.Information("TEST from Workflow2")
 
 	// Set up channel on which to send signal notifications.
 	sigc := make(chan os.Signal, 1)
@@ -117,7 +102,7 @@ func main() {
 				metricTempCount,
 			)
 			if err != nil {
-				logme("Error", "main", "Could not push completion time to Pushgateway > "+err.Error())
+				logger.Warning("Could not push completion time to Pushgateway > " + err.Error())
 			}
 
 		}
@@ -131,7 +116,9 @@ func main() {
 	<-sigc
 }
 
-//HELPER
+//-------------------------------------
+//HELPERS
+//-------------------------------------
 func random(min, max int) int {
 	rand.Seed(time.Now().Unix())
 	return rand.Intn(max-min) + min
@@ -164,24 +151,13 @@ func RandStringBytesMaskImprSrc(n int) string {
 	return string(b)
 }
 
-func logme(level string, method string, message string) {
-	var data = map[string]string{
-		"level":   level,
-		"method":  method,
-		"message": message,
-	}
-	error := logger.Post(tag, data)
-	if error != nil {
-		panic(error)
-	}
-}
-
 //Error handling
 func recoverPanic() {
 	if rec := recover(); rec != nil {
 		err := rec.(error)
 		//low-level exception logging
 		fmt.Println("Handle panic > " + err.Error())
+		logger.Fatal("[PANIC] - " + err.Error())
 		// fmt.Println("recoverPanic" + err.Error())
 		// logger.Printf("Unhandled error: %v\n", err.Error())
 		// fmt.Fprintf(os.Stderr, "Program quit unexpectedly; please check your logs\n")
