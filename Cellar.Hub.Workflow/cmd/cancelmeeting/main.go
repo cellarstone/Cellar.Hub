@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	"os/signal"
 
@@ -13,15 +14,17 @@ var workflowIn chan string
 var workflowOut chan string
 
 var logger *logging.Logger
+var err error
 
 //Prometheus url
 var prometheusUrl = "http://prometheus/"
+
 //Api url
 var apiUrl = "http://cellar.hub.api"
+
 //other parameters
 var roomID string
 var timePeriodBack string
-
 
 func main() {
 	// Set up channel on which to send signal notifications.
@@ -29,7 +32,10 @@ func main() {
 	signal.Notify(sigc, os.Interrupt, os.Kill)
 
 	//set logging
-	logger := logging.NewLogger("Cellar.Hub.Workflow.cmd.cancelmeeting")
+	logger, err := logging.NewLogger("Cellar.Hub.Workflow.cmd.cancelmeeting")
+	if err != nil {
+		log.Fatal(err)
+	}
 	defer logger.FluentLogger.Close()
 
 	// environment := os.Getenv("APP_ENV")
@@ -38,7 +44,6 @@ func main() {
 
 	roomID = os.Args[2]
 	timePeriodBack = os.Args[3]
-	
 
 	workflowIn = make(chan string)
 	workflowOut = make(chan string)

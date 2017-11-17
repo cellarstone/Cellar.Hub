@@ -36,32 +36,34 @@ type cellarDTO struct {
 
 var logger *logging.Logger
 
-func init() {
+// func init() {
 
-	// fmt.Println("BEFORE")
+// 	// fmt.Println("BEFORE")
 
-	// //set logging
-	// logger = logging.NewLogger("Cellar.Hub.Workflow.Manager")
+// 	// //set logging
+// 	// logger = logging.NewLogger("Cellar.Hub.Workflow.Manager")
 
-	// fmt.Println("AFTER")
-	// logger.Error("init", "AFTER 2")
+// 	// fmt.Println("AFTER")
+// 	// logger.Error("init", "AFTER 2")
 
-	//nemuzu pouzit vzdycky  to na tom spadne ?? proc ??
-	// defer logger.FluentLogger.Close()
-}
+// 	//nemuzu pouzit vzdycky  to na tom spadne ?? proc ??
+// 	// defer logger.FluentLogger.Close()
+// }
 
 func main() {
 
 	log.Print("BEFORE")
+	fmt.Print("BEFORE2")
 
 	//set logging
-	err, logger = logging.NewLogger("Cellar.Hub.Workflow.Manager")
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	// logger, err = logging.NewLogger("Cellar.Hub.Workflow.Manager")
+	// if err != nil {
+	// 	log.Fatal(err.Error())
+	// }
 
 	log.Print("AFTER")
-	logger.Error("init", "AFTER 2")
+	fmt.Print("AFTER2")
+	// logger.Error("init", "AFTER 2")
 
 	//--------------------------------------------------------
 	//--------------------------------------------------------
