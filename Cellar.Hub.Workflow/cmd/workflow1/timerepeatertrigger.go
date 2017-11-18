@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"math/rand"
 	"strconv"
 	"time"
@@ -9,7 +10,6 @@ import (
 func RunTimeRepeaterTrigger(numberOfSeconds int) {
 
 	go func() {
-		defer recoverPanic()
 
 		var exceptionCount = 0
 
@@ -22,7 +22,8 @@ func RunTimeRepeaterTrigger(numberOfSeconds int) {
 			// fmt.Println("BBB2")        //funguje
 
 			if exceptionCount == 120 {
-				panic("SOME TIMING TEST PANIC")
+				errTest := errors.New("TEST PANIC time repeater")
+				panic(errTest)
 			}
 			exceptionCount++
 

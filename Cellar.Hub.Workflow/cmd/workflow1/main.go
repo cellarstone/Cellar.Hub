@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"math/rand"
 	"os"
@@ -60,6 +61,9 @@ func main() {
 
 	workflowIn = make(chan string)
 	workflowOut = make(chan string)
+
+	errTest := errors.New("TEST PANIC")
+	panic(errTest)
 
 	//-------------------------------------------------------------------
 	//-------------------------------------------------------------------

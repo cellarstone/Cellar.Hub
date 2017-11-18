@@ -3,6 +3,8 @@ package others
 import (
 	// "../abstraction"
 
+	"errors"
+
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
 )
 
@@ -21,7 +23,8 @@ func (t *ExceptionTask) Execute() error {
 	for value := range t.InChannel {
 
 		if counter == t.MessageCount {
-			panic("TEST EXCEPTION")
+			errTest := errors.New("TEST EXCEPTION")
+			panic(errTest)
 		}
 		counter++
 
@@ -36,7 +39,8 @@ func (t *ExceptionTask) Execute() error {
 func (t *ExceptionTask) ExecuteParallel(value string) error {
 	t.State = "inprogress"
 
-	panic("TEST EXCEPTION")
+	errTest := errors.New("TEST EXCEPTION")
+	panic(errTest)
 
 	//SEM SE TO NIKDY NEDOSTANE !!!
 	t.State = "completed"

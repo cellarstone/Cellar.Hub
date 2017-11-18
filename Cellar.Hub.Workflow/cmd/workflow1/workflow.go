@@ -26,6 +26,7 @@ func RunWorkflow(name string) {
 	if aaa {
 		// NEW WORKFLOW
 		go func() {
+
 			wf := workflow.NewWorkflow(name)
 
 			// CHANNELS ------------------
