@@ -33,14 +33,14 @@ func (t *SendToPrometheusTask) Execute() error {
 	// 	Name: t.Topic,
 	// })
 
-	fmt.Println("sendtoprometheustask - " + t.Senzor + " - " + t.Topic + " - " + t.PrometheusUrl)
+	fmt.Println("[", t.Name, "]", "sendtoprometheustask - "+t.Senzor+" - "+t.Topic+" - "+t.PrometheusUrl)
 
 	for value := range t.InChannel {
 		t.State = "inprogress"
 		//*****************
 		// DOING SOMETHING
 
-		fmt.Println("sendtoprometheustask - " + value)
+		fmt.Println("[", t.Name, "]", "sendtoprometheustask - "+value)
 
 		valueFloat, err := strconv.ParseFloat(value, 64)
 		if err != nil {
@@ -61,7 +61,7 @@ func (t *SendToPrometheusTask) Execute() error {
 		}
 		//*****************
 
-		fmt.Println("sendtoprometheustask2222 - " + value)
+		fmt.Println("[", t.Name, "]", "sendtoprometheustask2222 - "+value)
 		t.OutChannel <- value
 	}
 

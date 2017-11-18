@@ -39,8 +39,9 @@ func RunWorkflow(name string) {
 			ch6out := make(chan string)
 
 			ch7out := make(chan string)
+			ch8out := make(chan string)
 
-			wf.ChannelsCount = 7
+			// wf.ChannelsCount = 7
 
 			// PIPELINE ------------------
 
@@ -104,17 +105,31 @@ func RunWorkflow(name string) {
 					OutChannel:      ch7out}, Topic: "house/alarm"})
 
 			//normal task
-			wf.AddTask(&mylog.LogTask{
+			wf.AddTask(&mylog.ExceptionTask{
 				BaseTask: abstraction.BaseTask{
-					Type:            "LogTask",
+					Type:            "ExceptionTask",
 					Name:            "myTask8",
 					State:           "new",
 					ID:              bson.NewObjectId(),
 					InChannelIndex:  7,
-					OutChannelIndex: 99,
+					OutChannelIndex: 8,
 					InChannel:       ch7out,
-					OutChannel:      workflowOut,
-				}})
+					OutChannel:      ch8out}, MessageCount: 180})
+
+			wf.AddTask(&send.SendToPrometheusTask{
+				BaseTask: abstraction.BaseTask{
+					Type:            "SendToPrometheusTask",
+					Name:            "myTask9",
+					State:           "new",
+					ID:              bson.NewObjectId(),
+					InChannelIndex:  8,
+					OutChannelIndex: 99,
+					InChannel:       ch8out,
+					OutChannel:      workflowOut},
+				Senzor:        name,
+				Topic:         "somerandomnumber",
+				PrometheusUrl: gatewayUrl,
+			})
 
 			//---------------------------
 			//workflow.SaveWorkflow(wf)

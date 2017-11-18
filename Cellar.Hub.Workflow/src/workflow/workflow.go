@@ -1,6 +1,8 @@
 package workflow
 
 import (
+	"fmt"
+
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 
@@ -115,6 +117,7 @@ func (wf *Workflow) run(tasks []interface{}) error {
 			// log.Debug("LogTask - ", nttype)
 			// RUN IT in separate goroutine
 			go func(t abstraction.Task) {
+				defer recoverPanic()
 				t.Execute()
 			}(nttype)
 		// case *mylog.LogTask:
@@ -174,4 +177,19 @@ func (wf *Workflow) run(tasks []interface{}) error {
 
 	wf.State = "completed"
 	return nil
+}
+
+//Error handling
+func recoverPanic() {
+	if rec := recover(); rec != nil {
+		err := rec.(error)
+
+		//low-level exception logging
+		fmt.Println("[PANIC] - " + err.Error())
+		// fmt.Panic()
+		// logger.Fatal("[PANIC] - " + err.Error()) //nefunguje
+		// log.Println("[PANIC] - " + err.Error()) //nefunguje
+
+		// os.Exit(1)
+	}
 }

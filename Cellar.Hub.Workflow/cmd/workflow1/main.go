@@ -5,11 +5,7 @@ import (
 	"math/rand"
 	"os"
 	"os/signal"
-	"strconv"
 	"time"
-
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/push"
 
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/logging"
 
@@ -26,17 +22,18 @@ var logger *logging.DLogger
 
 //Metrics
 var gatewayUrl = "http://pushgateway:9091/"
-var (
-	metricTemp = prometheus.NewGauge(prometheus.GaugeOpts{
-		Name: "cellar_randomnumber",
-		Help: "Random Number from cellarstone program.",
-	})
-	metricTempCount = prometheus.NewCounter(
-		prometheus.CounterOpts{
-			Name: "cellar_count",
-			Help: "Number of rundom numbers.",
-		})
-)
+
+// var (
+// 	metricTemp = prometheus.NewGauge(prometheus.GaugeOpts{
+// 		Name: "cellar_randomnumber",
+// 		Help: "Random Number from cellarstone program.",
+// 	})
+// 	metricTempCount = prometheus.NewCounter(
+// 		prometheus.CounterOpts{
+// 			Name: "cellar_count",
+// 			Help: "Number of rundom numbers.",
+// 		})
+// )
 
 func init() {
 	//set logging
@@ -71,46 +68,49 @@ func main() {
 
 	//-------------------------------------------------------------------
 	//-------------------------------------------------------------------
-	// each 1 second send a message
+	// each second send message
 
-	go func() {
+	RunTimeRepeaterTrigger(1)
 
-		var exceptionCount = 0
+	// go func() {
+	// 	defer recoverPanic()
 
-		for {
-			time.Sleep(1 * time.Second)
-			// randomNumber := random(1, 100)
-			randomNumberFloat := rand.Float64() * 1000
+	// 	var exceptionCount = 0
 
-			// logger.Information("BBB0") //funguje, jen kdyz to je DLogger
-			// log.Println("BBB1")        //nefunguje
-			// fmt.Println("BBB2")        //funguje
+	// 	for {
+	// 		time.Sleep(1 * time.Second)
+	// 		// randomNumber := random(1, 100)
+	// 		randomNumberFloat := rand.Float64() * 1000
 
-			if exceptionCount == 120 {
-				panic("SOME TIMING TEST PANIC")
-			}
-			exceptionCount++
+	// 		// logger.Information("BBB0") //funguje, jen kdyz to je DLogger
+	// 		// log.Println("BBB1")        //nefunguje
+	// 		// fmt.Println("BBB2")        //funguje
 
-			//set metrics
-			metricTemp.Set(randomNumberFloat)
-			metricTempCount.Inc()
+	// 		if exceptionCount == 120 {
+	// 			panic("SOME TIMING TEST PANIC")
+	// 		}
+	// 		exceptionCount++
 
-			err := push.AddCollectors("pushgateway",
-				map[string]string{"instance": workflowName},
-				gatewayUrl,
-				metricTemp,
-				metricTempCount,
-			)
-			if err != nil {
-				// fmt.Println("Could not push completion time to Pushgateway > " + err.Error())
-				logger.Warning("Could not push completion time to Pushgateway > " + err.Error()) //nefunguje
-			}
+	// 		//set metrics
+	// 		metricTemp.Set(randomNumberFloat)
+	// 		metricTempCount.Inc()
 
-			//send value to the channel
-			workflowIn <- strconv.FormatFloat(randomNumberFloat, 'E', -1, 64)
-		}
-		close(workflowIn)
-	}()
+	// 		err := push.AddCollectors("pushgateway",
+	// 			map[string]string{"instance": workflowName},
+	// 			gatewayUrl,
+	// 			metricTemp,
+	// 			metricTempCount,
+	// 		)
+	// 		if err != nil {
+	// 			// fmt.Println("Could not push completion time to Pushgateway > " + err.Error())
+	// 			logger.Warning("Could not push completion time to Pushgateway > " + err.Error()) //nefunguje
+	// 		}
+
+	// 		//send value to the channel
+	// 		workflowIn <- strconv.FormatFloat(randomNumberFloat, 'E', -1, 64)
+	// 	}
+	// 	close(workflowIn)
+	// }()
 
 	//-------------------------------------------------------------------
 	//-------------------------------------------------------------------
