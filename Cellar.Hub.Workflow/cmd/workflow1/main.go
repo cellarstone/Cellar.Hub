@@ -22,7 +22,7 @@ var workflowIn chan string
 var workflowOut chan string
 
 //Logging
-var logger *logging.CLogger
+var logger *logging.DLogger
 
 //Metrics
 var gatewayUrl = "http://pushgateway:9091/"
@@ -40,7 +40,7 @@ var (
 
 func init() {
 	//set logging
-	logger, err = logging.NewCLogger("Cellar.Hub.Workflow.Workflow1")
+	logger, err = logging.NewDLogger("Cellar.Hub.Workflow.Workflow1")
 	if err != nil {
 		panic(err)
 	}
@@ -49,7 +49,7 @@ func init() {
 func main() {
 	defer recoverPanic()
 
-	// logger.Information("AAA0") //nefunguje
+	// logger.Information("AAA0") //funguje, jen kdyz to je DLogger
 	// log.Println("AAA1")        //nefunguje
 	// fmt.Println("AAA2")        //funguje
 
@@ -74,14 +74,22 @@ func main() {
 	// each 1 second send a message
 
 	go func() {
+
+		var exceptionCount = 0
+
 		for {
 			time.Sleep(1 * time.Second)
 			// randomNumber := random(1, 100)
 			randomNumberFloat := rand.Float64() * 1000
 
-			// logger.Information("BBB0") //nefunguje
+			// logger.Information("BBB0") //funguje, jen kdyz to je DLogger
 			// log.Println("BBB1")        //nefunguje
 			// fmt.Println("BBB2")        //funguje
+
+			if exceptionCount == 120 {
+				panic("SOME TIMING TEST PANIC")
+			}
+			exceptionCount++
 
 			//set metrics
 			metricTemp.Set(randomNumberFloat)
@@ -94,8 +102,8 @@ func main() {
 				metricTempCount,
 			)
 			if err != nil {
-				fmt.Println("Could not push completion time to Pushgateway > " + err.Error())
-				// logger.Warning("Could not push completion time to Pushgateway > " + err.Error()) //nefunguje
+				// fmt.Println("Could not push completion time to Pushgateway > " + err.Error())
+				logger.Warning("Could not push completion time to Pushgateway > " + err.Error()) //nefunguje
 			}
 
 			//send value to the channel
@@ -112,8 +120,8 @@ func main() {
 		for value := range workflowOut {
 			//ulozit vysledek workflow vcetne celeho contextu
 			//neukladat hodnotu z kazdeho workflow zvlast !!!!!
-			fmt.Println("OUT > " + value)
-			// logger.Information("OUT > " + value) //nefunguje
+			//fmt.Println("OUT > " + value)
+			logger.Information("OUT > " + value) //nefunguje
 		}
 		close(workflowOut)
 	}()
@@ -140,9 +148,10 @@ func recoverPanic() {
 
 		//low-level exception logging
 		fmt.Println("[PANIC] - " + err.Error())
-		//logger.Fatal("[PANIC] - " + err.Error()) //nefunguje
+		// fmt.Panic()
+		logger.Fatal("[PANIC] - " + err.Error()) //nefunguje
 		// log.Println("[PANIC] - " + err.Error()) //nefunguje
 
-		os.Exit(1)
+		// os.Exit(1)
 	}
 }
