@@ -23,6 +23,12 @@ RUN go-wrapper download
 RUN go-wrapper install
 RUN go build -o bin/savetoprometheus
 
+# Cellar savetofluentd - get packages & build
+WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/savetofluentd
+RUN go-wrapper download
+RUN go-wrapper install
+RUN go build -o bin/savetofluentd
+
 # Cellar cancelmeeting - get packages & build
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/cancelmeeting
 RUN go-wrapper download
@@ -42,6 +48,7 @@ RUN go build -o cellarworkflowmanager
 RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow1/bin/workflow1 /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow2/bin/workflow2 /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/savetoprometheus/bin/savetoprometheus /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
+RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/savetofluentd/bin/savetofluentd /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/cancelmeeting/bin/cancelmeeting /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 
 
