@@ -93,6 +93,7 @@ String MqttUserPass = "test"; //test
 String MqttTopicName_temperature = DeviceName + "/temperature"; //s3500/pir
 String MqttTopicName_humidity = DeviceName + "/humidity"; //s3500/pir
 String MqttTopicName_status = DeviceName + "/status"; //s3500/status
+String MqttTopicName_ip = DeviceName + "/ip"; //s3500/ip
 
 //nazev wifi site
 String WifiSsid = ""; 
@@ -222,7 +223,7 @@ void setupDevice() {
 	MqttTopicName_temperature = DeviceName + "/temperature";
 	MqttTopicName_humidity = DeviceName + "/humidity";
 	MqttTopicName_status = DeviceName + "/status";
-
+	MqttTopicName_ip = DeviceName + "/ip";
 
 	//saveConfigToEeprom(WifiSsid.c_str(), WifiPass.c_str(), DeviceName.c_str(), MqttHostName.c_str(), MqttUserName.c_str(), MqttUserPass.c_str());
 	logConfig();
@@ -352,7 +353,8 @@ void createAP() {
 		Serial.println(MqttPort);
         Serial.println(MqttTopicName_temperature.c_str());
         Serial.println(MqttTopicName_humidity.c_str());
-        Serial.println(MqttTopicName_status.c_str());
+		Serial.println(MqttTopicName_status.c_str());
+		Serial.println(MqttTopicName_ip.c_str());
 		Serial.println(MqttUserName.c_str());
 		Serial.println(MqttUserPass.c_str());
 
@@ -521,10 +523,15 @@ void sendStatus() {
 
 
     randNumber = random(0, 10);
-    Serial.println(String(randNumber).c_str());
+	Serial.println(String(randNumber).c_str());
+	
+	//Get actual IP address
+	String ip = WiFi.localIP().toString();
+	Serial.println(ip.c_str());
 
     if (mqttClient.connected()) {
-        mqttClient.publish(MqttTopicName_status.c_str(), String(randNumber).c_str(), true);
+		mqttClient.publish(MqttTopicName_status.c_str(), String(randNumber).c_str(), true);
+		mqttClient.publish(MqttTopicName_ip.c_str(), ip.c_str(), true);
         Serial.println("STATUS OK");
 	  } else {
         Serial.println("STATUS BAD - MQTT is not reachable");
@@ -586,7 +593,8 @@ void logConfig() {
 	Serial.println(MqttPort);
     Serial.println(MqttTopicName_temperature.c_str());
     Serial.println(MqttTopicName_humidity.c_str());
-    Serial.println(MqttTopicName_status.c_str());
+	Serial.println(MqttTopicName_status.c_str());
+	Serial.println(MqttTopicName_ip.c_str());
 	Serial.println(MqttUserName.c_str());
 	Serial.println(MqttUserPass.c_str());
 	

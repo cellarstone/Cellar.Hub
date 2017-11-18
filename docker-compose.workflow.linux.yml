@@ -8,13 +8,6 @@ services:
     build:
       context: ./Cellar.Hub.Workflow
       dockerfile: Dockerfile
-    # depends_on: 
-    #   - cellar.hub.mongodb
-    #   - cellar.hub.mqtt
-    #   - fluentd
-    #   - pushgateway
-    #   - elasticsearch
-    #   - kibana
     links:
       - fluentd
       - pushgateway
@@ -54,8 +47,6 @@ services:
     build: ./Cellar.Hub.Log/fluentd
     volumes:
       - ./Cellar.Hub.Log/fluentd/conf:/fluentd/etc
-    # depends_on: 
-    #   - elasticsearch
     links:
       - "elasticsearch"
     ports:
@@ -87,8 +78,6 @@ services:
       - /data/cellarstone.hub/prometheus:/data/prometheus
     ports:
       - '9090:9090'
-    # depends_on: 
-    #   - pushgateway
     links:
       - pushgateway
     

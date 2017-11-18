@@ -147,6 +147,9 @@ services:
 
   grafana:
     image: grafana/grafana
+    links:
+      - prometheus
+      - elasticsearch
     volumes:
       - /data/cellarstone.hub/grafana:/var/lib/grafana
     ports:
