@@ -308,6 +308,9 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 		} else if workflowType == "savetoprometheus" {
 			cmdName = "./savetoprometheus"
 			cmdArgs = []string{workflowName, parameter1}
+		} else if workflowType == "savetofluentd" {
+			cmdName = "./savetofluentd"
+			cmdArgs = []string{workflowName, parameter1}
 		} else if workflowType == "cancelmeeting" {
 			cmdName = "./cancelmeeting"
 			cmdArgs = []string{workflowName, parameter1, parameter2}

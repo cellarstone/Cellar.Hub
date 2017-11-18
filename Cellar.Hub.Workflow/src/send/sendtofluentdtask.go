@@ -12,13 +12,13 @@ import (
 //**********************************
 type SendToFluentdTask struct {
 	abstraction.BaseTask
-	fluentdUrl string
-	tag        string
+	Tag        string `json:"tag" bson:"tag"`
+	FluentdUrl string `json:"fluenturl" bson:"fluenturl"`
 }
 
 func (t *SendToFluentdTask) Execute() error {
 
-	FluentLogger, errtemp := fluent.New(fluent.Config{FluentPort: 24224, FluentHost: t.fluentdUrl})
+	FluentLogger, errtemp := fluent.New(fluent.Config{FluentPort: 24224, FluentHost: t.FluentdUrl})
 	if errtemp != nil {
 		//stop program
 		return nil, errtemp
@@ -29,7 +29,7 @@ func (t *SendToFluentdTask) Execute() error {
 		var data = map[string]string{
 			"message": value,
 		}
-		error := t.FluentLogger.Post(t.tag, data)
+		error := t.FluentLogger.Post(t.Tag, data)
 		if error != nil {
 			return error
 		}
