@@ -1,8 +1,6 @@
 package main
 
 import (
-	"errors"
-	"fmt"
 	"math/rand"
 	"os"
 	"os/signal"
@@ -62,8 +60,8 @@ func main() {
 	workflowIn = make(chan string)
 	workflowOut = make(chan string)
 
-	errTest := errors.New("TEST PANIC")
-	panic(errTest)
+	// errTest := errors.New("TEST PANIC")
+	// panic(errTest)
 
 	//-------------------------------------------------------------------
 	//-------------------------------------------------------------------
@@ -151,7 +149,7 @@ func recoverPanic() {
 		err := rec.(error)
 
 		//low-level exception logging
-		fmt.Println("[PANIC] - " + err.Error())
+		// fmt.Println("[PANIC] - " + err.Error())
 		// fmt.Panic()
 		logger.Fatal("[PANIC] - " + err.Error()) //nefunguje
 		// log.Println("[PANIC] - " + err.Error()) //nefunguje

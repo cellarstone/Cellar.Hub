@@ -10,6 +10,7 @@ import (
 func RunTimeRepeaterTrigger(numberOfSeconds int) {
 
 	go func() {
+		defer recoverPanic()
 
 		var exceptionCount = 0
 
