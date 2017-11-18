@@ -18,10 +18,10 @@ type SendToFluentdTask struct {
 
 func (t *SendToFluentdTask) Execute() error {
 
-	FluentLogger, errtemp := fluent.New(fluent.Config{FluentPort: 24224, FluentHost: t.FluentdUrl})
+	fluentLogger, errtemp := fluent.New(fluent.Config{FluentPort: 24224, FluentHost: t.FluentdUrl})
 	if errtemp != nil {
 		//stop program
-		return nil, errtemp
+		return errtemp
 	}
 
 	for value := range t.InChannel {
@@ -29,7 +29,7 @@ func (t *SendToFluentdTask) Execute() error {
 		var data = map[string]string{
 			"message": value,
 		}
-		error := t.FluentLogger.Post(t.Tag, data)
+		error := fluentLogger.Post(t.Tag, data)
 		if error != nil {
 			return error
 		}
