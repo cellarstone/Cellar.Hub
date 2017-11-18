@@ -40,7 +40,5 @@ func (t *CLogger) log(level string, message string) error {
 
 	log.Println("[", level, "]", "[", t.tag, "]", " - ", message)
 
-	// fmt.Println("[", level, "]", "[", source, "]", " - ", message)
-
 	return nil
 }

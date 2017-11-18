@@ -17,7 +17,7 @@ type LogTask struct {
 
 func (t *LogTask) Execute() error {
 	for value := range t.InChannel {
-		fmt.Println("LogTask value - " + value)
+		fmt.Println("[", t.Name, "]", " - LogTask value - "+value)
 		t.OutChannel <- value
 	}
 
@@ -28,7 +28,7 @@ func (t *LogTask) Execute() error {
 
 func (t *LogTask) ExecuteParallel(value string) error {
 	t.State = "inprogress"
-	fmt.Println("LogTask parallel value - " + value)
+	fmt.Println("[", t.Name, "]", " - LogTask parallel value - "+value)
 	t.State = "completed"
 	return nil
 }

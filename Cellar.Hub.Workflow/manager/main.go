@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
+	"log"
 	"math/rand"
 	"net/http"
 	"os"
@@ -34,11 +35,11 @@ type cellarDTO struct {
 }
 
 //Logging
-var logger *logging.CLogger
+var logger *logging.DLogger
 
 func init() {
 	//set logging
-	logger, err = logging.NewCLogger("Cellar.Hub.Workflow.Manager")
+	logger, err = logging.NewDLogger("Cellar.Hub.Workflow.Manager")
 	if err != nil {
 		panic(err)
 	}
@@ -46,7 +47,13 @@ func init() {
 
 func main() {
 
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//V TEHLE METODE SE NIC NELOGUJE !!!!!!!!!!!!!!!!!
+	// vysvetleni: asi jeste nestihne nabehnout Fluentd
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	logger.Information("TEST from Workflow manager")
+	log.Println("AAA1")
+	fmt.Println("AAA2")
 
 	//--------------------------------------------------------
 	//--------------------------------------------------------
@@ -120,8 +127,7 @@ func RecoverWrap(h http.Handler) http.Handler {
 					err = errors.New("Unknown error")
 				}
 
-				//low-level exception logging
-				fmt.Println("RecoverWrap > " + err.Error())
+				logger.Fatal("[PANIC] - " + err.Error())
 
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 			}
@@ -172,8 +178,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		go func() {
 			for scanner.Scan() {
 				//low-level exception logging
-				fmt.Printf("workflow process | %s\n", scanner.Text())
-				logger.Fatal(scanner.Text())
+				// fmt.Printf("workflow process | %s\n", scanner.Text())
+				logger.Information("workflow process | " + scanner.Text())
 			}
 		}()
 
@@ -187,6 +193,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	index.ExecuteTemplate(w, "layouttemplate", nil)
 }
 func processesHandler(w http.ResponseWriter, r *http.Request) {
+
+	logger.Information("TEST from Workflow manager - processes")
 
 	// Create an *exec.Cmd
 	cmd := exec.Command("ps", "-ef")
@@ -323,7 +331,7 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 		go func() {
 			for scanner.Scan() {
 				//low-level exception logging
-				fmt.Printf("workflow process | %s\n", scanner.Text())
+				logger.Information("workflow process | " + scanner.Text())
 			}
 		}()
 
@@ -383,7 +391,10 @@ func deleteworkflowHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func throwExceptionHandler(w http.ResponseWriter, r *http.Request) {
-	panic("XXXXXXXXXXX")
+
+	logger.Information("TEST from Workflow manager - throwException method")
+
+	panic("SOME TEST EXCEPTION")
 }
 
 //-------------------------------------
@@ -394,7 +405,7 @@ func layoutFiles() []string {
 	files, err := filepath.Glob(layoutDir + "/*.gohtml")
 	if err != nil {
 		//low-level exception logging
-		fmt.Println(err.Error())
+		logger.Error(err.Error())
 	}
 	return files
 }

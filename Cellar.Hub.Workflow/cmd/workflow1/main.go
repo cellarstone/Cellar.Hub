@@ -49,7 +49,9 @@ func init() {
 func main() {
 	defer recoverPanic()
 
-	logger.Information("TEST from Workflow1")
+	// logger.Information("AAA0") //nefunguje
+	// log.Println("AAA1")        //nefunguje
+	// fmt.Println("AAA2")        //funguje
 
 	// environment := os.Getenv("APP_ENV")
 	workflowName := os.Args[1]
@@ -69,7 +71,7 @@ func main() {
 
 	//-------------------------------------------------------------------
 	//-------------------------------------------------------------------
-	// each 2 seconds send message
+	// each 1 second send a message
 
 	go func() {
 		for {
@@ -77,7 +79,9 @@ func main() {
 			// randomNumber := random(1, 100)
 			randomNumberFloat := rand.Float64() * 1000
 
-			logger.Information("TEST from Workflow1 - new message")
+			// logger.Information("BBB0") //nefunguje
+			// log.Println("BBB1")        //nefunguje
+			// fmt.Println("BBB2")        //funguje
 
 			//set metrics
 			metricTemp.Set(randomNumberFloat)
@@ -90,7 +94,8 @@ func main() {
 				metricTempCount,
 			)
 			if err != nil {
-				logger.Warning("Could not push completion time to Pushgateway > " + err.Error())
+				fmt.Println("Could not push completion time to Pushgateway > " + err.Error())
+				// logger.Warning("Could not push completion time to Pushgateway > " + err.Error()) //nefunguje
 			}
 
 			//send value to the channel
@@ -107,7 +112,8 @@ func main() {
 		for value := range workflowOut {
 			//ulozit vysledek workflow vcetne celeho contextu
 			//neukladat hodnotu z kazdeho workflow zvlast !!!!!
-			logger.Information("OUT > " + value)
+			fmt.Println("OUT > " + value)
+			// logger.Information("OUT > " + value) //nefunguje
 		}
 		close(workflowOut)
 	}()
@@ -131,12 +137,12 @@ func random(min, max int) int {
 func recoverPanic() {
 	if rec := recover(); rec != nil {
 		err := rec.(error)
+
 		//low-level exception logging
-		fmt.Println("Handle panic > " + err.Error())
-		logger.Fatal("[PANIC] - " + err.Error())
-		// fmt.Println("recoverPanic" + err.Error())
-		// logger.Printf("Unhandled error: %v\n", err.Error())
-		// fmt.Fprintf(os.Stderr, "Program quit unexpectedly; please check your logs\n")
+		fmt.Println("[PANIC] - " + err.Error())
+		//logger.Fatal("[PANIC] - " + err.Error()) //nefunguje
+		// log.Println("[PANIC] - " + err.Error()) //nefunguje
+
 		os.Exit(1)
 	}
 }

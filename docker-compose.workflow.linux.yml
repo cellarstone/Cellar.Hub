@@ -84,11 +84,11 @@ services:
       context: ./Cellar.Hub.Log/prometheus
       dockerfile: Dockerfile
     volumes:
-      - /data/cellarstone.hub/prometheus:/prometheus
+      - /data/cellarstone.hub/prometheus:/data/prometheus
     ports:
       - '9090:9090'
-    depends_on: 
-      - pushgateway
+    # depends_on: 
+    #   - pushgateway
     links:
       - pushgateway
     
