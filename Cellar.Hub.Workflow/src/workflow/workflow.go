@@ -117,6 +117,7 @@ func (wf *Workflow) run(tasks []interface{}) error {
 			// log.Debug("LogTask - ", nttype)
 			// RUN IT in separate goroutine
 			go func(t abstraction.Task) {
+				defer recoverPanic()
 				t.Execute()
 			}(nttype)
 		// case *mylog.LogTask:

@@ -65,6 +65,20 @@ func main() {
 
 	//-------------------------------------------------------------------
 	//-------------------------------------------------------------------
+	// read each message and print
+
+	go func() {
+		for value := range workflowOut {
+			//ulozit vysledek workflow vcetne celeho contextu
+			//neukladat hodnotu z kazdeho workflow zvlast !!!!!
+			//fmt.Println("OUT > " + value)
+			logger.Information("OUT > " + value) //nefunguje
+		}
+		close(workflowOut)
+	}()
+
+	//-------------------------------------------------------------------
+	//-------------------------------------------------------------------
 
 	RunWorkflow(workflowName)
 
@@ -113,20 +127,6 @@ func main() {
 	// 	}
 	// 	close(workflowIn)
 	// }()
-
-	//-------------------------------------------------------------------
-	//-------------------------------------------------------------------
-	// read each message and print
-
-	go func() {
-		for value := range workflowOut {
-			//ulozit vysledek workflow vcetne celeho contextu
-			//neukladat hodnotu z kazdeho workflow zvlast !!!!!
-			//fmt.Println("OUT > " + value)
-			logger.Information("OUT > " + value) //nefunguje
-		}
-		close(workflowOut)
-	}()
 
 	//-------------------------------------------------------------------
 	//-------------------------------------------------------------------

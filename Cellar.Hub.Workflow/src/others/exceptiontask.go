@@ -23,7 +23,7 @@ func (t *ExceptionTask) Execute() error {
 	for value := range t.InChannel {
 
 		if counter == t.MessageCount {
-			errTest := errors.New("TEST EXCEPTION")
+			errTest := errors.New("TEST EXCEPTION - Exception task")
 			panic(errTest)
 		}
 		counter++
