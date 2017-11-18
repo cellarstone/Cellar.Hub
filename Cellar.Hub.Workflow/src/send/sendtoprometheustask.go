@@ -44,13 +44,12 @@ func (t *SendToPrometheusTask) Execute() error {
 
 		valueFloat, err := strconv.ParseFloat(value, 64)
 		if err != nil {
-			metricTemp.Set(value)
-		} else {
-			metricTemp.Set(valueFloat)
+			panic(err)
+			// logme("Error", "main", "Could not push completion time to Pushgateway > "+err.Error())
 		}
 
 		//Prometheus - set metrics
-
+		metricTemp.Set(valueFloat)
 		err = push.AddCollectors("pushgateway",
 			map[string]string{"measurement": t.Topic, "senzor": t.Senzor},
 			t.PrometheusUrl,
