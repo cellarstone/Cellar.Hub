@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Cellar.Hub.Core;
-using Cellar.Hub.Core.Business;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 using System.IO;
@@ -12,6 +10,8 @@ using ImageCore = ImageProcessorCore;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Microsoft.Extensions.Logging;
+using Cellar.Hub.Api.Business;
+using Cellar.Hub.Api.Models;
 
 namespace Cellar.Hub.Api.Controllers
 {
@@ -40,13 +40,7 @@ namespace Cellar.Hub.Api.Controllers
         }
 
 
-        [HttpGet]
-        public int GetValue()
-        {
-            _log.LogInformation("Test of logging");
-            return 5;
-        }
-
+        
 
         [HttpGet]
         public CellarDTO GetAllCellarSpaces()

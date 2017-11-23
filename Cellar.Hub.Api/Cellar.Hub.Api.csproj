@@ -9,11 +9,6 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Cellar.Hub.Core\Cellar.Hub.Core.csproj" />
-  </ItemGroup>  
-
-
 <ItemGroup>
    <None Include="appsettings.json" CopyToPublishDirectory="Always" />
    <!-- <None Include="appsettings.development.json" CopyToPublishDirectory="Always" /> -->
@@ -29,6 +24,7 @@
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Formatting.Compact" Version="1.0.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.4.4" /> 
   </ItemGroup>
 
   <ItemGroup>

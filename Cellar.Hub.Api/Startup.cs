@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cellar.Hub.Api.Business;
+using Cellar.Hub.Api.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Cellar.Hub.Core;
 
 namespace Cellar.Hub.Api
 {
@@ -36,6 +37,13 @@ namespace Cellar.Hub.Api
 
             services.AddSingleton<IConfigurationRoot>((provider) => Configuration);
 
+            //REPOSITORY
+            services.AddScoped<CellarHubMongoDbContext, CellarHubMongoDbContext>();
+
+            //SERVIE
+            services.AddScoped<CellarHubService, CellarHubService>();
+
+
             services.AddCors();
 
             var policy = new Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy();
@@ -45,11 +53,6 @@ namespace Cellar.Hub.Api
             policy.SupportsCredentials = true;
 
             services.AddCors(x => x.AddPolicy("corsGlobalPolicy", policy));
-
-            services.AddCellarHubCore(o =>
-                    {
-                        o.mongoDbConnectionString = Configuration.GetSection("ConnectionStrings:mongoDb").Value;
-                    });
 
             services.AddMvc();
 

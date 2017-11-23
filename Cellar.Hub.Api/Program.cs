@@ -19,7 +19,7 @@ namespace Cellar.Hub.Api
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
-                // .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .Enrich.FromLogContext()
                 .WriteTo.Console(new CompactJsonFormatter())
                 // .WriteTo.Console(

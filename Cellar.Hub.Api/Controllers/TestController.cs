@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Cellar.Hub.Core;
-using Cellar.Hub.Core.Business;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 using System.IO;
@@ -24,11 +22,24 @@ namespace Cellar.Hub.Api.Controllers
             
         }
 
-
         [HttpGet]
-        public int ThrowException()
+        public void ThrowException()
         {
             throw new Exception("XXXXXXXXXXX");
+        }
+
+        [HttpGet]
+        public int GetValue()
+        {
+            _log.LogInformation("Test of logging");
+            return 5;
+        }
+
+        [HttpGet]
+        public bool TestLogging()
+        {
+            _log.LogInformation("Test of logging");
+            return true;
         }
 
 
