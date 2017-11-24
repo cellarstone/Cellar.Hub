@@ -34,8 +34,8 @@ services:
   cellar.hub.api:
     image: cellar.hub.api
     build:
-      context: .
-      dockerfile: Dockerfile_Cellar.Hub.Api
+      context: ./Cellar.Hub.Api
+      dockerfile: Dockerfile
     links:
       - fluentd
       - cellar.hub.mongodb
@@ -133,7 +133,7 @@ services:
       context: ./Cellar.Hub.Log/prometheus
       dockerfile: Dockerfile
     volumes:
-      - /data/cellarstone.hub/prometheus:/prometheus
+      - /data/cellarstone.hub/prometheus:/data/prometheus
     ports:
       - '9090:9090'
     links:

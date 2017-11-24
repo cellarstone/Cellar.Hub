@@ -29,10 +29,6 @@ namespace Cellar.Hub.Admin
 
         public void ConfigureServices(IServiceCollection services)
         {
-
-            // services.AddScoped<CellarHubDbContext,CellarHubDbContext>();
-
-
             // Add framework services.
             services.AddMvc()
                 .AddJsonOptions(options => {

@@ -10,6 +10,11 @@
 cd Dropbox/Cellar.Hub
 
 
+# API
+sudo docker build -t cellar.hub.api .
+sudo docker run -d -p 8885:8885 -t cellar.hub.api
+
+
 # Mosquitto - MQTT
 sudo docker build -t cellar.hub.mqtt .
 sudo docker run -d -p 1883:1883 -p 9001:9001 -t cellar.hub.mqtt
