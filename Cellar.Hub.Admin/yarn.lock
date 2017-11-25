@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@agm/core@^1.0.0-beta.2":
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@agm/core/-/core-1.0.0-beta.2.tgz#da15c0a5e86fe9e1178f14c36a3e0ffc14f9ad77"
+
 "@angular-devkit/build-optimizer@~0.0.31":
   version "0.0.33"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-optimizer/-/build-optimizer-0.0.33.tgz#d040f283ed7300b5be8bc970228b835ed02df42f"
@@ -169,11 +173,75 @@
     source-map "^0.5.6"
     tree-kill "^1.0.0"
 
+"@progress/kendo-angular-buttons@^1.0.0":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-angular-buttons/-/kendo-angular-buttons-1.1.1.tgz#893f5a448e62091989b0e1618883a427eeab8101"
+  dependencies:
+    "@progress/kendo-angular-popup" "^1.0.0"
+    tslib "^1.7.0"
+
+"@progress/kendo-angular-charts@^1.0.0":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-angular-charts/-/kendo-angular-charts-1.3.3.tgz#417f725833b7b2b7e013e9f57d7aec91ee777eb3"
+  dependencies:
+    "@progress/kendo-angular-popup" "^1.1.0"
+    "@progress/kendo-angular-resize-sensor" "^1.0.1"
+    "@progress/kendo-charts" "^1.4.0"
+    tslib "^1.7.0"
+
+"@progress/kendo-angular-intl@^1.0.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-angular-intl/-/kendo-angular-intl-1.3.0.tgz#0c78278d5963f2adf3bfdc64a3da8396b0c4b857"
+  dependencies:
+    "@telerik/kendo-intl" "^1.3.0"
+    tslib "^1.7.0"
+
+"@progress/kendo-angular-l10n@^1.0.0":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-angular-l10n/-/kendo-angular-l10n-1.0.5.tgz#9ca828cfe45ae3aed634223b9cb13dcb2c875031"
+  dependencies:
+    tslib "^1.7.0"
+
+"@progress/kendo-angular-popup@^1.0.0", "@progress/kendo-angular-popup@^1.1.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-angular-popup/-/kendo-angular-popup-1.3.0.tgz#66fd75467d7241c8552be835c497c52d4f64edbb"
+  dependencies:
+    "@progress/kendo-popup-common" "^1.2.3"
+    tslib "^1.7.0"
+
+"@progress/kendo-angular-resize-sensor@^1.0.1":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-angular-resize-sensor/-/kendo-angular-resize-sensor-1.0.5.tgz#4aed58403f38b64612f5a216c2cc950862578f39"
+  dependencies:
+    tslib "^1.7.0"
+
+"@progress/kendo-charts@^1.4.0":
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-charts/-/kendo-charts-1.4.1.tgz#e463263befed93d5f2d4bd7c4febff0c9cbb4fdd"
+
+"@progress/kendo-drawing@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-drawing/-/kendo-drawing-1.4.0.tgz#e0bbd509ae069f399b243b4d2260d1fb7c6d6d7e"
+  dependencies:
+    pako "^1.0.5"
+
+"@progress/kendo-popup-common@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-popup-common/-/kendo-popup-common-1.2.3.tgz#4ba09bffdf886eabed4126a78b538d98fe3211c6"
+
+"@progress/kendo-theme-default@^2.32.0":
+  version "2.45.2"
+  resolved "https://registry.yarnpkg.com/@progress/kendo-theme-default/-/kendo-theme-default-2.45.2.tgz#956c6dc7d0e30d08ef6dd927db767b8893a737d3"
+
 "@schematics/angular@~0.1.0":
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-0.1.5.tgz#501ef8bd7319e1b57486ee2a48720d2f3da7ee13"
   dependencies:
     "@angular-devkit/core" "0.0.20"
+
+"@telerik/kendo-intl@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@telerik/kendo-intl/-/kendo-intl-1.3.0.tgz#9ec98763553ea5bc145dea22c4395761738297ac"
 
 "@types/greensock@1.15.32":
   version "1.15.32"
@@ -2484,6 +2552,10 @@ gsap@1.20.2:
   version "1.20.2"
   resolved "https://registry.yarnpkg.com/gsap/-/gsap-1.20.2.tgz#c78abd906c32ee21964c1b90f921b5110180c65a"
 
+hammerjs@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
+
 handle-thing@^1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/handle-thing/-/handle-thing-1.2.5.tgz#fd7aad726bf1a5fd16dfc29b2f7a6601d27139c4"
@@ -4098,7 +4170,7 @@ package-json@^4.0.0:
     registry-url "^3.0.3"
     semver "^5.1.0"
 
-pako@~1.0.5:
+pako@^1.0.5, pako@~1.0.5:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.6.tgz#0101211baa70c4bca4a0f63f2206e97b7dfaf258"
 
@@ -4575,9 +4647,9 @@ pretty-error@^2.0.2:
     renderkid "^2.0.1"
     utila "~0.4"
 
-primeng@^5.0.0-rc.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/primeng/-/primeng-5.0.0.tgz#32426c432cb9c9ef5023105f9cf11890b6f17699"
+primeng@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/primeng/-/primeng-5.0.2.tgz#05c4a4502efd4c3bc5d506aa01ae8eb30f9764db"
 
 process-nextick-args@~1.0.6:
   version "1.0.7"
@@ -5820,7 +5892,7 @@ tsickle@^0.24.0:
     source-map "^0.5.6"
     source-map-support "^0.4.2"
 
-tslib@^1.7.1:
+tslib@^1.7.0, tslib@^1.7.1:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.8.0.tgz#dc604ebad64bcbf696d613da6c954aa0e7ea1eb6"
 

@@ -22,16 +22,16 @@
             <p-header>List of Senzors</p-header>
             <!--<p-column field="id" header="Id" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>-->
             <p-column field="state" header="State" [filter]="true" [style]="{'overflow':'visible'}" [sortable]="true">
-                <template pTemplate="filter" let-col>
+                <ng-template pTemplate="filter" let-col>
                     <p-dropdown [options]="states" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
-                </template>
-                <template pTemplate="body" let-col let-asdf="rowData">
+                </ng-template>
+                <ng-template pTemplate="body" let-col let-asdf="rowData">
                     <div class="text-center">
                         <div *ngIf="asdf.state == '1'" class="newState"></div>
                         <div *ngIf="asdf.state == '2'" class="approvedState"></div>
                         <div *ngIf="asdf.state == '3'" class="forbiddenState"></div>
                     </div>
-                </template>
+                </ng-template>
             </p-column>
             <p-column field="name" header="Name" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
             <p-column field="type" header="Type" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>

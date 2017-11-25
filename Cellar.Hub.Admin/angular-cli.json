@@ -41,17 +41,17 @@
         "../SPA/assets/SplitText.js",
         "../SPA/assets/ThrowPropsPlugin.js"
       ],
-      "environmentSource": "environments/environment.ts",
+      "environmentSource": "SPA/environments/environment.ts",
       "environments": {
-        "source": "environments/environment.ts",
-        "dev": "environments/environment.ts",
-        "prod": "environments/environment.prod.ts"
+        "source": "SPA/environments/environment.ts",
+        "dev": "SPA/environments/environment.ts",
+        "prod": "SPA/environments/environment.prod.ts"
       }
     }
   ],
   "lint": [
     {
-      "project": "src/tsconfig.json"
+      "project": "SPA/tsconfig.json"
     }
   ],
   "defaults": {

@@ -31,10 +31,6 @@ export class IoTService {
     private url_removeCellarSenzor: string;
     private url_updateCellarSenzor: string;
 
-    private url_upload: string;
-    private url_uploadFullSmall: string;
-
-
 
     private headers: Headers;
 
@@ -65,8 +61,6 @@ export class IoTService {
         this.url_removeCellarSenzor = this.serverUrl + '/Space/RemoveCellarSenzor';
         this.url_updateCellarSenzor = this.serverUrl + '/Space/UpdateCellarSenzor';
 
-        this.url_upload = this.serverUrl + '/Space/Upload';
-        this.url_uploadFullSmall = this.serverUrl + '/Space/UploadFullSmall';
     }
 
 
@@ -243,42 +237,6 @@ export class IoTService {
             .catch(this.handleError);
     }
 
-
-
-
-
-    /**********************************************/
-    /*              FILE UPLOAD                    */
-    /**********************************************/
-    upload(fileToUpload: any): Observable<CellarDTO>
-    {
-        let input = new FormData();
-        input.append("file", fileToUpload);
-
-        
-        this.setHeaders();
-        let options = new RequestOptions({ headers: this.headers });
-
-        return this.http.post(this.url_upload, input, options)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
-
-    uploadFullSmall(fileToUpload: any): Observable<CellarDTO>
-    {
-        let input = new FormData();
-        input.append("file", fileToUpload);
-
-        console.log(fileToUpload);
-
-        this.setHeaders();
-        this.headers.delete('Content-Type');
-        let options = new RequestOptions({ headers: this.headers });
-
-        return this.http.post(this.url_uploadFullSmall, input, options)
-            .map(this.extractData)
-            .catch(this.handleError);
-    }
 
 
 

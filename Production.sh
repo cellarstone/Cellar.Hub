@@ -23,6 +23,13 @@ sudo docker run -d -p 1883:1883 -p 9001:9001 -t cellar.hub.mqtt
 sudo docker build -t cellar.hub.mongodb .
 sudo docker run -d -p 27017:27017 -t cellar.hub.mongodb
 
+# Minio
+sudo docker build -t cellar.hub.minio .
+sudo docker run -d -p 9000:9000 -t cellar.hub.minio
+# original command
+docker run -p 9000:9000 minio/minio server /data
+
+
 #Fluentd
 #http://localhost:9880/myapp.access?json={"event":"data"}
 sudo docker build -t cellar.hub.log.fluentd .

@@ -82,15 +82,23 @@ import {TreeModule} from 'primeng/primeng';
 import {TreeTableModule} from 'primeng/primeng';
 
 
+//KENDO UI
+import { ButtonsModule } from '@progress/kendo-angular-buttons';
+import { ChartsModule } from '@progress/kendo-angular-charts';
+
+//Inline SVG
 import { InlineSVGModule } from 'ng-inline-svg';
 
+//Google maps
 import { AgmCoreModule } from '@agm/core';
 
 
+//CELLARSTONE COMPONENTS
 import {AppComponent}  from './app.component';
 
 import { SharedService } from './service/shared.service';
 import { IoTService } from './service/iot.service';
+import { CdnService } from './service/cdn.service';
 import { WebsocketService2 } from './service/websocket2.service';
 import { WebsocketService } from './service/websocket.service';
 
@@ -99,15 +107,22 @@ import {AppTopBar}  from './app.topbar.component';
 import {AppFooter}  from './app.footer.component';
 import {DashboardDemo} from './view/dashboard/dashboarddemo';
 
+//places
 import {PlaceDashboard} from './view/place/dashboard/place-dashboard';
 
+//spaces
 import {SpaceDashboard} from './view/space/dashboard/space-dashboard';
 import {SpaceDetail} from './view/space/detail/space-detail';
 import {SpaceList} from './view/space/list/space-list';
 
+//senzors
 import {SenzorDashboard} from './view/senzor/dashboard/senzor-dashboard';
 import {SenzorDetail} from './view/senzor/detail/senzor-detail';
 import {SenzorList} from './view/senzor/list/senzor-list';
+
+
+
+
 
 @NgModule({
     imports: [
@@ -180,7 +195,15 @@ import {SenzorList} from './view/senzor/list/senzor-list';
         TooltipModule,
         TreeModule,
         TreeTableModule,
+
+        // Kendo UI
+        ButtonsModule,
+        ChartsModule,
+
+        //Inline SVG
         InlineSVGModule,
+
+        //Google maps
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyCzctD36QgFcCo-CwKjSBY68CDI80BSoTc'
           })
@@ -203,6 +226,7 @@ import {SenzorList} from './view/senzor/list/senzor-list';
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         IoTService,
+        CdnService,
         SharedService,
         WebsocketService2,
         WebsocketService

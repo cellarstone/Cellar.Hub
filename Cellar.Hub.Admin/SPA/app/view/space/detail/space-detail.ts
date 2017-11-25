@@ -32,6 +32,7 @@ import { CellarSenzor } from '../../../entities/CellarSenzor';
 
 
 import { IoTService } from '../../../service/iot.service';
+import { CdnService } from '../../../service/cdn.service';
 
 
 //others
@@ -82,7 +83,8 @@ export class SpaceDetail
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        public iotservice: IoTService)
+        public iotservice: IoTService,
+        public cdnservice: CdnService)
     {
         
     }
@@ -512,7 +514,7 @@ export class SpaceDetail
             let fileToUpload = fileInput.target.files[0];
             console.log(fileToUpload.name);
 
-            this.iotservice.uploadFullSmall(fileToUpload)
+            this.cdnservice.upload(fileToUpload)
                 .subscribe(art =>
                 {
                     let response = art;

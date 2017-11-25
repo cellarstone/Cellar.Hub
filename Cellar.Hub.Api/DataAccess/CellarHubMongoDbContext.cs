@@ -86,13 +86,6 @@ namespace Cellar.Hub.Api.DataAccess
                 return _database.GetCollection<CellarSenzor>("Senzors");
             }
         }
-        public IMongoCollection<CellarSenzorData> SenzorsData
-        {
-            get
-            {
-                return _database.GetCollection<CellarSenzorData>("SenzorsData");
-            }
-        }
 
 
 
@@ -100,32 +93,33 @@ namespace Cellar.Hub.Api.DataAccess
 
 
 
-        public async void InsertToSenzorData(string senzorId, string measurement, string value)
-        {
-            try
-            {
 
-                var filterBuilder = Builders<CellarSenzorData>.Filter;
-                var filter = filterBuilder.Eq("SenzorId", senzorId) &
-                    filterBuilder.Eq("Date", new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Utc)) &
-                    filterBuilder.Eq("Measurement", measurement);
+        // public async void InsertToSenzorData(string senzorId, string measurement, string value)
+        // {
+        //     try
+        //     {
 
-                var update = Builders<CellarSenzorData>.Update.Push(p => p.values, value);
+        //         var filterBuilder = Builders<CellarSenzorData>.Filter;
+        //         var filter = filterBuilder.Eq("SenzorId", senzorId) &
+        //             filterBuilder.Eq("Date", new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Hour, 0, 0, DateTimeKind.Utc)) &
+        //             filterBuilder.Eq("Measurement", measurement);
 
-                //updatuje zaznam, kdyz neexistuje tak ho vytvori 
-                var aaa = await SenzorsData.UpdateOneAsync(filter, update, new UpdateOptions() { IsUpsert = true });
+        //         var update = Builders<CellarSenzorData>.Update.Push(p => p.values, value);
 
-                //Console.WriteLine(aaa.Values);
+        //         //updatuje zaznam, kdyz neexistuje tak ho vytvori 
+        //         var aaa = await SenzorsData.UpdateOneAsync(filter, update, new UpdateOptions() { IsUpsert = true });
 
-                //Console.WriteLine("MatchedCount: " + aaa.MatchedCount + " - ModifiedCount: " + aaa.ModifiedCount + " - UpsertId: " + aaa.UpsertedId);
+        //         //Console.WriteLine(aaa.Values);
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+        //         //Console.WriteLine("MatchedCount: " + aaa.MatchedCount + " - ModifiedCount: " + aaa.ModifiedCount + " - UpsertId: " + aaa.UpsertedId);
 
-        }
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         Console.WriteLine(e.Message);
+        //     }
+
+        // }
 
 
 
