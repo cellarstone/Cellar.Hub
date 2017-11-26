@@ -33,7 +33,7 @@
             "name": "Api debug",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "buildApi",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceRoot}/Cellar.Hub.Api/bin/Debug/netcoreapp2.0/Cellar.Hub.Api.dll",
             "args": [],

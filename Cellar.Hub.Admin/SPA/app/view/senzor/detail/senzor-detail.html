@@ -130,9 +130,13 @@
         <div class="ui-g-12 ui-md-12">
             <div class="card card-w-title">
 
-                <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="onBack()" class="ui-button-warning"></button>
+                <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="sharedService.routeBack()" class="ui-button-warning"></button>
 
-                <button type="button" pButton icon="fa-check" label="SAVE" (click)="saveProduct()" class="ui-button-success"></button>
+
+                <button type="button" pButton icon="fa-trash-o" label="DELETE" (click)="deleteSenzor()" class="ui-button-danger"></button>
+                
+
+                <button type="button" pButton icon="fa-check" label="SAVE" (click)="saveSenzor()" class="ui-button-success"></button>
 
             </div>
         </div>

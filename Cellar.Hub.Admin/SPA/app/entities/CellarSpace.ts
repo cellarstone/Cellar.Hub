@@ -1,15 +1,28 @@
 
-import { CellarSenzor } from './CellarSenzor';
-
 export class CellarSpace {
+
+    //Alternative for constructor
+    New(json: any): CellarSpace {
+        this.id = json.id;
+        this.name = json.name;
+        this.state = json.state;
+        this.image = json.image;
+        this.path = json.path;
+
+        return this
+    }
 
     public id: string;
     public name: string;
-    public state: string;
+
+    //NEW
+    //APPROVED
+    //FORBIDDEN
+    public state: string = "1";
 
     // public type: string;
 
-    public senzors: CellarSenzor[];
+    public image: string;
 
     /*****************************/
     /*  Solve Tree structure     */
@@ -17,6 +30,17 @@ export class CellarSpace {
     /*****************************/
     public path: string;
 
-    public image: string;
+    public getSubPath(): string {
+        let result = "";
+
+        if (this.path == "/") {
+            result = this.path + this.name.toLowerCase();
+        }
+        else {
+            result = this.path + "/" + this.name.toLowerCase();
+        }
+
+        return result;
+    }
 
 }

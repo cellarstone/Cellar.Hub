@@ -2,33 +2,29 @@ import {Component,OnInit} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {SelectItem} from 'primeng/primeng';
 
+
+import { CellarSpace } from '../../../entities/CellarSpace';
+
+
+import { SharedService } from '../../../service/shared.service';
+import { IoTService } from '../../../service/iot.service';
+
 @Component({
     templateUrl: './space-dashboard.html'
 })
 export class SpaceDashboard implements OnInit {
     
-    barData: any;
+    items: Array<CellarSpace>;
 
-    constructor(private router: Router) { }
+
+    constructor(private router: Router,
+        private sharedService: SharedService,
+        private iotservice: IoTService) { 
+            this.sharedService.setCurrentRoute();
+        }
     
     ngOnInit() {
-        this.barData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [
-                {
-                    label: 'My First dataset',
-                    backgroundColor: '#00acac',
-                    borderColor: '#00acac',
-                    data: [65, 59, 80, 81, 56, 55, 40]
-                },
-                {
-                    label: 'My Second dataset',
-                    backgroundColor: '#2f8ee5',
-                    borderColor: '#2f8ee5',
-                    data: [28, 48, 40, 19, 86, 27, 90]
-                }
-            ]
-        }
+        this.getData();
         
     }
 
@@ -36,7 +32,68 @@ export class SpaceDashboard implements OnInit {
 
     add()
     {
-        this.router.navigate(['space/0']);
+        this.sharedService.route("space/0");
+    }
+
+
+    selectItem(id: string){
+        this.sharedService.route("space/"+id);
+    }
+
+
+    //Ziskani dat ze serveru
+    private getData()
+    {
+        console.log('SpaceDashboard getData()');
+        
+        //HTTP call
+         this.iotservice.GetCellarSpaces("/")
+            .subscribe(res =>
+            {
+                let response = res;
+
+                //BEZ CHYB ze serveru
+                if (response.isOK)
+                {
+                    this.items = <Array<CellarSpace>>response.data;
+
+
+                    var i = 5;
+                }
+                //NON-VALID ze serveru
+                else if (!response.isValid)
+                {
+                    //???
+                    console.error(response.validations);
+                }
+                //custom ERROR ze serveru
+                else if (response.isCustomError)
+                {
+                    //???
+                    console.error(response.customErrorText);
+                }
+                //identity ERROR ze serveru
+                else if (response.isIdentityError)
+                {
+                    //???
+                    console.error(response.identityErrorText);
+                }
+                //EXCEPTION ze serveru
+                else if (response.isException)
+                {
+                    //???
+                    console.error(response.exceptionText);
+                }
+
+            },
+            error =>
+            {
+                console.error(error);
+            },
+            () =>
+            {
+                console.log('getData() completed');
+            });
     }
 
 }

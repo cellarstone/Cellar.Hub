@@ -10,7 +10,7 @@ import 'rxjs/add/operator/toPromise';
 // RxJS
 import 'rxjs';
 import 'rxjs/add/operator/map';
-//import 'rxjs/add/operator/flatMap';
+// import 'rxjs/add/operator/flatMap';
 import 'rxjs/add/operator/mergeMap';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';

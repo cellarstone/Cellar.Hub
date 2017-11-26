@@ -2,7 +2,7 @@
 export class CellarSenzor {
     public id: string;
     public name: string;
-    public state: string;
+    public state: string = "1";
 
     public path: string;
 
@@ -11,6 +11,7 @@ export class CellarSenzor {
 
     public firmware: string;
 
+    public ipaddress: string;
     public wifiSSID: string;
     public wifiPassword: string;
     public mqttUrl: string;

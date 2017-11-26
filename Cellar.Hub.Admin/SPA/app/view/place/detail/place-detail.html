@@ -1,0 +1,272 @@
+﻿<h1 (click)="log()">
+    Place Detail</h1>
+
+<div id="placeDetail" *ngIf="item">
+
+
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!--VALIDATIONS, MESSAGES ... etc.-->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+
+    <p-messages [value]="messagesToUser"></p-messages>
+
+    <p-growl [value]="validations"></p-growl>
+
+
+
+
+
+
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!--BASE info-->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+
+    <div class="ui-g">
+
+        <!--STATE + BASE INDORMATIONS-->
+        <div class="ui-g-12">
+
+
+            <div class="ui-g">
+
+                <!--STATE-->
+                <div class="card card-w-title" style="width:  100%; padding-bottom: 16px;" [ngClass]="{'nonvalid': !isStateValid }">
+                    <!--<h1>State</h1>-->
+
+                    <div class="text-center">
+                        <div class="btn-group" role="group">
+                            <button type="button" id="new" class="btn" [class.btn-default]="item.state != '1'" [class.btn-warning]="item.state === '1'"
+                                (click)="selectState($event)">New</button>
+                            <button type="button" id="approved" class="btn" [class.btn-default]="item.state != '2'" [class.btn-success]="item.state == '2'"
+                                (click)="selectState($event)">Approved</button>
+                            <button type="button" id="forbidden" class="btn" [class.btn-default]="item.state != '3'" [class.btn-danger]="item.state === '3'"
+                                (click)="selectState($event)">Forbidden</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="ui-g">
+
+                <!--BASE INDORMATIONS-->
+                <div class="card card-w-title" style="width: 100%;">
+                    <h1>Base Informations</h1>
+
+
+
+                    <!--MAIN IMAGE-->
+                    <div class="ui-g-12 ui-md-4" [ngClass]="{'nonvalid': !isMainPictureValid }">
+
+                        <label for="mainImage">
+                            Main Image
+                        </label>
+
+
+                        <div *ngIf="!item.image" class="thumbnail">
+                            <img class="img-thumbnail" alt="..." style="max-width: 100%; max-height: 100%;" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTEiIGhlaWdodD0iMTQxIj48cmVjdCB3aWR0aD0iMTkxIiBoZWlnaHQ9IjE0MSIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9Ijk1LjUiIHk9IjcwLjUiIHN0eWxlPSJmaWxsOiNhYWE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LXNpemU6MTJweDtmb250LWZhbWlseTpBcmlhbCxIZWx2ZXRpY2Esc2Fucy1zZXJpZjtkb21pbmFudC1iYXNlbGluZTpjZW50cmFsIj4xOTF4MTQxPC90ZXh0Pjwvc3ZnPg==">
+                        </div>
+                        <div *ngIf="item.image" class="thumbnail">
+                            <img src="{{item.image}}" class="img-thumbnail" alt="..." style="max-width: 100%; max-height: 100%;">
+                        </div>
+
+                        <div class="fileinput" data-provides="fileinput3">
+                            <span class="btn btn-file">
+                                <span class="fileinput-new">Select file</span>
+                            <span class="fileinput-exists">Change</span>
+                            <input type="file" id="mainPicture" name="mainPicture" (change)="addMainPictureChangeEvent($event)">
+                            </span>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="ui-g-12 ui-md-8">
+
+                        <div class="ui-g form-group">
+                            <div class="ui-g-12 ui-md-12">
+                                <label for="input">Name</label>
+                                <div class="ui-fluid">
+                                    <input id="input" type="text" pInputText [(ngModel)]="item.name" [ngClass]="{'nonvalid': !isNameValid }" />
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-12">
+                                <label for="input">Path</label>
+                                <div class="ui-fluid">
+                                    <input id="input" type="text" pInputText [(ngModel)]="item.path" [ngClass]="{'nonvalid': !isPathValid }" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!--SPACES-->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+
+
+    <div *ngIf="item.id" class="ui-g">
+
+        <div class="ui-g-12 ui-md-12">
+
+
+
+            <div class="card card-w-title">
+                <h1>SPACES</h1>
+
+
+
+                <button type="button" pButton icon="fa-plus" label="Add" (click)="getAllSenzors();display=true;"></button>
+                <br />
+
+                <!--MODAL - DIALOG-->
+                <p-dialog [(visible)]="display" [modal]="true" [resizable]="true" [responsive]="true">
+
+
+
+                    <div *ngIf="!allSenzors" style="width: 100%; height: 800px;">
+
+                        <div class="splash-screen">
+                            <div class="splash-container">
+                                <div class="box">
+                                    <div class="wave -one"></div>
+                                    <div class="wave -two"></div>
+                                    <div class="wave -three"></div>
+                                    <div class="title"><img src="assets/layout/images/CSlogo.svg" alt="Logo" style="height:75%; width:75%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div *ngIf="allSenzors">
+
+                        <p-dataTable #dt [value]="allSenzors" [rows]="10" [paginator]="true" [paginatorPosition]="both" [rowsPerPageOptions]="[10,25,50,100]" selectionMode="multiple" (onRowSelect)="selectSenzor($event)" [responsive]="true" dataKey="id">
+                            <p-header>List of Senzors</p-header>
+                            <!--<p-column field="id" header="Id" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>-->
+                            <p-column field="state" header="State" [filter]="true" [style]="{'overflow':'visible'}" [sortable]="true">
+                                <ng-template pTemplate="filter" let-col>
+                                    <p-dropdown [options]="states" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-col let-asdf="rowData">
+                                    <div class="text-center">
+                                        <div *ngIf="asdf.state == '1'" class="newState"></div>
+                                        <div *ngIf="asdf.state == '2'" class="approvedState"></div>
+                                        <div *ngIf="asdf.state == '3'" class="forbiddenState"></div>
+                                    </div>
+                                </ng-template>
+                            </p-column>
+                            <p-column field="name" header="Name" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
+                            <p-column field="type" header="Type" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
+                            <p-column field="path" header="Path" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
+                        </p-dataTable>
+
+
+
+                    </div>
+
+
+
+                    <p-footer>
+                        Footer content here
+                    </p-footer>
+                </p-dialog>
+
+
+
+
+
+
+
+                <!--VAZBA SPACE - SENZOR-->
+                <div *ngIf="item.senzors">
+
+
+                    <p-dataTable #dt2 [value]="item.senzors" [rows]="10" [paginator]="true" [paginatorPosition]="bottom" [responsive]="true"
+                        dataKey="id">
+                        <p-header>List of Senzors</p-header>
+                        <p-column field="state" header="State" [sortable]="true">
+                            <ng-template pTemplate="body" let-col let-asdf="rowData">
+                                <div class="text-center">
+                                    <div *ngIf="asdf[col.field] == 'NEW'" class="newState"></div>
+                                    <div *ngIf="asdf[col.field] == 'APPROVED'" class="approvedState"></div>
+                                    <div *ngIf="asdf[col.field] == 'FORBIDDEN'" class="forbiddenState"></div>
+                                </div>
+                            </ng-template>
+                        </p-column>
+                        <p-column field="name" header="Name" [sortable]="true"></p-column>
+                        <p-column field="type" header="Typ" [sortable]="true">
+                        </p-column>
+                        <p-column field="delete" header="Delete" [sortable]="true" class="text-center">
+                            <ng-template pTemplate="body" let-col let-asdf="rowData">
+                                <button type="button" pButton (click)="removeSenzor(asdf)" icon="fa-times" class="ui-button-danger"></button>
+                            </ng-template>
+                        </p-column>
+                    </p-dataTable>
+
+
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+
+
+
+
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!--BUTTONS-->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+
+
+    <div class="ui-g">
+
+        <div class="ui-g-12 ui-md-12">
+            <div class="card card-w-title">
+
+                <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="onBack()" class="ui-button-warning"></button>
+
+                <button type="button" pButton icon="fa-check" label="SAVE" (click)="saveProduct()" class="ui-button-success"></button>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <p-messages [value]="messagesToUser"></p-messages>
+
+
+
+
+
+
+
+
+
+</div>

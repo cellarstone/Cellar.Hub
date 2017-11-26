@@ -8,6 +8,8 @@ import { DataTable } from 'primeng/primeng';
 // import { DatatableModel } from '../../../../models/shared/datatableModel';
 // import { SharedService } from '../../../../service/shared.service';
 
+import { SharedService } from '../../../service/shared.service';
+
 
 // import { Product } from '../../../../entities/catalog/product';
 // import { CatalogService } from '../../../../service/catalog.service';
@@ -50,8 +52,10 @@ export class SpaceList implements OnInit {
     constructor(private route: ActivatedRoute,
         private router: Router,
         // private catalogService: CatalogService,
-        // private sharedService: SharedService,
-        private changeDetectorRef: ChangeDetectorRef) { }
+        private sharedService: SharedService,
+        private changeDetectorRef: ChangeDetectorRef) { 
+            this.sharedService.setCurrentRoute();
+        }
 
     ngOnInit()
     {
@@ -85,7 +89,7 @@ export class SpaceList implements OnInit {
     //zalozeni noveho produktu
     newProduct()
     {
-        this.router.navigate(['catalog/product', 0]);
+        this.sharedService.route('catalog/product' + 0);
     }
 
 
@@ -259,7 +263,7 @@ export class SpaceList implements OnInit {
 
         var id = event.data.id;
 
-        this.router.navigate(['catalog/product', id]);
+        this.sharedService.route('catalog/product' + id);
     }
 
     setCurrentPage()

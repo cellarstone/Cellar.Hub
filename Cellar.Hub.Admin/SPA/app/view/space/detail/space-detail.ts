@@ -31,6 +31,7 @@ import { CellarSpace } from '../../../entities/CellarSpace';
 import { CellarSenzor } from '../../../entities/CellarSenzor';
 
 
+import { SharedService } from '../../../service/shared.service';
 import { IoTService } from '../../../service/iot.service';
 import { CdnService } from '../../../service/cdn.service';
 
@@ -43,6 +44,8 @@ declare var jQuery: any;
 import { Subject } from 'rxjs/Subject';
 //import { CellarDTO } from '../../../../entities/http/CellarDTO';
 import { Observable } from 'rxjs/Observable';
+import { CellarDTO } from 'app/entities/http/CellarDTO';
+// import 'rxjs/add/operator/flatMap';
 
 
 
@@ -50,13 +53,12 @@ import { Observable } from 'rxjs/Observable';
     templateUrl: './space-detail.html',
     styleUrls: ['./space-detail.scss']
 })
-export class SpaceDetail
-{
+export class SpaceDetail {
 
     item: CellarSpace;
+    item_subspaces: CellarSpace[];
+    item_senzors: CellarSenzor[];
 
-
-    allSenzors: Array<CellarSenzor>;
 
     private sub: any;
     page: number = 1;
@@ -64,13 +66,17 @@ export class SpaceDetail
     search: string = '';
 
 
-    imageCDNaddress: string = "https://internetaveci.blob.core.windows.net/img/";
-    
-
     validations: Message[] = [];
     messagesToUser: Message[] = [];
 
 
+    addsenzorDisplay: boolean = false;
+    addedsenzor: CellarSenzor;
+    senzorTypes: SelectItem[];
+    selectedSenzorType: string;
+
+    addsubspaceDisplay: boolean = false;
+    addedsubspace: CellarSpace;
 
 
     //validation properties
@@ -80,25 +86,40 @@ export class SpaceDetail
     isPathValid: boolean = true;
 
 
+
+    colorMap: any;
+
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
+        private sharedService: SharedService,
         public iotservice: IoTService,
-        public cdnservice: CdnService)
-    {
-        
+        public cdnservice: CdnService) {
+
+        this.sharedService.setCurrentRoute();
+
+        this.senzorTypes = [];
+        this.senzorTypes.push({ label: 'Select Type', value: null });
+        this.senzorTypes.push({ label: 'CellarSenzor Temperature Type1', value: 'CellarSenzor Temperature Type1' });
+        this.senzorTypes.push({ label: 'CellarSenzor Temperature Type2', value: 'CellarSenzor Temperature Type2' });
+        this.senzorTypes.push({ label: 'CellarSenzor CO2 Type1', value: 'CellarSenzor CO2 Type1' });
+        this.senzorTypes.push({ label: 'CellarSenzor Smoke Type1', value: 'CellarSenzor Smoke Type1' });
+        this.senzorTypes.push({ label: 'CellarSenzor OpenClose Type1', value: 'CellarSenzor OpenClose Type1' });
+        this.senzorTypes.push({ label: 'CellarSenzor Power Type1', value: 'CellarSenzor Power Type1' });
+        this.senzorTypes.push({ label: 'CellarSenzor Camera Type1', value: 'CellarSenzor Camera Type1' });
+
+        this.colorMap = { 1: 'newState', 2: 'approvedState', 3: 'forbiddenState' };
     }
 
 
-    ngOnInit()
-    {
+    ngOnInit() {
         //*********************************/
         //CALL WEBAPI - GET DATA
         //*********************************/
         this.getData();
     }
-    ngOnDestroy()
-    {
+    ngOnDestroy() {
         this.sub.unsubscribe();
     }
 
@@ -109,15 +130,12 @@ export class SpaceDetail
     /* PRODUKT */
     //*********************************/
 
-    private getData()
-    {
-        this.sub = this.route.params.subscribe(params =>
-        {
+    private getData() {
+        this.sub = this.route.params.subscribe(params => {
             let id = params['id']; // (+) converts string 'id' to a number
 
             //novy produkt
-            if (id == 0)
-            {
+            if (id == 0) {
                 //založíme nový produkt
                 this.item = new CellarSpace();
 
@@ -125,72 +143,169 @@ export class SpaceDetail
                 this.item.state = "1";
             }
             //editace existujiciho produktu
-            else
-            {
+            else {
 
                 //zjistíme informace o produktu
+                // this.iotservice.GetCellarSpace(id.toString())
+                //     .subscribe(art => {
+                //         let response = art;
+
+
+
+                //         //BEZ CHYB ze serveru
+                //         if (response.isOK) {
+                //             this.item = <CellarSpace>response.data;
+
+                //         }
+                //         //NON-VALID ze serveru
+                //         else if (!response.isValid) {
+                //             //???
+                //             console.error(response.validations);
+                //         }
+                //         //custom ERROR ze serveru
+                //         else if (response.isCustomError) {
+                //             //???
+                //             console.error(response.customErrorText);
+                //         }
+                //         //identity ERROR ze serveru
+                //         else if (response.isIdentityError) {
+                //             //???
+                //             console.error(response.identityErrorText);
+                //         }
+                //         //EXCEPTION ze serveru
+                //         else if (response.isException) {
+                //             //???
+                //             console.error(response.exceptionText);
+                //         }
+                //     },
+                //     error => {
+                //         console.error(error);
+                //     },
+                //     () => {
+                //         console.log('GetCellarSpace() completed');
+                //     });
+
+
+
                 this.iotservice.GetCellarSpace(id.toString())
-                    .subscribe(art =>
-                    {
+                    //GET SUBSPACES
+                    .flatMap(ressss => {
+
+                        let sometehing = <CellarSpace>ressss.data;
+                        console.log(sometehing);
+
+                        let ss2 = new CellarSpace().New(ressss.data);
+
+                        let subspacesPath = ss2.getSubPath();
+
+                        this.iotservice.GetCellarSpaces(subspacesPath)
+                            .subscribe(aaa => {
+
+                                this.item_subspaces = <CellarSpace[]>aaa.data;
+
+                                console.log(this.item_subspaces);
+
+                            });
+
+
+
+
+                        return Observable.of(ressss);
+                    })
+                    //GET SENZORS
+                    .flatMap(ressss => {
+
+                        let sometehing = <CellarSpace>ressss.data;
+                        console.log(sometehing);
+
+                        let ss2 = new CellarSpace().New(ressss.data);
+                        
+                        let subspacesPath = ss2.getSubPath();
+
+                        this.iotservice.GetCellarSenzors(subspacesPath)
+                            .subscribe(aaa => {
+
+                                this.item_senzors = <CellarSenzor[]>aaa.data;
+
+                                console.log(this.item_senzors);
+
+                            });
+
+
+
+
+                        return Observable.of(ressss);
+                    })
+
+                    //SAVE SPACE
+                    .subscribe(art => {
                         let response = art;
 
-                        
+
+
+
 
                         //BEZ CHYB ze serveru
-                        if (response.isOK)
-                        {
-                            this.item = <CellarSpace>response.data;
+                        if (response.isOK) {
+
+                            let temp = <CellarSpace>response.data;
+                            this.item = new CellarSpace().New(temp);
+
+                            console.log(this.item);
 
                         }
                         //NON-VALID ze serveru
-                        else if (!response.isValid)
-                        {
+                        else if (!response.isValid) {
                             //???
                             console.error(response.validations);
                         }
                         //custom ERROR ze serveru
-                        else if (response.isCustomError)
-                        {
+                        else if (response.isCustomError) {
                             //???
                             console.error(response.customErrorText);
                         }
                         //identity ERROR ze serveru
-                        else if (response.isIdentityError)
-                        {
+                        else if (response.isIdentityError) {
                             //???
                             console.error(response.identityErrorText);
                         }
                         //EXCEPTION ze serveru
-                        else if (response.isException)
-                        {
+                        else if (response.isException) {
                             //???
                             console.error(response.exceptionText);
                         }
                     },
-                    error =>
-                    {
+                    error => {
                         console.error(error);
                     },
-                    () =>
-                    {
-                        console.log('getData() completed');
+                    () => {
+                        console.log('GetCellarSpace() completed');
                     });
+
+
+                //pridat nacteni vsech senzoru
+
+                //pridat nacteni vsech meetings
+
+                //pridat nacteni vsech orders
+
+
+
+
 
             }
         });
     }
 
 
-    private saveProduct()
-    {
+    private saveProduct() {
 
 
 
-        
+
 
         //validace
-        if (this.item.state === "0")
-        {
+        if (this.item.state === "0") {
             this.validations.push({
                 severity: 'warn',
                 summary: 'State',
@@ -198,12 +313,10 @@ export class SpaceDetail
             });
             this.isStateValid = false;
         }
-        else
-        {
+        else {
             this.isStateValid = true;
         }
-        if (!this.item.image)
-        {
+        if (!this.item.image) {
             this.validations.push({
                 severity: 'warn',
                 summary: 'Main Image',
@@ -211,12 +324,10 @@ export class SpaceDetail
             });
             this.isMainPictureValid = false;
         }
-        else
-        {
+        else {
             this.isMainPictureValid = true;
         }
-        if (!this.item.name)
-        {
+        if (!this.item.name) {
             this.validations.push({
                 severity: 'warn',
                 summary: 'Name',
@@ -224,12 +335,10 @@ export class SpaceDetail
             });
             this.isNameValid = false;
         }
-        else
-        {
+        else {
             this.isNameValid = true;
         }
-        if (!this.item.path)
-        {
+        if (!this.item.path) {
             this.validations.push({
                 severity: 'warn',
                 summary: 'Path',
@@ -237,38 +346,35 @@ export class SpaceDetail
             });
             this.isPathValid = false;
         }
-        else
-        {
+        else {
             this.isPathValid = true;
         }
 
 
-        if (this.validations.length == 0)
-        {
+        if (this.validations.length == 0) {
 
             //UPDATE produktu
-            if (this.item.id != undefined)
-            {
+            if (this.item.id != undefined) {
                 this.iotservice.UpdateCellarSpace(this.item)
-                    .subscribe(art =>
-                    {
+                    .subscribe(art => {
                         let response = art;
 
                         //BEZ CHYB ze serveru
-                        if (response.isOK)
-                        {
-                            this.item = <CellarSpace>response.data;
+                        if (response.isOK) {
+                            let temp = <CellarSpace>response.data;
+                            this.item = new CellarSpace().New(temp);
 
 
-                            this.messagesToUser.push({
-                                severity: 'success',
-                                summary: '! UPDATED !',
-                                detail: 'Product has been updated'
-                            });
+                            this.sharedService.routeBack();
+
+                            // this.messagesToUser.push({
+                            //     severity: 'success',
+                            //     summary: '! UPDATED !',
+                            //     detail: 'Product has been updated'
+                            // });
                         }
                         //NON-VALID ze serveru
-                        else if (!response.isValid)
-                        {
+                        else if (!response.isValid) {
                             //???
                             console.error(response.validations);
 
@@ -279,8 +385,7 @@ export class SpaceDetail
                             });
                         }
                         //custom ERROR ze serveru
-                        else if (response.isCustomError)
-                        {
+                        else if (response.isCustomError) {
                             //???
                             console.error(response.customErrorText);
 
@@ -291,8 +396,7 @@ export class SpaceDetail
                             });
                         }
                         //identity ERROR ze serveru
-                        else if (response.isIdentityError)
-                        {
+                        else if (response.isIdentityError) {
                             //???
                             console.error(response.identityErrorText);
 
@@ -303,8 +407,7 @@ export class SpaceDetail
                             });
                         }
                         //EXCEPTION ze serveru
-                        else if (response.isException)
-                        {
+                        else if (response.isException) {
                             //???
                             console.error(response.exceptionText);
 
@@ -315,8 +418,7 @@ export class SpaceDetail
                             });
                         }
                     },
-                    error =>
-                    {
+                    error => {
                         console.error(error);
 
                         this.messagesToUser.push({
@@ -325,23 +427,21 @@ export class SpaceDetail
                             detail: error
                         });
                     },
-                    () =>
-                    {
+                    () => {
                         console.log('saveProduct() completed');
                     });
             }
             //ZALOZENI noveho produktu
-            else
-            {
+            else {
                 this.iotservice.AddCellarSpace(this.item)
-                    .subscribe(art =>
-                    {
+                    .subscribe(art => {
                         let response = art;
 
                         //BEZ CHYB ze serveru
-                        if (response.isOK)
-                        {
-                            this.item = <CellarSpace>response.data;
+                        if (response.isOK) {
+
+                            let temp = <CellarSpace>response.data;
+                            this.item = new CellarSpace().New(temp);
 
 
                             //this.messagesToUser.push({
@@ -350,12 +450,11 @@ export class SpaceDetail
                             //    detail: 'Product has been added'
                             //});
 
-                            this.router.navigate(['space/' + this.item.id]);
-
+                            this.sharedService.routeBack();
+                            
                         }
                         //NON-VALID ze serveru
-                        else if (!response.isValid)
-                        {
+                        else if (!response.isValid) {
                             //???
                             console.error(response.validations);
 
@@ -366,8 +465,7 @@ export class SpaceDetail
                             });
                         }
                         //custom ERROR ze serveru
-                        else if (response.isCustomError)
-                        {
+                        else if (response.isCustomError) {
                             //???
                             console.error(response.customErrorText);
 
@@ -378,8 +476,7 @@ export class SpaceDetail
                             });
                         }
                         //identity ERROR ze serveru
-                        else if (response.isIdentityError)
-                        {
+                        else if (response.isIdentityError) {
                             //???
                             console.error(response.identityErrorText);
 
@@ -390,8 +487,7 @@ export class SpaceDetail
                             });
                         }
                         //EXCEPTION ze serveru
-                        else if (response.isException)
-                        {
+                        else if (response.isException) {
                             //???
                             console.error(response.exceptionText);
 
@@ -402,8 +498,7 @@ export class SpaceDetail
                             });
                         }
                     },
-                    error =>
-                    {
+                    error => {
                         console.error(error);
 
                         this.messagesToUser.push({
@@ -412,8 +507,7 @@ export class SpaceDetail
                             detail: error
                         });
                     },
-                    () =>
-                    {
+                    () => {
                         console.log('saveProduct() completed');
                     });
             }
@@ -429,8 +523,7 @@ export class SpaceDetail
     // //STATE
     // //*********************************/
 
-    public selectState(e: any)
-    {
+    public selectState(e: any) {
         var aaa = e.srcElement.innerHTML.toLowerCase();
 
 
@@ -450,11 +543,10 @@ export class SpaceDetail
 
 
 
-        if (aaa === "new")
-        {
+        if (aaa === "new") {
             this.item.state = "1";
 
-            
+
 
             jQuery("#new").removeClass();
             jQuery("#approved").removeClass();
@@ -464,8 +556,7 @@ export class SpaceDetail
             jQuery("#approved").addClass("btn");
             jQuery("#forbidden").addClass("btn");
         }
-        else if (aaa === "approved")
-        {
+        else if (aaa === "approved") {
             this.item.state = "2";
 
             jQuery("#new").removeClass();
@@ -476,8 +567,7 @@ export class SpaceDetail
             jQuery("#approved").addClass("btn btn-success");
             jQuery("#forbidden").addClass("btn");
         }
-        else if (aaa === "forbidden")
-        {
+        else if (aaa === "forbidden") {
             this.item.state = "3";
 
             jQuery("#new").removeClass();
@@ -491,7 +581,7 @@ export class SpaceDetail
 
 
     }
-    
+
 
 
 
@@ -506,63 +596,53 @@ export class SpaceDetail
 
     //File upload - main picture
 
-    public addMainPictureChangeEvent(fileInput: any)
-    {
+    public addMainPictureChangeEvent(fileInput: any) {
 
-        if (fileInput.target.files && fileInput.target.files[0])
-        {
+        if (fileInput.target.files && fileInput.target.files[0]) {
             let fileToUpload = fileInput.target.files[0];
             console.log(fileToUpload.name);
 
             this.cdnservice.upload(fileToUpload)
-                .subscribe(art =>
-                {
+                .subscribe(art => {
                     let response = art;
 
                     //BEZ CHYB ze serveru
-                    if (response.isOK)
-                    {
-                        
+                    if (response.isOK) {
+
                         var url = response.data as string;
-                        
+
 
                         this.item.image = url;
-                        
+
                         console.log(this.item.image);
-                        
+
 
                     }
                     //NON-VALID ze serveru
-                    else if (!response.isValid)
-                    {
+                    else if (!response.isValid) {
                         //???
                         console.error(response.validations);
                     }
                     //custom ERROR ze serveru
-                    else if (response.isCustomError)
-                    {
+                    else if (response.isCustomError) {
                         //???
                         console.error(response.customErrorText);
                     }
                     //identity ERROR ze serveru
-                    else if (response.isIdentityError)
-                    {
+                    else if (response.isIdentityError) {
                         //???
                         console.error(response.identityErrorText);
                     }
                     //EXCEPTION ze serveru
-                    else if (response.isException)
-                    {
+                    else if (response.isException) {
                         //???
                         console.error(response.exceptionText);
                     }
                 },
-                error =>
-                {
+                error => {
                     console.error(error);
                 },
-                () =>
-                {
+                () => {
                     console.log('addMainPictureChangeEvent() completed');
                 });
 
@@ -573,181 +653,227 @@ export class SpaceDetail
 
 
 
+    //*********************************/
+    /* SENZORS */
+    //*********************************/
 
 
-    private getAllSenzors()
-    {
-        console.log('SpaceDetail getAllSenzors()');
 
-        // HTTP call
-        this.iotservice.GetCellarSenzors()
-            .subscribe(res =>
-            {
-                let response = res;
+    private showaddSenzor() {
+        this.addsenzorDisplay = true;
+
+        this.addedsenzor = new CellarSenzor();
+        this.addedsenzor.path = this.item.getSubPath();
+    }
+
+
+    private addSenzor() {
+        this.addsenzorDisplay = false;
+
+
+
+        this.iotservice.AddCellarSenzor(this.addedsenzor)
+            .subscribe(art => {
+                let response = art;
 
                 //BEZ CHYB ze serveru
-                if (response.isOK)
-                {
-                    this.allSenzors = <Array<CellarSenzor>>response.data;
+                if (response.isOK) {
+                    var itemr = <CellarSenzor>response.data;
+
+                    this.item_senzors.push(itemr);
+
+                    this.addedsenzor = new CellarSenzor();
+                    this.addedsenzor.path = this.item.path + this.item.name.toLowerCase();
+
+                    //this.messagesToUser.push({
+                    //    severity: 'success',
+                    //    summary: '! ADDED !',
+                    //    detail: 'Product has been added'
+                    //});
+
                 }
                 //NON-VALID ze serveru
-                else if (!response.isValid)
-                {
+                else if (!response.isValid) {
                     //???
                     console.error(response.validations);
+
+                    this.messagesToUser.push({
+                        severity: 'error',
+                        summary: 'From Server',
+                        detail: 'Non-valid'
+                    });
                 }
                 //custom ERROR ze serveru
-                else if (response.isCustomError)
-                {
+                else if (response.isCustomError) {
                     //???
                     console.error(response.customErrorText);
+
+                    this.messagesToUser.push({
+                        severity: 'error',
+                        summary: 'From Server',
+                        detail: 'Custom Error -' + response.customErrorText
+                    });
                 }
                 //identity ERROR ze serveru
-                else if (response.isIdentityError)
-                {
+                else if (response.isIdentityError) {
                     //???
                     console.error(response.identityErrorText);
+
+                    this.messagesToUser.push({
+                        severity: 'error',
+                        summary: 'From Server',
+                        detail: 'Identity Error -' + response.identityErrorText
+                    });
                 }
                 //EXCEPTION ze serveru
-                else if (response.isException)
-                {
+                else if (response.isException) {
                     //???
                     console.error(response.exceptionText);
-                }
 
+                    this.messagesToUser.push({
+                        severity: 'error',
+                        summary: 'From Server',
+                        detail: 'Exception -' + response.exceptionText
+                    });
+                }
             },
-            error =>
-            {
+            error => {
                 console.error(error);
 
+                this.messagesToUser.push({
+                    severity: 'error',
+                    summary: 'From ???',
+                    detail: error
+                });
             },
-            () =>
-            {
-                console.log('getAllSenzors() completed');
+            () => {
+                console.log('addSenzor() completed');
             });
+
+
+        console.log(this.addedsenzor);
     }
 
-
-    private selectSenzor(event)
-    {
-        var id = event.data.id;
-        console.log(id);
-
-        // let newOne = new CatalogProductHckProduct();
-        // newOne.catalogProductId = this.item.id;
-        // newOne.hckProductId = id;
-
-
-        // /*********************************************************/
-        // /*********************************************************/
-        // //SPUSTENI NAJEDNOU / PARALLELNE - ForkJoin
-        // /*********************************************************/
-        // /*********************************************************/
-
-        // Observable.forkJoin(
-        //     this.businessService.AddCatalogProductHckProduct(newOne),
-        //     this.hckService.GetProduct(id)
-        // ).subscribe(
-        //     data =>
-        //     {
-        //         var data1 = <CellarDTO>data[0];
-
-        //         //BEZ CHYB ze serveru
-        //         if (data1.isOK)
-        //         {
-        //             var resultGet = <boolean>data1.data;
-        //             if (resultGet == true)
-        //             {
-
-
-        //                 var data2 = <CellarDTO>data[1];
-
-        //                 //BEZ CHYB ze serveru
-        //                 if (data2.isOK)
-        //                 {
-        //                     var resultHck = <HckProduct>data2.data;
-        //                     if (!this.itemhckitems)
-        //                     {
-        //                         this.itemhckitems = new Array<HckProduct>();
-        //                     }
-
-        //                     this.itemhckitems.push(resultHck);
-        //                 }
-        //                 //NON-VALID ze serveru
-        //                 else if (!data2.isValid)
-        //                 {
-        //                     //???
-        //                     console.error(data2.validations);
-        //                 }
-        //                 //custom ERROR ze serveru
-        //                 else if (data2.isCustomError)
-        //                 {
-        //                     //???
-        //                     console.error(data2.customErrorText);
-        //                 }
-        //                 //identity ERROR ze serveru
-        //                 else if (data2.isIdentityError)
-        //                 {
-        //                     //???
-        //                     console.error(data2.identityErrorText);
-        //                 }
-        //                 //EXCEPTION ze serveru
-        //                 else if (data2.isException)
-        //                 {
-        //                     //???
-        //                     console.error(data2.exceptionText);
-        //                 }
-
-
-
-
-        //             }
-        //             else
-        //             {
-        //                 console.log("??????????");
-        //             }
-        //         }
-        //         //NON-VALID ze serveru
-        //         else if (!data1.isValid)
-        //         {
-        //             //???
-        //             console.error(data1.validations);
-        //         }
-        //         //custom ERROR ze serveru
-        //         else if (data1.isCustomError)
-        //         {
-        //             //???
-        //             console.error(data1.customErrorText);
-        //         }
-        //         //identity ERROR ze serveru
-        //         else if (data1.isIdentityError)
-        //         {
-        //             //???
-        //             console.error(data1.identityErrorText);
-        //         }
-        //         //EXCEPTION ze serveru
-        //         else if (data1.isException)
-        //         {
-        //             //???
-        //             console.error(data1.exceptionText);
-        //         }
-
-        //     },
-        //     err =>
-        //     {
-        //         console.error(err);
-        //     }
-        //     );
-
-        //console.log(this.itemhckitems);
+    private selectSenzor(id: string){
+        this.sharedService.route('senzor/'+ id)
     }
 
 
 
-    onBack()
-    {
-        this.router.navigate(['spaces/dashboard']);
+
+
+    //*********************************/
+    /* SUB-SPACES */
+    //*********************************/
+
+
+
+    private showaddSubspace() {
+        this.addsubspaceDisplay = true;
+
+        this.addedsubspace = new CellarSpace();
+        this.addedsubspace.path = this.item.getSubPath();
+        
     }
+
+
+
+    private addSubspace() {
+        this.addsubspaceDisplay = false;
+
+
+
+        this.iotservice.AddCellarSpace(this.addedsubspace)
+            .subscribe(art => {
+                let response = art;
+
+                //BEZ CHYB ze serveru
+                if (response.isOK) {
+                    var itemr = <CellarSpace>response.data;
+
+                    this.item_subspaces.push(itemr);
+
+                    this.addedsubspace = new CellarSpace();
+                    this.addedsubspace.path = this.item.path + this.item.name.toLowerCase();
+
+                    //this.messagesToUser.push({
+                    //    severity: 'success',
+                    //    summary: '! ADDED !',
+                    //    detail: 'Product has been added'
+                    //});
+
+
+                }
+                //NON-VALID ze serveru
+                else if (!response.isValid) {
+                    //???
+                    console.error(response.validations);
+
+                    this.messagesToUser.push({
+                        severity: 'error',
+                        summary: 'From Server',
+                        detail: 'Non-valid'
+                    });
+                }
+                //custom ERROR ze serveru
+                else if (response.isCustomError) {
+                    //???
+                    console.error(response.customErrorText);
+
+                    this.messagesToUser.push({
+                        severity: 'error',
+                        summary: 'From Server',
+                        detail: 'Custom Error -' + response.customErrorText
+                    });
+                }
+                //identity ERROR ze serveru
+                else if (response.isIdentityError) {
+                    //???
+                    console.error(response.identityErrorText);
+
+                    this.messagesToUser.push({
+                        severity: 'error',
+                        summary: 'From Server',
+                        detail: 'Identity Error -' + response.identityErrorText
+                    });
+                }
+                //EXCEPTION ze serveru
+                else if (response.isException) {
+                    //???
+                    console.error(response.exceptionText);
+
+                    this.messagesToUser.push({
+                        severity: 'error',
+                        summary: 'From Server',
+                        detail: 'Exception -' + response.exceptionText
+                    });
+                }
+            },
+            error => {
+                console.error(error);
+
+                this.messagesToUser.push({
+                    severity: 'error',
+                    summary: 'From ???',
+                    detail: error
+                });
+            },
+            () => {
+                console.log('addSubspace() completed');
+            });
+
+
+        console.log(this.addedsubspace);
+    }
+
+
+    private selectSubspace(id: string){
+        this.sharedService.route('space/'+ id)
+    }
+
+
+
+
 
 
 }

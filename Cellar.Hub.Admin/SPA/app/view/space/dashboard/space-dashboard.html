@@ -1,119 +1,21 @@
-<div class="ui-g dashboard">
-    <div class="ui-g-12 ui-md-6 ui-lg-3">
-        <div class="ui-g card overview-box overview-box-1">
-            <div class="ui-g-4">
-                <i class="fa fa-inbox"></i>
-            </div>
-            <div class="ui-g-8">
-                <span class="overview-box-count">253</span>
-                <span class="overview-box-name">Messages</span>
-            </div>
-        </div>
-    </div>
-    <div class="ui-g-12 ui-md-6 ui-lg-3">
-        <div class="ui-g card overview-box overview-box-2">
-            <div class="ui-g-4">
-                <i class="fa fa-map-marker"></i>
-            </div>
-            <div class="ui-g-8">
-                <span class="overview-box-count">3216</span>
-                <span class="overview-box-name">Check-ins</span>
-            </div>
-        </div>
-    </div>
-    <div class="ui-g-12 ui-md-6 ui-lg-3">
-        <div class="ui-g card overview-box overview-box-3">
-            <div class="ui-g-4">
-                <i class="fa fa-cloud"></i>
-            </div>
-            <div class="ui-g-8">
-                <span class="overview-box-count">428</span>
-                <span class="overview-box-name">Files Synced</span>
-            </div>
-        </div>
-    </div>
-    <div class="ui-g-12 ui-md-6 ui-lg-3">
-        <div class="ui-g card overview-box overview-box-4">
-            <div class="ui-g-4">
-                <i class="fa fa-key"></i>
-            </div>
-            <div class="ui-g-8">
-                <span class="overview-box-count">4</span>
-                <span class="overview-box-name">Login Attempts</span>
-            </div>
-        </div>
-    </div>
+<button pButton type="button" label="Add" (click)="add()"></button>
 
-</div>
 
-<div class="ui-g dashboard">
-    <div class="ui-g-8">
-        <div class="card">
-            <h1 class="centerText">Bar Chart</h1>
-            <p-chart type="bar" [data]="barData"></p-chart>
-        </div>
-    </div>
+<div class="ui-g">
 
-    <div class="ui-g-4">
-            <p-panel header="Activity" [style]="{'height':'100%'}">
-                <div class="activity-header">
-                    <div class="ui-g">
-                        <div class="ui-g-6">
-                            <span style="font-weight:bold">Last Activity</span>
-                            <p>Updated 1 minute ago</p>
-                        </div>
-                        <div class="ui-g-6" style="text-align:right">
-                            <button type="button" label="Update" icon="fa fa-refresh" pButton></button>
-                        </div>
+            <div *ngFor="let item of items" class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="ui-g card overview-box overview-box-1" (click)="selectItem(item.id)">
+                    <div class="ui-g-4">
+                        <div *ngIf="item.state == 1" style="background-color: yellow;width: 50px;height:50px"></div>
+                        <div *ngIf="item.state == 2" style="background-color: green;width: 50px;height:50px"></div>
+                        <div *ngIf="item.state == 3" style="background-color: red;width: 50px;height:50px"></div>
+                    </div>
+                    <div class="ui-g-8">
+                        <img src="{{item.image}}" width="100"/>
+                        <!-- <span class="overview-box-count">253</span> -->
+                        <span class="overview-box-name">{{item.name}}</span>
                     </div>
                 </div>
-                <ul class="activity-list">
-                    <li>
-                        <div class="count">$900</div>
-                        <div class="ui-g">
-                            <div class="ui-g-6">Income</div>
-                            <div class="ui-g-6">95%</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="count" style="background-color:#00acac">$250</div>
-                        <div class="ui-g">
-                            <div class="ui-g-6">Tax</div>
-                            <div class="ui-g-6">24%</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="count" style="background-color:#2f8ee5">$125</div>
-                        <div class="ui-g">
-                            <div class="ui-g-6">Invoices</div>
-                            <div class="ui-g-6">55%</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="count" style="background-color:#f1b263">$250</div>
-                        <div class="ui-g">
-                            <div class="ui-g-6">Expenses</div>
-                            <div class="ui-g-6">15%</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="count" style="background-color:#6c76af">$350</div>
-                        <div class="ui-g">
-                            <div class="ui-g-6">Bonus</div>
-                            <div class="ui-g-6">5%</div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="count" style="background-color:#2f8ee5">$500</div>
-                        <div class="ui-g">
-                            <div class="ui-g-6">Revenue</div>
-                            <div class="ui-g-6">25%</div>
-                        </div>
-                    </li>
-                </ul>
-            </p-panel>
-        </div>
+            </div>
+
 </div>
-
-
-<button pButton type="button" label="Add" (click)="add()"></button>

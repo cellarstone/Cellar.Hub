@@ -29,6 +29,9 @@ namespace Cellar.Hub.Api.Models
         public string Firmware { get; set; }
 
 
+        [BsonElement("ipaddress")]
+        public string IpAddress { get; set; }
+
         [BsonElement("wifiSSID")]
         public string WifiSSID { get; set; }
         [BsonElement("wifiPassword")]

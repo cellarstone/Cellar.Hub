@@ -51,7 +51,9 @@ export class SenzorList implements OnInit {
         private router: Router,
         private iotservice: IoTService,
         private sharedService: SharedService,
-        private changeDetectorRef: ChangeDetectorRef) { }
+        private changeDetectorRef: ChangeDetectorRef) { 
+            this.sharedService.setCurrentRoute();
+        }
 
     ngOnInit()
     {
@@ -85,7 +87,7 @@ export class SenzorList implements OnInit {
     //zalozeni noveho produktu
     newProduct()
     {
-        this.router.navigate(['senzor/', 0]);
+        this.sharedService.route('senzor/' + 0);
     }
 
 
@@ -96,7 +98,7 @@ export class SenzorList implements OnInit {
         console.log('SenzorList getData()');
         
         //HTTP call
-         this.iotservice.GetCellarSenzors()
+         this.iotservice.GetAllCellarSenzors()
             .subscribe(res =>
             {
                 let response = res;
@@ -246,7 +248,7 @@ export class SenzorList implements OnInit {
 
         var id = event.data.id;
 
-        this.router.navigate(['senzor/', id]);
+        this.sharedService.route('senzor/' + id);
     }
 
     setCurrentPage()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using MongoDB.Bson.Serialization.Attributes;
@@ -6,7 +7,7 @@ using MongoDB.Bson.Serialization.IdGenerators;
 namespace Cellar.Hub.Api.Models
 {
     //OBJECT FOR TREE STRUCTURE
-    public class CellarSpace
+    public class CellarMeeting
     {
 
         [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
@@ -16,16 +17,26 @@ namespace Cellar.Hub.Api.Models
         [BsonElement("name")]
         public string Name { get; set; }
 
+
+        // NEW
+        // IN PROGRESS
+        // DONE
         [BsonElement("state")]
         public string State { get; set; }
 
-        // Building, Room, Floor, Land
-        // [BsonElement("type")]
-        // public string Type { get; set; }
+        
+        [BsonElement("start")]
+        public DateTime Start {get; set;}
 
 
-        [BsonElement("image")]
-        public string Image {get; set;}
+        [BsonElement("end")]
+        public DateTime End {get; set;}
+
+
+
+        [BsonElement("author")]
+        public string Author { get; set; }
+
 
        
         /*****************************/

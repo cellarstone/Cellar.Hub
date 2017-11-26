@@ -21,7 +21,7 @@
 
     <!--*********************************************************************************************-->
     <!--*********************************************************************************************-->
-    <!--PRODUCT BASE info + CATEGORIES-->
+    <!--PRODUCT BASE info-->
     <!--*********************************************************************************************-->
     <!--*********************************************************************************************-->
 
@@ -77,8 +77,8 @@
                         <div class="fileinput" data-provides="fileinput3">
                             <span class="btn btn-file">
                                 <span class="fileinput-new">Select file</span>
-                            <span class="fileinput-exists">Change</span>
-                            <input type="file" id="mainPicture" name="mainPicture" (change)="addMainPictureChangeEvent($event)">
+                                <span class="fileinput-exists">Change</span>
+                                <input type="file" id="mainPicture" name="mainPicture" (change)="addMainPictureChangeEvent($event)">
                             </span>
                         </div>
 
@@ -134,97 +134,137 @@
 
 
 
-                <button type="button" pButton icon="fa-plus" label="Add" (click)="getAllSenzors();display=true;"></button>
+                <button type="button" pButton icon="fa-plus" label="Add" (click)="showaddSenzor()"></button>
                 <br />
+                <!-- SENZOR ADD DETAIL -->
+                <div *ngIf="addsenzorDisplay">
 
-                <!--MODAL - DIALOG-->
-                <p-dialog [(visible)]="display" [modal]="true" [resizable]="true" [responsive]="true">
+                    <div class="ui-g">
+
+                        <!--STATE + BASE INDORMATIONS-->
+                        <div class="ui-g-12">
+
+
+                            <div class="ui-g">
+
+                                <!--BASE INDORMATIONS-->
+                                <div class="card card-w-title" style="width: 100%;">
+                                    <h1>Base Informations</h1>
+
+
+                                    <div class="ui-g-12">
+
+                                        <div class="ui-g form-group">
+                                            <div class="ui-g-12 ui-md-12">
+                                                <label for="input">Name</label>
+                                                <div class="ui-fluid">
+                                                    <input id="input" type="text" pInputText [(ngModel)]="addedsenzor.name" [ngClass]="{'nonvalid': !isNameValid }" />
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-12">
+                                                <label for="input">Path</label>
+                                                <div class="ui-fluid">
+                                                    <input id="input" type="text" pInputText [(ngModel)]="addedsenzor.path" [ngClass]="{'nonvalid': !isPathValid }" disabled
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-12">
+                                                <label for="input">Type</label>
+                                                <div class="ui-fluid">
+                                                    <p-dropdown [options]="senzorTypes" [(ngModel)]="selectedSenzorType"></p-dropdown>
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-12">
+                                                <label for="input">Wifi SSID</label>
+                                                <div class="ui-fluid">
+                                                    <input id="input" type="text" pInputText [(ngModel)]="addedsenzor.wifiSSID" [ngClass]="{'nonvalid': !isWifiSSIDValid }" />
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-12">
+                                                <label for="input">Wifi Password</label>
+                                                <div class="ui-fluid">
+                                                    <input id="input" type="password" pInputText [(ngModel)]="addedsenzor.wifiPassword" [ngClass]="{'nonvalid': !isWifiPasswordValid }"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-12">
+                                                <label for="input">MQTT IP</label>
+                                                <div class="ui-fluid">
+                                                    <input id="input" type="text" pInputText [(ngModel)]="addedsenzor.mqttUrl" [ngClass]="{'nonvalid': !isMqttValid }" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="ui-g-12 ui-md-12">
+                                        <div class="card card-w-title">
+
+                                            <!-- <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="onBack()" class="ui-button-warning"></button> -->
+
+                                            <button type="button" pButton icon="fa-check" label="SAVE" (click)="addSenzor()" class="ui-button-success"></button>
+
+                                        </div>
+                                    </div>
 
 
 
-                    <div *ngIf="!allSenzors" style="width: 100%; height: 800px;">
 
-                        <div class="splash-screen">
-                            <div class="splash-container">
-                                <div class="box">
-                                    <div class="wave -one"></div>
-                                    <div class="wave -two"></div>
-                                    <div class="wave -three"></div>
-                                    <div class="title"><img src="assets/layout/images/CSlogo.svg" alt="Logo" style="height:75%; width:75%;"></div>
+
+
+
+
                                 </div>
+
                             </div>
+
                         </div>
 
                     </div>
 
-                    <div *ngIf="allSenzors">
+                </div>
 
-                        <p-dataTable #dt [value]="allSenzors" [rows]="10" [paginator]="true" [paginatorPosition]="both" [rowsPerPageOptions]="[10,25,50,100]" selectionMode="multiple" (onRowSelect)="selectSenzor($event)" [responsive]="true" dataKey="id">
-                            <p-header>List of Senzors</p-header>
-                            <!--<p-column field="id" header="Id" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>-->
-                            <p-column field="state" header="State" [filter]="true" [style]="{'overflow':'visible'}" [sortable]="true">
-                                <ng-template pTemplate="filter" let-col>
-                                    <p-dropdown [options]="states" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-col let-asdf="rowData">
-                                    <div class="text-center">
-                                        <div *ngIf="asdf.state == '1'" class="newState"></div>
-                                        <div *ngIf="asdf.state == '2'" class="approvedState"></div>
-                                        <div *ngIf="asdf.state == '3'" class="forbiddenState"></div>
-                                    </div>
-                                </ng-template>
-                            </p-column>
-                            <p-column field="name" header="Name" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
-                            <p-column field="type" header="Type" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
-                            <p-column field="path" header="Path" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
-                        </p-dataTable>
+
+
+
+
+
+                <!--VAZBA SPACE - SENZOR-->
+                <div class="ui-g" *ngIf="item_senzors">
+
+                    <div *ngFor="let itemsb of item_senzors" class="ui-g-12 ui-md-6 ui-lg-3">
+
+
+
+
+
+
+
+                        <div class="ui-g card overview-box overview-box-1" (click)="selectSenzor(itemsb.id)" [ngClass]="colorMap[itemsb.state]">
+                            <div class="ui-g-4">
+                                <i class="fa fa-inbox"></i>
+                            </div>
+                            <div class="ui-g-8">
+                                <img src="{{itemsb.image}}" width="100" />
+                                <!-- <span class="overview-box-count">253</span> -->
+                                <span class="overview-box-name">{{itemsb.name}}</span>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
 
 
 
                     </div>
 
-
-
-                    <p-footer>
-                        Footer content here
-                    </p-footer>
-                </p-dialog>
-
-
-
-
-
-
-
-                <!--VAZBA PRODUCT - VENDOR-->
-                <div *ngIf="item.senzors">
-
-
-                    <p-dataTable #dt2 [value]="item.senzors" [rows]="10" [paginator]="true" [paginatorPosition]="bottom" [responsive]="true"
-                        dataKey="id">
-                        <p-header>List of Senzors</p-header>
-                        <p-column field="state" header="State" [sortable]="true">
-                            <ng-template pTemplate="body" let-col let-asdf="rowData">
-                                <div class="text-center">
-                                    <div *ngIf="asdf[col.field] == 'NEW'" class="newState"></div>
-                                    <div *ngIf="asdf[col.field] == 'APPROVED'" class="approvedState"></div>
-                                    <div *ngIf="asdf[col.field] == 'FORBIDDEN'" class="forbiddenState"></div>
-                                </div>
-                            </ng-template>
-                        </p-column>
-                        <p-column field="name" header="Name" [sortable]="true"></p-column>
-                        <p-column field="type" header="Typ" [sortable]="true">
-                        </p-column>
-                        <p-column field="delete" header="Delete" [sortable]="true" class="text-center">
-                            <ng-template pTemplate="body" let-col let-asdf="rowData">
-                                <button type="button" pButton (click)="removeSenzor(asdf)" icon="fa-times" class="ui-button-danger"></button>
-                            </ng-template>
-                        </p-column>
-                    </p-dataTable>
-
-
-
                 </div>
+
             </div>
 
 
@@ -233,6 +273,129 @@
         </div>
 
     </div>
+
+
+
+
+
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!--SubSpaces-->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+
+
+
+    <div *ngIf="item.id" class="ui-g">
+
+        <div class="ui-g-12 ui-md-12">
+
+
+
+            <div class="card card-w-title">
+                <h1>SubSpaces</h1>
+
+
+
+                <button type="button" pButton icon="fa-plus" label="Add" (click)="showaddSubspace()"></button>
+                <br />
+                <!-- Sub-Space ADD DETAIL -->
+                <div *ngIf="addsubspaceDisplay">
+
+                    <div class="ui-g">
+
+                        <!--STATE + BASE INDORMATIONS-->
+                        <div class="ui-g-12">
+
+
+                            <div class="ui-g">
+
+                                <!--BASE INDORMATIONS-->
+                                <div class="card card-w-title" style="width: 100%;">
+                                    <h1>Base Informations</h1>
+
+                                    <div class="ui-g-12 ui-md-8">
+
+                                        <div class="ui-g form-group">
+                                            <div class="ui-g-12 ui-md-12">
+                                                <label for="input">Name</label>
+                                                <div class="ui-fluid">
+                                                    <input id="input" type="text" pInputText [(ngModel)]="addedsubspace.name" [ngClass]="{'nonvalid': !isNameValid }" />
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-12">
+                                                <label for="input">Path</label>
+                                                <div class="ui-fluid">
+                                                    <input id="input" type="text" pInputText [(ngModel)]="addedsubspace.path" [ngClass]="{'nonvalid': !isPathValid }" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="ui-g-12 ui-md-12">
+                                        <div class="card card-w-title">
+
+                                            <!-- <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="onBack()" class="ui-button-warning"></button> -->
+
+                                            <button type="button" pButton icon="fa-check" label="SAVE" (click)="addSubspace()" class="ui-button-success"></button>
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+
+
+                <!--VAZBA SPACE - SUBSPACE-->
+
+                <div class="ui-g" *ngIf="item_subspaces">
+
+                    <div *ngFor="let itemsb of item_subspaces" class="ui-g-12 ui-md-6 ui-lg-3">
+                        <div class="ui-g card overview-box overview-box-1" (click)="selectSubspace(itemsb.id)">
+                            <div class="ui-g-4">
+                                <div *ngIf="itemsb.state == 1" style="background-color: yellow;width: 50px;height:50px"></div>
+                                <div *ngIf="itemsb.state == 2" style="background-color: green;width: 50px;height:50px"></div>
+                                <div *ngIf="itemsb.state == 3" style="background-color: red;width: 50px;height:50px"></div>
+                            </div>
+                            <div class="ui-g-8">
+                                <img src="{{itemsb.image}}" width="100" />
+                                <!-- <span class="overview-box-count">253</span> -->
+                                <span class="overview-box-name">{{itemsb.name}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+
 
 
 
@@ -249,7 +412,7 @@
         <div class="ui-g-12 ui-md-12">
             <div class="card card-w-title">
 
-                <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="onBack()" class="ui-button-warning"></button>
+                <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="sharedService.routeBack()" class="ui-button-warning"></button>
 
                 <button type="button" pButton icon="fa-check" label="SAVE" (click)="saveProduct()" class="ui-button-success"></button>
 

@@ -1,6 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable'
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { DatatableModel } from '../models/shared/datatableModel';
 
@@ -8,9 +9,34 @@ import { DatatableModel } from '../models/shared/datatableModel';
 export class SharedService
 {
     public datatable_Metadata: DatatableModel;
+
+    public currentUrl: string;
+    public backButtonUrl: string;
     
-    constructor()
+    constructor(private router: Router)
     { }
+
+
+    route(route: string){
+        console.log("Route to > " + route);
+        this.backButtonUrl = this.currentUrl;
+        this.router.navigate([route]);
+    }
+
+    routeBack(){
+        console.log("Route back > " + this.backButtonUrl);
+        this.router.navigate([this.backButtonUrl]);
+    }
+
+    setCurrentRoute(){
+        console.log("Set current Route > " + this.router.url);
+        this.currentUrl = this.router.url;
+    }
+
+
+
+
+
 
     getCurrentDatatableMeta()
     {

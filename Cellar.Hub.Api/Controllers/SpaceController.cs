@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 using System.IO;
-using ImageCore = ImageProcessorCore;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 using Microsoft.Extensions.Logging;
@@ -38,6 +37,23 @@ namespace Cellar.Hub.Api.Controllers
             var result = _service.GetAllCellarSpaces();
             return result;
         }
+
+
+
+        [HttpGet]
+        public CellarDTO GetRootCellarSpaces()
+        {
+            var result = _service.GetRootCellarSpaces();
+            return result;
+        }
+
+        [HttpPost]
+        public CellarDTO GetCellarSpaces([FromBody]string path)
+        {
+            var result = _service.GetCellarSpaces(path);
+            return result;
+        }
+
 
         [HttpPost]
         public CellarDTO GetCellarSpace([FromBody]string id)
@@ -76,11 +92,20 @@ namespace Cellar.Hub.Api.Controllers
 
 
         [HttpGet]
-        public CellarDTO GetCellarSenzors()
+        public CellarDTO GetAllCellarSenzors()
         {
             var result = _service.GetAllCellarSenzors();
             return result;
         }
+
+
+        [HttpPost]
+        public CellarDTO GetCellarSenzors([FromBody]string path)
+        {
+            var result = _service.GetCellarSenzors(path);
+            return result;
+        }
+
 
         [HttpPost]
         public CellarDTO GetCellarSenzor([FromBody]string id)
@@ -97,7 +122,7 @@ namespace Cellar.Hub.Api.Controllers
         }
 
         [HttpPost]
-        public CellarDTO RemoveCellarSenzor([FromBody]CellarSenzor item)
+        public CellarDTO RemoveCellarSenzor([FromBody]string item)
         {
             var result = _service.RemoveCellarSenzor(item);
             return result;
