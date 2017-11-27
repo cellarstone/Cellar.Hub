@@ -23,6 +23,12 @@ RUN go-wrapper download
 RUN go-wrapper install
 RUN go build -o bin/savetoprometheus
 
+# Cellar sendtowebsocket - get packages & build
+WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/sendtowebsocket
+RUN go-wrapper download
+RUN go-wrapper install
+RUN go build -o bin/sendtowebsocket
+
 # Cellar savetofluentd - get packages & build
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/savetofluentd
 RUN go-wrapper download
@@ -48,12 +54,13 @@ RUN go build -o cellarworkflowmanager
 RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow1/bin/workflow1 /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/workflow2/bin/workflow2 /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/savetoprometheus/bin/savetoprometheus /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
+RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/sendtowebsocket/bin/sendtowebsocket /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/savetofluentd/bin/savetofluentd /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/cmd/cancelmeeting/bin/cancelmeeting /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 
 
 # copy : Wait-for-it script
-RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/wait-for-it.sh /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
+# RUN cp /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/wait-for-it.sh /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/manager
 
 
 # helpers

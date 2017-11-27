@@ -26,9 +26,8 @@ func RunWorkflow(name string) {
 				InChannel:       workflowIn,
 				OutChannel:      workflowOut,
 			},
-			Senzor:       senzor,
-			Topic:        measurement,
-			WebsocketUrl: websocketUrl,
+			Url:  websocketUrl,
+			Room: room,
 		})
 
 		wf.Run()

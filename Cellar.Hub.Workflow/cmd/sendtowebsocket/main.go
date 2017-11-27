@@ -5,7 +5,6 @@ import (
 	"math/rand"
 	"os"
 	"os/signal"
-	"strings"
 	"time"
 
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/logging"
@@ -24,7 +23,7 @@ var logger *logging.CLogger
 var MqttUrl = "cellar.hub.mqtt:1883"
 
 //Websocket url
-var websocketUrl = "http://????????????:9091/"
+var websocketUrl = "cellar.hub.websocket:8080"
 
 //INPUT PARAMETERS
 var senzor string
@@ -53,8 +52,9 @@ func main() {
 
 	workflowName := os.Args[1]
 	topic = os.Args[2]
-	senzor = strings.Split(topic, "/")[0]
-	measurement = strings.Split(topic, "/")[1]
+	room = os.Args[3]
+	// senzor = strings.Split(topic, "/")[0]
+	// measurement = strings.Split(topic, "/")[1]
 	gspt.SetProcTitle(workflowName)
 
 	workflowIn = make(chan string)

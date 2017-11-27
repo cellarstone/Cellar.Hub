@@ -78,6 +78,10 @@ sudo docker build -t cellar.hub.workflow .
 sudo docker run -d -p 3000:3000 -t cellar.hub.workflow
 sudo docker run -it cellar.hub.workflow
 
+# Websockets
+sudo docker build -t cellar.hub.websockets .
+sudo docker run -d -p 8080:8080 -t cellar.hub.websockets
+sudo docker run -it cellar.hub.websockets
 
 # docker-compose variants
 sudo docker-compose -f docker-compose.linux.yml up --build
