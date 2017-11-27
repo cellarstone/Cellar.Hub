@@ -18,7 +18,7 @@
             <button type="button" pButton icon="fa-plus" label="Add" (click)="newProduct()"></button>
         </div>
     
-        <p-dataTable #dt [value]="items" [rows]="10" [paginator]="true" [paginatorPosition]="both" [rowsPerPageOptions]="[10,25,50,100]" selectionMode="single" [(selection)]="selectedItem" (onRowSelect)="onRowSelect($event)" (onFilter)="onFilter($event)" [responsive]="true" dataKey="id">
+        <p-dataTable #dt [value]="items" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,25,50,100]" selectionMode="single" [(selection)]="selectedItem" (onRowSelect)="onRowSelect($event)" (onFilter)="onFilter($event)" [responsive]="true" dataKey="id">
             <p-header>List of Senzors</p-header>
             <!--<p-column field="id" header="Id" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>-->
             <p-column field="state" header="State" [filter]="true" [style]="{'overflow':'visible'}" [sortable]="true">

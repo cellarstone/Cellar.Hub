@@ -88,6 +88,7 @@ export class SpaceDetail {
 
 
     colorMap: any;
+    iconMap: any;
 
 
     constructor(
@@ -101,15 +102,71 @@ export class SpaceDetail {
 
         this.senzorTypes = [];
         this.senzorTypes.push({ label: 'Select Type', value: null });
-        this.senzorTypes.push({ label: 'CellarSenzor Temperature Type1', value: 'CellarSenzor Temperature Type1' });
-        this.senzorTypes.push({ label: 'CellarSenzor Temperature Type2', value: 'CellarSenzor Temperature Type2' });
-        this.senzorTypes.push({ label: 'CellarSenzor CO2 Type1', value: 'CellarSenzor CO2 Type1' });
-        this.senzorTypes.push({ label: 'CellarSenzor Smoke Type1', value: 'CellarSenzor Smoke Type1' });
-        this.senzorTypes.push({ label: 'CellarSenzor OpenClose Type1', value: 'CellarSenzor OpenClose Type1' });
-        this.senzorTypes.push({ label: 'CellarSenzor Power Type1', value: 'CellarSenzor Power Type1' });
-        this.senzorTypes.push({ label: 'CellarSenzor Camera Type1', value: 'CellarSenzor Camera Type1' });
+        this.senzorTypes.push({ label: 'CellarSenzor Temperature v1.0', value: 'CellarSenzor Temperature v1.0' });
+        this.senzorTypes.push({ label: 'CellarSenzor Temperature v2.0', value: 'CellarSenzor Temperature v2.0' });
+        this.senzorTypes.push({ label: 'CellarSenzor Motion v1.0', value: 'CellarSenzor Motion v1.0' });
+        this.senzorTypes.push({ label: 'CellarSenzor CO2 v1.0', value: 'CellarSenzor CO2 v1.0' });
+        this.senzorTypes.push({ label: 'CellarSenzor Smoke v1.0', value: 'CellarSenzor Smoke v1.0' });
+        this.senzorTypes.push({ label: 'CellarSenzor OpenClose v1.0', value: 'CellarSenzor OpenClose v1.0' });
+        this.senzorTypes.push({ label: 'CellarSenzor Power v1.0', value: 'CellarSenzor Power v1.0' });
+        this.senzorTypes.push({ label: 'CellarSenzor Camera v1.0', value: 'CellarSenzor Camera v1.0' });
 
         this.colorMap = { 1: 'newState', 2: 'approvedState', 3: 'forbiddenState' };
+        // this.iconMap = { 
+        //     'CellarSenzorTemperaturev10' : 'fa fa-thermometer-quarter', 
+        //     'CellarSenzor Temperature v2.0': 'fa fa-thermometer-full', 
+        //     'CellarSenzor Motion v1.0': 'forbiddenState' ,
+        //     'CellarSenzor CO2 v1.0': 'forbiddenState' ,
+        //     'CellarSenzor Smoke v1.0': 'forbiddenState' ,
+        //     'CellarSenzor OpenClose v1.0': 'forbiddenState' ,
+        //     'CellarSenzor Power v1.0': 'fa fa-power-off ' ,
+        //     'CellarSenzor Camera v1.0': 'fa fa-video-camera' 
+        // };
+    }
+
+    setSenzorTypeIcon(type: string)
+    {
+        let result = "";
+
+        switch(type){
+            case "CellarSenzorTemperaturev10": {
+                result = 'fa fa-thermometer-quarter'
+                break;
+            }
+            case "CellarSenzor Temperature v2.0": {
+                result = 'fa fa-thermometer-full'
+                break;
+            }
+            case "CellarSenzor Motion v1.0": {
+                result = 'forbiddenState'
+                break;
+            }
+            case "CellarSenzor CO2 v1.0": {
+                result = 'forbiddenState'
+                break;
+            }
+            case "CellarSenzor Smoke v1.0": {
+                result = 'forbiddenState'
+                break;
+            }
+            case "CellarSenzor OpenClose v1.0": {
+                result = 'forbiddenState'
+                break;
+            }
+            case "CellarSenzor Power v1.0": {
+                result = 'fa fa-power-off'
+                break;
+            }
+            case "CellarSenzor Camera v1.0": {
+                result = 'fa fa-video-camera'
+                break;
+            }
+            default: {
+                result = 'fa fa-question'
+            }
+        }
+
+        return result; 
     }
 
 
@@ -670,7 +727,7 @@ export class SpaceDetail {
     private addSenzor() {
         this.addsenzorDisplay = false;
 
-
+        this.addedsenzor.type = this.selectedSenzorType;
 
         this.iotservice.AddCellarSenzor(this.addedsenzor)
             .subscribe(art => {

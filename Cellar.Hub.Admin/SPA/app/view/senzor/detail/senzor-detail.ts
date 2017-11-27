@@ -78,6 +78,25 @@ export class SenzorDetail {
     isMqttValid: boolean = true;
 
 
+
+    private series: any[] = [{
+        name: "India",
+        data: [3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.890, 8.238, 9.552, 6.855]
+      }, {
+        name: "Russian Federation",
+        data: [4.743, 7.295, 7.175, 6.376, 8.153, 8.535, 5.247, -7.832, 4.3, 4.3]
+      }, {
+        name: "Germany",
+        data: [0.010, -0.375, 1.161, 0.684, 3.7, 3.269, 1.083, -5.127, 3.690, 2.995]
+      },{
+        name: "World",
+        data: [1.988, 2.733, 3.994, 3.464, 4.001, 3.939, 1.333, -2.245, 4.339, 2.727]
+      }];
+      private categories: number[] = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011];
+    
+
+
+
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -88,13 +107,15 @@ export class SenzorDetail {
 
         this.types = [];
         this.types.push({ label: 'Select Type', value: null });
-        this.types.push({ label: 'CellarSenzor Temperature Type1', value: 'CellarSenzor Temperature Type1' });
-        this.types.push({ label: 'CellarSenzor Temperature Type2', value: 'CellarSenzor Temperature Type2' });
-        this.types.push({ label: 'CellarSenzor CO2 Type1', value: 'CellarSenzor CO2 Type1' });
-        this.types.push({ label: 'CellarSenzor Smoke Type1', value: 'CellarSenzor Smoke Type1' });
-        this.types.push({ label: 'CellarSenzor OpenClose Type1', value: 'CellarSenzor OpenClose Type1' });
-        this.types.push({ label: 'CellarSenzor Power Type1', value: 'CellarSenzor Power Type1' });
-        this.types.push({ label: 'CellarSenzor Camera Type1', value: 'CellarSenzor Camera Type1' });
+        this.types.push({ label: 'CellarSenzor Temperature v1.0', value: 'CellarSenzor Temperature v1.0' });
+        this.types.push({ label: 'CellarSenzor Temperature v2.0', value: 'CellarSenzor Temperature v2.0' });
+        this.types.push({ label: 'CellarSenzor Motion v1.0', value: 'CellarSenzor Motion v1.0' });
+        this.types.push({ label: 'CellarSenzor CO2 v1.0', value: 'CellarSenzor CO2 v1.0' });
+        this.types.push({ label: 'CellarSenzor Smoke v1.0', value: 'CellarSenzor Smoke v1.0' });
+        this.types.push({ label: 'CellarSenzor OpenClose v1.0', value: 'CellarSenzor OpenClose v1.0' });
+        this.types.push({ label: 'CellarSenzor Power v1.0', value: 'CellarSenzor Power v1.0' });
+        this.types.push({ label: 'CellarSenzor Camera v1.0', value: 'CellarSenzor Camera v1.0' });
+
     }
 
 

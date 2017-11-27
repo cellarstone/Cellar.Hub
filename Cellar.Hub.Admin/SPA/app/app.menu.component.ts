@@ -24,22 +24,23 @@ export class AppMenuComponent implements OnInit {
             {label: 'Přehled', icon: 'fa fa-fw fa-dashboard', routerLink: ['/']},
             {label: 'Místa', icon: 'fa fa-fw fa-map-marker', routerLink: ['/places/dashboard']},
             {
-                label: 'Objekty', icon: 'fa fa-fw fa-cube',
+                label: 'Prostory', icon: 'fa fa-fw fa-cube',
                 items: [
-                    {label: 'Přehled', icon: 'fa fa-fw fa-dashboard', routerLink: ['/spaces/dashboard']}
+                    // {label: 'Přehled', icon: 'fa fa-fw fa-dashboard', routerLink: ['/spaces/dashboard']},
+                    {label: 'Seznam', icon: 'fa fa-fw fa-list', routerLink: ['/spaces']}
                 ]
             },
             {
                 label: 'Senzory', icon: 'fa fa-fw fa-microchip',
                 items: [
-                    {label: 'Přehled', icon: 'fa fa-fw fa-dashboard', routerLink: ['/senzors/dashboard']},
+                    // {label: 'Přehled', icon: 'fa fa-fw fa-dashboard', routerLink: ['/senzors/dashboard']},
                     {label: 'Seznam', icon: 'fa fa-fw fa-list', routerLink: ['/senzors']}
                 ]
             },
             {
                 label: 'Akce', icon: 'fa fa-fw fa-share-alt',
                 items: [
-                    {label: 'Přehled', icon: 'fa fa-fw fa-dashboard'},
+                    // {label: 'Přehled', icon: 'fa fa-fw fa-dashboard'},
                     {label: 'Seznam', icon: 'fa fa-fw fa-list'}
                 ]
             },

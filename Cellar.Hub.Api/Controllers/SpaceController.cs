@@ -25,11 +25,11 @@ namespace Cellar.Hub.Api.Controllers
         {
             _log = log;
             _service = service;
-            
+
         }
 
 
-        
+
 
         [HttpGet]
         public CellarDTO GetAllCellarSpaces()
@@ -37,8 +37,6 @@ namespace Cellar.Hub.Api.Controllers
             var result = _service.GetAllCellarSpaces();
             return result;
         }
-
-
 
         [HttpGet]
         public CellarDTO GetRootCellarSpaces()
@@ -127,7 +125,7 @@ namespace Cellar.Hub.Api.Controllers
             var result = _service.RemoveCellarSenzor(item);
             return result;
         }
-        
+
         [HttpPost]
         public CellarDTO UpdateCellarSenzor([FromBody]CellarSenzor item)
         {
@@ -135,6 +133,49 @@ namespace Cellar.Hub.Api.Controllers
             return result;
         }
 
+
+
+
+
+
+
+
+
+
+        [HttpGet]
+        public CellarDTO GetAllCellarPlaces()
+        {
+            var result = _service.GetAllCellarPlaces();
+            return result;
+        }
+
+        [HttpPost]
+        public CellarDTO GetCellarPlace([FromBody]string id)
+        {
+            var result = _service.GetCellarPlace(id);
+            return result;
+        }
+
+        [HttpPost]
+        public CellarDTO AddCellarPlace([FromBody]CellarPlace item)
+        {
+            var result = _service.AddCellarPlace(item);
+            return result;
+        }
+
+        [HttpPost]
+        public CellarDTO RemoveCellarPlace([FromBody]string item)
+        {
+            var result = _service.RemoveCellarPlace(item);
+            return result;
+        }
+
+        [HttpPost]
+        public CellarDTO UpdateCellarPlace([FromBody]CellarPlace item)
+        {
+            var result = _service.UpdateCellarPlace(item);
+            return result;
+        }
 
     }
 }

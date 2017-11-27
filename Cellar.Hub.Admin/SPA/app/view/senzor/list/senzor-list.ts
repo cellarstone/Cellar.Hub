@@ -29,12 +29,6 @@ export class SenzorList implements OnInit {
 
     states: SelectItem[];
 
-    gbpczkCourse: number = 31
-    usdczkCourse: number = 25;
-
-
-    imageCDNaddress: string = "https://internetaveci.blob.core.windows.net/img/";
-
     page: number = 1;
     itemsPerPage: number = 50;
     search: string = '';
@@ -68,24 +62,24 @@ export class SenzorList implements OnInit {
     }
 
 
-    wasSet: boolean = false;
-    ngAfterViewChecked()
-    {
-        if (this.dataTable)
-        {
-            if (!this.wasSet)
-            {
-                this.setCurrentPage();
-                this.wasSet = true;
-            }
-        }
-    }
+    // wasSet: boolean = false;
+    // ngAfterViewChecked()
+    // {
+    //     if (this.dataTable)
+    //     {
+    //         if (!this.wasSet)
+    //         {
+    //             this.setCurrentPage();
+    //             this.wasSet = true;
+    //         }
+    //     }
+    // }
 
 
 
 
     //zalozeni noveho produktu
-    newProduct()
+    newSenzor()
     {
         this.sharedService.route('senzor/' + 0);
     }
@@ -110,6 +104,7 @@ export class SenzorList implements OnInit {
 
                     this.rawItems = <Array<CellarSenzor>>response.data;
 
+                    console.log(this.items);
 
                     var i = 5;
                 }
@@ -251,61 +246,61 @@ export class SenzorList implements OnInit {
         this.sharedService.route('senzor/' + id);
     }
 
-    setCurrentPage()
-    {
-        if (this.dataTable)
-        {
+    // setCurrentPage()
+    // {
+    //     if (this.dataTable)
+    //     {
 
-            let n = 1;
-            let meta = this.sharedService.getCurrentDatatableMeta();
-            if (typeof meta !== "undefined")
-            {
-                n = meta.currentPage;
+    //         let n = 1;
+    //         let meta = this.sharedService.getCurrentDatatableMeta();
+    //         if (typeof meta !== "undefined")
+    //         {
+    //             n = meta.currentPage;
 
-                if (typeof meta.sortField !== "undefined")
-                {
-                    this.dataTable.sortField = meta.sortField;
-                    this.dataTable.sortOrder = meta.sortOrder;
-                }
+    //             if (typeof meta.sortField !== "undefined")
+    //             {
+    //                 this.dataTable.sortField = meta.sortField;
+    //                 this.dataTable.sortOrder = meta.sortOrder;
+    //             }
 
-                this.dataTable.filters = meta.filters;
+    //             this.dataTable.filters = meta.filters;
 
-                var asdf = {
-                    filters: meta.filters
-                }
-
-
-                this.onFilter(asdf);
+    //             var asdf = {
+    //                 filters: meta.filters
+    //             }
 
 
-                ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                ////HACK aby zafungoval filtr !!!!!!!!!!!!!!!!
-                ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                this.changeDetectorRef.detectChanges();
-            }
-
-            if (n > 1)
-            {
-                let paging = {
-                    first: n,
-                    rows: this.dataTable.rows
-                };
-                // the problem is that if we set sorting, the table is
-                // always going back to page 1, so we set a timer to go
-                // back to the current page ...
-                let timer = Observable.timer(100);
-                timer.subscribe(t =>
-                {
-
-                    //PREDELAT
-                    this.dataTable.paginate()
-                });
-            }
+    //             this.onFilter(asdf);
 
 
+    //             ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //             ////HACK aby zafungoval filtr !!!!!!!!!!!!!!!!
+    //             ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //             this.changeDetectorRef.detectChanges();
+    //         }
 
-        }
-    }
+    //         if (n > 1)
+    //         {
+    //             let paging = {
+    //                 first: n,
+    //                 rows: this.dataTable.rows
+    //             };
+    //             // the problem is that if we set sorting, the table is
+    //             // always going back to page 1, so we set a timer to go
+    //             // back to the current page ...
+    //             let timer = Observable.timer(100);
+    //             timer.subscribe(t =>
+    //             {
+
+    //                 //PREDELAT
+    //                 this.dataTable.paginate()
+    //             });
+    //         }
+
+
+
+    //     }
+    // }
 
 
 

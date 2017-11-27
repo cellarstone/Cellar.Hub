@@ -233,7 +233,7 @@
                 <!--VAZBA SPACE - SENZOR-->
                 <div class="ui-g" *ngIf="item_senzors">
 
-                    <div *ngFor="let itemsb of item_senzors" class="ui-g-12 ui-md-6 ui-lg-3">
+                    <div *ngFor="let itemsb of item_senzors" class="ui-g-12 ui-md-6 ui-lg-4">
 
 
 
@@ -241,13 +241,11 @@
 
 
 
-                        <div class="ui-g card overview-box overview-box-1" (click)="selectSenzor(itemsb.id)" [ngClass]="colorMap[itemsb.state]">
+                        <div class="ui-g" (click)="selectSenzor(itemsb.id)" [ngClass]="colorMap[itemsb.state]">
                             <div class="ui-g-4">
-                                <i class="fa fa-inbox"></i>
+                                <i [ngClass]="setSenzorTypeIcon(itemsb.type)"></i>
                             </div>
                             <div class="ui-g-8">
-                                <img src="{{itemsb.image}}" width="100" />
-                                <!-- <span class="overview-box-count">253</span> -->
                                 <span class="overview-box-name">{{itemsb.name}}</span>
                             </div>
                         </div>
@@ -413,6 +411,10 @@
             <div class="card card-w-title">
 
                 <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="sharedService.routeBack()" class="ui-button-warning"></button>
+
+
+                <button type="button" pButton icon="fa-trash-o" label="DELETE" (click)="deleteSpace()" class="ui-button-danger"></button>
+                
 
                 <button type="button" pButton icon="fa-check" label="SAVE" (click)="saveProduct()" class="ui-button-success"></button>
 

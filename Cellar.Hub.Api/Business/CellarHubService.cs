@@ -26,7 +26,7 @@ namespace Cellar.Hub.Api.Business
         }
 
 
-         public CellarDTO GetRootCellarSpaces()
+        public CellarDTO GetRootCellarSpaces()
         {
             string bsonQuery = @"{path: /^\/[A-Za-z0-9]*$/ }";
             var filter = MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(bsonQuery);
@@ -35,11 +35,11 @@ namespace Cellar.Hub.Api.Business
             return CellarDTO.Data(result);
         }
 
-         public CellarDTO GetCellarSpaces(string path)
+        public CellarDTO GetCellarSpaces(string path)
         {
             // string changed = path.Replace(@"/",@"\/");
 
-            string bsonQuery = @"{path: '"+path+"'}";
+            string bsonQuery = @"{path: '" + path + "'}";
             var filter = MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(bsonQuery);
             var result = _db.Spaces.FindSync(filter).ToList();
 
@@ -91,11 +91,11 @@ namespace Cellar.Hub.Api.Business
             return CellarDTO.Data(result);
         }
 
-         public CellarDTO GetCellarSenzors(string path)
+        public CellarDTO GetCellarSenzors(string path)
         {
             // string changed = path.Replace(@"/",@"\/");
 
-            string bsonQuery = @"{path: '"+path+"'}";
+            string bsonQuery = @"{path: '" + path + "'}";
             var filter = MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(bsonQuery);
             var result = _db.Senzors.FindSync(filter).ToList();
 
@@ -127,5 +127,37 @@ namespace Cellar.Hub.Api.Business
             return CellarDTO.Ok();
         }
 
+
+
+        public CellarDTO GetAllCellarPlaces()
+        {
+            var result = _db.Places.AsQueryable<CellarPlace>();
+            return CellarDTO.Data(result);
+        }
+
+         public CellarDTO GetCellarPlace(string id)
+        {
+            var filter = Builders<CellarPlace>.Filter.Eq("_id", id);
+            var result = _db.Places.Find(filter).FirstOrDefault();
+            return CellarDTO.Data(result);
+        }
+
+        public CellarDTO AddCellarPlace(CellarPlace item)
+        {
+            _db.Places.InsertOne(item);
+            return CellarDTO.Data(item);
+        }
+
+        public CellarDTO RemoveCellarPlace(string id)
+        {
+            _db.Places.DeleteOne(Builders<CellarPlace>.Filter.Eq(r => r.Id, id));
+            return CellarDTO.Ok();
+        }
+
+        public CellarDTO UpdateCellarPlace(CellarPlace item)
+        {
+            _db.Places.ReplaceOne(Builders<CellarPlace>.Filter.Eq(r => r.Id, item.Id), item, new UpdateOptions() { IsUpsert = true });
+            return CellarDTO.Ok();
+        }
     }
 }

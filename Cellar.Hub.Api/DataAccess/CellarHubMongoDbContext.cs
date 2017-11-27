@@ -37,7 +37,7 @@ namespace Cellar.Hub.Api.DataAccess
             _logger = logger;
 
 
-            var mongoDBConnectionString =_config["ConnectionStrings:mongoDb"];
+            var mongoDBConnectionString = _config["ConnectionStrings:mongoDb"];
 
             try
             {
@@ -72,6 +72,13 @@ namespace Cellar.Hub.Api.DataAccess
             }
         }
 
+        public IMongoCollection<CellarPlace> Places
+        {
+            get
+            {
+                return _database.GetCollection<CellarPlace>("Places");
+            }
+        }
         public IMongoCollection<CellarSpace> Spaces
         {
             get

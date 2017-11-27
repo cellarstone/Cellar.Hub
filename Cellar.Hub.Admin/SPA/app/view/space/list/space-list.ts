@@ -5,14 +5,12 @@ import { Observable } from 'rxjs/Observable'
 import { SelectItem } from 'primeng/primeng';
 import { DataTable } from 'primeng/primeng';
 
-// import { DatatableModel } from '../../../../models/shared/datatableModel';
-// import { SharedService } from '../../../../service/shared.service';
-
+import { DatatableModel } from '../../../models/shared/datatableModel';
 import { SharedService } from '../../../service/shared.service';
 
 
-// import { Product } from '../../../../entities/catalog/product';
-// import { CatalogService } from '../../../../service/catalog.service';
+import { CellarSpace } from '../../../entities/CellarSpace';
+import { IoTService } from '../../../service/iot.service';
 
 
 @Component({
@@ -25,17 +23,11 @@ export class SpaceList implements OnInit {
     
     private sub: any;
 
-    // rawItems: Array<Product>;
-    // items: Array<Product>;
-    // selectedItem: Product;
+    rawItems: Array<CellarSpace>;
+    items: Array<CellarSpace>;
+    selectedItem: CellarSpace;
 
     states: SelectItem[];
-
-    gbpczkCourse: number = 31
-    usdczkCourse: number = 25;
-
-
-    imageCDNaddress: string = "https://internetaveci.blob.core.windows.net/img/";
 
     page: number = 1;
     itemsPerPage: number = 50;
@@ -51,7 +43,7 @@ export class SpaceList implements OnInit {
 
     constructor(private route: ActivatedRoute,
         private router: Router,
-        // private catalogService: CatalogService,
+        private iotservice: IoTService,
         private sharedService: SharedService,
         private changeDetectorRef: ChangeDetectorRef) { 
             this.sharedService.setCurrentRoute();
@@ -70,26 +62,26 @@ export class SpaceList implements OnInit {
     }
 
 
-    wasSet: boolean = false;
-    ngAfterViewChecked()
-    {
-        if (this.dataTable)
-        {
-            if (!this.wasSet)
-            {
-                this.setCurrentPage();
-                this.wasSet = true;
-            }
-        }
-    }
+    // wasSet: boolean = false;
+    // ngAfterViewChecked()
+    // {
+    //     if (this.dataTable)
+    //     {
+    //         if (!this.wasSet)
+    //         {
+    //             this.setCurrentPage();
+    //             this.wasSet = true;
+    //         }
+    //     }
+    // }
 
 
 
 
     //zalozeni noveho produktu
-    newProduct()
+    newSpace()
     {
-        this.sharedService.route('catalog/product' + 0);
+        this.sharedService.route('space/' + 0);
     }
 
 
@@ -97,58 +89,59 @@ export class SpaceList implements OnInit {
     //Ziskani dat ze serveru
     private getData()
     {
-        console.log('CatalogProductList getData()');
+        console.log('SenzorList getData()');
         
-        // HTTP call
-        //  this.catalogService.GetProducts()
-        //     .subscribe(res =>
-        //     {
-        //         let response = res;
+        //HTTP call
+         this.iotservice.GetAllCellarSpaces()
+            .subscribe(res =>
+            {
+                let response = res;
 
-        //         //BEZ CHYB ze serveru
-        //         if (response.isOK)
-        //         {
-        //             this.items = <Array<Product>>response.data;
+                //BEZ CHYB ze serveru
+                if (response.isOK)
+                {
+                    this.items = <Array<CellarSpace>>response.data;
 
-        //             this.rawItems = <Array<Product>>response.data;
+                    this.rawItems = <Array<CellarSpace>>response.data;
 
+                    console.log(this.items);
 
-        //             var i = 5;
-        //         }
-        //         //NON-VALID ze serveru
-        //         else if (!response.isValid)
-        //         {
-        //             //???
-        //             console.error(response.validations);
-        //         }
-        //         //custom ERROR ze serveru
-        //         else if (response.isCustomError)
-        //         {
-        //             //???
-        //             console.error(response.customErrorText);
-        //         }
-        //         //identity ERROR ze serveru
-        //         else if (response.isIdentityError)
-        //         {
-        //             //???
-        //             console.error(response.identityErrorText);
-        //         }
-        //         //EXCEPTION ze serveru
-        //         else if (response.isException)
-        //         {
-        //             //???
-        //             console.error(response.exceptionText);
-        //         }
+                    var i = 5;
+                }
+                //NON-VALID ze serveru
+                else if (!response.isValid)
+                {
+                    //???
+                    console.error(response.validations);
+                }
+                //custom ERROR ze serveru
+                else if (response.isCustomError)
+                {
+                    //???
+                    console.error(response.customErrorText);
+                }
+                //identity ERROR ze serveru
+                else if (response.isIdentityError)
+                {
+                    //???
+                    console.error(response.identityErrorText);
+                }
+                //EXCEPTION ze serveru
+                else if (response.isException)
+                {
+                    //???
+                    console.error(response.exceptionText);
+                }
 
-        //     },
-        //     error =>
-        //     {
-        //         console.error(error);
-        //     },
-        //     () =>
-        //     {
-        //         console.log('getData() completed');
-        //     });
+            },
+            error =>
+            {
+                console.error(error);
+            },
+            () =>
+            {
+                console.log('getData() completed');
+            });
     }
 
 
@@ -263,62 +256,62 @@ export class SpaceList implements OnInit {
 
         var id = event.data.id;
 
-        this.sharedService.route('catalog/product' + id);
+        this.sharedService.route('space/' + id);
     }
 
-    setCurrentPage()
-    {
-        if (this.dataTable)
-        {
+    // setCurrentPage()
+    // {
+    //     if (this.dataTable)
+    //     {
 
-            // let n = 1;
-            // let meta = this.sharedService.getCurrentDatatableMeta();
-            // if (typeof meta !== "undefined")
-            // {
-            //     n = meta.currentPage;
+    //         // let n = 1;
+    //         // let meta = this.sharedService.getCurrentDatatableMeta();
+    //         // if (typeof meta !== "undefined")
+    //         // {
+    //         //     n = meta.currentPage;
 
-            //     if (typeof meta.sortField !== "undefined")
-            //     {
-            //         this.dataTable.sortField = meta.sortField;
-            //         this.dataTable.sortOrder = meta.sortOrder;
-            //     }
+    //         //     if (typeof meta.sortField !== "undefined")
+    //         //     {
+    //         //         this.dataTable.sortField = meta.sortField;
+    //         //         this.dataTable.sortOrder = meta.sortOrder;
+    //         //     }
 
-            //     this.dataTable.filters = meta.filters;
+    //         //     this.dataTable.filters = meta.filters;
 
-            //     var asdf = {
-            //         filters: meta.filters
-            //     }
-
-
-            //     this.onFilter(asdf);
+    //         //     var asdf = {
+    //         //         filters: meta.filters
+    //         //     }
 
 
-            //     ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //     ////HACK aby zafungoval filtr !!!!!!!!!!!!!!!!
-            //     ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            //     this.changeDetectorRef.detectChanges();
-            // }
-
-            // if (n > 1)
-            // {
-            //     let paging = {
-            //         first: n,
-            //         rows: this.dataTable.rows
-            //     };
-            //     // the problem is that if we set sorting, the table is
-            //     // always going back to page 1, so we set a timer to go
-            //     // back to the current page ...
-            //     let timer = Observable.timer(100);
-            //     timer.subscribe(t =>
-            //     {
-            //         this.dataTable.paginate(paging)
-            //     });
-            // }
+    //         //     this.onFilter(asdf);
 
 
+    //         //     ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //         //     ////HACK aby zafungoval filtr !!!!!!!!!!!!!!!!
+    //         //     ////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //         //     this.changeDetectorRef.detectChanges();
+    //         // }
 
-        }
-    }
+    //         // if (n > 1)
+    //         // {
+    //         //     let paging = {
+    //         //         first: n,
+    //         //         rows: this.dataTable.rows
+    //         //     };
+    //         //     // the problem is that if we set sorting, the table is
+    //         //     // always going back to page 1, so we set a timer to go
+    //         //     // back to the current page ...
+    //         //     let timer = Observable.timer(100);
+    //         //     timer.subscribe(t =>
+    //         //     {
+    //         //         this.dataTable.paginate(paging)
+    //         //     });
+    //         // }
+
+
+
+    //     }
+    // }
 
 
 

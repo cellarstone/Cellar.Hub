@@ -5,6 +5,7 @@ import {ModuleWithProviders} from '@angular/core';
 import {DashboardDemo} from './view/dashboard/dashboarddemo';
 
 import {PlaceDashboard} from './view/place/dashboard/place-dashboard';
+import {PlaceDetail} from './view/place/detail/place-detail';
 
 import {SpaceDashboard} from './view/space/dashboard/space-dashboard';
 import {SpaceDetail} from './view/space/detail/space-detail';
@@ -20,6 +21,7 @@ export const routes: Routes = [
     },
     { path: 'dashboard', component: DashboardDemo },
     { path: 'places/dashboard', component: PlaceDashboard },
+    { path: 'place/:id', component: PlaceDetail },
     { path: 'spaces/dashboard', component: SpaceDashboard },
     { path: 'spaces', component: SpaceList },
     { path: 'space/:id', component: SpaceDetail },

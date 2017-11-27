@@ -1,7 +1,7 @@
-﻿
-<h1 (click)="log()">Senzor Detail</h1>
+﻿<h1 (click)="log()">
+    Senzor Detail</h1>
 
-<div id="senzorDetail" *ngIf="item" >
+<div id="senzorDetail" *ngIf="item">
 
 
     <!--*********************************************************************************************-->
@@ -39,9 +39,12 @@
 
                     <div class="text-center">
                         <div class="btn-group" role="group">
-                            <button type="button" id="new" class="btn" [class.btn-default]="item.state != '1'" [class.btn-warning]="item.state === '1'" (click)="selectState($event)">New</button>
-                            <button type="button" id="approved" class="btn" [class.btn-default]="item.state != '2'" [class.btn-success]="item.state == '2'" (click)="selectState($event)">Approved</button>
-                            <button type="button" id="forbidden" class="btn" [class.btn-default]="item.state != '3'" [class.btn-danger]="item.state === '3'" (click)="selectState($event)">Forbidden</button>
+                            <button type="button" id="new" class="btn" [class.btn-default]="item.state != '1'" [class.btn-warning]="item.state === '1'"
+                                (click)="selectState($event)">New</button>
+                            <button type="button" id="approved" class="btn" [class.btn-default]="item.state != '2'" [class.btn-success]="item.state == '2'"
+                                (click)="selectState($event)">Approved</button>
+                            <button type="button" id="forbidden" class="btn" [class.btn-default]="item.state != '3'" [class.btn-danger]="item.state === '3'"
+                                (click)="selectState($event)">Forbidden</button>
                         </div>
                     </div>
                 </div>
@@ -61,7 +64,7 @@
                             <div class="ui-g-12 ui-md-12">
                                 <label for="input">Name</label>
                                 <div class="ui-fluid">
-                                    <input id="input" type="text" pInputText [(ngModel)]="item.name" [ngClass]="{'nonvalid': !isNameValid }"/>
+                                    <input id="input" type="text" pInputText [(ngModel)]="item.name" [ngClass]="{'nonvalid': !isNameValid }" />
                                 </div>
                             </div>
                             <div class="ui-g-12 ui-md-12">
@@ -79,19 +82,20 @@
                             <div class="ui-g-12 ui-md-12">
                                 <label for="input">Wifi SSID</label>
                                 <div class="ui-fluid">
-                                    <input id="input" type="text" pInputText [(ngModel)]="item.wifiSSID" [ngClass]="{'nonvalid': !isWifiSSIDValid }"/>
+                                    <input id="input" type="text" pInputText [(ngModel)]="item.wifiSSID" [ngClass]="{'nonvalid': !isWifiSSIDValid }" />
                                 </div>
                             </div>
                             <div class="ui-g-12 ui-md-12">
                                 <label for="input">Wifi Password</label>
                                 <div class="ui-fluid">
-                                    <input id="input" type="password" pInputText [(ngModel)]="item.wifiPassword" [ngClass]="{'nonvalid': !isWifiPasswordValid }"/>
+                                    <input id="input" type="password" pInputText [(ngModel)]="item.wifiPassword" [ngClass]="{'nonvalid': !isWifiPasswordValid }"
+                                    />
                                 </div>
                             </div>
                             <div class="ui-g-12 ui-md-12">
                                 <label for="input">MQTT IP</label>
                                 <div class="ui-fluid">
-                                    <input id="input" type="text" pInputText [(ngModel)]="item.mqttUrl" [ngClass]="{'nonvalid': !isMqttValid }"/>
+                                    <input id="input" type="text" pInputText [(ngModel)]="item.mqttUrl" [ngClass]="{'nonvalid': !isMqttValid }" />
                                 </div>
                             </div>
                         </div>
@@ -100,7 +104,7 @@
 
 
 
-                    
+
 
 
 
@@ -134,7 +138,7 @@
 
 
                 <button type="button" pButton icon="fa-trash-o" label="DELETE" (click)="deleteSenzor()" class="ui-button-danger"></button>
-                
+
 
                 <button type="button" pButton icon="fa-check" label="SAVE" (click)="saveSenzor()" class="ui-button-success"></button>
 
@@ -148,11 +152,31 @@
 
 
 
-    
 
 
 
-    
+    <div class="ui-g">
+        <div class="ui-g-12 ui-md-12">
+
+            <kendo-chart [categoryAxis]="{ categories: categories }">
+                <kendo-chart-title text="Gross domestic product growth /GDP annual %/"></kendo-chart-title>
+                <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
+                <kendo-chart-tooltip format="{0}%"></kendo-chart-tooltip>
+                <kendo-chart-series>
+                    <kendo-chart-series-item *ngFor="let item of series" type="line" style="smooth" [data]="item.data" [name]="item.name">
+                    </kendo-chart-series-item>
+                </kendo-chart-series>
+            </kendo-chart>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
 
 </div>
-

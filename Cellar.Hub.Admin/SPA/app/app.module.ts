@@ -15,6 +15,9 @@ import 'rxjs/add/operator/mergeMap';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
+
+
+
 //PrimeNG
 import {AccordionModule} from 'primeng/primeng';
 import {AutoCompleteModule} from 'primeng/primeng';
@@ -81,6 +84,9 @@ import {TooltipModule} from 'primeng/primeng';
 import {TreeModule} from 'primeng/primeng';
 import {TreeTableModule} from 'primeng/primeng';
 
+//HammerJS - because Kendo UI wants it
+import 'hammerjs';
+
 
 //KENDO UI
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
@@ -109,6 +115,7 @@ import {DashboardDemo} from './view/dashboard/dashboarddemo';
 
 //places
 import {PlaceDashboard} from './view/place/dashboard/place-dashboard';
+import {PlaceDetail} from './view/place/detail/place-detail';
 
 //spaces
 import {SpaceDashboard} from './view/space/dashboard/space-dashboard';
@@ -221,7 +228,8 @@ import {SenzorList} from './view/senzor/list/senzor-list';
         SenzorDashboard,
         SenzorDetail,
         SenzorList,
-        PlaceDashboard
+        PlaceDashboard,
+        PlaceDetail
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
