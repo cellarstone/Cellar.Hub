@@ -11,17 +11,17 @@ import (
 //**********************************
 //TASK - Send Websocket
 //**********************************
-type SendWebsocketTask struct {
+type SendToWebsocketTask struct {
 	abs.BaseTask
 	url string `json:"url" bson:"url"`
 }
 
-func (t *SendWebsocketTask) Execute() error {
+func (t *SendToWebsocketTask) Execute() error {
 	for value := range t.InChannel {
 		t.State = "inprogress"
 		//*****************
 		// DOING SOMETHING
-		log.Debug("SendWebsocketTask value - " + value)
+		log.Debug("SendToWebsocketTask value - " + value)
 		//*****************
 		t.OutChannel <- value
 	}
@@ -31,11 +31,11 @@ func (t *SendWebsocketTask) Execute() error {
 	return nil
 }
 
-func (t *SendWebsocketTask) ExecuteParallel(value string) error {
+func (t *SendToWebsocketTask) ExecuteParallel(value string) error {
 	t.State = "inprogress"
 	//*****************
 	// DOING SOMETHING
-	log.Debug("SendWebsocketTask parallel value - " + value)
+	log.Debug("SendToWebsocketTask parallel value - " + value)
 	//*****************
 	t.State = "completed"
 	return nil
