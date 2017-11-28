@@ -105,8 +105,6 @@ import {AppComponent}  from './app.component';
 import { SharedService } from './service/shared.service';
 import { IoTService } from './service/iot.service';
 import { CdnService } from './service/cdn.service';
-import { WebsocketService2 } from './service/websocket2.service';
-import { WebsocketService } from './service/websocket.service';
 
 import {AppMenuComponent,AppSubMenu}  from './app.menu.component';
 import {AppTopBar}  from './app.topbar.component';
@@ -235,9 +233,7 @@ import {SenzorList} from './view/senzor/list/senzor-list';
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         IoTService,
         CdnService,
-        SharedService,
-        WebsocketService2,
-        WebsocketService
+        SharedService
     ],
     bootstrap:[AppComponent]
 })

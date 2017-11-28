@@ -15,7 +15,7 @@
     
     <div *ngIf="items">
         <div style="margin-bottom: 15px">
-            <button type="button" pButton icon="fa-plus" label="Add" (click)="newProduct()"></button>
+            <button type="button" pButton icon="fa-plus" label="Add" (click)="newSenzor()"></button>
         </div>
     
         <p-dataTable #dt [value]="items" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,25,50,100]" selectionMode="single" [(selection)]="selectedItem" (onRowSelect)="onRowSelect($event)" (onFilter)="onFilter($event)" [responsive]="true" dataKey="id">

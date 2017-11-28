@@ -4,8 +4,8 @@ export class Socket {
   private ws: WebSocket;
   private ee: EventEmitter;
 
-  constructor(){
-    this.ws = new WebSocket("ws://192.168.1.234:4000");
+  constructor(url: string){
+    this.ws = new WebSocket("ws://"+url);
     this.ee = new EventEmitter();
     this.ws.onmessage = this.message.bind(this);
     this.ws.onopen = this.open.bind(this);

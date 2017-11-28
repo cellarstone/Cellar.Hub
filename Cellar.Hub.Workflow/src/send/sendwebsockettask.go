@@ -1,15 +1,12 @@
 package send
 
 import (
-
-	// abs "../abstraction"
 	"flag"
 	"fmt"
 	"net/url"
 
 	abs "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
 	"github.com/gorilla/websocket"
-	// log "github.com/sirupsen/logrus"
 )
 
 //**********************************
@@ -26,7 +23,7 @@ func (t *SendToWebsocketTask) Execute() error {
 	addr := flag.String("addr", t.Url, "http service address")
 
 	u := url.URL{Scheme: "ws", Host: *addr, Path: "/ws/" + t.Room}
-	// log.Printf("connecting to %s", u.String())
+	//fmt.Println("connecting to %s", u.String())
 
 	c, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
 	if err != nil {
@@ -39,13 +36,24 @@ func (t *SendToWebsocketTask) Execute() error {
 		//*****************
 		// DOING SOMETHING
 
-		err := c.WriteMessage(websocket.TextMessage, []byte(value))
+		// data := {
+		// 	name: "value",
+		// 	data: value,
+		// }
+
+		mapD := map[string]string{
+			"name": "message", 
+			"data": value
+		}
+		mapB, _ := json.Marshal(mapD)
+		mapC := string(mapB)
+
+		err := c.WriteMessage(websocket.TextMessage, []byte(mapC))
 		if err != nil {
 			fmt.Println("error in write message to websocket :", err)
-			// return
 		}
 
-		fmt.Println("SendToWebsocketTask value - " + value)
+		// fmt.Println("SendToWebsocketTask value - " + value)
 		//*****************
 		t.OutChannel <- value
 	}

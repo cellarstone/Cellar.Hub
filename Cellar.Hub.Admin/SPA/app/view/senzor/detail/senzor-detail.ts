@@ -44,6 +44,9 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
 
+//websocket
+import { Socket } from '../../../service/Socket';
+
 
 @Component({
     templateUrl: './senzor-detail.html',
@@ -78,22 +81,31 @@ export class SenzorDetail {
     isMqttValid: boolean = true;
 
 
+    //websockets
+    public socket: Socket;
 
-    private series: any[] = [{
-        name: "India",
-        data: [3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.890, 8.238, 9.552, 6.855]
-      }, {
-        name: "Russian Federation",
-        data: [4.743, 7.295, 7.175, 6.376, 8.153, 8.535, 5.247, -7.832, 4.3, 4.3]
-      }, {
-        name: "Germany",
-        data: [0.010, -0.375, 1.161, 0.684, 3.7, 3.269, 1.083, -5.127, 3.690, 2.995]
-      },{
-        name: "World",
-        data: [1.988, 2.733, 3.994, 3.464, 4.001, 3.939, 1.333, -2.245, 4.339, 2.727]
-      }];
-      private categories: number[] = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011];
-    
+
+
+    // private series: any[] = [{
+    //     name: "India",
+    //     data: [3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.890, 8.238, 9.552, 6.855]
+    // }, {
+    //     name: "Russian Federation",
+    //     data: [4.743, 7.295, 7.175, 6.376, 8.153, 8.535, 5.247, -7.832, 4.3, 4.3]
+    // }, {
+    //     name: "Germany",
+    //     data: [0.010, -0.375, 1.161, 0.684, 3.7, 3.269, 1.083, -5.127, 3.690, 2.995]
+    // }, {
+    //     name: "World",
+    //     data: [1.988, 2.733, 3.994, 3.464, 4.001, 3.939, 1.333, -2.245, 4.339, 2.727]
+    // }];
+    // private categories: number[] = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011];
+
+    private dataSerie: any[] = [{
+        name: "Temperature",
+        data: [1]
+    }];
+    private timeSerie: number[] = [Date.now()];
 
 
 
@@ -116,6 +128,18 @@ export class SenzorDetail {
         this.types.push({ label: 'CellarSenzor Power v1.0', value: 'CellarSenzor Power v1.0' });
         this.types.push({ label: 'CellarSenzor Camera v1.0', value: 'CellarSenzor Camera v1.0' });
 
+        //websockets
+        this.socket = new Socket("localhost:8080/ws/3102temperature");
+        this.socket.on('connect', this.onConnect.bind(this));
+        this.socket.on('disconnect', this.onDisconnect.bind(this));
+        this.socket.on('message', this.onMessage.bind(this));
+        // this.socket.on('channel add', this.onAddChannel.bind(this));
+        // this.socket.on('user add', this.onAddUser.bind(this));
+        // this.socket.on('user edit', this.onEditUser.bind(this));
+        // this.socket.on('user remove', this.onRemoveUser.bind(this));
+        // this.socket.on('message add', this.onMessageAdd.bind(this));
+        // this.socket.on('message edit', this.onMessageEdit.bind(this));
+
     }
 
 
@@ -133,22 +157,22 @@ export class SenzorDetail {
 
 
     //*********************************/
-    /* PRODUKT */
+    /* SENZOR */
     //*********************************/
 
     private getData() {
         this.sub = this.route.params.subscribe(params => {
             let id = params['id']; // (+) converts string 'id' to a number
 
-            //novy produkt
+            //new senzor
             if (id == 0) {
-                //založíme nový produkt
+                //create a new senzor
                 this.item = new CellarSenzor();
 
-                //Product-State
+                //set senzor state
                 this.item.state = "1";
             }
-            //editace existujiciho produktu
+            //editing existing senzor
             else {
 
                 //zjistíme informace o produktu
@@ -380,7 +404,7 @@ export class SenzorDetail {
                             //});
 
                             this.sharedService.routeBack();
-                            
+
 
                         }
                         //NON-VALID ze serveru
@@ -446,86 +470,86 @@ export class SenzorDetail {
     }
 
 
-    private deleteSenzor(){
+    private deleteSenzor() {
         this.iotservice.RemoveCellarSenzor(this.item.id)
-        .subscribe(art => {
-            let response = art;
+            .subscribe(art => {
+                let response = art;
 
-            //BEZ CHYB ze serveru
-            if (response.isOK) {
-                this.item = <CellarSenzor>response.data;
+                //BEZ CHYB ze serveru
+                if (response.isOK) {
+                    this.item = <CellarSenzor>response.data;
 
-                this.sharedService.routeBack();
+                    this.sharedService.routeBack();
 
-                // this.messagesToUser.push({
-                //     severity: 'success',
-                //     summary: '! UPDATED !',
-                //     detail: 'Senzor has been updated'
-                // });
-            }
-            //NON-VALID ze serveru
-            else if (!response.isValid) {
-                //???
-                console.error(response.validations);
+                    // this.messagesToUser.push({
+                    //     severity: 'success',
+                    //     summary: '! UPDATED !',
+                    //     detail: 'Senzor has been updated'
+                    // });
+                }
+                //NON-VALID ze serveru
+                else if (!response.isValid) {
+                    //???
+                    console.error(response.validations);
+
+                    this.messagesToUser.push({
+                        severity: 'error',
+                        summary: 'From Server',
+                        detail: 'Non-valid'
+                    });
+                }
+                //custom ERROR ze serveru
+                else if (response.isCustomError) {
+                    //???
+                    console.error(response.customErrorText);
+
+                    this.messagesToUser.push({
+                        severity: 'error',
+                        summary: 'From Server',
+                        detail: 'Custom Error -' + response.customErrorText
+                    });
+                }
+                //identity ERROR ze serveru
+                else if (response.isIdentityError) {
+                    //???
+                    console.error(response.identityErrorText);
+
+                    this.messagesToUser.push({
+                        severity: 'error',
+                        summary: 'From Server',
+                        detail: 'Identity Error -' + response.identityErrorText
+                    });
+                }
+                //EXCEPTION ze serveru
+                else if (response.isException) {
+                    //???
+                    console.error(response.exceptionText);
+
+                    this.messagesToUser.push({
+                        severity: 'error',
+                        summary: 'From Server',
+                        detail: 'Exception -' + response.exceptionText
+                    });
+                }
+            },
+            error => {
+                console.error(error);
 
                 this.messagesToUser.push({
                     severity: 'error',
-                    summary: 'From Server',
-                    detail: 'Non-valid'
+                    summary: 'From ???',
+                    detail: error
                 });
-            }
-            //custom ERROR ze serveru
-            else if (response.isCustomError) {
-                //???
-                console.error(response.customErrorText);
-
-                this.messagesToUser.push({
-                    severity: 'error',
-                    summary: 'From Server',
-                    detail: 'Custom Error -' + response.customErrorText
-                });
-            }
-            //identity ERROR ze serveru
-            else if (response.isIdentityError) {
-                //???
-                console.error(response.identityErrorText);
-
-                this.messagesToUser.push({
-                    severity: 'error',
-                    summary: 'From Server',
-                    detail: 'Identity Error -' + response.identityErrorText
-                });
-            }
-            //EXCEPTION ze serveru
-            else if (response.isException) {
-                //???
-                console.error(response.exceptionText);
-
-                this.messagesToUser.push({
-                    severity: 'error',
-                    summary: 'From Server',
-                    detail: 'Exception -' + response.exceptionText
-                });
-            }
-        },
-        error => {
-            console.error(error);
-
-            this.messagesToUser.push({
-                severity: 'error',
-                summary: 'From ???',
-                detail: error
+            },
+            () => {
+                console.log('saveSenzor() completed');
             });
-        },
-        () => {
-            console.log('saveSenzor() completed');
-        });
     }
 
 
-    // //*********************************/
-    // //STATE
-    // //*********************************/
+    //*********************************/
+    //STATE
+    //*********************************/
 
     public selectState(e: any) {
         var aaa = e.srcElement.innerHTML.toLowerCase();
@@ -591,6 +615,52 @@ export class SenzorDetail {
 
 
 
+    //*********************************/
+    /* WEBSOCKET METHODS */
+    //*********************************/
 
+    public state = {
+        channels: [],
+        users: [],
+        messages: [],
+        activeChannel: {
+            id: ''
+        },
+        connected: false
+
+    }
+
+    onConnect() {
+        console.log("onConnect");
+        this.state.connected = true;
+        this.socket.emit('channel subscribe', {});
+        this.socket.emit('user subscribe', {});
+    }
+    onDisconnect() {
+        console.log("onDisconnect");
+        this.state.connected = false;
+    }
+
+    // onMessageAdd(message) {
+    //     console.log(message);
+
+    //     let { messages } = this.state;
+    //     messages.push(message);
+    //     this.state.messages = messages;
+    // }
+
+    // onMessageEdit(message) {
+    //     console.log(message);
+    
+        
+    
+    //   }
+
+      onMessage(message) {
+        console.log(message);
+    
+        
+    
+      }
 
 }

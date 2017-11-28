@@ -133,6 +133,7 @@ export class SubspaceDetail implements OnInit {
     this.socket = new Socket();
     this.socket.on('connect', this.onConnect.bind(this));
     this.socket.on('disconnect', this.onDisconnect.bind(this));
+    this.socket.on('message', this.onDisconnect.bind(this));
     // this.socket.on('channel add', this.onAddChannel.bind(this));
     // this.socket.on('user add', this.onAddUser.bind(this));
     // this.socket.on('user edit', this.onEditUser.bind(this));
@@ -151,6 +152,7 @@ export class SubspaceDetail implements OnInit {
 
 
   onMessageAdd(message) {
+    
     let { messages } = this.state;
     messages.push(message);
     this.state.messages = messages;
