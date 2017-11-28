@@ -4,12 +4,12 @@ import (
 
 	// abs "../abstraction"
 	"flag"
+	"fmt"
 	"net/url"
 
 	abs "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
 	"github.com/gorilla/websocket"
-
-	log "github.com/sirupsen/logrus"
+	// log "github.com/sirupsen/logrus"
 )
 
 //**********************************
@@ -26,11 +26,11 @@ func (t *SendToWebsocketTask) Execute() error {
 	addr := flag.String("addr", t.Url, "http service address")
 
 	u := url.URL{Scheme: "ws", Host: *addr, Path: "/ws/" + t.Room}
-	log.Printf("connecting to %s", u.String())
+	// log.Printf("connecting to %s", u.String())
 
 	c, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
 	if err != nil {
-		log.Fatal("dial:", err)
+		panic(err)
 	}
 	defer c.Close()
 
@@ -41,11 +41,11 @@ func (t *SendToWebsocketTask) Execute() error {
 
 		err := c.WriteMessage(websocket.TextMessage, []byte(value))
 		if err != nil {
-			log.Println("write:", err)
+			fmt.Println("error in write message to websocket :", err)
 			// return
 		}
 
-		log.Debug("SendToWebsocketTask value - " + value)
+		fmt.Println("SendToWebsocketTask value - " + value)
 		//*****************
 		t.OutChannel <- value
 	}
@@ -59,7 +59,7 @@ func (t *SendToWebsocketTask) ExecuteParallel(value string) error {
 	t.State = "inprogress"
 	//*****************
 	// DOING SOMETHING
-	log.Debug("SendToWebsocketTask parallel value - " + value)
+	// log.Debug("SendToWebsocketTask parallel value - " + value)
 	//*****************
 	t.State = "completed"
 	return nil

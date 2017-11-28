@@ -14,7 +14,7 @@ type WorkflowEntity struct {
 }
 
 var MongoUrl = "cellar.hub.mongodb"
-var MongoDatabase = "test"
+var MongoDatabase = "test" //HubDatabase
 
 func SaveWorkflowEntity(wf *WorkflowEntity) {
 	session, err := mgo.Dial(MongoUrl)
