@@ -1,6 +1,7 @@
 package send
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"net/url"
@@ -42,8 +43,8 @@ func (t *SendToWebsocketTask) Execute() error {
 		// }
 
 		mapD := map[string]string{
-			"name": "message", 
-			"data": value
+			"name": "message",
+			"data": value,
 		}
 		mapB, _ := json.Marshal(mapD)
 		mapC := string(mapB)
