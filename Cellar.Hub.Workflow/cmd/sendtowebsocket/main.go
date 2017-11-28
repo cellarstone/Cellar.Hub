@@ -23,11 +23,10 @@ var logger *logging.CLogger
 var MqttUrl = "cellar.hub.mqtt:1883"
 
 //Websocket url
-var websocketUrl = "cellar.hub.websocket:8080"
+var websocketUrl = "cellar.hub.websockets:8080"
 
 //INPUT PARAMETERS
-var senzor string
-var measurement string
+var room string
 var topic string
 
 func init() {
@@ -82,7 +81,7 @@ func main() {
 	//-------------------------------------------------------------------
 	//-------------------------------------------------------------------
 
-	RunMqttTrigger()
+	RunTimeRepeaterTrigger()
 
 	//-------------------------------------------------------------------
 	//-------------------------------------------------------------------

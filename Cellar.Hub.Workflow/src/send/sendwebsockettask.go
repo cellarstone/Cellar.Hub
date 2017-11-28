@@ -23,7 +23,7 @@ type SendToWebsocketTask struct {
 
 func (t *SendToWebsocketTask) Execute() error {
 
-	addr := flag.String("addr", t.url, "http service address")
+	addr := flag.String("addr", t.Url, "http service address")
 
 	u := url.URL{Scheme: "ws", Host: *addr, Path: "/ws/" + t.Room}
 	log.Printf("connecting to %s", u.String())
@@ -42,7 +42,7 @@ func (t *SendToWebsocketTask) Execute() error {
 		err := c.WriteMessage(websocket.TextMessage, []byte(value))
 		if err != nil {
 			log.Println("write:", err)
-			return
+			// return
 		}
 
 		log.Debug("SendToWebsocketTask value - " + value)
