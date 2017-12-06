@@ -27,19 +27,19 @@ namespace Cellar.Hub.Api
                 //     "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}]{Message}{Exception}{NewLine}")
                 .CreateLogger();
 
-             try
-        {
-            Log.Information("Starting web host");
-            BuildWebHost(args).Run();
-        }
-        catch (Exception ex)
-        {
-            Log.Fatal(ex, "Host terminated unexpectedly");
-        }
-        finally
-        {
-            Log.CloseAndFlush();
-        }
+            try
+            {
+                Log.Information("Starting web host");
+                BuildWebHost(args).Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
 
         }
 

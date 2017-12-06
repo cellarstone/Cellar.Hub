@@ -11,7 +11,7 @@ export class CellarPlace {
         this.country = json.country;
         this.city = json.city;
         this.street = json.city;
-        this.zipCode = json.city;
+        this.zipcode = json.city;
         this.latitude = json.city;
         this.longtitude = json.city;
 
@@ -29,23 +29,10 @@ export class CellarPlace {
     public country: string;
     public city: string;
     public street: string;
-    public zipCode: string;
+    public zipcode: string;
 
     // GPS - latitude, longtitude
     public latitude: string;
     public longtitude: string;
 
-
-    public getSubPath(): string {
-        let result = "";
-
-        if (this.path == "/") {
-            result = this.path + this.name.toLowerCase();
-        }
-        else {
-            result = this.path + "/" + this.name.toLowerCase();
-        }
-
-        return result;
-    }
 }

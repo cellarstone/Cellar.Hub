@@ -418,9 +418,9 @@ export class SpaceDetail {
 
                         //BEZ CHYB ze serveru
                         if (response.isOK) {
-                            let temp = <CellarSpace>response.data;
-                            this.item = new CellarSpace().New(temp);
-
+                            let temp = <CellarDTO>response.data;
+                            
+                            //everything is OK
 
                             this.sharedService.routeBack();
 

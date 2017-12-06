@@ -19,6 +19,9 @@ namespace Cellar.Hub.Api.Models
         [BsonElement("state")]
         public string State { get; set; }
 
+        [BsonElement("path")]
+        public string Path { get; set; }
+
         // Country, City, Street
         [BsonElement("country")]
         public string Country {get;set;}
@@ -26,19 +29,14 @@ namespace Cellar.Hub.Api.Models
         public string City {get;set;}
         [BsonElement("street")]
         public string Street{get;set;}
-        [BsonElement("zipCode")]
-        public string ZipCode{get;set;}
+        [BsonElement("zipcode")]
+        public string Zipcode{get;set;}
 
         // GPS - latitude, longtitude
         [BsonElement("latitude")]
         public string Latitude {get;set;}
         [BsonElement("longtitude")]
         public string Longtitude {get;set;}
-
-        
-         [BsonElement("rootSpaces")]
-        public ICollection<string> RootSpaces { get; set; } = new List<string>();
-
 
 
 

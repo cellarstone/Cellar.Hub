@@ -28,7 +28,7 @@
     <div class="ui-g">
 
         <!--STATE + BASE INDORMATIONS-->
-        <div class="ui-g-12">
+        <div class="ui-g-6">
 
 
             <div class="ui-g">
@@ -117,66 +117,78 @@
             </div>
 
         </div>
+        <!-- CHARTS -->
+        <div class="ui-g-6" *ngIf="item.id">
 
-    </div>
+            <div class="ui-g">
 
+                <div class="ui-g-12">
 
-
-    <!--*********************************************************************************************-->
-    <!--*********************************************************************************************-->
-    <!--BUTTONS-->
-    <!--*********************************************************************************************-->
-    <!--*********************************************************************************************-->
-
-
-    <div class="ui-g">
-
-        <div class="ui-g-12 ui-md-12">
-            <div class="card card-w-title">
-
-                <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="sharedService.routeBack()" class="ui-button-warning"></button>
+                    <!-- https://www.usefuldev.com/blog/post/using-highcharts-in-an-angular-cli-project -->
+                    <div #chartTarget>
+                        chart target
+                    </div>
 
 
-                <button type="button" pButton icon="fa-trash-o" label="DELETE" (click)="deleteSenzor()" class="ui-button-danger"></button>
+
+                </div>
+            </div>
+            <div class="ui-g">
+
+                <div class="ui-g-12">
+
+                    <!-- https://www.usefuldev.com/blog/post/using-highcharts-in-an-angular-cli-project -->
+                    <div #chartTarget2>
+                        chart target
+                    </div>
 
 
-                <button type="button" pButton icon="fa-check" label="SAVE" (click)="saveSenzor()" class="ui-button-success"></button>
+
+                </div>
 
             </div>
-        </div>
-
-    </div>
 
 
-    <p-messages [value]="messagesToUser"></p-messages>
-
-
-
-
-
-
-    <div class="ui-g">
-        <div class="ui-g-12 ui-md-12">
-
-            <kendo-chart [categoryAxis]="{ categories: timeSerie }">
-                <kendo-chart-title text="Temperature °C"></kendo-chart-title>
-                <kendo-chart-legend position="bottom" orientation="horizontal"></kendo-chart-legend>
-                <kendo-chart-tooltip format="{0}°C"></kendo-chart-tooltip>
-                <kendo-chart-series>
-                    <kendo-chart-series-item *ngFor="let item of dataSerie" type="line" style="smooth" [data]="item.data" [name]="item.name">
-                    </kendo-chart-series-item>
-                </kendo-chart-series>
-            </kendo-chart>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
 
 </div>
+
+
+
+<!--*********************************************************************************************-->
+<!--*********************************************************************************************-->
+<!--BUTTONS-->
+<!--*********************************************************************************************-->
+<!--*********************************************************************************************-->
+
+
+<div class="ui-g">
+
+    <div class="ui-g-12 ui-md-12">
+        <div class="card card-w-title">
+
+            <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="sharedService.routeBack()" class="ui-button-warning"></button>
+
+
+            <button type="button" pButton icon="fa-trash-o" label="DELETE" (click)="deleteSenzor()" class="ui-button-danger"></button>
+
+
+            <button type="button" pButton icon="fa-check" label="SAVE" (click)="saveSenzor()" class="ui-button-success"></button>
+
+        </div>
+    </div>
+
+</div>
+
+
+<p-messages [value]="messagesToUser"></p-messages>
+
+
+
+
+
+
+<!-- 
+
+    <div id="graph" style="width: 480px; height: 400px;"></div> -->

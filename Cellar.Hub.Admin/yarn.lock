@@ -37,13 +37,13 @@
     tslib "^1.7.1"
 
 "@angular/cli@^1.5.2":
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-1.5.3.tgz#9d98abbfdf42706853dfeb10f33410adf6b8038b"
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-1.5.4.tgz#3eebfa0c6f8a4ea7a05d9462e55db9f150a3a015"
   dependencies:
     "@angular-devkit/build-optimizer" "~0.0.31"
     "@angular-devkit/schematics" "~0.0.34"
     "@ngtools/json-schema" "1.1.0"
-    "@ngtools/webpack" "1.8.3"
+    "@ngtools/webpack" "1.8.4"
     "@schematics/angular" "~0.1.0"
     autoprefixer "^6.5.3"
     chalk "~2.2.0"
@@ -107,8 +107,8 @@
     tslib "^1.7.1"
 
 "@angular/compiler-cli@^5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-5.0.2.tgz#59b167413285d195f99dd1d9be73f70fedb33429"
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-5.0.3.tgz#820fe95f5653c1418ad9ac9ca9e819a879cce4ae"
   dependencies:
     chokidar "^1.4.2"
     minimist "^1.2.0"
@@ -161,9 +161,9 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ngtools/json-schema/-/json-schema-1.1.0.tgz#c3a0c544d62392acc2813a42c8a0dc6f58f86922"
 
-"@ngtools/webpack@1.8.3":
-  version "1.8.3"
-  resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-1.8.3.tgz#8bafa749fc2626d11e146899e5b14e3e85bc787f"
+"@ngtools/webpack@1.8.4":
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-1.8.4.tgz#345b726b9fa827b05ca1daadb6d7e29592ca5947"
   dependencies:
     chalk "~2.2.0"
     enhanced-resolve "^3.1.0"
@@ -243,9 +243,19 @@
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@telerik/kendo-intl/-/kendo-intl-1.3.0.tgz#9ec98763553ea5bc145dea22c4395761738297ac"
 
+"@types/geojson@*":
+  version "7946.0.0"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.0.tgz#e8bc74e8183d966455f82023f0c72e1072a952d0"
+
 "@types/greensock@1.15.32":
   version "1.15.32"
   resolved "https://registry.yarnpkg.com/@types/greensock/-/greensock-1.15.32.tgz#083daac25a9e6f332d5678b1462d6f97a82251f7"
+
+"@types/highcharts@^5.0.12":
+  version "5.0.12"
+  resolved "https://registry.yarnpkg.com/@types/highcharts/-/highcharts-5.0.12.tgz#bcc7425efa3bf5ccd4def455dfe0f680e8bf3d7a"
+  dependencies:
+    "@types/geojson" "*"
 
 "@types/jasmine@2.5.38":
   version "2.5.38"
@@ -2676,6 +2686,10 @@ hawk@~6.0.2:
 he@1.1.x:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
+
+highcharts@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/highcharts/-/highcharts-6.0.3.tgz#51348a0c97d8bdc87cb3b273460e3751db4a51cd"
 
 hmac-drbg@^1.0.0:
   version "1.0.1"

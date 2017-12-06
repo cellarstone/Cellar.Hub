@@ -16,6 +16,10 @@ agm-map {
     background-color: #FFCDD2;
 }
 
+.text-center
+{
+    text-align: center !important;
+}
 
 
 
@@ -103,14 +107,22 @@ agm-map {
         border-color: #ccc;
     }
 }
-//tree icons
-#productCategory
+
+//image thumbnail
+.img-thumbnail
 {
-    .ui-tree
-    {
-        padding: 0px 0px !important;
-    }
+    padding: 0.25rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    max-width: 100%;
+    height: auto;
 }
+
+
 
 
 .newState
@@ -137,16 +149,7 @@ agm-map {
     margin: 0 auto;
 }
 
-.ui-widget-header
-{
-    background-color: #81858a !important;
-}
 
-
-.ui-datatable table
-{
-    table-layout: auto !important;
-}
 //Bootstrap button
 .btn
 {
@@ -266,24 +269,4 @@ agm-map {
         border-top-left-radius: 0;
     }
 }
-//image thumbnail
-.img-thumbnail
-{
-    padding: 0.25rem;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 0.25rem;
-    -webkit-transition: all 0.2s ease-in-out;
-    -o-transition: all 0.2s ease-in-out;
-    transition: all 0.2s ease-in-out;
-    max-width: 100%;
-    height: auto;
-}
 
-
-
-
-.text-center
-{
-    text-align: center !important;
-}

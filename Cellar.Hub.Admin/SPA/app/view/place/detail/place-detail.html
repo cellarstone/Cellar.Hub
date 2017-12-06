@@ -82,13 +82,13 @@
                             <div class="ui-g-12 ui-md-12">
                                 <label for="input">Name</label>
                                 <div class="ui-fluid">
-                                    <input id="input" type="text" pInputText [(ngModel)]="item.name" [ngClass]="{'nonvalid': !isNameValid }" />
+                                    <input id="input" type="text" pInputText [(ngModel)]="item.name" [ngClass]="{'nonvalid': !isNameValid }" (keyup)="onNameInput($event)" />
                                 </div>
                             </div>
                             <div class="ui-g-12 ui-md-12">
                                 <label for="input">Path</label>
                                 <div class="ui-fluid">
-                                    <input id="input" type="text" pInputText [(ngModel)]="item.path" [ngClass]="{'nonvalid': !isPathtitudeValid }" disabled />
+                                    <input id="input" type="text" pInputText [(ngModel)]="item.path" [ngClass]="{'nonvalid': !isPathValid }" disabled />
                                 </div>
                             </div>
                             <div class="ui-g-12 ui-md-12">
@@ -163,7 +163,7 @@
 
                 <div class="ui-g" *ngIf="item_spaces">
 
-                    <div *ngFor="let itemsb of item_subspaces" class="ui-g-12 ui-md-6 ui-lg-3">
+                    <div *ngFor="let itemsb of item_spaces" class="ui-g-12 ui-md-6 ui-lg-3">
                         <div class="ui-g card overview-box overview-box-1" (click)="selectItem(itemsb.id)">
                             <div class="ui-g-4">
                                 <div *ngIf="itemsb.state == 1" style="background-color: yellow;width: 50px;height:50px"></div>

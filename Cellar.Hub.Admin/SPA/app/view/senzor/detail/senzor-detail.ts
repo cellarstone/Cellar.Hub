@@ -1,5 +1,5 @@
 ﻿//angular
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 //primeNG
@@ -26,7 +26,6 @@ import { Message } from 'primeng/primeng';
 // import { HckService } from '../../../../service/hck.service';
 
 
-
 import { CellarSpace } from '../../../entities/CellarSpace';
 import { CellarSenzor } from '../../../entities/CellarSenzor';
 
@@ -36,12 +35,18 @@ import { IoTService } from '../../../service/iot.service';
 
 //others
 declare var jQuery: any;
+// declare var Plotly: any;
+import { chart } from 'highcharts';
 
 
 //http + rxjs
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/interval';
+import 'rxjs/add/observable/from';
+import 'rxjs/add/operator/bufferCount';
+import 'rxjs/add/operator/map';
 import { Subject } from 'rxjs/Subject';
 //import { CellarDTO } from '../../../../entities/http/CellarDTO';
-import { Observable } from 'rxjs/Observable';
 
 
 //websocket
@@ -60,11 +65,7 @@ export class SenzorDetail {
     selectedType: string;
 
     private sub: any;
-    page: number = 1;
-    itemsPerPage: number = 50;
-    search: string = '';
-
-
+    
     validations: Message[] = [];
     messagesToUser: Message[] = [];
 
@@ -83,30 +84,18 @@ export class SenzorDetail {
 
     //websockets
     public socket: Socket;
+    public socket2: Socket;
 
+    @ViewChild('chartTarget', {read: ElementRef}) chartTarget: ElementRef;
+    chart: Highcharts.ChartObject;
 
+    @ViewChild('chartTarget2', {read: ElementRef}) chartTarget2: ElementRef;
+    chart2: Highcharts.ChartObject;
 
-    // private series: any[] = [{
-    //     name: "India",
-    //     data: [3.907, 7.943, 7.848, 9.284, 9.263, 9.801, 3.890, 8.238, 9.552, 6.855]
-    // }, {
-    //     name: "Russian Federation",
-    //     data: [4.743, 7.295, 7.175, 6.376, 8.153, 8.535, 5.247, -7.832, 4.3, 4.3]
-    // }, {
-    //     name: "Germany",
-    //     data: [0.010, -0.375, 1.161, 0.684, 3.7, 3.269, 1.083, -5.127, 3.690, 2.995]
-    // }, {
-    //     name: "World",
-    //     data: [1.988, 2.733, 3.994, 3.464, 4.001, 3.939, 1.333, -2.245, 4.339, 2.727]
-    // }];
-    // private categories: number[] = [2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011];
+    
 
-    private dataSerie: any[] = [{
-        name: "Temperature",
-        data: [1]
-    }];
-    private timeSerie: number[] = [Date.now()];
-
+    public actualValue: number = 0;
+    public actualValue2: number = 0;
 
 
     constructor(
@@ -129,16 +118,15 @@ export class SenzorDetail {
         this.types.push({ label: 'CellarSenzor Camera v1.0', value: 'CellarSenzor Camera v1.0' });
 
         //websockets
-        this.socket = new Socket("localhost:8080/ws/3102temperature");
+        this.socket = new Socket("ws://localhost:8080/ws/s3102temperature");
         this.socket.on('connect', this.onConnect.bind(this));
         this.socket.on('disconnect', this.onDisconnect.bind(this));
         this.socket.on('message', this.onMessage.bind(this));
-        // this.socket.on('channel add', this.onAddChannel.bind(this));
-        // this.socket.on('user add', this.onAddUser.bind(this));
-        // this.socket.on('user edit', this.onEditUser.bind(this));
-        // this.socket.on('user remove', this.onRemoveUser.bind(this));
-        // this.socket.on('message add', this.onMessageAdd.bind(this));
-        // this.socket.on('message edit', this.onMessageEdit.bind(this));
+
+        this.socket2 = new Socket("ws://localhost:8080/ws/s3102status");
+        this.socket2.on('connect', this.onConnect2.bind(this));
+        this.socket2.on('disconnect', this.onDisconnect2.bind(this));
+        this.socket2.on('message', this.onMessage2.bind(this));
 
     }
 
@@ -148,8 +136,173 @@ export class SenzorDetail {
         //CALL WEBAPI - GET DATA
         //*********************************/
         this.getData();
+
+
+
+       
     }
+    ngAfterViewInit() {
+        const options: Highcharts.Options = {
+            chart: {
+                type: 'line',
+                // animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+                events: {
+                    // load: function () {
+        
+                    //     // set up the updating of the chart each second
+                    //     var series = this.series[0];
+                    //     setInterval(function () {
+                    //         var x = (new Date()).getTime(), // current time
+                    //             y = Math.random();
+                    //         series.addPoint([x, y], true, true);
+                    //     }, 1000);
+                    // }
+                }
+            },
+            title: {
+                text: 'Temperature °C'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150
+            },
+            yAxis: {
+                title: {
+                    text: 'Value'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            // tooltip: {
+            //     formatter: function () {
+            //         return '<b>' + this.series.name + '</b><br/>' +
+            //             this.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+            //             this.numberFormat(this.y, 2);
+            //     }
+            // },
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            // series: [{
+            //     name: 's3102',
+            //     data: []
+            // }]
+            series: [{
+                name: 'Random data',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+        
+                        // data.push({
+                        //     x: time + i * 1000,
+                        //     y: 0
+                        // });
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: 0
+                        });
+                    }
+                    return data;
+                }())
+            }]
+        };
+      
+        this.chart = chart(this.chartTarget.nativeElement, options);
+
+
+        const options2: Highcharts.Options = {
+            chart: {
+                type: 'line',
+                // animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+                events: {
+                    // load: function () {
+        
+                    //     // set up the updating of the chart each second
+                    //     var series = this.series[0];
+                    //     setInterval(function () {
+                    //         var x = (new Date()).getTime(), // current time
+                    //             y = Math.random();
+                    //         series.addPoint([x, y], true, true);
+                    //     }, 1000);
+                    // }
+                }
+            },
+            title: {
+                text: 'Status'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150
+            },
+            yAxis: {
+                title: {
+                    text: 'Value'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            // tooltip: {
+            //     formatter: function () {
+            //         return '<b>' + this.series.name + '</b><br/>' +
+            //             this.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+            //             this.numberFormat(this.y, 2);
+            //     }
+            // },
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            // series: [{
+            //     name: 's3102',
+            //     data: []
+            // }]
+            series: [{
+                name: 'Random data',
+                data: (function () {
+                    // generate an array of random data
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+        
+                        // data.push({
+                        //     x: time + i * 1000,
+                        //     y: 0
+                        // });
+
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: 0
+                        });
+                    }
+                    return data;
+                }()),
+                color: "#009688"
+            }]
+        };
+      
+        this.chart2 = chart(this.chartTarget2.nativeElement, options2);
+      }
     ngOnDestroy() {
+        this.chart = null;
+        this.chart2 = null;
         this.sub.unsubscribe();
     }
 
@@ -553,24 +706,6 @@ export class SenzorDetail {
 
     public selectState(e: any) {
         var aaa = e.srcElement.innerHTML.toLowerCase();
-
-
-
-
-        // for (var i = 0; i < this.statesList.length; i++)
-        // {
-        //     var abcd = this.statesList[i];
-
-        //     if (abcd.name.toLowerCase() == aaa)
-        //     {
-        //         this.item.state = abcd;
-        //     }
-        // }
-
-
-
-
-
         if (aaa === "new") {
             this.item.state = "1";
 
@@ -619,48 +754,39 @@ export class SenzorDetail {
     /* WEBSOCKET METHODS */
     //*********************************/
 
-    public state = {
-        channels: [],
-        users: [],
-        messages: [],
-        activeChannel: {
-            id: ''
-        },
-        connected: false
-
-    }
-
     onConnect() {
         console.log("onConnect");
-        this.state.connected = true;
-        this.socket.emit('channel subscribe', {});
-        this.socket.emit('user subscribe', {});
     }
     onDisconnect() {
         console.log("onDisconnect");
-        this.state.connected = false;
     }
 
-    // onMessageAdd(message) {
-    //     console.log(message);
-
-    //     let { messages } = this.state;
-    //     messages.push(message);
-    //     this.state.messages = messages;
-    // }
-
-    // onMessageEdit(message) {
-    //     console.log(message);
-    
+    onMessage(message) {
+        let number = parseFloat(message);
+        this.actualValue = number;
         
-    
-    //   }
+        var x = (new Date()).getTime(), // current time
+        y = Math.round(this.actualValue);
+        this.chart.series[0].addPoint([x, y], true, true)
+    }
 
-      onMessage(message) {
-        console.log(message);
-    
+    onConnect2() {
+        console.log("onConnect2");
+    }
+    onDisconnect2() {
+        console.log("onDisconnect2");
+    }
+
+    onMessage2(message) {
+        let number = parseFloat(message);
+        this.actualValue2 = number;
         
-    
-      }
+        var x = (new Date()).getTime(), // current time
+        y = Math.round(this.actualValue2);
+        this.chart2.series[0].addPoint([x, y], true, true)
+    }
+
+
+
 
 }

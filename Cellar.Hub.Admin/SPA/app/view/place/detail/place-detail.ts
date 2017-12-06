@@ -7,26 +7,6 @@ import { SelectItem } from 'primeng/primeng';
 import { Message } from 'primeng/primeng';
 
 //cellarstone
-// import { Space } from '../../../../entities/hck/product';
-// import { Product } from '../../../../entities/catalog/product';
-// import { ProductDetail } from '../../../../entities/catalog/ProductDetail';
-// import { ProductState } from '../../../../entities/catalog/ProductState';
-// import { Category } from '../../../../entities/catalog/Category';
-// import { ProductImage } from '../../../../entities/catalog/ProductImage';
-// import { ProductVideo } from '../../../../entities/catalog/ProductVideo';
-// import { Producer } from '../../../../entities/catalog/Producer';
-// import { ProductCategory } from '../../../../entities/catalog/ProductCategory';
-
-
-// import { CatalogProductHckProduct } from '../../../../entities/business/catalogproducthckproduct';
-
-
-// import { BusinessService } from '../../../../service/business.service';
-// import { CatalogService } from '../../../../service/catalog.service';
-// import { HckService } from '../../../../service/hck.service';
-
-
-
 import { CellarPlace } from '../../../entities/CellarPlace';
 import { CellarSpace } from '../../../entities/CellarSpace';
 
@@ -40,7 +20,6 @@ declare var jQuery: any;
 
 //http + rxjs
 import { Subject } from 'rxjs/Subject';
-//import { CellarDTO } from '../../../../entities/http/CellarDTO';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -58,16 +37,20 @@ export class PlaceDetail {
     item: CellarPlace;
     item_spaces: CellarSpace[];
 
-
-
     validations: Message[] = [];
     messagesToUser: Message[] = [];
 
     //validation properties
-    isStateValid: boolean = true;
-    isMainPictureValid: boolean = true;
     isNameValid: boolean = true;
     isPathValid: boolean = true;
+    isCountryValid: boolean = true;
+    isCityValid: boolean = true;
+    isStreetValid: boolean = true;
+    isZipCodeValid: boolean = true;
+    isLatitudeValid: boolean = true;
+    isLongtitudeValid: boolean = true;
+    isStateValid: boolean = true;
+    isMainPictureValid: boolean = true;
 
 
     constructor(
@@ -87,6 +70,17 @@ export class PlaceDetail {
     }
 
 
+    onNameInput(event: any){
+
+        var asdf = event.target.value.toString();
+
+        var asdf2 = asdf.replace(/ /g, "-");
+
+        var asdf3 = asdf2.toLowerCase();
+
+
+        this.item.path = "/" + asdf3;
+    }
 
 
     //*********************************/
@@ -118,7 +112,7 @@ export class PlaceDetail {
 
                         let ss2 = new CellarPlace().New(ressss.data);
 
-                        let subspacesPath = ss2.getSubPath();
+                        let subspacesPath = ss2.path;
 
                         this.iotservice.GetCellarSpaces(subspacesPath)
                             .subscribe(aaa => {
@@ -183,10 +177,6 @@ export class PlaceDetail {
 
     private savePlace() {
 
-
-
-
-
         //validace
         if (this.item.state === "0") {
             this.validations.push({
@@ -237,12 +227,13 @@ export class PlaceDetail {
                         if (response.isOK) {
                             this.item = <CellarPlace>response.data;
 
+                            this.sharedService.routeBack();
 
-                            this.messagesToUser.push({
-                                severity: 'success',
-                                summary: '! UPDATED !',
-                                detail: 'Product has been updated'
-                            });
+                            // this.messagesToUser.push({
+                            //     severity: 'success',
+                            //     summary: '! UPDATED !',
+                            //     detail: 'Product has been updated'
+                            // });
                         }
                         //NON-VALID ze serveru
                         else if (!response.isValid) {
@@ -299,7 +290,7 @@ export class PlaceDetail {
                         });
                     },
                     () => {
-                        console.log('saveProduct() completed');
+                        console.log('savePlace() completed');
                     });
             }
             //ZALOZENI noveho produktu
@@ -319,7 +310,7 @@ export class PlaceDetail {
                             //    detail: 'Product has been added'
                             //});
 
-                            this.router.navigate(['place/' + this.item.id]);
+                            this.sharedService.routeBack();
 
                         }
                         //NON-VALID ze serveru
@@ -394,23 +385,6 @@ export class PlaceDetail {
 
     public selectState(e: any) {
         var aaa = e.srcElement.innerHTML.toLowerCase();
-
-
-
-
-        // for (var i = 0; i < this.statesList.length; i++)
-        // {
-        //     var abcd = this.statesList[i];
-
-        //     if (abcd.name.toLowerCase() == aaa)
-        //     {
-        //         this.item.state = abcd;
-        //     }
-        // }
-
-
-
-
 
         if (aaa === "new") {
             this.item.state = "1";

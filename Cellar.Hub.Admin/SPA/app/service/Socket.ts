@@ -5,7 +5,7 @@ export class Socket {
   private ee: EventEmitter;
 
   constructor(url: string){
-    this.ws = new WebSocket("ws://"+url);
+    this.ws = new WebSocket(url);
     this.ee = new EventEmitter();
     this.ws.onmessage = this.message.bind(this);
     this.ws.onopen = this.open.bind(this);

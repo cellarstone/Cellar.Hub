@@ -11,7 +11,7 @@ export class SharedService
     public datatable_Metadata: DatatableModel;
 
     public currentUrl: string;
-    public backButtonUrl: string;
+    public backButtonUrl: string = "/";
     
     constructor(private router: Router)
     { }
