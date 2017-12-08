@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable'
 
 import { CellarDTO } from '../entities/http/CellarDTO';
 
 import { environment } from '../../environments/environment';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 
 
@@ -20,11 +20,11 @@ export class CdnService {
 
 
 
-    private headers: Headers;
+    private headers: HttpHeaders;
 
 
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
         if (this.isProduction == true && this.isHttps == true) {
             this.serverUrl = "https://cellar.hub.cdn:8884";
         }
@@ -49,12 +49,22 @@ export class CdnService {
 
         console.log('setHeaders started');
 
-        this.headers = new Headers();
-        // this.headers.append('Content-Type', 'multipart/form-data');
-        this.headers.append('Accept', 'application/json');
+        let headerJson = {
+            // 'Content-Type':'application/json',
+            'Accept':'application/json',
+            'Access-Control-Allow-Methods':'*',
+            'Access-Control-Allow-Origin':'*'
+            }
+            
+        this.headers = new HttpHeaders(headerJson );
 
-        this.headers.append('Access-Control-Allow-Methods', '*');
-        this.headers.append('Access-Control-Allow-Origin', '*');
+
+        // this.headers = new HttpHeaders();
+        // // this.headers.append('Content-Type', 'multipart/form-data');
+        // this.headers.append('Accept', 'application/json');
+
+        // this.headers.append('Access-Control-Allow-Methods', '*');
+        // this.headers.append('Access-Control-Allow-Origin', '*');
 
         // let token = this._securityService.GetToken();
         // if (token !== '')
@@ -80,10 +90,9 @@ export class CdnService {
 
         
         this.setHeaders();
-        let options = new RequestOptions({ headers: this.headers });
+        let options = { headers: this.headers };
 
         return this.http.post(this.url_upload, input, options)
-            .map(this.extractData)
             .catch(this.handleError);
     }
 
@@ -96,10 +105,9 @@ export class CdnService {
 
         this.setHeaders();
         this.headers.delete('Content-Type');
-        let options = new RequestOptions({ headers: this.headers });
+        let options = { headers: this.headers };
 
         return this.http.post(this.url_uploadFullSmall, input, options)
-            .map(this.extractData)
             .catch(this.handleError);
     }
 
@@ -111,10 +119,6 @@ export class CdnService {
     /**********************************************/
     /*              HELPERS                    */
     /**********************************************/
-    private extractData(res: Response): any {
-        let body = res.json();
-        return body || {};
-    }
     private handleError(error: any): Promise<any> {
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);

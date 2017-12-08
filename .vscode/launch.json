@@ -50,7 +50,7 @@
             "name": "Cdn debug",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "buildCdn",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceRoot}/Cellar.Hub.Cdn/bin/Debug/netcoreapp2.0/Cellar.Hub.Cdn.dll",
             "args": [],
@@ -60,7 +60,7 @@
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "production"
             }
         },
         {

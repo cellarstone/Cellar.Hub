@@ -30,4 +30,4 @@ export const routes: Routes = [
     { path: 'senzor/:id', component: SenzorDetail }
 ];
 
-export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);
+// export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);

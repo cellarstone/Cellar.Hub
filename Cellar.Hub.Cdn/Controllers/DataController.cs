@@ -19,7 +19,7 @@ namespace Cellar.Hub.Cdn.Controllers
     {
         ILogger<DataController> _log;
 
-private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
 
         private string _imageFolder;
@@ -32,10 +32,10 @@ private readonly IHostingEnvironment _hostingEnvironment;
             _hostingEnvironment = hostingEnvironment;
             _imageFolder = configuration.GetValue<string>("Paths:ImageFolder");
             _cdnUrl = configuration.GetValue<string>("Paths:CdnUrl");
-            
+
         }
 
-        
+
         [HttpPost]
         public CellarDTO Upload(IFormFile file)
         {
@@ -54,7 +54,7 @@ private readonly IHostingEnvironment _hostingEnvironment;
                             .Trim().ToString();
 
                     //odebrani pripony
-                    var extension = fileName.Split('.').Last().Replace("\"","");
+                    var extension = fileName.Split('.').Last().Replace("\"", "");
                     fileName = fileName.Replace("." + extension, "");
 
                     //vygenerovani unikatniho jmena a ulozeni do temp adresare
@@ -62,14 +62,14 @@ private readonly IHostingEnvironment _hostingEnvironment;
                     var uniqueName = GetRandomName();
                     var contentPath = _hostingEnvironment.ContentRootPath;
                     var dataPath = contentPath + _imageFolder;
-                    var uniqueTempFileWithPath = Path.Combine( dataPath, uniqueName) ;
+                    var uniqueTempFileWithPath = Path.Combine(dataPath, uniqueName);
                     // using (FileStream fs = System.IO.File.Create(uniqueTempFileWithPath))
                     // {
                     //     file.CopyTo(fs);
                     //     fs.Flush();
                     // }
 
-                    using (FileStream fs = System.IO.File.Create(uniqueTempFileWithPath+"."+extension))
+                    using (FileStream fs = System.IO.File.Create(uniqueTempFileWithPath + "." + extension))
                     {
                         file.CopyTo(fs);
                         fs.Flush();
@@ -90,7 +90,7 @@ private readonly IHostingEnvironment _hostingEnvironment;
 
 
                     //Vratime celou cestu k image serveru
-                    string result = _cdnUrl + "/Data/" + uniqueName+"."+extension;
+                    string result = _cdnUrl + "/Data/" + uniqueName + "." + extension;
 
                     return CellarDTO.Data(result);
                 }
@@ -280,13 +280,13 @@ private readonly IHostingEnvironment _hostingEnvironment;
 
 
 
-// //GET api/download/12345abc
-//     [HttpGet("{id}"]
-//     public async Task<IActionResult> Download(string id) {
-//         var stream = await {{__get_stream_here__}}
-//         var response = File(stream, "application/octet-stream"); // FileStreamResult
-//         return response;
-//     }    
+        // //GET api/download/12345abc
+        //     [HttpGet("{id}"]
+        //     public async Task<IActionResult> Download(string id) {
+        //         var stream = await {{__get_stream_here__}}
+        //         var response = File(stream, "application/octet-stream"); // FileStreamResult
+        //         return response;
+        //     }    
 
 
 
@@ -296,7 +296,7 @@ private readonly IHostingEnvironment _hostingEnvironment;
         //     String accessKey = null;
         //     String secretKey = null;
         //     bool enableHTTPS = false;
-            
+
         //         endPoint = "localhost:9000";
         //         accessKey = "W8816E7MZJFHQ8W93PDU";
         //         secretKey = "0aAg9kLYhWVMrvICSJNYPfqN0P5jbqD/wBiqggjY";
@@ -333,7 +333,7 @@ private readonly IHostingEnvironment _hostingEnvironment;
 
 
         //             }).Wait();
-                
+
         //         }
         //         catch (Exception e)
         //         {
@@ -341,7 +341,7 @@ private readonly IHostingEnvironment _hostingEnvironment;
         //         }
 
 
-                
+
 
         //        return result;
         //     }

@@ -13,6 +13,15 @@
             "problemMatcher": "$msCompile"
         },
         {
+            "label": "buildCdn",
+            "command": "dotnet build",
+            "type": "shell",
+            "args": [
+                "${workspaceRoot}/Cellar.Hub.Cdn/Cellar.Hub.Cdn.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
             "label": "build",
             "command": "dotnet build",
             "type": "shell",

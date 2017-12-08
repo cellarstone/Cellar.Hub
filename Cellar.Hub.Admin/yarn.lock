@@ -157,6 +157,22 @@
   dependencies:
     tslib "^1.7.1"
 
+"@ngrx/effects@^4.0.5":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-4.1.1.tgz#cb758b8527964b258ea41951f59aa144e3ef9fae"
+
+"@ngrx/router-store@^4.0.4":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/router-store/-/router-store-4.1.1.tgz#17fac7c0f5ffddef8b75e9a74ed2cb09074f3bca"
+
+"@ngrx/store-devtools@4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-4.0.0.tgz#b79c24773217df7fd9735ad21f9cbf2533c96e04"
+
+"@ngrx/store@^4.0.3":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-4.1.1.tgz#680e34df2775e8852754ed777ffac95bd81b7de0"
+
 "@ngtools/json-schema@1.1.0", "@ngtools/json-schema@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@ngtools/json-schema/-/json-schema-1.1.0.tgz#c3a0c544d62392acc2813a42c8a0dc6f58f86922"
@@ -260,6 +276,10 @@
 "@types/jasmine@2.5.38":
   version "2.5.38"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.5.38.tgz#a4379124c4921d4e21de54ec74669c9e9b356717"
+
+"@types/lodash@^4.14.52":
+  version "4.14.88"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.88.tgz#97eaf2dc668f33ed8e511a5b627035f4ea20b0f5"
 
 "@types/node@^6.0.46", "@types/node@~6.0.60":
   version "6.0.92"
@@ -2686,6 +2706,10 @@ hawk@~6.0.2:
 he@1.1.x:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/he/-/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
+
+highcharts-exporting@0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/highcharts-exporting/-/highcharts-exporting-0.1.2.tgz#49850e5a4dab2a4a88e83e8a1f143bc1c2250daf"
 
 highcharts@^6.0.3:
   version "6.0.3"

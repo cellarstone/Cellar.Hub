@@ -7,7 +7,7 @@
 #sudo docker network rm ${Docker_Hub_Network}
 
 #ln -s ~/Dropbox/Cellar.Hub hubDropbox
-cd Dropbox/Cellar.Hub
+#cd Dropbox/Cellar.Hub
 
 
 # SET ENVIRONMENT
@@ -19,6 +19,10 @@ export ASPNETCORE_ENVIRONMENT="Development"
 sudo docker build -t cellar.hub.api .
 sudo docker run -d -p 8885:8885 -t cellar.hub.api
 
+# Cdn
+sudo docker build -t cellar.hub.cdn .
+sudo docker run -d -p 8884:8884 -t cellar.hub.cdn
+
 
 # Mosquitto - MQTT
 sudo docker build -t cellar.hub.mqtt .
@@ -27,12 +31,6 @@ sudo docker run -d -p 1883:1883 -p 9001:9001 -t cellar.hub.mqtt
 # MongoDB
 sudo docker build -t cellar.hub.mongodb .
 sudo docker run -d -p 27017:27017 -t cellar.hub.mongodb
-
-# Minio
-sudo docker build -t cellar.hub.minio .
-sudo docker run -d -p 9000:9000 -t cellar.hub.minio
-# original command
-docker run -p 9000:9000 minio/minio server /data
 
 
 #Fluentd
@@ -84,9 +82,11 @@ sudo docker run -d -p 8080:8080 -t cellar.hub.websockets
 sudo docker run -it cellar.hub.websockets
 
 # docker-compose variants
-sudo docker-compose -f docker-compose.linux.yml up --build
 sudo docker-compose -f docker-compose.api.linux.yml up --build
 sudo docker-compose -f docker-compose.workflow.linux.yml up --build
+
+# DEV
+sudo docker-compose -f docker-compose.full.development.linux.yml up --build
 
 # PROD
 sudo docker-compose -f docker-compose.production.yml up --build

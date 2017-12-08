@@ -1,92 +1,95 @@
-import {NgModule}      from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import { HttpModule } from '@angular/http';
+// Angular
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {BrowserModule} from '@angular/platform-browser';
-import {LocationStrategy,HashLocationStrategy} from '@angular/common';
-import {AppRoutes} from './app.routes';
-import 'rxjs/add/operator/toPromise';
+import { BrowserModule } from '@angular/platform-browser';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 // RxJS
 import 'rxjs';
 import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/flatMap';
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/toPromise';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
-
-
+//ngRx
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule, routerReducer, RouterStateSerializer } from '@ngrx/router-store';
 
 //PrimeNG
-import {AccordionModule} from 'primeng/primeng';
-import {AutoCompleteModule} from 'primeng/primeng';
-import {BreadcrumbModule} from 'primeng/primeng';
-import {ButtonModule} from 'primeng/primeng';
-import {CalendarModule} from 'primeng/primeng';
-import {CarouselModule} from 'primeng/primeng';
-import {ChartModule} from 'primeng/primeng';
-import {CheckboxModule} from 'primeng/primeng';
-import {ChipsModule} from 'primeng/primeng';
-import {CodeHighlighterModule} from 'primeng/primeng';
-import {ConfirmDialogModule} from 'primeng/primeng';
-import {SharedModule} from 'primeng/primeng';
-import {ContextMenuModule} from 'primeng/primeng';
-import {DataGridModule} from 'primeng/primeng';
-import {DataListModule} from 'primeng/primeng';
-import {DataScrollerModule} from 'primeng/primeng';
-import {DataTableModule} from 'primeng/primeng';
-import {DialogModule} from 'primeng/primeng';
-import {DragDropModule} from 'primeng/primeng';
-import {DropdownModule} from 'primeng/primeng';
-import {EditorModule} from 'primeng/primeng';
-import {FieldsetModule} from 'primeng/primeng';
-import {FileUploadModule} from 'primeng/primeng';
-import {GalleriaModule} from 'primeng/primeng';
-import {GMapModule} from 'primeng/primeng';
-import {GrowlModule} from 'primeng/primeng';
-import {InputMaskModule} from 'primeng/primeng';
-import {InputSwitchModule} from 'primeng/primeng';
-import {InputTextModule} from 'primeng/primeng';
+import { AccordionModule } from 'primeng/primeng';
+import { AutoCompleteModule } from 'primeng/primeng';
+import { BreadcrumbModule } from 'primeng/primeng';
+import { ButtonModule } from 'primeng/primeng';
+import { CalendarModule } from 'primeng/primeng';
+import { CarouselModule } from 'primeng/primeng';
+import { ChartModule } from 'primeng/primeng';
+import { CheckboxModule } from 'primeng/primeng';
+import { ChipsModule } from 'primeng/primeng';
+import { CodeHighlighterModule } from 'primeng/primeng';
+import { ConfirmDialogModule } from 'primeng/primeng';
+import { SharedModule } from 'primeng/primeng';
+import { ContextMenuModule } from 'primeng/primeng';
+import { DataGridModule } from 'primeng/primeng';
+import { DataListModule } from 'primeng/primeng';
+import { DataScrollerModule } from 'primeng/primeng';
+import { DataTableModule } from 'primeng/primeng';
+import { DialogModule } from 'primeng/primeng';
+import { DragDropModule } from 'primeng/primeng';
+import { DropdownModule } from 'primeng/primeng';
+import { EditorModule } from 'primeng/primeng';
+import { FieldsetModule } from 'primeng/primeng';
+import { FileUploadModule } from 'primeng/primeng';
+import { GalleriaModule } from 'primeng/primeng';
+import { GMapModule } from 'primeng/primeng';
+import { GrowlModule } from 'primeng/primeng';
+import { InputMaskModule } from 'primeng/primeng';
+import { InputSwitchModule } from 'primeng/primeng';
+import { InputTextModule } from 'primeng/primeng';
 import { InputTextareaModule } from 'primeng/primeng';
 import { InplaceModule } from 'primeng/primeng';
-import {LightboxModule} from 'primeng/primeng';
-import {ListboxModule} from 'primeng/primeng';
-import {MegaMenuModule} from 'primeng/primeng';
-import {MenuModule} from 'primeng/primeng';
-import {MenubarModule} from 'primeng/primeng';
-import {MessagesModule} from 'primeng/primeng';
-import {MultiSelectModule} from 'primeng/primeng';
-import {OrderListModule} from 'primeng/primeng';
-import {OverlayPanelModule} from 'primeng/primeng';
-import {PaginatorModule} from 'primeng/primeng';
-import {PanelModule} from 'primeng/primeng';
-import {PanelMenuModule} from 'primeng/primeng';
-import {PasswordModule} from 'primeng/primeng';
-import {PickListModule} from 'primeng/primeng';
+import { LightboxModule } from 'primeng/primeng';
+import { ListboxModule } from 'primeng/primeng';
+import { MegaMenuModule } from 'primeng/primeng';
+import { MenuModule } from 'primeng/primeng';
+import { MenubarModule } from 'primeng/primeng';
+import { MessagesModule } from 'primeng/primeng';
+import { MultiSelectModule } from 'primeng/primeng';
+import { OrderListModule } from 'primeng/primeng';
+import { OverlayPanelModule } from 'primeng/primeng';
+import { PaginatorModule } from 'primeng/primeng';
+import { PanelModule } from 'primeng/primeng';
+import { PanelMenuModule } from 'primeng/primeng';
+import { PasswordModule } from 'primeng/primeng';
+import { PickListModule } from 'primeng/primeng';
 // import {ProgressBarModule} from 'primeng/primeng';
-import {RadioButtonModule} from 'primeng/primeng';
-import {RatingModule} from 'primeng/primeng';
-import {ScheduleModule} from 'primeng/primeng';
-import {SelectButtonModule} from 'primeng/primeng';
-import {SlideMenuModule} from 'primeng/primeng';
-import {SliderModule} from 'primeng/primeng';
-import {SpinnerModule} from 'primeng/primeng';
-import {SplitButtonModule} from 'primeng/primeng';
-import {StepsModule} from 'primeng/primeng';
-import {TabMenuModule} from 'primeng/primeng';
-import {TabViewModule} from 'primeng/primeng';
-import {TerminalModule} from 'primeng/primeng';
-import {TieredMenuModule} from 'primeng/primeng';
-import {ToggleButtonModule} from 'primeng/primeng';
-import {ToolbarModule} from 'primeng/primeng';
-import {TooltipModule} from 'primeng/primeng';
-import {TreeModule} from 'primeng/primeng';
-import {TreeTableModule} from 'primeng/primeng';
+import { RadioButtonModule } from 'primeng/primeng';
+import { RatingModule } from 'primeng/primeng';
+import { ScheduleModule } from 'primeng/primeng';
+import { SelectButtonModule } from 'primeng/primeng';
+import { SlideMenuModule } from 'primeng/primeng';
+import { SliderModule } from 'primeng/primeng';
+import { SpinnerModule } from 'primeng/primeng';
+import { SplitButtonModule } from 'primeng/primeng';
+import { StepsModule } from 'primeng/primeng';
+import { TabMenuModule } from 'primeng/primeng';
+import { TabViewModule } from 'primeng/primeng';
+import { TerminalModule } from 'primeng/primeng';
+import { TieredMenuModule } from 'primeng/primeng';
+import { ToggleButtonModule } from 'primeng/primeng';
+import { ToolbarModule } from 'primeng/primeng';
+import { TooltipModule } from 'primeng/primeng';
+import { TreeModule } from 'primeng/primeng';
+import { TreeTableModule } from 'primeng/primeng';
 
 //HammerJS - because Kendo UI wants it
 import 'hammerjs';
-
 
 //KENDO UI
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
@@ -98,44 +101,61 @@ import { InlineSVGModule } from 'ng-inline-svg';
 //Google maps
 import { AgmCoreModule } from '@agm/core';
 
-
-//CELLARSTONE COMPONENTS
-import {AppComponent}  from './app.component';
+//CELLARSTONE COMPONENTS ------------------------------------
+import { AppComponent } from './app.component';
 
 import { SharedService } from './service/shared.service';
 import { IoTService } from './service/iot.service';
 import { CdnService } from './service/cdn.service';
 
-import {AppMenuComponent,AppSubMenu}  from './app.menu.component';
-import {AppTopBar}  from './app.topbar.component';
-import {AppFooter}  from './app.footer.component';
-import {DashboardDemo} from './view/dashboard/dashboarddemo';
+import { AppMenuComponent, AppSubMenu } from './app.menu.component';
+import { AppTopBar } from './app.topbar.component';
+import { AppFooter } from './app.footer.component';
+import { DashboardDemo } from './view/dashboard/dashboarddemo';
 
 //places
-import {PlaceDashboard} from './view/place/dashboard/place-dashboard';
-import {PlaceDetail} from './view/place/detail/place-detail';
+import { PlaceDashboard } from './view/place/dashboard/place-dashboard';
+import { PlaceDetail } from './view/place/detail/place-detail';
 
 //spaces
-import {SpaceDashboard} from './view/space/dashboard/space-dashboard';
-import {SpaceDetail} from './view/space/detail/space-detail';
-import {SpaceList} from './view/space/list/space-list';
+import { SpaceDashboard } from './view/space/dashboard/space-dashboard';
+import { SpaceDetail } from './view/space/detail/space-detail';
+import { SpaceList } from './view/space/list/space-list';
 
 //senzors
-import {SenzorDashboard} from './view/senzor/dashboard/senzor-dashboard';
-import {SenzorDetail} from './view/senzor/detail/senzor-detail';
-import {SenzorList} from './view/senzor/list/senzor-list';
+import { SenzorDashboard } from './view/senzor/dashboard/senzor-dashboard';
+import { SenzorDetail } from './view/senzor/detail/senzor-detail';
+import { SenzorList } from './view/senzor/list/senzor-list';
 
+//Router
+import { routes } from './app.routes';
 
+//State
+import { reducers } from 'app/state/reducers/main.reducer';
+import { EffectService } from 'app/state/effects/effects';
+// import { INITIAL_APPLICATION_STATE } from './store/todo.state';
+import { CustomSerializer } from './state/router-settings';
+import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
+import { ProgressBarModule } from 'primeng/components/progressbar/progressbar';
 
 
 
 @NgModule({
     imports: [
+        //Angular
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
-        AppRoutes,
-        HttpModule,
+        RouterModule.forRoot(routes),
+        HttpClientModule,
+        //ngRx
+        StoreModule.forRoot(reducers, {initialState: INITIAL_APPLICATION_STATE}),
+        StoreDevtoolsModule.instrument({
+          maxAge: 25
+        }),
+        EffectsModule.forRoot([EffectService]),
+        StoreRouterConnectingModule,
+        //PrimeNG
         AccordionModule,
         AutoCompleteModule,
         BreadcrumbModule,
@@ -181,7 +201,7 @@ import {SenzorList} from './view/senzor/list/senzor-list';
         PanelMenuModule,
         PasswordModule,
         PickListModule,
-        // ProgressBarModule,
+        ProgressBarModule,
         RadioButtonModule,
         RatingModule,
         ScheduleModule,
@@ -211,7 +231,7 @@ import {SenzorList} from './view/senzor/list/senzor-list';
         //Google maps
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyCzctD36QgFcCo-CwKjSBY68CDI80BSoTc'
-          })
+        })
     ],
     declarations: [
         AppComponent,
@@ -231,10 +251,11 @@ import {SenzorList} from './view/senzor/list/senzor-list';
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
+        { provide: RouterStateSerializer, useClass: CustomSerializer },
         IoTService,
         CdnService,
         SharedService
     ],
-    bootstrap:[AppComponent]
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

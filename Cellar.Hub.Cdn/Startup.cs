@@ -60,8 +60,8 @@ namespace Cellar.Hub.Cdn
             app.UseStaticFiles(new StaticFileOptions()
             {
                 FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), @"Data")),
-                RequestPath = new PathString("/Data")
+                    Path.Combine(Directory.GetCurrentDirectory(), @"data")),
+                RequestPath = new PathString("/data")
             });
 
             app.UseMvcWithDefaultRoute();
