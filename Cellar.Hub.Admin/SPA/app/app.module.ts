@@ -137,6 +137,8 @@ import { EffectService } from 'app/state/effects/effects';
 import { CustomSerializer } from './state/router-settings';
 import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
 import { ProgressBarModule } from 'primeng/components/progressbar/progressbar';
+import { BaseInfoComponent } from './components/senzor/base-info/base-info.component';
+import { RouterEffects } from 'app/state/effects/router-effects';
 
 
 
@@ -153,7 +155,7 @@ import { ProgressBarModule } from 'primeng/components/progressbar/progressbar';
         StoreDevtoolsModule.instrument({
           maxAge: 25
         }),
-        EffectsModule.forRoot([EffectService]),
+        EffectsModule.forRoot([EffectService, RouterEffects]),
         StoreRouterConnectingModule,
         //PrimeNG
         AccordionModule,
@@ -247,7 +249,8 @@ import { ProgressBarModule } from 'primeng/components/progressbar/progressbar';
         SenzorDetail,
         SenzorList,
         PlaceDashboard,
-        PlaceDetail
+        PlaceDetail,
+        BaseInfoComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

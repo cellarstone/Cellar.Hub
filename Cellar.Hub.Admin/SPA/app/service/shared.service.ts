@@ -9,28 +9,28 @@ export class SharedService
 {
     public datatable_Metadata: DatatableModel;
 
-    public currentUrl: string;
-    public backButtonUrl: string = "/";
+    // public currentUrl: string;
+    // public backButtonUrl: string = "/";
     
     constructor(private router: Router)
     { }
 
 
-    route(route: string){
-        console.log("Route to > " + route);
-        this.backButtonUrl = this.currentUrl;
-        this.router.navigate([route]);
-    }
+    // route(route: string){
+    //     console.log("Route to > " + route);
+    //     this.backButtonUrl = this.currentUrl;
+    //     this.router.navigate([route]);
+    // }
 
-    routeBack(){
-        console.log("Route back > " + this.backButtonUrl);
-        this.router.navigate([this.backButtonUrl]);
-    }
+    // routeBack(){
+    //     console.log("Route back > " + this.backButtonUrl);
+    //     this.router.navigate([this.backButtonUrl]);
+    // }
 
-    setCurrentRoute(){
-        console.log("Set current Route > " + this.router.url);
-        this.currentUrl = this.router.url;
-    }
+    // setCurrentRoute(){
+    //     console.log("Set current Route > " + this.router.url);
+    //     this.currentUrl = this.router.url;
+    // }
 
 
 

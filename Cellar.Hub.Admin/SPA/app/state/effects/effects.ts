@@ -1,19 +1,50 @@
 import { Injectable } from '@angular/core';
-import {Observable} from "rxjs";
-import {Action} from "@ngrx/store";
-import {Actions, Effect} from "@ngrx/effects";
+import { Observable } from "rxjs";
+import { Action } from "@ngrx/store";
+import { Actions, Effect, toPayload } from "@ngrx/effects";
 import { IoTService } from 'app/service/iot.service';
-import { LOAD_CELLAR_PLACES, LoadCellarPlacesSuccessAction } from 'app/state/actions/actions';
+import { LOAD_CELLAR_PLACES, LoadCellarPlacesSuccessAction, LOAD_CELLAR_SENZOR, LoadCellarSenzorSuccessAction } from 'app/state/actions/actions';
 import { CellarPlace } from 'app/entities/CellarPlace';
+import { CellarSenzor } from 'app/entities/CellarSenzor';
+import { CellarDTO } from 'app/entities/http/CellarDTO';
 
 @Injectable()
 export class EffectService {
 
-  constructor(private actions$: Actions, private iotService: IoTService) {}
+  constructor(private actions$: Actions, private iotservice: IoTService) { }
 
   @Effect() placesEffect$: Observable<Action> = this.actions$
-      .ofType(LOAD_CELLAR_PLACES)
-      .switchMap(() => this.iotService.GetAllCellarPlaces())
-      .map(items => new LoadCellarPlacesSuccessAction(<CellarPlace[]>items.data) );
+    .ofType(LOAD_CELLAR_PLACES)
+    .switchMap(() => this.iotservice.GetAllCellarPlaces())
+    .map(items => new LoadCellarPlacesSuccessAction(<CellarPlace[]>items.data));
+
+  @Effect() loadSenzorEffect$: Observable<Action> = this.actions$
+    .ofType(LOAD_CELLAR_SENZOR)
+    .map(toPayload)
+    .switchMap((payload) => {
+
+      //new senzor
+      if (payload == 0) {
+
+        //create a new senzor
+        var res = new CellarDTO();
+        var aaa = new CellarSenzor();
+
+        //set senzor state
+        aaa.state = "1";
+
+        res.data = aaa;
+
+        return Observable.of(res);
+      }
+      //editing existing senzor   
+      else {
+
+        return this.iotservice.GetCellarSenzor(payload);
+      }
+      
+    })
+    .map(item => new LoadCellarSenzorSuccessAction(<CellarSenzor>item.data));
+
 
 }

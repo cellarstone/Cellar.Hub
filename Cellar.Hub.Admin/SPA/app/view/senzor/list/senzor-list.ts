@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, ChangeDetectorRef} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable'
 
@@ -11,7 +11,10 @@ import { SharedService } from '../../../service/shared.service';
 
 import { CellarSenzor } from '../../../entities/CellarSenzor';
 import { IoTService } from '../../../service/iot.service';
+import { ApplicationState } from 'app/state/state/application.state';
+import { Store } from '@ngrx/store';
 
+import * as RouterActions from 'app/state/actions/router-actions';
 
 @Component({
     selector: 'senzor-list',
@@ -20,7 +23,7 @@ import { IoTService } from '../../../service/iot.service';
     encapsulation: ViewEncapsulation.None
 })
 export class SenzorList implements OnInit {
-    
+
     private sub: any;
 
     rawItems: Array<CellarSenzor>;
@@ -43,14 +46,14 @@ export class SenzorList implements OnInit {
 
     constructor(private route: ActivatedRoute,
         private router: Router,
+        private store: Store<ApplicationState>,
         private iotservice: IoTService,
         private sharedService: SharedService,
-        private changeDetectorRef: ChangeDetectorRef) { 
-            this.sharedService.setCurrentRoute();
-        }
+        private changeDetectorRef: ChangeDetectorRef) {
+        this.sharedService.setCurrentRoute();
+    }
 
-    ngOnInit()
-    {
+    ngOnInit() {
         this.getData();
 
         this.states = [];
@@ -79,27 +82,27 @@ export class SenzorList implements OnInit {
 
 
     //zalozeni noveho produktu
-    newSenzor()
-    {
-        this.sharedService.route('senzor/' + 0);
+    newSenzor() {
+        this.store.dispatch(new RouterActions.Go({
+            path: ['senzor/' + 0]
+        }));
+
+        // this.sharedService.route('senzor/' + 0);
     }
 
 
 
     //Ziskani dat ze serveru
-    private getData()
-    {
+    private getData() {
         console.log('SenzorList getData()');
-        
+
         //HTTP call
-         this.iotservice.GetAllCellarSenzors()
-            .subscribe(res =>
-            {
+        this.iotservice.GetAllCellarSenzors()
+            .subscribe(res => {
                 let response = res;
 
                 //BEZ CHYB ze serveru
-                if (response.isOK)
-                {
+                if (response.isOK) {
                     this.items = <Array<CellarSenzor>>response.data;
 
                     this.rawItems = <Array<CellarSenzor>>response.data;
@@ -109,37 +112,31 @@ export class SenzorList implements OnInit {
                     var i = 5;
                 }
                 //NON-VALID ze serveru
-                else if (!response.isValid)
-                {
+                else if (!response.isValid) {
                     //???
                     console.error(response.validations);
                 }
                 //custom ERROR ze serveru
-                else if (response.isCustomError)
-                {
+                else if (response.isCustomError) {
                     //???
                     console.error(response.customErrorText);
                 }
                 //identity ERROR ze serveru
-                else if (response.isIdentityError)
-                {
+                else if (response.isIdentityError) {
                     //???
                     console.error(response.identityErrorText);
                 }
                 //EXCEPTION ze serveru
-                else if (response.isException)
-                {
+                else if (response.isException) {
                     //???
                     console.error(response.exceptionText);
                 }
 
             },
-            error =>
-            {
+            error => {
                 console.error(error);
             },
-            () =>
-            {
+            () => {
                 console.log('getData() completed');
             });
     }
@@ -156,39 +153,30 @@ export class SenzorList implements OnInit {
 
 
 
-    onFilter(event)
-    {
-        if (event && event.filters)
-        {
+    onFilter(event) {
+        if (event && event.filters) {
             var tempColl = new Array<CellarSenzor>();
             var tempColl2 = new Array<CellarSenzor>();
 
 
-            
-            if (event.filters["state.name"])
-            {
+
+            if (event.filters["state.name"]) {
                 let value = event.filters["state.name"].value;
 
 
-                if (tempColl.length == 0)
-                {
-                    for (let entry of this.rawItems)
-                    {
+                if (tempColl.length == 0) {
+                    for (let entry of this.rawItems) {
 
-                        if (entry.state.toLowerCase().includes(value.toLowerCase()))
-                        {
+                        if (entry.state.toLowerCase().includes(value.toLowerCase())) {
                             tempColl.push(entry);
                         }
 
                     }
                 }
-                else
-                {
-                    for (let entry of tempColl)
-                    {
+                else {
+                    for (let entry of tempColl) {
 
-                        if (entry.state.toLowerCase().includes(value.toLowerCase()))
-                        {
+                        if (entry.state.toLowerCase().includes(value.toLowerCase())) {
                             tempColl2.push(entry);
                         }
 
@@ -198,25 +186,21 @@ export class SenzorList implements OnInit {
 
 
 
-            if (tempColl2.length != 0)
-            {
+            if (tempColl2.length != 0) {
                 this.items = tempColl2;
             }
-            else if (tempColl2.length == 0)
-            {
+            else if (tempColl2.length == 0) {
                 this.items = tempColl;
             }
-            else if (tempColl2.length == 0)
-            {
+            else if (tempColl2.length == 0) {
                 this.items = this.rawItems;
             }
-            
+
         }
     }
 
     //Vybrani existujiciho produktu z kolekce
-    onRowSelect(event)
-    {
+    onRowSelect(event) {
         var aaa = this.dataTable.filters;
         var bbb = this.dataTable.first; //cislo aktualniho radku ??
         var ccc = this.dataTable.multiSortMeta;
@@ -319,5 +303,5 @@ export class SenzorList implements OnInit {
 
 
 
-    
+
 }

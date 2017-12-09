@@ -1,194 +1,76 @@
-﻿<h1 (click)="log()">
-    Senzor Detail</h1>
+﻿<h1>Senzor Detail</h1>
 
-<div id="senzorDetail">
+<div id="senzor-detail">
 
-
-    <!--*********************************************************************************************-->
-    <!--*********************************************************************************************-->
-    <!--VALIDATIONS, MESSAGES ... etc.-->
-    <!--*********************************************************************************************-->
-    <!--*********************************************************************************************-->
-
-    <p-messages [value]="messagesToUser"></p-messages>
-
-    <p-growl [value]="validations"></p-growl>
-
-
-
-
-
-
-    <!--*********************************************************************************************-->
-    <!--*********************************************************************************************-->
-    <!--PRODUCT BASE info + CATEGORIES-->
-    <!--*********************************************************************************************-->
-    <!--*********************************************************************************************-->
 
     <div class="ui-g">
 
-        <!--STATE + BASE INDORMATIONS-->
+        <!--*********************************************************************************************-->
+        <!--*********************************************************************************************-->
+        <!-- BASE INFO -->
+        <!--*********************************************************************************************-->
+        <!--*********************************************************************************************-->
+
         <div class="ui-g-6">
-
-
             <div class="ui-g">
 
-                <!--STATE-->
-                <div class="card card-w-title" style="width:  100%; padding-bottom: 16px;" [ngClass]="{'nonvalid': !isStateValid }">
-                    <!--<h1>State</h1>-->
 
-                    <div class="text-center">
-                        <div class="btn-group" role="group">
-                            <button type="button" id="new" class="btn" [class.btn-default]="item.state != '1'" [class.btn-warning]="item.state === '1'"
-                                (click)="selectState($event)">New</button>
-                            <button type="button" id="approved" class="btn" [class.btn-default]="item.state != '2'" [class.btn-success]="item.state == '2'"
-                                (click)="selectState($event)">Approved</button>
-                            <button type="button" id="forbidden" class="btn" [class.btn-default]="item.state != '3'" [class.btn-danger]="item.state === '3'"
-                                (click)="selectState($event)">Forbidden</button>
-                        </div>
-                    </div>
-                </div>
+                <app-base-info [item]="item$ | async" (save)="saveSenzor($event)" (delete)="deleteSenzor($event)" (cancel)="cancelSenzor()"></app-base-info>
+
 
             </div>
+        </div>
 
+
+
+        <!--*********************************************************************************************-->
+        <!--*********************************************************************************************-->
+        <!--CHARTS-->
+        <!--*********************************************************************************************-->
+        <!--*********************************************************************************************-->
+
+        <div class="ui-g-6" *ngIf="(item$ | async).id == 0">
             <div class="ui-g">
 
-                <!--BASE INDORMATIONS-->
-                <div class="card card-w-title" style="width: 100%;">
-                    <h1>Base Informations</h1>
+
+                <!-- CHARTS -->
+                <div class="ui-g-6">
+
+                    <div class="ui-g">
+
+                        <div class="ui-g-12">
+
+                            <!-- https://www.usefuldev.com/blog/post/using-highcharts-in-an-angular-cli-project -->
+                            <div #chartTarget>
+                                chart target
+                            </div>
 
 
-                    <div class="ui-g-12">
 
-                        <div class="ui-g form-group">
-                            <div class="ui-g-12 ui-md-12">
-                                <label for="input">Name</label>
-                                <div class="ui-fluid">
-                                    <input id="input" type="text" pInputText [(ngModel)]="item.name" [ngClass]="{'nonvalid': !isNameValid }" />
-                                </div>
+                        </div>
+                    </div>
+                    <div class="ui-g">
+
+                        <div class="ui-g-12">
+
+                            <!-- https://www.usefuldev.com/blog/post/using-highcharts-in-an-angular-cli-project -->
+                            <div #chartTarget2>
+                                chart target
                             </div>
-                            <div class="ui-g-12 ui-md-12">
-                                <label for="input">Path</label>
-                                <div class="ui-fluid">
-                                    <input id="input" type="text" pInputText [(ngModel)]="item.path" [ngClass]="{'nonvalid': !isPathValid }" />
-                                </div>
-                            </div>
-                            <div class="ui-g-12 ui-md-12">
-                                <label for="input">Type</label>
-                                <div class="ui-fluid">
-                                    <p-dropdown [options]="types" [(ngModel)]="selectedType"></p-dropdown>
-                                </div>
-                            </div>
-                            <div class="ui-g-12 ui-md-12">
-                                <label for="input">Wifi SSID</label>
-                                <div class="ui-fluid">
-                                    <input id="input" type="text" pInputText [(ngModel)]="item.wifiSSID" [ngClass]="{'nonvalid': !isWifiSSIDValid }" />
-                                </div>
-                            </div>
-                            <div class="ui-g-12 ui-md-12">
-                                <label for="input">Wifi Password</label>
-                                <div class="ui-fluid">
-                                    <input id="input" type="password" pInputText [(ngModel)]="item.wifiPassword" [ngClass]="{'nonvalid': !isWifiPasswordValid }"
-                                    />
-                                </div>
-                            </div>
-                            <div class="ui-g-12 ui-md-12">
-                                <label for="input">MQTT IP</label>
-                                <div class="ui-fluid">
-                                    <input id="input" type="text" pInputText [(ngModel)]="item.mqttUrl" [ngClass]="{'nonvalid': !isMqttValid }" />
-                                </div>
-                            </div>
+
+
+
                         </div>
 
                     </div>
 
 
-
-
-
-
-
-
-
-
-
                 </div>
 
-            </div>
 
+            </div>
         </div>
-        <!-- CHARTS -->
-        <div class="ui-g-6" >
-
-            <div class="ui-g">
-
-                <div class="ui-g-12">
-
-                    <!-- https://www.usefuldev.com/blog/post/using-highcharts-in-an-angular-cli-project -->
-                    <div #chartTarget>
-                        chart target
-                    </div>
 
 
-
-                </div>
-            </div>
-            <div class="ui-g">
-
-                <div class="ui-g-12">
-
-                    <!-- https://www.usefuldev.com/blog/post/using-highcharts-in-an-angular-cli-project -->
-                    <div #chartTarget2>
-                        chart target
-                    </div>
-
-
-
-                </div>
-
-            </div>
-
-
-        </div>
     </div>
-
 </div>
-
-
-
-<!--*********************************************************************************************-->
-<!--*********************************************************************************************-->
-<!--BUTTONS-->
-<!--*********************************************************************************************-->
-<!--*********************************************************************************************-->
-
-
-<div class="ui-g">
-
-    <div class="ui-g-12 ui-md-12">
-        <div class="card card-w-title">
-
-            <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="sharedService.routeBack()" class="ui-button-warning"></button>
-
-
-            <button type="button" pButton icon="fa-trash-o" label="DELETE" (click)="deleteSenzor()" class="ui-button-danger"></button>
-
-
-            <button type="button" pButton icon="fa-check" label="SAVE" (click)="saveSenzor()" class="ui-button-success"></button>
-
-        </div>
-    </div>
-
-</div>
-
-
-<p-messages [value]="messagesToUser"></p-messages>
-
-
-
-
-
-
-<!-- 
-
-    <div id="graph" style="width: 480px; height: 400px;"></div> -->
