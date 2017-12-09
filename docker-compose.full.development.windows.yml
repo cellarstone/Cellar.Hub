@@ -67,7 +67,7 @@ services:
   cellar.hub.websockets:
     image: cellar.hub.websockets
     build:
-      context: ./Cellar.Hub.WebSockets
+      context: ./Cellar.Hub.Websockets
       dockerfile: Dockerfile
     links:
       - fluentd

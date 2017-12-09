@@ -18,9 +18,6 @@ ENV ASPNETCORE_ENVIRONMENT="production"
  WORKDIR /app
  RUN mkdir -p /app/data
 
-RUN pwd
-RUN ls -l
-
  ENV ASPNETCORE_ENVIRONMENT="production"
  EXPOSE 8884
  COPY --from=builder /app .

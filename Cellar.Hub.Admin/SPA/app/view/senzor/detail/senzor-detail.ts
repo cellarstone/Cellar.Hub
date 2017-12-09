@@ -59,13 +59,13 @@ import { Socket } from '../../../service/Socket';
 })
 export class SenzorDetail {
 
-    item: CellarSenzor;
+    item: CellarSenzor = new CellarSenzor();
 
     types: SelectItem[];
     selectedType: string;
 
     private sub: any;
-    
+
     validations: Message[] = [];
     messagesToUser: Message[] = [];
 
@@ -86,13 +86,13 @@ export class SenzorDetail {
     public socket: Socket;
     public socket2: Socket;
 
-    @ViewChild('chartTarget', {read: ElementRef}) chartTarget: ElementRef;
+    @ViewChild('chartTarget') chartTarget: ElementRef;
     chart: Highcharts.ChartObject;
 
-    @ViewChild('chartTarget2', {read: ElementRef}) chartTarget2: ElementRef;
+    @ViewChild('chartTarget2') chartTarget2: ElementRef;
     chart2: Highcharts.ChartObject;
 
-    
+
 
     public actualValue: number = 0;
     public actualValue2: number = 0;
@@ -138,10 +138,15 @@ export class SenzorDetail {
         this.getData();
 
 
+        // Observable.interval(5000).subscribe(item => {
 
-       
+        //     this.setCharts();
+
+        // });
+
+        // setTimeout(this.setCharts(), 5000);
     }
-    ngAfterViewInit() {
+    setCharts() {
         const options: Highcharts.Options = {
             chart: {
                 type: 'line',
@@ -149,7 +154,7 @@ export class SenzorDetail {
                 marginRight: 10,
                 events: {
                     // load: function () {
-        
+
                     //     // set up the updating of the chart each second
                     //     var series = this.series[0];
                     //     setInterval(function () {
@@ -201,11 +206,11 @@ export class SenzorDetail {
                     var data = [],
                         time = (new Date()).getTime(),
                         i;
-        
-                        // data.push({
-                        //     x: time + i * 1000,
-                        //     y: 0
-                        // });
+
+                    // data.push({
+                    //     x: time + i * 1000,
+                    //     y: 0
+                    // });
 
                     for (i = -19; i <= 0; i += 1) {
                         data.push({
@@ -217,7 +222,7 @@ export class SenzorDetail {
                 }())
             }]
         };
-      
+
         this.chart = chart(this.chartTarget.nativeElement, options);
 
 
@@ -228,7 +233,7 @@ export class SenzorDetail {
                 marginRight: 10,
                 events: {
                     // load: function () {
-        
+
                     //     // set up the updating of the chart each second
                     //     var series = this.series[0];
                     //     setInterval(function () {
@@ -280,11 +285,11 @@ export class SenzorDetail {
                     var data = [],
                         time = (new Date()).getTime(),
                         i;
-        
-                        // data.push({
-                        //     x: time + i * 1000,
-                        //     y: 0
-                        // });
+
+                    // data.push({
+                    //     x: time + i * 1000,
+                    //     y: 0
+                    // });
 
                     for (i = -19; i <= 0; i += 1) {
                         data.push({
@@ -297,9 +302,9 @@ export class SenzorDetail {
                 color: "#009688"
             }]
         };
-      
+
         this.chart2 = chart(this.chartTarget2.nativeElement, options2);
-      }
+    }
     ngOnDestroy() {
         this.chart = null;
         this.chart2 = null;
@@ -314,64 +319,76 @@ export class SenzorDetail {
     //*********************************/
 
     private getData() {
-        this.sub = this.route.params.subscribe(params => {
-            let id = params['id']; // (+) converts string 'id' to a number
+        this.sub = this.route.params
+            .switchMap(params => {
 
-            //new senzor
-            if (id == 0) {
-                //create a new senzor
-                this.item = new CellarSenzor();
+                let id = params['id']; // (+) converts string 'id' to a number
 
-                //set senzor state
-                this.item.state = "1";
-            }
-            //editing existing senzor
-            else {
+                //new senzor
+                if (id == 0) {
+                    //create a new senzor
+                    this.item = new CellarSenzor();
 
-                //zjistíme informace o produktu
-                this.iotservice.GetCellarSenzor(id.toString())
-                    .subscribe(art => {
-                        let response = art;
+                    //set senzor state
+                    this.item.state = "1";
 
 
 
-                        //BEZ CHYB ze serveru
-                        if (response.isOK) {
-                            this.item = <CellarSenzor>response.data;
+                }
+                //editing existing senzor   
+                else {
 
-                            this.selectedType = this.item.type;
+                    //zjistíme informace o produktu
+                    this.iotservice.GetCellarSenzor(id.toString())
+                        .subscribe(art => {
+                            let response = art;
 
-                        }
-                        //NON-VALID ze serveru
-                        else if (!response.isValid) {
-                            //???
-                            console.error(response.validations);
-                        }
-                        //custom ERROR ze serveru
-                        else if (response.isCustomError) {
-                            //???
-                            console.error(response.customErrorText);
-                        }
-                        //identity ERROR ze serveru
-                        else if (response.isIdentityError) {
-                            //???
-                            console.error(response.identityErrorText);
-                        }
-                        //EXCEPTION ze serveru
-                        else if (response.isException) {
-                            //???
-                            console.error(response.exceptionText);
-                        }
-                    },
-                    error => {
-                        console.error(error);
-                    },
-                    () => {
-                        console.log('getData() completed');
-                    });
 
-            }
-        });
+
+                            //BEZ CHYB ze serveru
+                            if (response.isOK) {
+                                this.item = <CellarSenzor>response.data;
+
+                                this.selectedType = this.item.type;
+
+                            }
+                            //NON-VALID ze serveru
+                            else if (!response.isValid) {
+                                //???
+                                console.error(response.validations);
+                            }
+                            //custom ERROR ze serveru
+                            else if (response.isCustomError) {
+                                //???
+                                console.error(response.customErrorText);
+                            }
+                            //identity ERROR ze serveru
+                            else if (response.isIdentityError) {
+                                //???
+                                console.error(response.identityErrorText);
+                            }
+                            //EXCEPTION ze serveru
+                            else if (response.isException) {
+                                //???
+                                console.error(response.exceptionText);
+                            }
+                        },
+                        error => {
+                            console.error(error);
+                        },
+                        () => {
+                            console.log('getData() completed');
+                        });
+
+                }
+
+                return Observable.of("SOMETHING");
+            })
+            .subscribe(params => {
+
+                this.setCharts();
+
+            });
     }
 
 
@@ -764,9 +781,9 @@ export class SenzorDetail {
     onMessage(message) {
         let number = parseFloat(message);
         this.actualValue = number;
-        
+
         var x = (new Date()).getTime(), // current time
-        y = Math.round(this.actualValue);
+            y = Math.round(this.actualValue);
         this.chart.series[0].addPoint([x, y], true, true)
     }
 
@@ -780,9 +797,9 @@ export class SenzorDetail {
     onMessage2(message) {
         let number = parseFloat(message);
         this.actualValue2 = number;
-        
+
         var x = (new Date()).getTime(), // current time
-        y = Math.round(this.actualValue2);
+            y = Math.round(this.actualValue2);
         this.chart2.series[0].addPoint([x, y], true, true)
     }
 
