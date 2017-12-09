@@ -20,6 +20,7 @@ docker run -it cellar.hub.workflow
 
 
 # docker-compose variants
-docker-compose -f docker-compose.windows.yml up --build
 docker-compose -f docker-compose.workflow.windows.yml up --build
-docker-compose -f docker-compose.production.yml up --build
+
+# DEV
+docker-compose -f docker-compose.full.development.windows.yml up --build
