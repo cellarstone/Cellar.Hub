@@ -1,6 +1,6 @@
 ﻿//angular
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 //primeNG
 import { SelectItem } from 'primeng/primeng';
@@ -10,7 +10,6 @@ import { Message } from 'primeng/primeng';
 import { CellarPlace } from '../../../entities/CellarPlace';
 import { CellarSpace } from '../../../entities/CellarSpace';
 
-import { SharedService } from '../../../service/shared.service';
 import { IoTService } from '../../../service/iot.service';
 
 
@@ -21,7 +20,9 @@ declare var jQuery: any;
 //http + rxjs
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-
+import { Store } from '@ngrx/store';
+import { ApplicationState } from 'app/state/state/application.state';
+import * as RouterActions from 'app/state/actions/router-actions';
 
 
 @Component({
@@ -55,10 +56,8 @@ export class PlaceDetail {
 
     constructor(
         private route: ActivatedRoute,
-        private router: Router,
-        private sharedService: SharedService,
+        private store: Store<ApplicationState>,
         public iotservice: IoTService) {
-            this.sharedService.setCurrentRoute();
     }
 
 
@@ -227,7 +226,7 @@ export class PlaceDetail {
                         if (response.isOK) {
                             this.item = <CellarPlace>response.data;
 
-                            this.sharedService.routeBack();
+                            this.store.dispatch(new RouterActions.Back());
 
                             // this.messagesToUser.push({
                             //     severity: 'success',
@@ -310,7 +309,7 @@ export class PlaceDetail {
                             //    detail: 'Product has been added'
                             //});
 
-                            this.sharedService.routeBack();
+                            this.store.dispatch(new RouterActions.Back());
 
                         }
                         //NON-VALID ze serveru
@@ -429,7 +428,9 @@ export class PlaceDetail {
 
 
     selectItem(id: string){
-        this.sharedService.route("space/"+id);
+        this.store.dispatch(new RouterActions.Go({
+            path: ['senzor/' + id]
+        }));
     }
 
 

@@ -137,7 +137,7 @@
         <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="cancelSenzor()" class="ui-button-warning"></button>
 
 
-        <button type="button" pButton icon="fa-trash-o" label="DELETE" (click)="deleteSenzor()" class="ui-button-danger"></button>
+        <button *ngIf="item.id" type="button" pButton icon="fa-trash-o" label="DELETE" (click)="deleteSenzor()" class="ui-button-danger"></button>
 
 
         <button type="button" pButton icon="fa-check" label="SAVE" (click)="saveSenzor()" class="ui-button-success"></button>

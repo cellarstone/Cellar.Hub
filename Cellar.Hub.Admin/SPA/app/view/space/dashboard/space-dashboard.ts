@@ -1,5 +1,4 @@
 import {Component,OnInit} from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import {SelectItem} from 'primeng/primeng';
 
 
@@ -8,6 +7,10 @@ import { CellarSpace } from '../../../entities/CellarSpace';
 
 import { SharedService } from '../../../service/shared.service';
 import { IoTService } from '../../../service/iot.service';
+import { Store } from '@ngrx/store';
+import { ApplicationState } from 'app/state/state/application.state';
+
+import * as RouterActions from 'app/state/actions/router-actions';
 
 @Component({
     templateUrl: './space-dashboard.html'
@@ -17,10 +20,8 @@ export class SpaceDashboard implements OnInit {
     items: Array<CellarSpace>;
 
 
-    constructor(private router: Router,
-        private sharedService: SharedService,
-        private iotservice: IoTService) { 
-            this.sharedService.setCurrentRoute();
+    constructor(private store: Store<ApplicationState>,
+                private iotservice: IoTService) { 
         }
     
     ngOnInit() {
@@ -32,12 +33,16 @@ export class SpaceDashboard implements OnInit {
 
     add()
     {
-        this.sharedService.route("space/0");
+        this.store.dispatch(new RouterActions.Go({
+            path: ['space/' + 0]
+        }));
     }
 
 
     selectItem(id: string){
-        this.sharedService.route("space/"+id);
+        this.store.dispatch(new RouterActions.Go({
+            path: ['space/' + 0]
+        }));
     }
 
 

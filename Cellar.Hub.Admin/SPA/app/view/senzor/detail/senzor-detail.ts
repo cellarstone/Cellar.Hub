@@ -1,6 +1,6 @@
 ﻿//angular
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 //primeNG
 import { SelectItem } from 'primeng/primeng';
@@ -10,7 +10,6 @@ import { Message } from 'primeng/primeng';
 import { CellarSpace } from '../../../entities/CellarSpace';
 import { CellarSenzor } from '../../../entities/CellarSenzor';
 
-import { SharedService } from '../../../service/shared.service';
 import { IoTService } from '../../../service/iot.service';
 
 
@@ -65,9 +64,7 @@ export class SenzorDetail {
 
     constructor(
         private route: ActivatedRoute,
-        private router: Router,
         private store: Store<ApplicationState>,
-        private sharedService: SharedService,
         public iotservice: IoTService) {
 
         //websockets
@@ -269,6 +266,10 @@ export class SenzorDetail {
     //*********************************/
 
     private saveSenzor(item: CellarSenzor) {
+
+
+        
+
 
         // //UPDATE produktu
         // if (this.item.id != undefined) {

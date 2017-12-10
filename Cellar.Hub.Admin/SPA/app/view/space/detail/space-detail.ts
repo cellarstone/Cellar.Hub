@@ -31,7 +31,6 @@ import { CellarSpace } from '../../../entities/CellarSpace';
 import { CellarSenzor } from '../../../entities/CellarSenzor';
 
 
-import { SharedService } from '../../../service/shared.service';
 import { IoTService } from '../../../service/iot.service';
 import { CdnService } from '../../../service/cdn.service';
 
@@ -45,8 +44,12 @@ import { Subject } from 'rxjs/Subject';
 //import { CellarDTO } from '../../../../entities/http/CellarDTO';
 import { Observable } from 'rxjs/Observable';
 import { CellarDTO } from 'app/entities/http/CellarDTO';
+import { Store } from '@ngrx/store';
+import { ApplicationState } from 'app/state/state/application.state';
 // import 'rxjs/add/operator/flatMap';
 
+
+import * as RouterActions from 'app/state/actions/router-actions';
 
 
 @Component({
@@ -94,11 +97,10 @@ export class SpaceDetail {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private sharedService: SharedService,
+        private store: Store<ApplicationState>,
         public iotservice: IoTService,
         public cdnservice: CdnService) {
 
-        this.sharedService.setCurrentRoute();
 
         this.senzorTypes = [];
         this.senzorTypes.push({ label: 'Select Type', value: null });
@@ -422,7 +424,7 @@ export class SpaceDetail {
                             
                             //everything is OK
 
-                            this.sharedService.routeBack();
+                            this.store.dispatch(new RouterActions.Back());
 
                             // this.messagesToUser.push({
                             //     severity: 'success',
@@ -507,7 +509,7 @@ export class SpaceDetail {
                             //    detail: 'Product has been added'
                             //});
 
-                            this.sharedService.routeBack();
+                            this.store.dispatch(new RouterActions.Back());
                             
                         }
                         //NON-VALID ze serveru
@@ -812,7 +814,9 @@ export class SpaceDetail {
     }
 
     private selectSenzor(id: string){
-        this.sharedService.route('senzor/'+ id)
+        this.store.dispatch(new RouterActions.Go({
+            path: ['senzor/' + id]
+        }));
     }
 
 
@@ -925,7 +929,9 @@ export class SpaceDetail {
 
 
     private selectSubspace(id: string){
-        this.sharedService.route('space/'+ id)
+        this.store.dispatch(new RouterActions.Go({
+            path: ['space/' + id]
+        }));
     }
 
 

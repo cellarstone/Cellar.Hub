@@ -6,11 +6,15 @@ import { SelectItem } from 'primeng/primeng';
 import { DataTable } from 'primeng/primeng';
 
 import { DatatableModel } from '../../../models/shared/datatableModel';
-import { SharedService } from '../../../service/shared.service';
 
 
 import { CellarSpace } from '../../../entities/CellarSpace';
 import { IoTService } from '../../../service/iot.service';
+import { Store } from '@ngrx/store';
+import { ApplicationState } from 'app/state/state/application.state';
+
+
+import * as RouterActions from 'app/state/actions/router-actions';
 
 
 @Component({
@@ -44,9 +48,8 @@ export class SpaceList implements OnInit {
     constructor(private route: ActivatedRoute,
         private router: Router,
         private iotservice: IoTService,
-        private sharedService: SharedService,
+        private store: Store<ApplicationState>,
         private changeDetectorRef: ChangeDetectorRef) { 
-            this.sharedService.setCurrentRoute();
         }
 
     ngOnInit()
@@ -81,7 +84,9 @@ export class SpaceList implements OnInit {
     //zalozeni noveho produktu
     newSpace()
     {
-        this.sharedService.route('space/' + 0);
+        this.store.dispatch(new RouterActions.Go({
+            path: ['space/' + 0]
+        }));
     }
 
 
@@ -256,7 +261,10 @@ export class SpaceList implements OnInit {
 
         var id = event.data.id;
 
-        this.sharedService.route('space/' + id);
+        this.store.dispatch(new RouterActions.Go({
+            path: ['space/' + id]
+        }));
+        
     }
 
     // setCurrentPage()

@@ -5,8 +5,10 @@ import {SelectItem} from 'primeng/primeng';
 import { CellarPlace } from '../../../entities/CellarPlace';
 
 
-import { SharedService } from '../../../service/shared.service';
 import { IoTService } from '../../../service/iot.service';
+import { Store } from '@ngrx/store';
+import { ApplicationState } from 'app/state/state/application.state';
+import * as RouterActions from 'app/state/actions/router-actions';
 
 @Component({
     templateUrl: './place-dashboard.html',
@@ -19,10 +21,9 @@ export class PlaceDashboard implements OnInit {
 
     items: CellarPlace[];
     
-    constructor(private router: Router,
-        private sharedService: SharedService,
+    constructor(private store: Store<ApplicationState>,
         private iotservice: IoTService) { 
-            this.sharedService.setCurrentRoute();
+            
         }
     
     ngOnInit() {
@@ -31,12 +32,16 @@ export class PlaceDashboard implements OnInit {
     }
     add()
     {
-        this.sharedService.route("place/0");
+        this.store.dispatch(new RouterActions.Go({
+            path: ['place/0']
+        }));
     }
 
 
     selectItem(id: string){
-        this.sharedService.route("place/"+id);
+        this.store.dispatch(new RouterActions.Go({
+            path: ['place/'+id]
+        }));
     }
 
 

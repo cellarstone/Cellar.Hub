@@ -50,7 +50,6 @@ export class SenzorList implements OnInit {
         private iotservice: IoTService,
         private sharedService: SharedService,
         private changeDetectorRef: ChangeDetectorRef) {
-        this.sharedService.setCurrentRoute();
     }
 
     ngOnInit() {
@@ -87,7 +86,6 @@ export class SenzorList implements OnInit {
             path: ['senzor/' + 0]
         }));
 
-        // this.sharedService.route('senzor/' + 0);
     }
 
 
@@ -227,7 +225,9 @@ export class SenzorList implements OnInit {
 
         var id = event.data.id;
 
-        this.sharedService.route('senzor/' + id);
+        this.store.dispatch(new RouterActions.Go({
+            path: ['senzor/' + id]
+        }));
     }
 
     // setCurrentPage()

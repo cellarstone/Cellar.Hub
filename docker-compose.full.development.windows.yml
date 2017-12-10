@@ -16,20 +16,20 @@ services:
     ports:
     - "8881:8881"
 
-  cellar.hub.admin:
-    image: cellar.hub.admin
-    build:
-      context: ./Cellar.Hub.Admin
-      dockerfile: Dockerfile
-    links:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: docker.cellar.hub.admin
-    ports:
-    - "8889:8889"
+  # cellar.hub.admin:
+  #   image: cellar.hub.admin
+  #   build:
+  #     context: ./Cellar.Hub.Admin
+  #     dockerfile: Dockerfile
+  #   links:
+  #     - fluentd
+  #   logging:
+  #     driver: "fluentd"
+  #     options:
+  #       fluentd-address: localhost:24224
+  #       tag: docker.cellar.hub.admin
+  #   ports:
+  #   - "8889:8889"
 
   cellar.hub.api:
     image: cellar.hub.api
@@ -46,6 +46,23 @@ services:
         tag: docker.cellar.hub.api
     ports:
     - "8885:8885"
+
+  cellar.hub.cdn:
+    image: cellar.hub.cdn
+    build:
+      context: ./Cellar.Hub.Cdn
+      dockerfile: Dockerfile
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.cdn
+    ports:
+    - "8884:8884"
+    volumes:
+     - C:/data/cellarstone.hub/cdn:/app/data
 
   cellar.hub.workflow:
     image: cellar.hub.workflow
@@ -77,7 +94,7 @@ services:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.websockets
     ports:
-    - "4000:4000"
+    - "8080:8080"
 
   cellar.hub.mongodb:
     image: cellar.hub.mongodb
@@ -86,8 +103,8 @@ services:
       dockerfile: Dockerfile
     ports:
     - "27017:27017"
-    volumes:
-     - C:/data/cellarstone.hub/mongodb:/data/db 
+    # volumes:
+    #  - C:/data/cellarstone.hub/mongodb:/data/db 
 
   cellar.hub.mqtt:
     image: cellar.hub.mqtt
@@ -133,7 +150,7 @@ services:
       context: ./Cellar.Hub.Log/prometheus
       dockerfile: Dockerfile
     volumes:
-      - C:/data/cellarstone.hub/prometheus:/prometheus
+      - C:/data/cellarstone.hub/prometheus:/data/prometheus
     ports:
       - '9090:9090'
     links:
@@ -147,6 +164,9 @@ services:
 
   grafana:
     image: grafana/grafana
+    links:
+      - prometheus
+      - elasticsearch
     volumes:
       - C:/data/cellarstone.hub/grafana:/var/lib/grafana
     ports:
