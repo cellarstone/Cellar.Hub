@@ -32,7 +32,7 @@ import { ApplicationState } from 'app/state/state/application.state';
 
 //ngRx
 import { Store } from '@ngrx/store';
-import { LoadCellarSenzorAction } from 'app/state/actions/actions';
+import { LoadCellarSenzorAction, SaveCellarSenzorAction, DeleteCellarSenzorAction } from 'app/state/actions/actions';
 import * as RouterActions from 'app/state/actions/router-actions';
 
 @Component({
@@ -92,6 +92,8 @@ export class SenzorDetail {
             this.store.dispatch(new LoadCellarSenzorAction(id));
 
         });
+
+        this.setCharts();
     }
     setCharts() {
         const options: Highcharts.Options = {
@@ -253,9 +255,19 @@ export class SenzorDetail {
         this.chart2 = chart(this.chartTarget2.nativeElement, options2);
     }
     ngOnDestroy() {
+        console.log("destroy");
+
         this.chart = null;
         this.chart2 = null;
         this.sub.unsubscribe();
+
+
+        this.socket.close();
+        this.socket.ee.removeAllListeners();
+        this.socket = null;
+        this.socket2.close();
+        this.socket2.ee.removeAllListeners();
+        this.socket2 = null;
     }
 
 
@@ -266,244 +278,13 @@ export class SenzorDetail {
     //*********************************/
 
     private saveSenzor(item: CellarSenzor) {
-
-
-        
-
-
-        // //UPDATE produktu
-        // if (this.item.id != undefined) {
-        //     this.iotservice.UpdateCellarSenzor(this.item)
-        //         .subscribe(art => {
-        //             let response = art;
-
-        //             //BEZ CHYB ze serveru
-        //             if (response.isOK) {
-        //                 this.item = <CellarSenzor>response.data;
-
-        //                 this.sharedService.routeBack();
-
-        //                 // this.messagesToUser.push({
-        //                 //     severity: 'success',
-        //                 //     summary: '! UPDATED !',
-        //                 //     detail: 'Senzor has been updated'
-        //                 // });
-        //             }
-        //             //NON-VALID ze serveru
-        //             else if (!response.isValid) {
-        //                 //???
-        //                 console.error(response.validations);
-
-        //                 this.messagesToUser.push({
-        //                     severity: 'error',
-        //                     summary: 'From Server',
-        //                     detail: 'Non-valid'
-        //                 });
-        //             }
-        //             //custom ERROR ze serveru
-        //             else if (response.isCustomError) {
-        //                 //???
-        //                 console.error(response.customErrorText);
-
-        //                 this.messagesToUser.push({
-        //                     severity: 'error',
-        //                     summary: 'From Server',
-        //                     detail: 'Custom Error -' + response.customErrorText
-        //                 });
-        //             }
-        //             //identity ERROR ze serveru
-        //             else if (response.isIdentityError) {
-        //                 //???
-        //                 console.error(response.identityErrorText);
-
-        //                 this.messagesToUser.push({
-        //                     severity: 'error',
-        //                     summary: 'From Server',
-        //                     detail: 'Identity Error -' + response.identityErrorText
-        //                 });
-        //             }
-        //             //EXCEPTION ze serveru
-        //             else if (response.isException) {
-        //                 //???
-        //                 console.error(response.exceptionText);
-
-        //                 this.messagesToUser.push({
-        //                     severity: 'error',
-        //                     summary: 'From Server',
-        //                     detail: 'Exception -' + response.exceptionText
-        //                 });
-        //             }
-        //         },
-        //         error => {
-        //             console.error(error);
-
-        //             this.messagesToUser.push({
-        //                 severity: 'error',
-        //                 summary: 'From ???',
-        //                 detail: error
-        //             });
-        //         },
-        //         () => {
-        //             console.log('saveSenzor() completed');
-        //         });
-        // }
-        // //ZALOZENI noveho produktu
-        // else {
-        //     this.iotservice.AddCellarSenzor(this.item)
-        //         .subscribe(art => {
-        //             let response = art;
-
-        //             //BEZ CHYB ze serveru
-        //             if (response.isOK) {
-        //                 this.item = <CellarSenzor>response.data;
-
-
-        //                 //this.messagesToUser.push({
-        //                 //    severity: 'success',
-        //                 //    summary: '! ADDED !',
-        //                 //    detail: 'Product has been added'
-        //                 //});
-
-        //                 this.sharedService.routeBack();
-
-
-        //             }
-        //             //NON-VALID ze serveru
-        //             else if (!response.isValid) {
-        //                 //???
-        //                 console.error(response.validations);
-
-        //                 this.messagesToUser.push({
-        //                     severity: 'error',
-        //                     summary: 'From Server',
-        //                     detail: 'Non-valid'
-        //                 });
-        //             }
-        //             //custom ERROR ze serveru
-        //             else if (response.isCustomError) {
-        //                 //???
-        //                 console.error(response.customErrorText);
-
-        //                 this.messagesToUser.push({
-        //                     severity: 'error',
-        //                     summary: 'From Server',
-        //                     detail: 'Custom Error -' + response.customErrorText
-        //                 });
-        //             }
-        //             //identity ERROR ze serveru
-        //             else if (response.isIdentityError) {
-        //                 //???
-        //                 console.error(response.identityErrorText);
-
-        //                 this.messagesToUser.push({
-        //                     severity: 'error',
-        //                     summary: 'From Server',
-        //                     detail: 'Identity Error -' + response.identityErrorText
-        //                 });
-        //             }
-        //             //EXCEPTION ze serveru
-        //             else if (response.isException) {
-        //                 //???
-        //                 console.error(response.exceptionText);
-
-        //                 this.messagesToUser.push({
-        //                     severity: 'error',
-        //                     summary: 'From Server',
-        //                     detail: 'Exception -' + response.exceptionText
-        //                 });
-        //             }
-        //         },
-        //         error => {
-        //             console.error(error);
-
-        //             this.messagesToUser.push({
-        //                 severity: 'error',
-        //                 summary: 'From ???',
-        //                 detail: error
-        //             });
-        //         },
-        //         () => {
-        //             console.log('saveProduct() completed');
-        //         });
-        // }
-
+        console.log(item);
+        this.store.dispatch(new SaveCellarSenzorAction(item));
     }
 
 
     private deleteSenzor(item: CellarSenzor) {
-        // this.iotservice.RemoveCellarSenzor(this.item.id)
-        //     .subscribe(art => {
-        //         let response = art;
-
-        //         //BEZ CHYB ze serveru
-        //         if (response.isOK) {
-        //             this.item = <CellarSenzor>response.data;
-
-        //             this.sharedService.routeBack();
-
-        //             // this.messagesToUser.push({
-        //             //     severity: 'success',
-        //             //     summary: '! UPDATED !',
-        //             //     detail: 'Senzor has been updated'
-        //             // });
-        //         }
-        //         //NON-VALID ze serveru
-        //         else if (!response.isValid) {
-        //             //???
-        //             console.error(response.validations);
-
-        //             this.messagesToUser.push({
-        //                 severity: 'error',
-        //                 summary: 'From Server',
-        //                 detail: 'Non-valid'
-        //             });
-        //         }
-        //         //custom ERROR ze serveru
-        //         else if (response.isCustomError) {
-        //             //???
-        //             console.error(response.customErrorText);
-
-        //             this.messagesToUser.push({
-        //                 severity: 'error',
-        //                 summary: 'From Server',
-        //                 detail: 'Custom Error -' + response.customErrorText
-        //             });
-        //         }
-        //         //identity ERROR ze serveru
-        //         else if (response.isIdentityError) {
-        //             //???
-        //             console.error(response.identityErrorText);
-
-        //             this.messagesToUser.push({
-        //                 severity: 'error',
-        //                 summary: 'From Server',
-        //                 detail: 'Identity Error -' + response.identityErrorText
-        //             });
-        //         }
-        //         //EXCEPTION ze serveru
-        //         else if (response.isException) {
-        //             //???
-        //             console.error(response.exceptionText);
-
-        //             this.messagesToUser.push({
-        //                 severity: 'error',
-        //                 summary: 'From Server',
-        //                 detail: 'Exception -' + response.exceptionText
-        //             });
-        //         }
-        //     },
-        //     error => {
-        //         console.error(error);
-
-        //         this.messagesToUser.push({
-        //             severity: 'error',
-        //             summary: 'From ???',
-        //             detail: error
-        //         });
-        //     },
-        //     () => {
-        //         console.log('saveSenzor() completed');
-        //     });
+        this.store.dispatch(new DeleteCellarSenzorAction(item));
     }
 
     private cancelSenzor() {

@@ -15,9 +15,9 @@ export class BaseInfoComponent implements OnInit {
   @Input()
   item: CellarSenzor;
 
-  @Output() save = new EventEmitter<CellarSenzor>();
-  @Output() cancel = new EventEmitter();
-  @Output() delete = new EventEmitter<CellarSenzor>();
+  @Output() onSave = new EventEmitter<CellarSenzor>();
+  @Output() onCancel = new EventEmitter();
+  @Output() onDelete = new EventEmitter<CellarSenzor>();
 
   validations: Message[] = [];
   messagesToUser: Message[] = [];
@@ -48,6 +48,7 @@ export class BaseInfoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.selectedType = this.item.type;
   }
 
 
@@ -140,19 +141,19 @@ export class BaseInfoComponent implements OnInit {
     if (this.validations.length == 0) {
 
       //emit output  
-      this.save.emit(this.item);
+      this.onSave.emit(this.item);
 
     }
   }
 
 
   private deleteSenzor(){
-    this.delete.emit(this.item);
+    this.onDelete.emit(this.item);
   }
 
   private cancelSenzor(){
     // go in router history back
-    this.cancel.emit();
+    this.onCancel.emit();
   }
 
 

@@ -2,7 +2,7 @@ import {EventEmitter} from 'events';
 
 export class Socket {
   private ws: WebSocket;
-  private ee: EventEmitter;
+  public ee: EventEmitter;
 
   constructor(url: string){
     this.ws = new WebSocket(url);

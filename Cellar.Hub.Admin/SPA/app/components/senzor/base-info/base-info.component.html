@@ -61,13 +61,13 @@
               <div class="ui-g-12 ui-md-12">
                 <label for="input">Name</label>
                 <div class="ui-fluid">
-                  <input id="input" type="text" pInputText [(ngModel)]="item.name" [ngClass]="{'nonvalid': !isNameValid }" />
+                  <input id="name" type="text" pInputText [(ngModel)]="item.name" [ngClass]="{'nonvalid': !isNameValid }" />
                 </div>
               </div>
               <div class="ui-g-12 ui-md-12">
                 <label for="input">Path</label>
                 <div class="ui-fluid">
-                  <input id="input" type="text" pInputText [(ngModel)]="item.path" [ngClass]="{'nonvalid': !isPathValid }" />
+                  <input id="path" type="text" pInputText [(ngModel)]="item.path" [ngClass]="{'nonvalid': !isPathValid }" />
                 </div>
               </div>
               <div class="ui-g-12 ui-md-12">
@@ -79,20 +79,20 @@
               <div class="ui-g-12 ui-md-12">
                 <label for="input">Wifi SSID</label>
                 <div class="ui-fluid">
-                  <input id="input" type="text" pInputText [(ngModel)]="item.wifiSSID" [ngClass]="{'nonvalid': !isWifiSSIDValid }" />
+                  <input id="wifissid" type="text" pInputText [(ngModel)]="item.wifiSSID" [ngClass]="{'nonvalid': !isWifiSSIDValid }" />
                 </div>
               </div>
               <div class="ui-g-12 ui-md-12">
                 <label for="input">Wifi Password</label>
                 <div class="ui-fluid">
-                  <input id="input" type="password" pInputText [(ngModel)]="item.wifiPassword" [ngClass]="{'nonvalid': !isWifiPasswordValid }"
+                  <input id="wifipassword" type="password" pInputText [(ngModel)]="item.wifiPassword" [ngClass]="{'nonvalid': !isWifiPasswordValid }"
                   />
                 </div>
               </div>
               <div class="ui-g-12 ui-md-12">
                 <label for="input">MQTT IP</label>
                 <div class="ui-fluid">
-                  <input id="input" type="text" pInputText [(ngModel)]="item.mqttUrl" [ngClass]="{'nonvalid': !isMqttValid }" />
+                  <input id="mqtturl" type="text" pInputText [(ngModel)]="item.mqttUrl" [ngClass]="{'nonvalid': !isMqttValid }" />
                 </div>
               </div>
             </div>

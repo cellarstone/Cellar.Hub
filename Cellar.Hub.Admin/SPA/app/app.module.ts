@@ -139,6 +139,7 @@ import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
 import { ProgressBarModule } from 'primeng/components/progressbar/progressbar';
 import { BaseInfoComponent } from './components/senzor/base-info/base-info.component';
 import { RouterEffects } from 'app/state/effects/router-effects';
+import { ListComponent } from './components/senzor/list/list.component';
 
 
 
@@ -250,7 +251,8 @@ import { RouterEffects } from 'app/state/effects/router-effects';
         SenzorList,
         PlaceDashboard,
         PlaceDetail,
-        BaseInfoComponent
+        BaseInfoComponent,
+        ListComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
