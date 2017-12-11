@@ -39,6 +39,8 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceRoot}",
+                "/usr/include",
+                "/usr/local/include",
                 "/home/cellarstone/Arduino/libraries/DHT-sensor-library-master",
                 "/home/cellarstone/Arduino/libraries/PubSubClient/src",
                 "/home/cellarstone/Arduino/libraries/Timer-master",
@@ -50,12 +52,19 @@
                 "/home/cellarstone/.arduino15/packages/esp8266/hardware/esp8266/2.3.0/libraries/ArduinoOTA",
                 "/home/cellarstone/.arduino15/packages/esp8266/hardware/esp8266/2.3.0/libraries/ESP8266WebServer/src",
                 "/home/cellarstone/.arduino15/packages/esp8266/hardware/esp8266/2.3.0/libraries/ESP8266mDNS",
-                "/home/cellarstone/.arduino15/packages/esp8266/hardware/esp8266/2.3.0/libraries/EEPROM"
+                "/home/cellarstone/.arduino15/packages/esp8266/hardware/esp8266/2.3.0/libraries/EEPROM",
+                "/home/cellarstone/Arduino/libraries/DHT_sensor_library",
+                "/usr/include/c++/5",
+                "/usr/include/linux",
+                "/usr/include/c++/5/parallel",
+                "/usr/include/x86_64-linux-gnu/c++/5"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
                     "${workspaceRoot}",
+                    "/usr/include",
+                    "/usr/local/include",
                     "/home/cellarstone/Arduino/libraries/PubSubClient/src",
                     "/home/cellarstone/Arduino/libraries/Adafruit_SSD1306-master",
                     "/home/cellarstone/Arduino/libraries/Timer-master",
@@ -65,7 +74,8 @@
                     "/home/cellarstone/.arduino15/packages/esp8266/hardware/esp8266/2.3.0/cores/esp8266",
                     "/home/cellarstone/.arduino15/packages/esp8266/hardware/esp8266/2.3.0/libraries/ESP8266WiFi/src",
                     "/home/cellarstone/.arduino15/packages/esp8266/hardware/esp8266/2.3.0/libraries/ESP8266WebServer/src",
-                    "/home/cellarstone/.arduino15/packages/esp8266/hardware/esp8266/2.3.0/libraries/EEPROM"
+                    "/home/cellarstone/.arduino15/packages/esp8266/hardware/esp8266/2.3.0/libraries/EEPROM",
+                    "/home/cellarstone/Arduino/libraries/DHT_sensor_library"
                 ]
             },
             "intelliSenseMode": "clang-x64"
