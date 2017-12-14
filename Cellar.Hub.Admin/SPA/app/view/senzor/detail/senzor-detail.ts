@@ -10,8 +10,6 @@ import { Message } from 'primeng/primeng';
 import { CellarSpace } from '../../../entities/CellarSpace';
 import { CellarSenzor } from '../../../entities/CellarSenzor';
 
-import { IoTService } from '../../../service/iot.service';
-
 
 //others
 declare var jQuery: any;
@@ -32,8 +30,8 @@ import { ApplicationState } from 'app/state/state/application.state';
 
 //ngRx
 import { Store } from '@ngrx/store';
-import { LoadCellarSenzorAction, SaveCellarSenzorAction, DeleteCellarSenzorAction } from 'app/state/actions/actions';
-import * as RouterActions from 'app/state/actions/router-actions';
+import { LoadCellarSenzorAction, SaveCellarSenzorAction, DeleteCellarSenzorAction } from 'app/state/actions/senzor.actions';
+import * as RouterActions from 'app/state/actions/router.actions';
 
 @Component({
     templateUrl: './senzor-detail.html',
@@ -64,8 +62,7 @@ export class SenzorDetail {
 
     constructor(
         private route: ActivatedRoute,
-        private store: Store<ApplicationState>,
-        public iotservice: IoTService) {
+        private store: Store<ApplicationState>) {
 
         //websockets
         this.socket = new Socket("ws://localhost:8080/ws/s3102temperature");
@@ -342,9 +339,9 @@ export class SenzorDetail {
 
 
 function mapSenzorFromState(state: ApplicationState): CellarSenzor {
-    if (state.storeData == undefined) {
+    if (state.uiState == undefined) {
         return undefined;
     }
 
-    return state.storeData.selectedSenzor;
+    return state.uiState.selectedSenzor;
 }

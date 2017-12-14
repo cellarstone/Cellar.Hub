@@ -10,7 +10,7 @@ import { IoTService } from '../../../service/iot.service';
 import { Store } from '@ngrx/store';
 import { ApplicationState } from 'app/state/state/application.state';
 
-import * as RouterActions from 'app/state/actions/router-actions';
+import * as RouterActions from 'app/state/actions/router.actions';
 
 @Component({
     templateUrl: './space-dashboard.html'

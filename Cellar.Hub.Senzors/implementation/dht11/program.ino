@@ -68,13 +68,13 @@ long lastMillis = 0;
 
 //nazev zarizeni - bude pouzito i pro pojmenovani zarizeni v siti a vychoziho access pointu
 String DeviceName = "";
-const char* DEFAULT_DEVICE_NAME = "ESP8266";
+const char* DEFAULT_DEVICE_NAME = "s3103";
 const char* DEFAULT_AP_PASS = "11235813";
 
 
 //IP adresa MQTT serveru
 String MqttHostName = ""; //"192.168.1.173"
-String DEFAULT_MQTT_URL = "192.168.1.173";
+String DEFAULT_MQTT_URL = "10.7.1.109";
 
 //Port MQTT serveru
 int MqttPort = 0; 
@@ -94,11 +94,11 @@ String MqttTopicName_ip = DeviceName + "/ip"; //s3500/ip
 
 //nazev wifi site
 String WifiSsid = ""; 
-String DEFAULT_WIFI_SSID = "CellarstoneDevicesWifi";
+String DEFAULT_WIFI_SSID = "AlzaGuest";
 
 //wifi heslo
 String WifiPass = "";
-String DEFAULT_WIFI_PSSWD = "Cllrs123IoT456";
+String DEFAULT_WIFI_PSSWD = "GuestLan";
 
 //#define wifi_ssid "CellarstoneDevicesWifi"
 //#define wifi_password "Cllrs123IoT456"
@@ -187,7 +187,7 @@ void setup()
 void setupDevice() {
 
 	//naplnime globalni konfiguracni promenne nactenim z EEPROM
-	loadConfigFromEeprom();
+	//loadConfigFromEeprom();
 
 
 	// WifiSsid = "";

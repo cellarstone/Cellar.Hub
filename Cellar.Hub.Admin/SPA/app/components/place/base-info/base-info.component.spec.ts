@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SenzorListComponent } from './list.component';
+import { PlaceBaseInfoComponent } from './base-info.component';
 
-describe('ListComponent', () => {
-  let component: SenzorListComponent;
-  let fixture: ComponentFixture<SenzorListComponent>;
+describe('BaseInfoComponent', () => {
+  let component: PlaceBaseInfoComponent;
+  let fixture: ComponentFixture<PlaceBaseInfoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SenzorListComponent ]
+      declarations: [ PlaceBaseInfoComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SenzorListComponent);
+    fixture = TestBed.createComponent(PlaceBaseInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

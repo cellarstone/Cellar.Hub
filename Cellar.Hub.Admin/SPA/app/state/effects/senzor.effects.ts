@@ -3,22 +3,15 @@ import { Observable } from "rxjs";
 import { Action } from "@ngrx/store";
 import { Actions, Effect, toPayload } from "@ngrx/effects";
 import { IoTService } from 'app/service/iot.service';
-import { LOAD_CELLAR_PLACES, LoadCellarPlacesSuccessAction, LOAD_CELLAR_SENZOR, LoadCellarSenzorSuccessAction, SAVE_CELLAR_SENZOR, DELETE_CELLAR_SENZOR, LOAD_CELLAR_SENZORS, LoadCellarSenzorsSuccessAction } from 'app/state/actions/actions';
-import { CellarPlace } from 'app/entities/CellarPlace';
+import { LOAD_CELLAR_SENZOR, LoadCellarSenzorSuccessAction, SAVE_CELLAR_SENZOR, DELETE_CELLAR_SENZOR, LOAD_CELLAR_SENZORS, LoadCellarSenzorsSuccessAction } from 'app/state/actions/senzor.actions';
 import { CellarSenzor } from 'app/entities/CellarSenzor';
 import { CellarDTO } from 'app/entities/http/CellarDTO';
-import * as RouterActions from 'app/state/actions/router-actions';
+import * as RouterActions from 'app/state/actions/router.actions';
 
 @Injectable()
-export class EffectService {
+export class SenzorEffects {
 
   constructor(private actions$: Actions, private iotservice: IoTService) { }
-
-  @Effect() placesEffect$: Observable<Action> = this.actions$
-    .ofType(LOAD_CELLAR_PLACES)
-    .switchMap(() => this.iotservice.GetAllCellarPlaces())
-    .map(items => new LoadCellarPlacesSuccessAction(<CellarPlace[]>items.data));
-
 
   @Effect() loadAllSensorsEffect$: Observable<Action> = this.actions$
     .ofType(LOAD_CELLAR_SENZORS)

@@ -1,16 +1,16 @@
 
 
-<div *ngIf="items">
+<div *ngIf="items$ | async">
     <agm-map [latitude]="lat" [longitude]="lng">
-        <agm-marker *ngFor="let item of items" [latitude]="getNumber(item.latitude)" [longitude]="getNumber(item.longtitude)"></agm-marker>
+        <agm-marker *ngFor="let item of (items$ | async)" [latitude]="getNumber(item.latitude)" [longitude]="getNumber(item.longtitude)"></agm-marker>
     </agm-map>
 </div>
 
 
-<button pButton type="button" label="Add" (click)="add()"></button>
+<button pButton type="button" label="Add" (click)="newPlace()"></button>
 <div class="ui-g">
 
-    <div *ngFor="let item of items" class="ui-g-12 ui-md-6 ui-lg-3">
+    <div *ngFor="let item of (items$ | async)" class="ui-g-12 ui-md-6 ui-lg-3">
         <div class="ui-g card overview-box overview-box-1" (click)="selectItem(item.id)">
             <div class="ui-g-4">
                 <div *ngIf="item.state == 1" style="background-color: yellow;width: 50px;height:50px"></div>

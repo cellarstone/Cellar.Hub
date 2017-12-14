@@ -162,7 +162,7 @@ export class IoTService {
             .catch(this.handleError);
     }
 
-    public RemoveCellarPlace(id: number): Observable<CellarDTO> {
+    public RemoveCellarPlace(id: string): Observable<CellarDTO> {
         console.log('IoTHubService RemoveCellarPlace()');
 
         this.setHeaders();

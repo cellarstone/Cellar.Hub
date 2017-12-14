@@ -87,6 +87,7 @@ import { ToolbarModule } from 'primeng/primeng';
 import { TooltipModule } from 'primeng/primeng';
 import { TreeModule } from 'primeng/primeng';
 import { TreeTableModule } from 'primeng/primeng';
+import { ProgressBarModule } from 'primeng/components/progressbar/progressbar';
 
 //HammerJS - because Kendo UI wants it
 import 'hammerjs';
@@ -116,6 +117,7 @@ import { DashboardDemo } from './view/dashboard/dashboarddemo';
 //places
 import { PlaceDashboard } from './view/place/dashboard/place-dashboard';
 import { PlaceDetail } from './view/place/detail/place-detail';
+import { PlaceBaseInfoComponent } from './components/place/base-info/base-info.component';
 
 //spaces
 import { SpaceDashboard } from './view/space/dashboard/space-dashboard';
@@ -123,23 +125,26 @@ import { SpaceDetail } from './view/space/detail/space-detail';
 import { SpaceList } from './view/space/list/space-list';
 
 //senzors
-import { SenzorDashboard } from './view/senzor/dashboard/senzor-dashboard';
 import { SenzorDetail } from './view/senzor/detail/senzor-detail';
 import { SenzorList } from './view/senzor/list/senzor-list';
+import { SenzorBaseInfoComponent } from './components/senzor/base-info/base-info.component';
+import { SenzorListComponent } from './components/senzor/list/list.component';
+
 
 //Router
 import { routes } from './app.routes';
 
 //State
 import { reducers } from 'app/state/reducers/main.reducer';
-import { EffectService } from 'app/state/effects/effects';
+import { SenzorEffects } from 'app/state/effects/senzor.effects';
+import { PlaceEffects } from 'app/state/effects/place.effects';
 // import { INITIAL_APPLICATION_STATE } from './store/todo.state';
 import { CustomSerializer } from './state/router-settings';
 import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
-import { ProgressBarModule } from 'primeng/components/progressbar/progressbar';
-import { BaseInfoComponent } from './components/senzor/base-info/base-info.component';
-import { RouterEffects } from 'app/state/effects/router-effects';
-import { ListComponent } from './components/senzor/list/list.component';
+import { RouterEffects } from 'app/state/effects/router.effects';
+
+
+
 
 
 
@@ -156,7 +161,7 @@ import { ListComponent } from './components/senzor/list/list.component';
         StoreDevtoolsModule.instrument({
           maxAge: 25
         }),
-        EffectsModule.forRoot([EffectService, RouterEffects]),
+        EffectsModule.forRoot([SenzorEffects, PlaceEffects, RouterEffects]),
         StoreRouterConnectingModule,
         //PrimeNG
         AccordionModule,
@@ -246,13 +251,13 @@ import { ListComponent } from './components/senzor/list/list.component';
         SpaceDashboard,
         SpaceDetail,
         SpaceList,
-        SenzorDashboard,
         SenzorDetail,
         SenzorList,
         PlaceDashboard,
         PlaceDetail,
-        BaseInfoComponent,
-        ListComponent
+        SenzorBaseInfoComponent,
+        SenzorListComponent,
+        PlaceBaseInfoComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

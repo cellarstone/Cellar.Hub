@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BaseInfoComponent } from './base-info.component';
+import { SenzorBaseInfoComponent } from './base-info.component';
 
 describe('BaseInfoComponent', () => {
-  let component: BaseInfoComponent;
-  let fixture: ComponentFixture<BaseInfoComponent>;
+  let component: SenzorBaseInfoComponent;
+  let fixture: ComponentFixture<SenzorBaseInfoComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BaseInfoComponent ]
+      declarations: [ SenzorBaseInfoComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BaseInfoComponent);
+    fixture = TestBed.createComponent(SenzorBaseInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

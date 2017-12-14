@@ -49,7 +49,7 @@ import { ApplicationState } from 'app/state/state/application.state';
 // import 'rxjs/add/operator/flatMap';
 
 
-import * as RouterActions from 'app/state/actions/router-actions';
+import * as RouterActions from 'app/state/actions/router.actions';
 
 
 @Component({

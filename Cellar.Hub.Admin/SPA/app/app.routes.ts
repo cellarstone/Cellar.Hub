@@ -11,7 +11,6 @@ import {SpaceDashboard} from './view/space/dashboard/space-dashboard';
 import {SpaceDetail} from './view/space/detail/space-detail';
 import {SpaceList} from './view/space/list/space-list';
 
-import {SenzorDashboard} from './view/senzor/dashboard/senzor-dashboard';
 import {SenzorDetail} from './view/senzor/detail/senzor-detail';
 import {SenzorList} from './view/senzor/list/senzor-list';
 
@@ -25,7 +24,6 @@ export const routes: Routes = [
     { path: 'spaces/dashboard', component: SpaceDashboard },
     { path: 'spaces', component: SpaceList },
     { path: 'space/:id', component: SpaceDetail },
-    { path: 'senzors/dashboard', component: SenzorDashboard },
     { path: 'senzors', component: SenzorList },
     { path: 'senzor/:id', component: SenzorDetail }
 ];

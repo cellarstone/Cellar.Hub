@@ -5,11 +5,11 @@ import { SharedService } from 'app/service/shared.service';
 import { DatatableModel } from 'app/models/shared/datatableModel';
 
 @Component({
-  selector: 'app-list',
+  selector: 'app-senzor-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
+export class SenzorListComponent implements OnInit {
 
   @Input()
   items: CellarSenzor[] = [];

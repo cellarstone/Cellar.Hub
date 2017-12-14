@@ -5,17 +5,22 @@
 
 
 
+agm-map {
+    height: 200px;
+  }
+
+
+
 .nonvalid
 {
     background-color: #FFCDD2;
 }
 
-
-
 .text-center
 {
     text-align: center !important;
 }
+
 
 //image thumbnail
 .img-thumbnail
@@ -30,8 +35,6 @@
     max-width: 100%;
     height: auto;
 }
-
-
 
 
 
@@ -60,16 +63,7 @@
     margin: 0 auto;
 }
 
-.ui-widget-header
-{
-    background-color: #81858a !important;
-}
 
-
-.ui-datatable table
-{
-    table-layout: auto !important;
-}
 //Bootstrap button
 .btn
 {
@@ -189,3 +183,4 @@
         border-top-left-radius: 0;
     }
 }
+

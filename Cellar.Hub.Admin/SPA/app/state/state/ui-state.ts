@@ -1,9 +1,14 @@
+import { CellarSenzor } from "app/entities/CellarSenzor";
+import { CellarPlace } from "app/entities/CellarPlace";
+
 
 export interface UiState {
-    selectedPlace: string;
+    selectedSenzor: CellarSenzor;
+    selectedPlace: CellarPlace;
 }
 
 
 export const INITIAL_UI_STATE: UiState = {
-    selectedPlace: "abc"
+    selectedSenzor: undefined,
+    selectedPlace: undefined
 };

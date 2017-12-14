@@ -1,21 +1,5 @@
 import { Action } from "@ngrx/store";
-import { CellarPlace } from "../../entities/CellarPlace";
 import { CellarSenzor } from "app/entities/CellarSenzor";
-
-export const LOAD_CELLAR_PLACES = '[CellarPlace] Load All';
-export class LoadCellarPlacesAction implements Action {
-    readonly type = LOAD_CELLAR_PLACES;
-}
-
-export const LOAD_CELLAR_PLACES_SUCCESS = '[CellarPlace] Load All success';
-export class LoadCellarPlacesSuccessAction implements Action {
-    readonly type = LOAD_CELLAR_PLACES_SUCCESS;
-    constructor(public payload: CellarPlace[]){}
-}
-
-
-
-
 
 export const LOAD_CELLAR_SENZORS = '[CellarSenzor] Load All';
 export class LoadCellarSenzorsAction implements Action {

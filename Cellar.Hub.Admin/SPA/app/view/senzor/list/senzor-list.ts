@@ -1,21 +1,20 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable'
 
 import { SelectItem } from 'primeng/primeng';
 import { DataTable } from 'primeng/primeng';
 
 import { DatatableModel } from '../../../models/shared/datatableModel';
-import { SharedService } from '../../../service/shared.service';
 
 
 import { CellarSenzor } from '../../../entities/CellarSenzor';
-import { IoTService } from '../../../service/iot.service';
 import { ApplicationState } from 'app/state/state/application.state';
 import { Store } from '@ngrx/store';
 
-import * as RouterActions from 'app/state/actions/router-actions';
-import { LoadCellarSenzorsAction } from 'app/state/actions/actions';
+import * as RouterActions from 'app/state/actions/router.actions';
+import { LoadCellarSenzorsAction } from 'app/state/actions/senzor.actions';
+import { ChangeDetectionStrategy } from '@angular/core/src/change_detection/constants';
 
 @Component({
     selector: 'senzor-list',
@@ -28,15 +27,8 @@ export class SenzorList implements OnInit {
     private items$: Observable<CellarSenzor[]>;
 
     
-    constructor(private route: ActivatedRoute,
-        private router: Router,
-        private store: Store<ApplicationState>,
-        private iotservice: IoTService,
-        private sharedService: SharedService,
-        private changeDetectorRef: ChangeDetectorRef) {
-
+    constructor(private store: Store<ApplicationState>) {
         this.items$ = this.store.select(mapSenzorsFromState);
-
     }
 
     ngOnInit() {
@@ -46,7 +38,7 @@ export class SenzorList implements OnInit {
     //zalozeni noveho produktu
     newSenzor() {
         this.store.dispatch(new RouterActions.Go({
-            path: ['senzor/' + 0]
+            path: ['senzor/0']
         }));
     }
 

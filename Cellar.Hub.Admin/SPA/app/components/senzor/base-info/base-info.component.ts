@@ -6,11 +6,11 @@ import { Message, SelectItem } from 'primeng/primeng';
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-base-info',
+  selector: 'app-senzor-base-info',
   templateUrl: './base-info.component.html',
   styleUrls: ['./base-info.component.scss']
 })
-export class BaseInfoComponent implements OnInit {
+export class SenzorBaseInfoComponent implements OnInit {
 
   @Input()
   item: CellarSenzor;
@@ -48,7 +48,10 @@ export class BaseInfoComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.selectedType = this.item.type;
+    console.log(this.selectedType);
+    console.log(this.item);
   }
 
 
