@@ -11,9 +11,9 @@ declare var jQuery: any;
   styleUrls: ['./base-info.component.scss']
 })
 export class SenzorBaseInfoComponent implements OnInit {
-
+  
   @Input()
-  item: CellarSenzor;
+  private item: CellarSenzor;
 
   @Output() onSave = new EventEmitter<CellarSenzor>();
   @Output() onCancel = new EventEmitter();
@@ -46,12 +46,8 @@ export class SenzorBaseInfoComponent implements OnInit {
     this.types.push({ label: 'CellarSenzor Camera v1.0', value: 'CellarSenzor Camera v1.0' });
 
   }
-
-  ngOnInit() {
-
+  ngOnInit(): void {
     this.selectedType = this.item.type;
-    console.log(this.selectedType);
-    console.log(this.item);
   }
 
 

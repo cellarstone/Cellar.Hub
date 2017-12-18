@@ -13,7 +13,7 @@ import { ApplicationState } from 'app/state/state/application.state';
 import { Store } from '@ngrx/store';
 
 import * as RouterActions from 'app/state/actions/router.actions';
-import { LoadCellarSenzorsAction } from 'app/state/actions/senzor.actions';
+import { LoadAllCellarSenzorsAction } from 'app/state/actions/senzor.actions';
 import { ChangeDetectionStrategy } from '@angular/core/src/change_detection/constants';
 
 @Component({
@@ -32,7 +32,7 @@ export class SenzorList implements OnInit {
     }
 
     ngOnInit() {
-        this.store.dispatch(new LoadCellarSenzorsAction());
+        this.store.dispatch(new LoadAllCellarSenzorsAction());
     }
 
     //zalozeni noveho produktu
@@ -47,18 +47,12 @@ export class SenzorList implements OnInit {
             path: ['senzor/' + item.id]
         }));
     }
-
-
 }
-
-
 
 function mapSenzorsFromState(state: ApplicationState): CellarSenzor[]{
     if (state.storeData == undefined) {
         return undefined;
     }
-
-    console.log(state.storeData.senzors);
 
     return state.storeData.senzors;
 } 

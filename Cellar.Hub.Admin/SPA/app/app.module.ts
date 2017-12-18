@@ -120,9 +120,10 @@ import { PlaceDetail } from './view/place/detail/place-detail';
 import { PlaceBaseInfoComponent } from './components/place/base-info/base-info.component';
 
 //spaces
-import { SpaceDashboard } from './view/space/dashboard/space-dashboard';
 import { SpaceDetail } from './view/space/detail/space-detail';
 import { SpaceList } from './view/space/list/space-list';
+import { SpaceBaseInfoComponent } from './components/space/base-info/base-info.component';
+import { SpaceListComponent } from './components/space/list/list.component';
 
 //senzors
 import { SenzorDetail } from './view/senzor/detail/senzor-detail';
@@ -137,11 +138,15 @@ import { routes } from './app.routes';
 //State
 import { reducers } from 'app/state/reducers/main.reducer';
 import { SenzorEffects } from 'app/state/effects/senzor.effects';
+import { SpaceEffects } from 'app/state/effects/space.effects';
 import { PlaceEffects } from 'app/state/effects/place.effects';
+import { RouterEffects } from 'app/state/effects/router.effects';
 // import { INITIAL_APPLICATION_STATE } from './store/todo.state';
 import { CustomSerializer } from './state/router-settings';
 import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
-import { RouterEffects } from 'app/state/effects/router.effects';
+
+
+
 
 
 
@@ -161,7 +166,7 @@ import { RouterEffects } from 'app/state/effects/router.effects';
         StoreDevtoolsModule.instrument({
           maxAge: 25
         }),
-        EffectsModule.forRoot([SenzorEffects, PlaceEffects, RouterEffects]),
+        EffectsModule.forRoot([SenzorEffects, SpaceEffects, PlaceEffects, RouterEffects]),
         StoreRouterConnectingModule,
         //PrimeNG
         AccordionModule,
@@ -248,7 +253,6 @@ import { RouterEffects } from 'app/state/effects/router.effects';
         AppTopBar,
         AppFooter,
         DashboardDemo,
-        SpaceDashboard,
         SpaceDetail,
         SpaceList,
         SenzorDetail,
@@ -257,7 +261,9 @@ import { RouterEffects } from 'app/state/effects/router.effects';
         PlaceDetail,
         SenzorBaseInfoComponent,
         SenzorListComponent,
-        PlaceBaseInfoComponent
+        PlaceBaseInfoComponent,
+        SpaceListComponent,
+        SpaceBaseInfoComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

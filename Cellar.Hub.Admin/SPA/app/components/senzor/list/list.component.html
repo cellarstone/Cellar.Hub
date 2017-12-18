@@ -1,9 +1,7 @@
 <div id="senzor-list">
 
+    <div *ngIf="!items" style="width: 100%; height: 800px;">
 
-
-  <div *ngIf="!items" style="width: 100%; height: 800px;">
-    
         <div class="splash-screen">
             <div class="splash-container">
                 <div class="box">
@@ -16,14 +14,14 @@
                 </div>
             </div>
         </div>
-    
+
     </div>
-    
+
     <div *ngIf="items">
-       
-    
+
         <p-dataTable #dt [value]="items" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,25,50,100]" selectionMode="single"
-            [(selection)]="selectedItem" (onRowSelect)="onRowSelect($event)" (onFilter)="onFilter($event)" [responsive]="true" dataKey="id">
+            [(selection)]="selectedItem" (onRowSelect)="onRowSelect($event)" (onFilter)="onFilter($event)" [responsive]="true"
+            dataKey="id">
             <p-header>List of Senzors</p-header>
             <!--<p-column field="id" header="Id" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>-->
             <p-column field="state" header="State" [filter]="true" [style]="{'overflow':'visible'}" [sortable]="true">
@@ -43,10 +41,7 @@
             <p-column field="type" header="Type" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
             <p-column field="path" header="Path" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
         </p-dataTable>
-    
-    
+
     </div>
-
-
 
 </div>

@@ -91,13 +91,13 @@ export class IoTService {
         console.log('setHeaders started');
 
         let headerJson = {
-            'Content-Type':'application/json',
-            'Accept':'application/json',
-            'Access-Control-Allow-Methods':'*',
-            'Access-Control-Allow-Origin':'*'
-            }
-            
-        this.headers = new HttpHeaders(headerJson );
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Access-Control-Allow-Methods': '*',
+            'Access-Control-Allow-Origin': '*'
+        }
+
+        this.headers = new HttpHeaders(headerJson);
 
         // this.headers = new HttpHeaders();
         // this.headers.append('Content-Type', 'application/json');
@@ -129,7 +129,7 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.get(this.url_getAllCellarPlaces, options)
-            
+
             .catch(this.handleError);
     }
 
@@ -143,7 +143,7 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.post(this.url_getCellarPlace, body, options)
-            
+
             .catch(this.handleError);
     }
 
@@ -158,7 +158,7 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.post(this.url_addCellarPlace, body, options)
-            
+
             .catch(this.handleError);
     }
 
@@ -172,7 +172,7 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.post(this.url_removeCellarPlace, body, options)
-            
+
             .catch(this.handleError);
     }
 
@@ -186,7 +186,7 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.post(this.url_updateCellarPlace, body, options)
-            
+
             .catch(this.handleError);
     }
 
@@ -204,7 +204,6 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.get(this.url_getAllCellarSpaces, options)
-            
             .catch(this.handleError);
     }
 
@@ -220,22 +219,39 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.post(this.url_getCellarSpaces, body, options)
-            
+
             .catch(this.handleError);
     }
 
     public GetCellarSpace(id: string): Observable<CellarDTO> {
         console.log('IoTHubService GetCellarSpace()');
 
-        this.setHeaders();
+        //new senzor
+        if (id == "0") {
 
-        let body = JSON.stringify(id);
+            //create a new senzor
+            var res = new CellarDTO();
+            var aaa = new CellarSpace();
 
-        let options = { headers: this.headers };
+            //set senzor state
+            aaa.state = "1";
 
-        return this.http.post(this.url_getCellarSpace, body, options)
-            
-            .catch(this.handleError);
+            res.data = aaa;
+
+            return Observable.of(res);
+        }
+        //editing existing senzor   
+        else {
+
+            this.setHeaders();
+
+            let body = JSON.stringify(id);
+
+            let options = { headers: this.headers };
+
+            return this.http.post(this.url_getCellarSpace, body, options)
+                .catch(this.handleError);
+        }
     }
 
     public AddCellarSpace(item: CellarSpace): Observable<CellarDTO> {
@@ -248,7 +264,7 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.post(this.url_addCellarSpace, body, options)
-            
+
             .catch(this.handleError);
     }
 
@@ -262,7 +278,7 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.post(this.url_removeCellarSpace, body, options)
-            
+
             .catch(this.handleError);
     }
 
@@ -276,11 +292,11 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.post(this.url_updateCellarSpace, body, options)
-            
+
             .catch(this.handleError);
     }
 
-    
+
 
 
 
@@ -299,7 +315,7 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.get(this.url_getAllCellarSenzors, options)
-            
+
             .catch(this.handleError);
     }
 
@@ -315,22 +331,42 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.post(this.url_getCellarSenzors, body, options)
-            
+
             .catch(this.handleError);
     }
 
     public GetCellarSenzor(id: string): Observable<CellarDTO> {
         console.log('IoTHubService GetCellarSenzor()');
 
-        this.setHeaders();
+        console.log(id);
 
-        let body = JSON.stringify(id);
+        //new senzor
+        if (id == "0") {
 
-        let options = { headers: this.headers };
+            //create a new senzor
+            var res = new CellarDTO();
+            var aaa = new CellarSenzor();
 
-        return this.http.post(this.url_getCellarSenzor, body, options)
-            
-            .catch(this.handleError);
+            //set senzor state
+            aaa.state = "1";
+
+            res.data = aaa;
+
+            return Observable.of(res);
+        }
+        //editing existing senzor   
+        else {
+
+            this.setHeaders();
+
+            let body = JSON.stringify(id);
+
+            let options = { headers: this.headers };
+
+            return this.http.post(this.url_getCellarSenzor, body, options)
+                .catch(this.handleError);
+        }
+
     }
 
     public AddCellarSenzor(item: CellarSenzor): Observable<CellarDTO> {
@@ -343,7 +379,7 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.post(this.url_addCellarSenzor, body, options)
-            
+
             .catch(this.handleError);
     }
 
@@ -357,7 +393,7 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.post(this.url_removeCellarSenzor, body, options)
-            
+
             .catch(this.handleError);
     }
 
@@ -371,7 +407,7 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.post(this.url_updateCellarSenzor, body, options)
-            
+
             .catch(this.handleError);
     }
 

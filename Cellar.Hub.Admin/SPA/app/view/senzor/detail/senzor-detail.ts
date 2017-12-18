@@ -76,8 +76,50 @@ export class SenzorDetail {
         this.socket2.on('message', this.onMessage2.bind(this));
 
 
+
         this.item$ = this.store.select(mapSenzorFromState);
 
+
+
+        // this.item$ = this.store.select(mapSenzorFromState)
+        //     .mergeMap((data: CellarSenzor) => {
+
+
+        //         console.log(data);
+
+
+        //         if (data != null && data.id != null) {
+        //             this.setCharts();
+        //         }
+
+        //         return Observable.of(data);
+
+
+
+        //     });
+
+
+
+
+
+        // this.store.select(mapSenzorFromState)
+        // .subscribe((data: CellarSenzor) => {
+
+
+        //     console.log(data);
+
+        //     if (data != null) {
+
+
+        //         if (data.id != null) {
+        //             this.setCharts();
+        //         }
+
+        //         this.item$ = Observable.of(data);
+
+        //     }
+
+        // });
 
     }
 
@@ -90,7 +132,21 @@ export class SenzorDetail {
 
         });
 
-        this.setCharts();
+    }
+    ngOnDestroy() {
+        console.log("destroy");
+
+        this.sub.unsubscribe();
+
+        this.chart = null;
+        this.chart2 = null;
+
+        this.socket.close();
+        this.socket.ee.removeAllListeners();
+        this.socket = null;
+        this.socket2.close();
+        this.socket2.ee.removeAllListeners();
+        this.socket2 = null;
     }
     setCharts() {
         const options: Highcharts.Options = {
@@ -251,21 +307,7 @@ export class SenzorDetail {
 
         this.chart2 = chart(this.chartTarget2.nativeElement, options2);
     }
-    ngOnDestroy() {
-        console.log("destroy");
-
-        this.chart = null;
-        this.chart2 = null;
-        this.sub.unsubscribe();
-
-
-        this.socket.close();
-        this.socket.ee.removeAllListeners();
-        this.socket = null;
-        this.socket2.close();
-        this.socket2.ee.removeAllListeners();
-        this.socket2 = null;
-    }
+    
 
 
 
@@ -275,7 +317,6 @@ export class SenzorDetail {
     //*********************************/
 
     private saveSenzor(item: CellarSenzor) {
-        console.log(item);
         this.store.dispatch(new SaveCellarSenzorAction(item));
     }
 

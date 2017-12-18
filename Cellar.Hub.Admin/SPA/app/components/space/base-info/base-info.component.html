@@ -1,0 +1,139 @@
+<div id="senzor-base-info">
+
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+  <!--VALIDATIONS, MESSAGES ... etc.-->
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+
+  <p-messages [value]="messagesToUser"></p-messages>
+
+  <p-growl [value]="validations"></p-growl>
+
+
+
+
+
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+  <!--PRODUCT BASE info -->
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+
+
+  <!--STATE-->
+  <div class="ui-g">
+
+    
+    <div class="card card-w-title" style="width:  100%; padding-bottom: 16px;" [ngClass]="{'nonvalid': !isStateValid }">
+      <!--<h1>State</h1>-->
+
+      <div class="text-center">
+        <div class="btn-group" role="group">
+          <button type="button" id="new" class="btn" [class.btn-default]="item.state != '1'" [class.btn-warning]="item.state === '1'"
+            (click)="selectState($event)">New</button>
+          <button type="button" id="approved" class="btn" [class.btn-default]="item.state != '2'" [class.btn-success]="item.state == '2'"
+            (click)="selectState($event)">Approved</button>
+          <button type="button" id="forbidden" class="btn" [class.btn-default]="item.state != '3'" [class.btn-danger]="item.state === '3'"
+            (click)="selectState($event)">Forbidden</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!--BASE INDORMATIONS-->
+  <div class="ui-g">
+
+    
+    <div class="card card-w-title" style="width: 100%;">
+      <h1>Base Informations</h1>
+
+
+
+      <!--MAIN IMAGE-->
+      <div class="ui-g-12 ui-md-4" [ngClass]="{'nonvalid': !isMainPictureValid }">
+
+        <label for="mainImage">
+          Main Image
+        </label>
+
+
+        <div *ngIf="!item.image" class="thumbnail">
+          <img class="img-thumbnail" alt="..." style="max-width: 100%; max-height: 100%;" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTEiIGhlaWdodD0iMTQxIj48cmVjdCB3aWR0aD0iMTkxIiBoZWlnaHQ9IjE0MSIgZmlsbD0iI2VlZSIvPjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9Ijk1LjUiIHk9IjcwLjUiIHN0eWxlPSJmaWxsOiNhYWE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LXNpemU6MTJweDtmb250LWZhbWlseTpBcmlhbCxIZWx2ZXRpY2Esc2Fucy1zZXJpZjtkb21pbmFudC1iYXNlbGluZTpjZW50cmFsIj4xOTF4MTQxPC90ZXh0Pjwvc3ZnPg==">
+        </div>
+        <div *ngIf="item.image" class="thumbnail">
+          <img src="{{item.image}}" class="img-thumbnail" alt="..." style="max-width: 100%; max-height: 100%;">
+        </div>
+
+        <div class="fileinput" data-provides="fileinput3">
+          <span class="btn btn-file">
+            <span class="fileinput-new">Select file</span>
+            <span class="fileinput-exists">Change</span>
+            <input type="file" id="mainPicture" name="mainPicture" (change)="addMainPictureChangeEvent($event)">
+          </span>
+        </div>
+
+      </div>
+
+
+
+
+      <div class="ui-g-12 ui-md-8">
+
+        <div class="ui-g form-group">
+          <div class="ui-g-12 ui-md-12">
+            <label for="name">Name</label>
+            <div class="ui-fluid">
+              <input id="name" type="text" pInputText [(ngModel)]="item.name" [ngClass]="{'nonvalid': !isNameValid }" />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-12">
+            <label for="path">Path</label>
+            <div class="ui-fluid">
+              <input id="path" type="text" pInputText [(ngModel)]="item.path" [ngClass]="{'nonvalid': !isPathValid }" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+
+   <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!--BUTTONS-->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+
+
+    <div class="ui-g">
+      
+              <div class="ui-g-12 ui-md-12">
+                  <div class="card card-w-title">
+      
+                      <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="cancelSpace()" class="ui-button-warning"></button>
+      
+      
+                      <button type="button" pButton icon="fa-trash-o" label="DELETE" (click)="deleteSpace()" class="ui-button-danger"></button>
+                      
+      
+                      <button type="button" pButton icon="fa-check" label="SAVE" (click)="saveSpace()" class="ui-button-success"></button>
+      
+                  </div>
+              </div>
+      
+          </div>
+      
+      
+          <p-messages [value]="messagesToUser"></p-messages>
+      
+
+
+
+</div>
