@@ -44,3 +44,13 @@ export class DeleteCellarPlaceAction implements Action {
     constructor(public payload: CellarPlace){}
 }
 
+export const DELETE_CELLAR_PLACE_SUCCESS = '[CellarPlace] Delete success';
+export class DeleteCellarPlaceSuccessAction implements Action {
+    readonly type = DELETE_CELLAR_PLACE_SUCCESS;
+}
+
+export const DELETE_CELLAR_PLACE_FAILURE = '[CellarPlace] Delete failure';
+export class DeleteCellarPlaceFailureAction implements Action {
+    readonly type = DELETE_CELLAR_PLACE_FAILURE;
+    constructor(public payload: string){}
+}

@@ -3,10 +3,11 @@ import { Observable } from "rxjs";
 import { Action } from "@ngrx/store";
 import { Actions, Effect, toPayload } from "@ngrx/effects";
 import { IoTService } from 'app/service/iot.service';
-import { LOAD_CELLAR_PLACES, LoadCellarPlacesSuccessAction, LoadCellarPlaceSuccessAction, LOAD_CELLAR_PLACE, SAVE_CELLAR_PLACE, DELETE_CELLAR_PLACE } from 'app/state/actions/place.actions';
+import { LOAD_CELLAR_PLACES, LoadCellarPlacesSuccessAction, LoadCellarPlaceSuccessAction, LOAD_CELLAR_PLACE, SAVE_CELLAR_PLACE, DELETE_CELLAR_PLACE, DeleteCellarPlaceSuccessAction, DeleteCellarPlaceFailureAction, DELETE_CELLAR_PLACE_SUCCESS } from 'app/state/actions/place.actions';
 import { CellarPlace } from 'app/entities/CellarPlace';
 import { CellarDTO } from 'app/entities/http/CellarDTO';
 import * as RouterActions from 'app/state/actions/router.actions';
+import { LoadCellarSpacesAction } from 'app/state/actions/space.actions';
 
 @Injectable()
 export class PlaceEffects {
@@ -44,7 +45,23 @@ export class PlaceEffects {
             }
 
         })
-        .map(item => new LoadCellarPlaceSuccessAction(<CellarPlace>item.data));
+        .flatMap((item: CellarDTO) => {
+            
+                  let data = <CellarPlace>item.data;
+            
+                  if (data.id == undefined) {
+                    return [
+                      new LoadCellarPlaceSuccessAction(data)
+                    ]
+                  }
+                  else {
+                    return [
+                      new LoadCellarPlaceSuccessAction(data),
+                      new LoadCellarSpacesAction(data.path)
+                    ]
+                  }
+            
+                });
 
 
     @Effect() savePlaceEffect$: Observable<Action> = this.actions$
@@ -84,21 +101,65 @@ export class PlaceEffects {
             })
         });
 
-    @Effect() deletePlaceEffect$: Observable<Action> = this.actions$
+        @Effect() deletePlaceEffect$: Observable<Action> = this.actions$
         .ofType(DELETE_CELLAR_PLACE)
         .map(toPayload)
         .switchMap((payload) => {
-
-            let item = <CellarPlace>payload;
-
-            return this.iotservice.RemoveCellarPlace(item.id);
-
+    
+          let payld = <CellarPlace>payload;
+    
+          let isOk1 = false;
+          let isOk2 = false;
+          let isOk3 = false;
+          let err = "";
+    
+          Observable.zip(
+            this.iotservice.RemoveCellarPlace(payld.id),
+            this.iotservice.RemoveCellarSenzors(payld.path),
+            this.iotservice.RemoveCellarSpaces(payld.path)
+          )
+          .subscribe(([data1, data2, data3]) => {
+    
+            let dat1 = <CellarDTO>data1;
+            let dat2 = <CellarDTO>data2;
+            let dat3 = <CellarDTO>data3;
+    
+            if(!dat1.isOK){
+              err += dat1.exceptionText;
+            }
+    
+            if(!dat2.isOK){
+              err += dat1.exceptionText;
+            }
+    
+            if(!dat3.isOK){
+              err += dat1.exceptionText;
+            }
+    
+          });
+    
+    
+          return Observable.of(err);
+    
+    
         })
         .map(item => {
-
-            return new RouterActions.Back();
-
+    
+          if(item == "")
+          {
+            return new DeleteCellarPlaceSuccessAction();
+          } else {
+            return new DeleteCellarPlaceFailureAction(item);
+          }
+    
         });
+    
+    
+        @Effect() DeletePlaceSuccessEffect$: Observable<Action> = this.actions$
+        .ofType(DELETE_CELLAR_PLACE_SUCCESS)
+        .map(items => new RouterActions.Back());
+    
+    
 
 
 

@@ -31,21 +31,21 @@ services:
   #   ports:
   #   - "8889:8889"
 
-  cellar.hub.api:
-    image: cellar.hub.api
-    build:
-      context: ./Cellar.Hub.Api
-      dockerfile: Dockerfile
-    links:
-      - fluentd
-      - cellar.hub.mongodb
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: docker.cellar.hub.api
-    ports:
-    - "8885:8885"
+  # cellar.hub.api:
+  #   image: cellar.hub.api
+  #   build:
+  #     context: ./Cellar.Hub.Api
+  #     dockerfile: Dockerfile
+  #   links:
+  #     - fluentd
+  #     - cellar.hub.mongodb
+  #   logging:
+  #     driver: "fluentd"
+  #     options:
+  #       fluentd-address: localhost:24224
+  #       tag: docker.cellar.hub.api
+  #   ports:
+  #   - "8885:8885"
 
   cellar.hub.cdn:
     image: cellar.hub.cdn

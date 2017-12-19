@@ -10,6 +10,22 @@ agm-map {
 
 
 
+  .newState
+  {
+      border-left: 4px solid #F0B518;
+  }
+  
+  .approvedState
+  {
+    border-left: 4px solid #48A746;
+  }
+  
+  .forbiddenState
+  {
+    border-left: 4px solid #DD5826;
+  }
+
+
 .ui-datatable table
 {
     table-layout: auto !important;

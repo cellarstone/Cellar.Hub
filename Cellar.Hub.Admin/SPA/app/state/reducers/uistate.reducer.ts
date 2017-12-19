@@ -3,30 +3,36 @@ import * as _ from 'lodash';
 import { UiState, INITIAL_UI_STATE } from "../state/ui-state";
 import { Action } from "@ngrx/store";
 import { LOAD_CELLAR_SENZOR_SUCCESS, LoadCellarSenzorSuccessAction, LoadCellarSenzorAction, LOAD_CELLAR_SENZOR } from 'app/state/actions/senzor.actions';
-import { LoadCellarPlaceSuccessAction, LOAD_CELLAR_PLACE_SUCCESS, LoadCellarPlaceAction, LOAD_CELLAR_PLACE } from 'app/state/actions/place.actions';
-import { LoadCellarSpaceAction, LoadCellarSpaceSuccessAction, LOAD_CELLAR_SPACE, LOAD_CELLAR_SPACE_SUCCESS } from 'app/state/actions/space.actions';
+import { LoadCellarPlaceSuccessAction, LOAD_CELLAR_PLACE_SUCCESS, LoadCellarPlaceAction, LOAD_CELLAR_PLACE, DeleteCellarPlaceFailureAction, DELETE_CELLAR_PLACE_FAILURE } from 'app/state/actions/place.actions';
+import { LoadCellarSpaceAction, LoadCellarSpaceSuccessAction, LOAD_CELLAR_SPACE, LOAD_CELLAR_SPACE_SUCCESS, DELETE_CELLAR_SPACE_FAILURE, DeleteCellarSpaceFailureAction } from 'app/state/actions/space.actions';
 
 
 export function uiState(state: UiState = INITIAL_UI_STATE, action: any): UiState {
     switch (action.type) {
-        
+
         case LOAD_CELLAR_PLACE:
-        return mapPlaceToState2(state,<LoadCellarPlaceAction>action);
+            return mapPlaceToState2(state, <LoadCellarPlaceAction>action);
 
         case LOAD_CELLAR_PLACE_SUCCESS:
-        return mapPlaceToState(state,<LoadCellarPlaceSuccessAction>action);
+            return mapPlaceToState(state, <LoadCellarPlaceSuccessAction>action);
 
         case LOAD_CELLAR_SENZOR:
-        return mapSenzorToState2(state,<LoadCellarSenzorAction>action);
+            return mapSenzorToState2(state, <LoadCellarSenzorAction>action);
 
         case LOAD_CELLAR_SENZOR_SUCCESS:
-        return mapSenzorToState(state,<LoadCellarSenzorSuccessAction>action);
+            return mapSenzorToState(state, <LoadCellarSenzorSuccessAction>action);
 
         case LOAD_CELLAR_SPACE:
-        return mapSpaceToState2(state,<LoadCellarSpaceAction>action);
+            return mapSpaceToState2(state, <LoadCellarSpaceAction>action);
 
         case LOAD_CELLAR_SPACE_SUCCESS:
-        return mapSpaceToState(state,<LoadCellarSpaceSuccessAction>action);
+            return mapSpaceToState(state, <LoadCellarSpaceSuccessAction>action);
+
+        case DELETE_CELLAR_SPACE_FAILURE:
+            return mapErrorToState(state, <DeleteCellarSpaceFailureAction>action);
+
+        case DELETE_CELLAR_PLACE_FAILURE:
+            return mapErrorToState(state, <DeleteCellarPlaceFailureAction>action);
 
 
         default:
@@ -78,6 +84,13 @@ function mapSpaceToState(state: UiState, action: LoadCellarSpaceSuccessAction): 
     return {
         ...state,
         selectedSpace: action.payload
+    };
+}
+
+function mapErrorToState(state: UiState, action: any): UiState {
+    return {
+        ...state,
+        error: action.payload
     };
 }
 

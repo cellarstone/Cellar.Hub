@@ -41,7 +41,7 @@ export class PlaceDetail {
         private store: Store<ApplicationState>) {
 
         this.item$ = this.store.select(mapPlaceFromState);
-
+        this.item_spaces$ = this.store.select(mapSpacesFromState);
     }
 
 
@@ -90,7 +90,7 @@ export class PlaceDetail {
 
     selectItem(id: string) {
         this.store.dispatch(new RouterActions.Go({
-            path: ['senzor/' + id]
+            path: ['space/' + id]
         }));
     }
 
@@ -106,4 +106,12 @@ function mapPlaceFromState(state: ApplicationState): CellarPlace {
     }
 
     return state.uiState.selectedPlace;
+}
+
+function mapSpacesFromState(state: ApplicationState): CellarSpace[] {
+    if (state.storeData == undefined) {
+        return undefined;
+    }
+
+    return state.storeData.spaces;
 }

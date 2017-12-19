@@ -18,12 +18,16 @@ import { Observable } from 'rxjs/Observable';
 })
 export class PlaceDashboard implements OnInit {
 
+    colorMap: any;
+
     lat: number = 50.108445;
     lng: number = 14.452613;
 
     items$: Observable<CellarPlace[]>;
 
     constructor(private store: Store<ApplicationState>) {
+        this.colorMap = { 1: 'newState', 2: 'approvedState', 3: 'forbiddenState' };
+        
         this.items$ = this.store.select(mapPlacesFromState);
     }
 

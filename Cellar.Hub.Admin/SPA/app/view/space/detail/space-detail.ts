@@ -35,6 +35,7 @@ import { DeleteCellarSenzorAction, SaveCellarSenzorAction } from 'app/state/acti
 })
 export class SpaceDetail {
 
+    error$: Observable<string>;
     item$: Observable<CellarSpace>;
     item_subspaces$: Observable<CellarSpace[]>;
     item_senzors$: Observable<CellarSenzor[]>;
@@ -79,6 +80,7 @@ export class SpaceDetail {
         this.item$ = this.store.select(mapSpaceFromState);
         this.item_subspaces$ = this.store.select(mapSpacesFromState);
         this.item_senzors$ = this.store.select(mapSenzorsFromState);
+        this.error$ = this.store.select(mapErrorFromState);
     }
 
     ngOnInit() {
@@ -277,4 +279,12 @@ function mapSenzorsFromState(state: ApplicationState): CellarSenzor[] {
     }
 
     return state.storeData.senzors;
+}
+
+function mapErrorFromState(state: ApplicationState): string {
+    if (state.uiState == undefined) {
+        return undefined;
+    }
+
+    return state.uiState.error;
 }

@@ -7,11 +7,13 @@ export interface UiState {
     selectedSenzor: CellarSenzor;
     selectedSpace: CellarSpace;
     selectedPlace: CellarPlace;
+    error: string;
 }
 
 
 export const INITIAL_UI_STATE: UiState = {
     selectedSenzor: null,
     selectedSpace: null,
-    selectedPlace: null
+    selectedPlace: null,
+    error: ""
 };

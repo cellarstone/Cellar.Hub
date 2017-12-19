@@ -25,7 +25,7 @@
 
                 <div class="ui-g" *ngIf="item_spaces$ | async">
 
-                    <div *ngFor="let itemsb of item_spaces" class="ui-g-12 ui-md-6 ui-lg-3">
+                    <div *ngFor="let itemsb of (item_spaces$ | async)" class="ui-g-12 ui-md-6 ui-lg-3">
                         <div class="ui-g card overview-box overview-box-1" (click)="selectItem(itemsb.id)">
                             <div class="ui-g-4">
                                 <div *ngIf="itemsb.state == 1" style="background-color: yellow;width: 50px;height:50px"></div>

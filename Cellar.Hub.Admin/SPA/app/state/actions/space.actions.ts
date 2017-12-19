@@ -50,3 +50,14 @@ export class DeleteCellarSpaceAction implements Action {
     readonly type = DELETE_CELLAR_SPACE;
     constructor(public payload: CellarSpace){}
 }
+
+export const DELETE_CELLAR_SPACE_SUCCESS = '[CellarSpace] Delete success';
+export class DeleteCellarSpaceSuccessAction implements Action {
+    readonly type = DELETE_CELLAR_SPACE_SUCCESS;
+}
+
+export const DELETE_CELLAR_SPACE_FAILURE = '[CellarSpace] Delete failure';
+export class DeleteCellarSpaceFailureAction implements Action {
+    readonly type = DELETE_CELLAR_SPACE_FAILURE;
+    constructor(public payload: string){}
+}

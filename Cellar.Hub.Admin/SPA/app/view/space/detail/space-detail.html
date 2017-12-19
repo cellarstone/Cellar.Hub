@@ -1,5 +1,5 @@
 ﻿<h1>Space Detail</h1>
-
+<div class="myerror" *ngIf="error$ | async">{{error$ | async}}</div>
 <div id="spaceDetail" *ngIf="item$ | async">
 
 

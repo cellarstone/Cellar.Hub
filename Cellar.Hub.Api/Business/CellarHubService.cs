@@ -59,7 +59,7 @@ namespace Cellar.Hub.Api.Business
             return CellarDTO.Data(item);
         }
 
-        public CellarDTO RemoveCellarSpace(CellarSpace item)
+        public CellarDTO RemoveCellarSpace(string id)
         {
 
             //Get All senzors, meetings, orders ... etc.
@@ -72,8 +72,44 @@ namespace Cellar.Hub.Api.Business
 
 
             //Remove space
-            _db.Spaces.DeleteOne(Builders<CellarSpace>.Filter.Eq(r => r.Id, item.Id));
-            return CellarDTO.Ok();
+            var result = _db.Spaces.DeleteOne(Builders<CellarSpace>.Filter.Eq(r => r.Id, id));
+
+            return CellarDTO.Data(result);
+        }
+
+        public CellarDTO RemoveCellarSpaces(string path)
+        {
+            //we must treat situation when :
+            //delete subspaces for /test path
+
+            //1) exactly path = '^/test$'
+            //2) subpaths =     '^/test/.*$
+
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //we cannot use simple '^/test' !!!!
+            //because it takes also a '/test2' space !!!!
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+            //Remove exac
+            string bsonQuery = @"{path: { $regex: '^" + path + "$' }}";
+            var filter = MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(bsonQuery);
+            //var result = _db.Spaces.FindSync(filter).ToList();
+            var result = _db.Spaces.DeleteMany(filter);
+
+            //Remove sub
+            string bsonQuery2 = @"{path: { $regex: '^" + path + "/' }}";
+            var filter2 = MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(bsonQuery2);
+            //var result = _db.Spaces.FindSync(filter).ToList();
+            var result2 = _db.Spaces.DeleteMany(filter2);
+
+            //SOLVE result + result2
+            var rr = new {
+                result,
+                result2
+            };
+
+            return CellarDTO.Data(rr);
+
         }
 
         public CellarDTO UpdateCellarSpace(CellarSpace item)
@@ -121,6 +157,41 @@ namespace Cellar.Hub.Api.Business
             return CellarDTO.Ok();
         }
 
+        public CellarDTO RemoveCellarSenzors(string path)
+        {
+            //we must treat situation when :
+            //delete senzors for /test path
+
+            //1) exactly path = '^/test$'
+            //2) subpaths =     '^/test/.*$
+
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //we cannot use simple '^/test' !!!!
+            //because it takes also a '/test2' senzors !!!!
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+            //Remove exac
+            string bsonQuery = @"{path: { $regex: '^" + path + "$' }}";
+            var filter = MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(bsonQuery);
+            //var result = _db.Senzors.FindSync(filter).ToList();
+            var result = _db.Senzors.DeleteMany(filter);
+
+            //Remove sub
+            string bsonQuery2 = @"{path: { $regex: '^" + path + "/' }}";
+            var filter2 = MongoDB.Bson.Serialization.BsonSerializer.Deserialize<BsonDocument>(bsonQuery2);
+            //var result = _db.Senzors.FindSync(filter).ToList();
+            var result2 = _db.Senzors.DeleteMany(filter2);
+
+            //SOLVE result + result2
+            var rr = new {
+                result,
+                result2
+            };
+
+            return CellarDTO.Data(rr);
+
+        }
+
         public CellarDTO UpdateCellarSenzor(CellarSenzor item)
         {
             _db.Senzors.ReplaceOne(Builders<CellarSenzor>.Filter.Eq(r => r.Id, item.Id), item, new UpdateOptions() { IsUpsert = true });
@@ -135,7 +206,7 @@ namespace Cellar.Hub.Api.Business
             return CellarDTO.Data(result);
         }
 
-         public CellarDTO GetCellarPlace(string id)
+        public CellarDTO GetCellarPlace(string id)
         {
             var filter = Builders<CellarPlace>.Filter.Eq("_id", id);
             var result = _db.Places.Find(filter).FirstOrDefault();
