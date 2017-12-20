@@ -55,6 +55,16 @@
           <h1>Base Informations</h1>
 
 
+          <!--MAIN IMAGE-->
+          <div class="ui-g-12 ui-md-4">
+            <div *ngIf="selectedTypeImage != ''" class="thumbnail">
+              <img src="{{selectedTypeImage}}" class="img-thumbnail" alt="..." style="max-width: 100%; max-height: 100%;">
+            </div>
+          </div>
+
+
+
+
           <div class="ui-g-12">
 
             <div class="ui-g form-group">
@@ -73,7 +83,7 @@
               <div class="ui-g-12 ui-md-12">
                 <label for="type">Type</label>
                 <div class="ui-fluid">
-                  <p-dropdown id="type" [options]="types" [(ngModel)]="selectedType"></p-dropdown>
+                  <p-dropdown id="type" [options]="types" [(ngModel)]="selectedType" (ngModelChange)="onTypeChange($event)"></p-dropdown>
                 </div>
               </div>
               <div class="ui-g-12 ui-md-12">

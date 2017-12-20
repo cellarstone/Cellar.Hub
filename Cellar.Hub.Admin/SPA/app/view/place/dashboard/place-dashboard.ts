@@ -26,7 +26,7 @@ export class PlaceDashboard implements OnInit {
     items$: Observable<CellarPlace[]>;
 
     constructor(private store: Store<ApplicationState>) {
-        this.colorMap = { 1: 'newState', 2: 'approvedState', 3: 'forbiddenState' };
+        this.colorMap = { 1: 'newStatePanel', 2: 'approvedStatePanel', 3: 'forbiddenStatePanel' };
         
         this.items$ = this.store.select(mapPlacesFromState);
     }

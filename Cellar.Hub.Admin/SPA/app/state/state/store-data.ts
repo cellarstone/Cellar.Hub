@@ -7,10 +7,14 @@ export interface StoreData {
     spaces: CellarSpace[];
     senzors: CellarSenzor[];
     
+    cli_command: string;
+    cli_result: string[];
 }
 
 export const INITIAL_STORE_DATA: StoreData = {
     places: [],
     spaces: [],
-    senzors: []
+    senzors: [],
+    cli_command: null,
+    cli_result: []
 };

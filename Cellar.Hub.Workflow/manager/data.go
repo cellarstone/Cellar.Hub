@@ -7,44 +7,29 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type WorkflowEntity struct {
+type CellarWorkflow struct {
 	ID         bson.ObjectId `json:"_id" bson:"_id,omitempty"`
 	Type       string        `json:"type" bson:"type,omitempty"`
+	State      string        `json:"state" bson:"state,omitempty"`
+	PID        string        `json:"pid" bson:"pid"`
 	Parameters []string      `json:"parameters" bson:"parameters,omitempty"`
 }
 
-var MongoUrl = "cellar.hub.mongodb"
-var MongoDatabase = "test" //HubDatabase
+var mongoUrl = "127.0.0.1"
+var mongoDatabase = "HubDatabase"
 
-func SaveWorkflowEntity(wf *WorkflowEntity) {
-	session, err := mgo.Dial(MongoUrl)
-	if err != nil {
-		panic(err)
-	}
-	defer session.Close()
-
-	//SELECT TABLE
-	workflowsTable := session.DB(MongoDatabase).C("workflowentity")
-
-	//INSERT
-	err = workflowsTable.Insert(wf)
-	if err != nil {
-		panic(err)
-	}
-}
-
-func GetAllWorkflowEntity() []WorkflowEntity {
-	session, err := mgo.Dial(MongoUrl)
+func GetAllCellarWorkflows() []CellarWorkflow {
+	session, err := mgo.Dial(mongoUrl)
 	if err != nil {
 		panic(err)
 	}
 	defer session.Close()
 
 	//Select table
-	workflowsTable := session.DB(MongoDatabase).C("workflowentity")
+	workflowsTable := session.DB(mongoDatabase).C("Workflows")
 
 	//Return data
-	var result []WorkflowEntity
+	var result []CellarWorkflow
 	err = workflowsTable.Find(nil).All(&result)
 	if err != nil && err.Error() != "not found" {
 		log.Fatal(err)
@@ -53,9 +38,76 @@ func GetAllWorkflowEntity() []WorkflowEntity {
 	return result
 }
 
-func DeleteWorklfowEntity(id string) error {
+func GetCellarWorkflow(id string) []CellarWorkflow {
 	// Get session
-	session, err := mgo.Dial(MongoUrl)
+	session, err := mgo.Dial(mongoUrl)
+	if err != nil {
+		panic(err)
+	}
+	defer session.Close()
+
+	// Error check on every access
+	session.SetSafe(&mgo.Safe{})
+
+	// Get collection
+	collection := session.DB(mongoDatabase).C("Workflows")
+
+	// Return data
+	var result []CellarWorkflow
+	err = collection.FindId(bson.ObjectIdHex(id)).All(&result)
+	if err != nil && err.Error() != "not found" {
+		panic(err)
+	}
+
+	return result
+}
+
+func AddCellarWorkflow(wf *CellarWorkflow) *CellarWorkflow {
+	session, err := mgo.Dial(mongoUrl)
+	if err != nil {
+		panic(err)
+	}
+	defer session.Close()
+
+	//SELECT TABLE
+	workflowsTable := session.DB(mongoDatabase).C("Workflows")
+
+	log.Println(wf)
+
+	//INSERT
+	err = workflowsTable.Insert(wf)
+	if err != nil {
+		panic(err)
+	}
+
+	log.Println(wf)
+
+	return wf
+}
+
+func UpdateCellarWorkflow(wf *CellarWorkflow) *CellarWorkflow {
+	session, err := mgo.Dial(mongoUrl)
+	if err != nil {
+		panic(err)
+	}
+	defer session.Close()
+
+	//SELECT TABLE
+	workflowsTable := session.DB(mongoDatabase).C("Workflows")
+
+	//UPDATE
+	colQuerier := bson.M{"_id": wf.ID}
+	err = workflowsTable.Update(colQuerier, wf)
+	if err != nil {
+		panic(err)
+	}
+
+	return wf
+}
+
+func RemoveCellarWorkflow(id string) error {
+	// Get session
+	session, err := mgo.Dial(mongoUrl)
 	if err != nil {
 		return err
 	}
@@ -65,7 +117,7 @@ func DeleteWorklfowEntity(id string) error {
 	session.SetSafe(&mgo.Safe{})
 
 	// Get collection
-	collection := session.DB(MongoDatabase).C("workflowentity")
+	collection := session.DB(mongoDatabase).C("Workflows")
 
 	// Delete record
 	err = collection.RemoveId(bson.ObjectIdHex(id))

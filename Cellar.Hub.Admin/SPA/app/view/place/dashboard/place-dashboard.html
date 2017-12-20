@@ -17,14 +17,9 @@
         <div class="ui-g">
 
             <div *ngFor="let item of (items$ | async)" class="ui-g-12 ui-md-6 ui-lg-3">
-                <div class="ui-g card overview-box overview-box-1" (click)="selectItem(item.id)" [ngClass]="colorMap[item.state]">
-                    <div class="ui-g-4">
-                        <!-- <div *ngIf="item.state == 1" style="background-color: yellow;width: 50px;height:50px"></div>
-                    <div *ngIf="item.state == 2" style="background-color: green;width: 50px;height:50px"></div>
-                    <div *ngIf="item.state == 3" style="background-color: red;width: 50px;height:50px"></div> -->
-                    </div>
-                    <div class="ui-g-8">
-                        <span class="overview-box-name">{{item.name}}</span>
+                <div class="mycard ui-g" (click)="selectItem(item.id)" [ngClass]="colorMap[item.state]">
+                    <div class="ui-g-12">
+                        <span>{{item.name}}</span>
                     </div>
                 </div>
             </div>

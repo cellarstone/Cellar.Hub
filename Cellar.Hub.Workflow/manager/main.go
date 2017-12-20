@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"html/template"
@@ -16,6 +17,7 @@ import (
 	"time"
 
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/logging"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )
 
@@ -29,9 +31,9 @@ var workflowindb *template.Template
 var err error
 
 type cellarDTO struct {
-	ID    string   `json:"ID"`
-	Error string   `json:"Error"`
-	Data  []string `json:"Data"`
+	ID    string      `json:"id"`
+	Error string      `json:"error"`
+	Data  interface{} `json:"data"`
 }
 
 //Logging
@@ -73,12 +75,6 @@ func main() {
 		//low-level exception logging
 		fmt.Println(err)
 	}
-	files = append(layoutFiles(), "views/taillogs.gohtml")
-	taillogs, err = template.ParseFiles(files...)
-	if err != nil {
-		//low-level exception logging
-		fmt.Println(err)
-	}
 	files = append(layoutFiles(), "views/actualdirectory.gohtml")
 	actualDirectory, err = template.ParseFiles(files...)
 	if err != nil {
@@ -102,13 +98,24 @@ func main() {
 	r.Handle("/", RecoverWrap(http.HandlerFunc(indexHandler)))
 	r.Handle("/processes", RecoverWrap(http.HandlerFunc(processesHandler)))
 	r.Handle("/actualdirectory", RecoverWrap(http.HandlerFunc(actualdirectoryHandler)))
-	r.Handle("/taillogs", RecoverWrap(http.HandlerFunc(taillogsHandler)))
 	r.Handle("/runworkflow", RecoverWrap(http.HandlerFunc(runworkflowHandler)))
 	r.Handle("/workflowsindb", RecoverWrap(http.HandlerFunc(workflowindbHandler)))
 	r.Handle("/killprocess/{id}", RecoverWrap(http.HandlerFunc(killprocessHandler)))
 	r.Handle("/deleteworkflow/{id}", RecoverWrap(http.HandlerFunc(deleteworkflowHandler)))
 	r.Handle("/throwexception", RecoverWrap(http.HandlerFunc(throwExceptionHandler)))
-	http.ListenAndServe(":5000", r)
+
+	r.Handle("/api/processes", RecoverWrap(http.HandlerFunc(apiProcessesHandler)))
+	r.Handle("/api/actualdirectory", RecoverWrap(http.HandlerFunc(apiActualDirectoryHandler)))
+
+	r.Handle("/api/workflows", RecoverWrap(http.HandlerFunc(apiGetAllCellarWorkflowsHandler))).Methods("GET")
+	r.Handle("/api/workflow/{id}", RecoverWrap(http.HandlerFunc(apiGetOrRemoveCellarWorkflowHandler))).Methods("GET", "DELETE")
+	r.Handle("/api/workflow", RecoverWrap(http.HandlerFunc(apiAddOrUpdateCellarWorkflowHandler))).Methods("PUT", "PATCH")
+
+	headersOk := handlers.AllowedHeaders([]string{"Content-Type", "Accept", "Access-Control-Allow-Methods", "Access-Control-Allow-Origin"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
+	methodsOk := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"})
+
+	http.ListenAndServe(":5000", handlers.CORS(headersOk, originsOk, methodsOk)(r))
 }
 
 //Exception Handling - Panic handler
@@ -146,7 +153,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	//--------------------------------------------------------
 	//--------------------------------------------------------
 
-	collection := GetAllWorkflowEntity()
+	collection := GetAllCellarWorkflows()
 	// fmt.Println(collection)
 	// aa := ""
 	// for _, entity := range collection {
@@ -238,29 +245,6 @@ func actualdirectoryHandler(w http.ResponseWriter, r *http.Request) {
 
 	processes.ExecuteTemplate(w, "layouttemplate", dto)
 }
-func taillogsHandler(w http.ResponseWriter, r *http.Request) {
-
-	var (
-		cmdOut []byte
-		err    error
-	)
-	cmd := "tail"
-	args := []string{"-f", "/var/log/lastlog"}
-	cmdOut, err = exec.Command(cmd, args...).Output()
-	if err != nil {
-		logger.Error("can't run command > " + err.Error())
-	}
-	cmdOutText := string(cmdOut)
-	dataFormatted := strings.Split(cmdOutText, "\n")
-
-	dto := cellarDTO{
-		ID:    randStringBytesMaskImprSrc(5),
-		Error: "",
-		Data:  dataFormatted,
-	}
-
-	taillogs.ExecuteTemplate(w, "layouttemplate", dto)
-}
 func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "GET" {
@@ -320,11 +304,11 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		//befor run, save it
-		entity := WorkflowEntity{
+		entity := CellarWorkflow{
 			Type:       workflowType,
 			Parameters: cmdArgs,
 		}
-		SaveWorkflowEntity(&entity)
+		AddCellarWorkflow(&entity)
 
 		//run
 		cmd := exec.Command(cmdName, cmdArgs...)
@@ -365,7 +349,7 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 }
 func workflowindbHandler(w http.ResponseWriter, r *http.Request) {
 
-	data := GetAllWorkflowEntity()
+	data := GetAllCellarWorkflows()
 
 	workflowindb.ExecuteTemplate(w, "layouttemplate", data)
 }
@@ -373,6 +357,189 @@ func workflowindbHandler(w http.ResponseWriter, r *http.Request) {
 //--------------------------------
 // API method
 //--------------------------------
+func apiProcessesHandler(w http.ResponseWriter, r *http.Request) {
+
+	// Create an *exec.Cmd
+	cmd := exec.Command("ps", "-ef")
+
+	// Combine stdout and stderr
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		logger.Error(err.Error())
+	}
+	data := printOutput(output)
+
+	dataFormatted := strings.Split(data, "\n")
+	dto := cellarDTO{
+		ID:    randStringBytesMaskImprSrc(5),
+		Error: "",
+		Data:  dataFormatted,
+	}
+
+	json.NewEncoder(w).Encode(dto)
+}
+
+func apiActualDirectoryHandler(w http.ResponseWriter, r *http.Request) {
+
+	var (
+		cmdOut []byte
+		err    error
+	)
+	cmd := "ls"
+	args := []string{"-l"}
+	cmdOut, err = exec.Command(cmd, args...).Output()
+	if err != nil {
+		logger.Error("can't run command > " + err.Error())
+	}
+	cmdOutText := string(cmdOut)
+	dataFormatted := strings.Split(cmdOutText, "\n")
+
+	dto := cellarDTO{
+		ID:    randStringBytesMaskImprSrc(5),
+		Error: "",
+		Data:  dataFormatted,
+	}
+
+	json.NewEncoder(w).Encode(dto)
+}
+
+func apiGetAllCellarWorkflowsHandler(w http.ResponseWriter, r *http.Request) {
+
+	data := GetAllCellarWorkflows()
+
+	dto := cellarDTO{
+		ID:    randStringBytesMaskImprSrc(5),
+		Error: "",
+		Data:  data,
+	}
+
+	json.NewEncoder(w).Encode(dto)
+
+}
+
+func apiGetOrRemoveCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == "GET" {
+		apiGetCellarWorkflowHandler(w, r)
+	}
+
+	if r.Method == "DELETE" {
+		apiRemoveCellarWorkflowHandler(w, r)
+	}
+
+}
+func apiGetCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
+
+	// Read from BODY
+	// body, err := ioutil.ReadAll(r.Body)
+	// if err != nil {
+	// 	http.Error(w, "Error reading request body",
+	// 		http.StatusInternalServerError)
+	// }
+	// id := string(body)
+
+	// Read from URL
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	data := GetCellarWorkflow(id)
+
+	dto := cellarDTO{
+		ID:    randStringBytesMaskImprSrc(5),
+		Error: "",
+		Data:  data,
+	}
+
+	json.NewEncoder(w).Encode(dto)
+
+}
+func apiRemoveCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
+
+	// Read from BODY
+	// body, err := ioutil.ReadAll(r.Body)
+	// if err != nil {
+	// 	http.Error(w, "Error reading request body",
+	// 		http.StatusInternalServerError)
+	// }
+	// id := string(body)
+
+	// Read from URL
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	err = RemoveCellarWorkflow(id)
+	if err != nil {
+		logger.Error("workflow can't be deleted > " + err.Error())
+	}
+
+	dto := cellarDTO{
+		ID:    randStringBytesMaskImprSrc(5),
+		Error: "",
+		Data:  "OK",
+	}
+
+	json.NewEncoder(w).Encode(dto)
+
+}
+
+func apiAddOrUpdateCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "PUT" {
+		apiAddCellarWorkflowHandler(w, r)
+	}
+
+	if r.Method == "PATCH" {
+		apiUpdateCellarWorkflowHandler(w, r)
+	}
+}
+
+func apiAddCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
+
+	log.Println(r.Body)
+
+	t := cellarDTO{}
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&t)
+	if err != nil {
+		panic(err)
+	}
+
+	log.Println(t)
+
+	item := CellarWorkflow{}
+	// FillStruct2(t.Data, item)
+
+	data := AddCellarWorkflow(&item)
+
+	dto := cellarDTO{
+		ID:    randStringBytesMaskImprSrc(5),
+		Error: "",
+		Data:  data,
+	}
+
+	json.NewEncoder(w).Encode(dto)
+
+}
+func apiUpdateCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
+
+	var t CellarWorkflow
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&t)
+	if err != nil {
+		panic(err)
+	}
+
+	data := UpdateCellarWorkflow(&t)
+
+	dto := cellarDTO{
+		ID:    randStringBytesMaskImprSrc(5),
+		Error: "",
+		Data:  data,
+	}
+
+	json.NewEncoder(w).Encode(dto)
+
+}
+
 func killprocessHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
@@ -390,7 +557,7 @@ func deleteworkflowHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	err := DeleteWorklfowEntity(id)
+	err := RemoveCellarWorkflow(id)
 	if err != nil {
 		logger.Error("workflow can't be deleted > " + err.Error())
 	}

@@ -13,6 +13,9 @@ import {SpaceList} from './view/space/list/space-list';
 import {SenzorDetail} from './view/senzor/detail/senzor-detail';
 import {SenzorList} from './view/senzor/list/senzor-list';
 
+import { WorkflowCliComponent } from './view/workflow/cli/cli.component';
+
+
 export const routes: Routes = [
     {
         path: '', component: DashboardDemo 
@@ -23,7 +26,8 @@ export const routes: Routes = [
     { path: 'spaces', component: SpaceList },
     { path: 'space/:id', component: SpaceDetail },
     { path: 'senzors', component: SenzorList },
-    { path: 'senzor/:id', component: SenzorDetail }
+    { path: 'senzor/:id', component: SenzorDetail },
+    { path: 'workflow/cli', component: WorkflowCliComponent },
 ];
 
 // export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);

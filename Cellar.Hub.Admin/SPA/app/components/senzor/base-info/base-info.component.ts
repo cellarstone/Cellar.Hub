@@ -32,6 +32,8 @@ export class SenzorBaseInfoComponent implements OnInit {
 
   types: SelectItem[];
   selectedType: string;
+  typesImages: Map<string,string> = new Map<string,string>();
+  selectedTypeImage: string = "";
 
   constructor() {
     this.types = [];
@@ -45,9 +47,19 @@ export class SenzorBaseInfoComponent implements OnInit {
     this.types.push({ label: 'CellarSenzor Power v1.0', value: 'CellarSenzor Power v1.0' });
     this.types.push({ label: 'CellarSenzor Camera v1.0', value: 'CellarSenzor Camera v1.0' });
 
+    this.typesImages.set("CellarSenzor Temperature v1.0", "assets/images/senzortypes/dht11.jpeg");
+    this.typesImages.set("CellarSenzor Temperature v2.0", "assets/images/senzortypes/dht22.jpg");
+    this.typesImages.set("CellarSenzor Motion v1.0", "assets/images/senzortypes/pir.jpeg");
+    this.typesImages.set("CellarSenzor CO2 v1.0", "assets/images/senzortypes/co2.jpg");
+    this.typesImages.set("CellarSenzor Smoke v1.0", "assets/images/senzortypes/smoke.jpeg");
+    this.typesImages.set("CellarSenzor OpenClose v1.0", "assets/images/senzortypes/openclose.png");
+    this.typesImages.set("CellarSenzor Power v1.0", "assets/images/senzortypes/relay.jpeg");
+    this.typesImages.set("CellarSenzor Camera v1.0", "assets/images/senzortypes/camera.jpeg");
+
   }
   ngOnInit(): void {
     this.selectedType = this.item.type;
+    this.onTypeChange(this.selectedType);
   }
 
 
@@ -199,6 +211,14 @@ export class SenzorBaseInfoComponent implements OnInit {
       }
 
 
+  }
+
+
+
+
+  onTypeChange(data){
+    let img = this.typesImages.get(data);
+    this.selectedTypeImage = img;
   }
 
 

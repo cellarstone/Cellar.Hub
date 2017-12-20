@@ -108,6 +108,7 @@ import { AppComponent } from './app.component';
 import { SharedService } from './service/shared.service';
 import { IoTService } from './service/iot.service';
 import { CdnService } from './service/cdn.service';
+import { WorkflowService } from './service/workflow.service';
 
 import { AppMenuComponent, AppSubMenu } from './app.menu.component';
 import { AppTopBar } from './app.topbar.component';
@@ -131,6 +132,10 @@ import { SenzorList } from './view/senzor/list/senzor-list';
 import { SenzorBaseInfoComponent } from './components/senzor/base-info/base-info.component';
 import { SenzorListComponent } from './components/senzor/list/list.component';
 
+//workflow
+import { WorkflowCliComponent } from './view/workflow/cli/cli.component';
+
+
 
 //Router
 import { routes } from './app.routes';
@@ -140,11 +145,11 @@ import { reducers } from 'app/state/reducers/main.reducer';
 import { SenzorEffects } from 'app/state/effects/senzor.effects';
 import { SpaceEffects } from 'app/state/effects/space.effects';
 import { PlaceEffects } from 'app/state/effects/place.effects';
+import { WorkflowEffects } from 'app/state/effects/workflow.effects';
 import { RouterEffects } from 'app/state/effects/router.effects';
 // import { INITIAL_APPLICATION_STATE } from './store/todo.state';
 import { CustomSerializer } from './state/router-settings';
 import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
-
 
 
 
@@ -166,7 +171,7 @@ import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
         StoreDevtoolsModule.instrument({
           maxAge: 25
         }),
-        EffectsModule.forRoot([SenzorEffects, SpaceEffects, PlaceEffects, RouterEffects]),
+        EffectsModule.forRoot([WorkflowEffects, SenzorEffects, SpaceEffects, PlaceEffects, RouterEffects]),
         StoreRouterConnectingModule,
         //PrimeNG
         AccordionModule,
@@ -263,14 +268,16 @@ import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
         SenzorListComponent,
         PlaceBaseInfoComponent,
         SpaceListComponent,
-        SpaceBaseInfoComponent
+        SpaceBaseInfoComponent,
+        WorkflowCliComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         { provide: RouterStateSerializer, useClass: CustomSerializer },
         IoTService,
         CdnService,
-        SharedService
+        SharedService,
+        WorkflowService
     ],
     bootstrap: [AppComponent]
 })

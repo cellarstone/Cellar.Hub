@@ -81,7 +81,8 @@
                                             <div class="ui-g-12 ui-md-12">
                                                 <label for="wifissid">Wifi SSID</label>
                                                 <div class="ui-fluid">
-                                                    <input id="wifissid" type="text" pInputText [(ngModel)]="addedsenzor.wifiSSID" [ngClass]="{'nonvalid': !isWifiSSIDValid }" />
+                                                    <input id="wifissid" type="text" pInputText [(ngModel)]="addedsenzor.wifiSSID" [ngClass]="{'nonvalid': !isWifiSSIDValid }"
+                                                    />
                                                 </div>
                                             </div>
                                             <div class="ui-g-12 ui-md-12">
@@ -111,7 +112,7 @@
 
                                         </div>
                                     </div>
-    
+
 
 
 
@@ -137,32 +138,15 @@
                 <!--VAZBA SPACE - SENZOR-->
                 <div class="ui-g">
 
-                    <div *ngFor="let itemsb of (item_senzors$ | async)" class="ui-g-12 ui-md-6 ui-lg-4">
-
-
-
-
-
-
-
-                        <div class="ui-g" (click)="selectSenzor(itemsb.id)" [ngClass]="colorMap[itemsb.state]">
-                            <div class="ui-g-4">
-                                <i [ngClass]="setSenzorTypeIcon(itemsb.type)"></i>
+                    <div *ngFor="let itemsb of (item_senzors$ | async)" class="ui-g-12 ui-md-6 ui-lg-3">
+                        <div class="mycard" (click)="selectSenzor(itemsb.id)" [ngClass]="colorMap[itemsb.state]">
+                            <div class="ui-g">
+                                <img src="{{getSenzorTypeImage(itemsb.type)}}" style="height: 100px; max-width: 100%;" />
                             </div>
-                            <div class="ui-g-8">
+                            <div class="ui-g">
                                 <span class="overview-box-name">{{itemsb.name}}</span>
                             </div>
                         </div>
-
-
-
-
-
-
-
-
-
-
                     </div>
 
                 </div>
@@ -228,7 +212,8 @@
                                             <div class="ui-g-12 ui-md-12">
                                                 <label for="path3">Path</label>
                                                 <div class="ui-fluid">
-                                                    <input id="path3" type="text" pInputText [(ngModel)]="addedsubspace.path" [ngClass]="{'nonvalid': !isPathValid }" disabled />
+                                                    <input id="path3" type="text" pInputText [(ngModel)]="addedsubspace.path" [ngClass]="{'nonvalid': !isPathValid }" disabled
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
@@ -271,16 +256,12 @@
 
                 <div class="ui-g">
 
-                    <div *ngFor="let itemsb of (item_subspaces$ | async)" class="ui-g-12 ui-md-6 ui-lg-3" >
-                        <div class="ui-g card overview-box overview-box-1" (click)="selectSubspace(itemsb.id)" [ngClass]="colorMap[itemsb.state]">
-                            <div class="ui-g-4">
-                                <!-- <div *ngIf="itemsb.state == 1" style="background-color: yellow;width: 50px;height:50px"></div>
-                                <div *ngIf="itemsb.state == 2" style="background-color: green;width: 50px;height:50px"></div>
-                                <div *ngIf="itemsb.state == 3" style="background-color: red;width: 50px;height:50px"></div> -->
+                    <div *ngFor="let itemsb of (item_subspaces$ | async)" class="ui-g-12 ui-md-6 ui-lg-3">
+                        <div class="mycard " (click)="selectSubspace(itemsb.id)" [ngClass]="colorMap[itemsb.state]">
+                            <div class="ui-g">
+                                <img src="{{itemsb.image}}" style="height: 100px; max-width: 100%;" />
                             </div>
-                            <div class="ui-g-8">
-                                <img src="{{itemsb.image}}" width="100" />
-                                <!-- <span class="overview-box-count">253</span> -->
+                            <div class="ui-g">
                                 <span class="overview-box-name">{{itemsb.name}}</span>
                             </div>
                         </div>
@@ -302,7 +283,7 @@
 
 
 
-   
+
 
 
 

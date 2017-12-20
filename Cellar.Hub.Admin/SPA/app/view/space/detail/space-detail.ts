@@ -48,6 +48,8 @@ export class SpaceDetail {
     addedsenzor: CellarSenzor;
     senzorTypes: SelectItem[];
     selectedSenzorType: string;
+    typesImages: Map<string, string> = new Map<string, string>();
+    selectedTypeImage: string = "";
 
     addsubspaceDisplay: boolean = false;
     addedsubspace: CellarSpace;
@@ -75,7 +77,16 @@ export class SpaceDetail {
         this.senzorTypes.push({ label: 'CellarSenzor Power v1.0', value: 'CellarSenzor Power v1.0' });
         this.senzorTypes.push({ label: 'CellarSenzor Camera v1.0', value: 'CellarSenzor Camera v1.0' });
 
-        this.colorMap = { 1: 'newState', 2: 'approvedState', 3: 'forbiddenState' };
+        this.typesImages.set("CellarSenzor Temperature v1.0", "assets/images/senzortypes/dht11.jpeg");
+        this.typesImages.set("CellarSenzor Temperature v2.0", "assets/images/senzortypes/dht22.jpg");
+        this.typesImages.set("CellarSenzor Motion v1.0", "assets/images/senzortypes/pir.jpeg");
+        this.typesImages.set("CellarSenzor CO2 v1.0", "assets/images/senzortypes/co2.jpg");
+        this.typesImages.set("CellarSenzor Smoke v1.0", "assets/images/senzortypes/smoke.jpeg");
+        this.typesImages.set("CellarSenzor OpenClose v1.0", "assets/images/senzortypes/openclose.png");
+        this.typesImages.set("CellarSenzor Power v1.0", "assets/images/senzortypes/relay.jpeg");
+        this.typesImages.set("CellarSenzor Camera v1.0", "assets/images/senzortypes/camera.jpeg");
+
+        this.colorMap = { 1: 'newStatePanel', 2: 'approvedStatePanel', 3: 'forbiddenStatePanel' };
 
         this.item$ = this.store.select(mapSpaceFromState);
         this.item_subspaces$ = this.store.select(mapSpacesFromState);
@@ -136,48 +147,8 @@ export class SpaceDetail {
     //*********************************/
 
 
-    setSenzorTypeIcon(type: string) {
-        let result = "";
-
-        switch (type) {
-            case "CellarSenzorTemperaturev10": {
-                result = 'fa fa-thermometer-quarter'
-                break;
-            }
-            case "CellarSenzor Temperature v2.0": {
-                result = 'fa fa-thermometer-full'
-                break;
-            }
-            case "CellarSenzor Motion v1.0": {
-                result = 'forbiddenState'
-                break;
-            }
-            case "CellarSenzor CO2 v1.0": {
-                result = 'forbiddenState'
-                break;
-            }
-            case "CellarSenzor Smoke v1.0": {
-                result = 'forbiddenState'
-                break;
-            }
-            case "CellarSenzor OpenClose v1.0": {
-                result = 'forbiddenState'
-                break;
-            }
-            case "CellarSenzor Power v1.0": {
-                result = 'fa fa-power-off'
-                break;
-            }
-            case "CellarSenzor Camera v1.0": {
-                result = 'fa fa-video-camera'
-                break;
-            }
-            default: {
-                result = 'fa fa-question'
-            }
-        }
-
-        return result;
+    getSenzorTypeImage(type: string) {
+        return  this.typesImages.get(type);
     }
 
 

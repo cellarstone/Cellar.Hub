@@ -22,6 +22,7 @@ import { Store } from '@ngrx/store';
 import { ApplicationState } from 'app/state/state/application.state';
 import * as RouterActions from 'app/state/actions/router.actions';
 import { LoadCellarPlaceAction, SaveCellarPlaceAction, DeleteCellarPlaceAction } from 'app/state/actions/place.actions'
+import { SaveCellarSpaceAction } from 'app/state/actions/space.actions';
 
 
 @Component({
@@ -29,16 +30,21 @@ import { LoadCellarPlaceAction, SaveCellarPlaceAction, DeleteCellarPlaceAction }
     styleUrls: ['./place-detail.scss']
 })
 export class PlaceDetail {
+    colorMap: any;
 
     item$: Observable<CellarPlace>;
     item_spaces$: Observable<CellarSpace[]>;
 
     private sub: any;
 
+    addsubspaceDisplay: boolean = false;
+    addedsubspace: CellarSpace;
+
 
     constructor(
         private route: ActivatedRoute,
         private store: Store<ApplicationState>) {
+        this.colorMap = { 1: 'newStatePanel', 2: 'approvedStatePanel', 3: 'forbiddenStatePanel' };
 
         this.item$ = this.store.select(mapPlaceFromState);
         this.item_spaces$ = this.store.select(mapSpacesFromState);
@@ -86,14 +92,32 @@ export class PlaceDetail {
 
 
 
+    private showaddSubspace() {
+        this.addsubspaceDisplay = true;
 
+        this.addedsubspace = new CellarSpace();
+        this.item$.subscribe((value) => {
+            if (value) {
+                this.addedsubspace.path = "/"+value.name.toLowerCase();
+            }
+        });
 
-    selectItem(id: string) {
+    }
+
+    private addSubspace() {
+        this.addsubspaceDisplay = false;
+
+        this.store.dispatch(new SaveCellarSpaceAction(this.addedsubspace));
+
+    }
+
+    selectSpace(id: string) {
         this.store.dispatch(new RouterActions.Go({
             path: ['space/' + id]
         }));
     }
 
+    
 
 
 }
