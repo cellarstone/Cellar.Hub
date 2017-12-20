@@ -16,6 +16,7 @@ export class WorkflowService {
 
   private url_processes: string;
   private url_actualDirectory: string;
+  private url_getAllCellarWorkflows: string;
 
   private headers: HttpHeaders;
 
@@ -35,6 +36,7 @@ export class WorkflowService {
 
     this.url_processes = this.serverUrl + '/api/processes';
     this.url_actualDirectory = this.serverUrl + '/api/actualdirectory';
+    this.url_getAllCellarWorkflows = this.serverUrl + '/api/workflows';
 
   }
 
@@ -67,7 +69,25 @@ export class WorkflowService {
 
 
   /**********************************************/
-  /*            API METHODS                     */
+  /*                  WORKFLOW                     */
+  /**********************************************/
+
+
+  public GetAllCellarWorkflows(): Observable<CellarDTO> {
+    console.log('IoTHubService GetAllCellarWorkflows()');
+
+    this.setHeaders();
+    let options = { headers: this.headers };
+
+    return this.http.get(this.url_getAllCellarWorkflows, options)
+      .catch(this.handleError);
+  }
+
+
+
+
+  /**********************************************/
+  /*            CLI METHODS                     */
   /**********************************************/
 
 
@@ -90,20 +110,20 @@ export class WorkflowService {
     return this.http.get(this.url_actualDirectory, options)
       .catch(this.handleError);
   }
-  
+
 
 
 
 
   /**********************************************/
-    /*              HELPERS                    */
-    /**********************************************/
-    // private extractData(res: CellarDTO): any {
-    //     return res || {};
-    // }
-    private handleError(error: any): Promise<any> {
-      console.error('An error occurred', error); // for demo purposes only
-      return Promise.reject(error.message || error);
+  /*              HELPERS                    */
+  /**********************************************/
+  // private extractData(res: CellarDTO): any {
+  //     return res || {};
+  // }
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error); // for demo purposes only
+    return Promise.reject(error.message || error);
   }
 
 }

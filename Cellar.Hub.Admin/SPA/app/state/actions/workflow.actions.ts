@@ -1,4 +1,19 @@
 import { Action } from "@ngrx/store";
+import { CellarWorkflow } from "app/entities/CellarWorkflow";
+
+
+export const LOAD_ALL_CELLAR_WORKFLOWS = '[CellarWorkflows] Load All';
+export class LoadAllCellarWorkflowsAction implements Action {
+    readonly type = LOAD_ALL_CELLAR_WORKFLOWS;
+}
+
+export const LOAD_ALL_CELLAR_WORKFLOWS_SUCCESS = '[CellarWorkflows] Load All Success';
+export class LoadAllCellarWorkflowsSuccessAction implements Action {
+    readonly type = LOAD_ALL_CELLAR_WORKFLOWS_SUCCESS;
+    constructor(public payload: CellarWorkflow[]){}
+}
+
+
 
 export const SET_CLI_COMMAND = '[WorkflowManager] Set CLI command';
 export class SetCLICommandAction implements Action {

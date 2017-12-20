@@ -3,19 +3,16 @@ import * as _ from 'lodash';
 import { Action } from "@ngrx/store";
 import { StoreData } from '../state/store-data';
 import { LOAD_CELLAR_SENZOR_SUCCESS, LoadCellarSenzorSuccessAction, LOAD_ALL_CELLAR_SENZORS_SUCCESS, LoadAllCellarSenzorsSuccessAction, LOAD_CELLAR_SENZORS_SUCCESS, LoadCellarSenzorsSuccessAction } from 'app/state/actions/senzor.actions';
-import { LoadCellarPlacesSuccessAction, LOAD_CELLAR_PLACES_SUCCESS } from 'app/state/actions/place.actions';
+import { LOAD_ALL_CELLAR_PLACES_SUCCESS, LoadAllCellarPlacesSuccessAction } from 'app/state/actions/place.actions';
 import { query } from '@angular/core/src/animation/dsl';
 import { LoadCellarSpacesSuccessAction, LOAD_CELLAR_SPACES_SUCCESS, LOAD_ALL_CELLAR_SPACES_SUCCESS, LoadAllCellarSpacesSuccessAction } from 'app/state/actions/space.actions';
-import { LoadRunningProcessesSuccessAction, LOAD_RUNNING_PROCESSES_SUCCESS, SetCLICommandAction, SET_CLI_COMMAND, GET_ACTUAL_DIRECTORY_SUCCESS, GetActualDirectoryActionSuccessAction } from 'app/state/actions/workflow.actions';
+import { LoadRunningProcessesSuccessAction, LOAD_RUNNING_PROCESSES_SUCCESS, SetCLICommandAction, SET_CLI_COMMAND, GET_ACTUAL_DIRECTORY_SUCCESS, GetActualDirectoryActionSuccessAction, LOAD_ALL_CELLAR_WORKFLOWS_SUCCESS, LoadAllCellarWorkflowsSuccessAction } from 'app/state/actions/workflow.actions';
 
 export function storeData(state: StoreData, action: Action): StoreData {
     switch (action.type) {
 
-        case LOAD_CELLAR_PLACES_SUCCESS:
-            return mapPlacesToState(state, <LoadCellarPlacesSuccessAction>action);
-
-        case LOAD_CELLAR_PLACES_SUCCESS:
-            return mapPlacesToState(state, <LoadCellarPlacesSuccessAction>action);
+        case LOAD_ALL_CELLAR_PLACES_SUCCESS:
+            return mapPlacesToState(state, <LoadAllCellarPlacesSuccessAction>action);
 
         case LOAD_CELLAR_SPACES_SUCCESS:
             return mapSpacesToState(state, <LoadCellarSpacesSuccessAction>action);
@@ -28,6 +25,9 @@ export function storeData(state: StoreData, action: Action): StoreData {
 
         case LOAD_ALL_CELLAR_SENZORS_SUCCESS:
             return mapSenzorsToState(state, <LoadAllCellarSenzorsSuccessAction>action);
+
+        case LOAD_ALL_CELLAR_WORKFLOWS_SUCCESS:
+            return mapWorkflowsToState(state, <LoadAllCellarWorkflowsSuccessAction>action);
 
 
         case SET_CLI_COMMAND:
@@ -66,10 +66,17 @@ function mapSpacesToState(state: StoreData, action: any): StoreData {
     };
 }
 
-function mapPlacesToState(state: StoreData, action: LoadCellarPlacesSuccessAction): StoreData {
+function mapPlacesToState(state: StoreData, action: LoadAllCellarPlacesSuccessAction): StoreData {
     return {
         ...state,
         places: action.payload
+    };
+}
+
+function mapWorkflowsToState(state: StoreData, action: LoadAllCellarWorkflowsSuccessAction): StoreData {
+    return {
+        ...state,
+        workflows: action.payload
     };
 }
 

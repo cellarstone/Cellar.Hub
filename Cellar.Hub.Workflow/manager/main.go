@@ -16,6 +16,10 @@ import (
 	"strings"
 	"time"
 
+	"gopkg.in/mgo.v2/bson"
+
+	"github.com/mitchellh/mapstructure"
+
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/logging"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
@@ -31,9 +35,8 @@ var workflowindb *template.Template
 var err error
 
 type cellarDTO struct {
-	ID    string      `json:"id"`
-	Error string      `json:"error"`
-	Data  interface{} `json:"data"`
+	ExceptionText string      `json:"exceptionText"`
+	Data          interface{} `json:"data"`
 }
 
 //Logging
@@ -108,8 +111,14 @@ func main() {
 	r.Handle("/api/actualdirectory", RecoverWrap(http.HandlerFunc(apiActualDirectoryHandler)))
 
 	r.Handle("/api/workflows", RecoverWrap(http.HandlerFunc(apiGetAllCellarWorkflowsHandler))).Methods("GET")
-	r.Handle("/api/workflow/{id}", RecoverWrap(http.HandlerFunc(apiGetOrRemoveCellarWorkflowHandler))).Methods("GET", "DELETE")
-	r.Handle("/api/workflow", RecoverWrap(http.HandlerFunc(apiAddOrUpdateCellarWorkflowHandler))).Methods("PUT", "PATCH")
+	r.Handle("/api/workflow", RecoverWrap(http.HandlerFunc(apiAddCellarWorkflowHandler))).Methods("PUT")
+	r.Handle("/api/workflow/{id}", RecoverWrap(http.HandlerFunc(apiGetOrRemoveOrUpdateCellarWorkflowHandler))).Methods("GET", "DELETE", "PATCH")
+
+	//midlewares
+	// commonHandlers := alice.New(bodyParserHandler(cellarDTO{}))
+	// r.Handle("/api/workflow", commonHandlers.Then(RecoverWrap(http.HandlerFunc(apiAddOrUpdateCellarWorkflowHandler)))).Methods("PUT", "PATCH")
+
+	// r.Handle("/api/workflow", RecoverWrap(http.HandlerFunc(apiAddOrUpdateCellarWorkflowHandler))).Methods("PUT", "PATCH")
 
 	headersOk := handlers.AllowedHeaders([]string{"Content-Type", "Accept", "Access-Control-Allow-Methods", "Access-Control-Allow-Origin"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
@@ -215,9 +224,8 @@ func processesHandler(w http.ResponseWriter, r *http.Request) {
 
 	dataFormatted := strings.Split(data, "\n")
 	dto := cellarDTO{
-		ID:    randStringBytesMaskImprSrc(5),
-		Error: "",
-		Data:  dataFormatted,
+		ExceptionText: "",
+		Data:          dataFormatted,
 	}
 
 	processes.ExecuteTemplate(w, "layouttemplate", dto)
@@ -238,9 +246,8 @@ func actualdirectoryHandler(w http.ResponseWriter, r *http.Request) {
 	dataFormatted := strings.Split(cmdOutText, "\n")
 
 	dto := cellarDTO{
-		ID:    randStringBytesMaskImprSrc(5),
-		Error: "",
-		Data:  dataFormatted,
+		ExceptionText: "",
+		Data:          dataFormatted,
 	}
 
 	processes.ExecuteTemplate(w, "layouttemplate", dto)
@@ -305,6 +312,7 @@ func runworkflowHandler(w http.ResponseWriter, r *http.Request) {
 
 		//befor run, save it
 		entity := CellarWorkflow{
+			PID:        workflowName,
 			Type:       workflowType,
 			Parameters: cmdArgs,
 		}
@@ -371,9 +379,8 @@ func apiProcessesHandler(w http.ResponseWriter, r *http.Request) {
 
 	dataFormatted := strings.Split(data, "\n")
 	dto := cellarDTO{
-		ID:    randStringBytesMaskImprSrc(5),
-		Error: "",
-		Data:  dataFormatted,
+		ExceptionText: "",
+		Data:          dataFormatted,
 	}
 
 	json.NewEncoder(w).Encode(dto)
@@ -395,9 +402,8 @@ func apiActualDirectoryHandler(w http.ResponseWriter, r *http.Request) {
 	dataFormatted := strings.Split(cmdOutText, "\n")
 
 	dto := cellarDTO{
-		ID:    randStringBytesMaskImprSrc(5),
-		Error: "",
-		Data:  dataFormatted,
+		ExceptionText: "",
+		Data:          dataFormatted,
 	}
 
 	json.NewEncoder(w).Encode(dto)
@@ -408,16 +414,15 @@ func apiGetAllCellarWorkflowsHandler(w http.ResponseWriter, r *http.Request) {
 	data := GetAllCellarWorkflows()
 
 	dto := cellarDTO{
-		ID:    randStringBytesMaskImprSrc(5),
-		Error: "",
-		Data:  data,
+		ExceptionText: "",
+		Data:          data,
 	}
 
 	json.NewEncoder(w).Encode(dto)
 
 }
 
-func apiGetOrRemoveCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
+func apiGetOrRemoveOrUpdateCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "GET" {
 		apiGetCellarWorkflowHandler(w, r)
@@ -425,6 +430,10 @@ func apiGetOrRemoveCellarWorkflowHandler(w http.ResponseWriter, r *http.Request)
 
 	if r.Method == "DELETE" {
 		apiRemoveCellarWorkflowHandler(w, r)
+	}
+
+	if r.Method == "PATCH" {
+		apiUpdateCellarWorkflowHandler(w, r)
 	}
 
 }
@@ -445,9 +454,8 @@ func apiGetCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
 	data := GetCellarWorkflow(id)
 
 	dto := cellarDTO{
-		ID:    randStringBytesMaskImprSrc(5),
-		Error: "",
-		Data:  data,
+		ExceptionText: "",
+		Data:          data,
 	}
 
 	json.NewEncoder(w).Encode(dto)
@@ -473,47 +481,8 @@ func apiRemoveCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	dto := cellarDTO{
-		ID:    randStringBytesMaskImprSrc(5),
-		Error: "",
-		Data:  "OK",
-	}
-
-	json.NewEncoder(w).Encode(dto)
-
-}
-
-func apiAddOrUpdateCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method == "PUT" {
-		apiAddCellarWorkflowHandler(w, r)
-	}
-
-	if r.Method == "PATCH" {
-		apiUpdateCellarWorkflowHandler(w, r)
-	}
-}
-
-func apiAddCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
-
-	log.Println(r.Body)
-
-	t := cellarDTO{}
-	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&t)
-	if err != nil {
-		panic(err)
-	}
-
-	log.Println(t)
-
-	item := CellarWorkflow{}
-	// FillStruct2(t.Data, item)
-
-	data := AddCellarWorkflow(&item)
-
-	dto := cellarDTO{
-		ID:    randStringBytesMaskImprSrc(5),
-		Error: "",
-		Data:  data,
+		ExceptionText: "",
+		Data:          "OK",
 	}
 
 	json.NewEncoder(w).Encode(dto)
@@ -521,22 +490,51 @@ func apiAddCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
 }
 func apiUpdateCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
 
-	var t CellarWorkflow
-	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&t)
-	if err != nil {
-		panic(err)
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	dtoIn := parseCellarDTO(r)
+
+	log.Println(dtoIn)
+
+	var item CellarWorkflow
+	mapstructure.Decode(dtoIn.Data, &item)
+	log.Println("DECODE")
+	log.Println(item)
+
+	item.ID = bson.ObjectIdHex(id)
+
+	log.Println("DECODE 2")
+	log.Println(item)
+
+	data := UpdateCellarWorkflow(&item)
+
+	log.Println(data)
+
+	dtoOut := cellarDTO{
+		ExceptionText: "",
+		Data:          data,
 	}
 
-	data := UpdateCellarWorkflow(&t)
+	json.NewEncoder(w).Encode(dtoOut)
 
-	dto := cellarDTO{
-		ID:    randStringBytesMaskImprSrc(5),
-		Error: "",
-		Data:  data,
+}
+
+func apiAddCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
+
+	dtoIn := parseCellarDTO(r)
+
+	var item CellarWorkflow
+	mapstructure.Decode(dtoIn.Data, &item)
+
+	data := AddCellarWorkflow(&item)
+
+	dtoOut := cellarDTO{
+		ExceptionText: "",
+		Data:          data,
 	}
 
-	json.NewEncoder(w).Encode(dto)
+	json.NewEncoder(w).Encode(dtoOut)
 
 }
 

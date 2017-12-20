@@ -2,14 +2,14 @@ import { Action } from "@ngrx/store";
 import { CellarPlace } from "../../entities/CellarPlace";
 
 
-export const LOAD_CELLAR_PLACES = '[CellarPlace] Load All';
+export const LOAD_ALL_CELLAR_PLACES = '[CellarPlace] Load All';
 export class LoadCellarPlacesAction implements Action {
-    readonly type = LOAD_CELLAR_PLACES;
+    readonly type = LOAD_ALL_CELLAR_PLACES;
 }
 
-export const LOAD_CELLAR_PLACES_SUCCESS = '[CellarPlace] Load All success';
-export class LoadCellarPlacesSuccessAction implements Action {
-    readonly type = LOAD_CELLAR_PLACES_SUCCESS;
+export const LOAD_ALL_CELLAR_PLACES_SUCCESS = '[CellarPlace] Load All success';
+export class LoadAllCellarPlacesSuccessAction implements Action {
+    readonly type = LOAD_ALL_CELLAR_PLACES_SUCCESS;
     constructor(public payload: CellarPlace[]){}
 }
 

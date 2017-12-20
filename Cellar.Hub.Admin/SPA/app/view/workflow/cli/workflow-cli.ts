@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 import { LoadRunningProcessesAction, SetCLICommandAction, GetActualDirectoryAction } from 'app/state/actions/workflow.actions';
 
 @Component({
-  selector: 'app-workflow-cli',
-  templateUrl: './cli.component.html',
-  styleUrls: ['./cli.component.scss']
+  selector: 'workflow-cli',
+  templateUrl: './workflow-cli.html',
+  styleUrls: ['./workflow-cli.scss']
 })
-export class WorkflowCliComponent implements OnInit {
+export class WorkflowCli implements OnInit {
 
   cliCommand$: Observable<string>;
   cliResult$: Observable<string[]>;

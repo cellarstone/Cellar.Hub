@@ -13,8 +13,8 @@ import {SpaceList} from './view/space/list/space-list';
 import {SenzorDetail} from './view/senzor/detail/senzor-detail';
 import {SenzorList} from './view/senzor/list/senzor-list';
 
-import { WorkflowCliComponent } from './view/workflow/cli/cli.component';
-
+import { WorkflowCli } from './view/workflow/cli/workflow-cli';
+import { WorkflowList } from './view/workflow/list/workflow-list';
 
 export const routes: Routes = [
     {
@@ -27,7 +27,8 @@ export const routes: Routes = [
     { path: 'space/:id', component: SpaceDetail },
     { path: 'senzors', component: SenzorList },
     { path: 'senzor/:id', component: SenzorDetail },
-    { path: 'workflow/cli', component: WorkflowCliComponent },
+    { path: 'workflow/cli', component: WorkflowCli },
+    { path: 'workflows', component: WorkflowList },
 ];
 
 // export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);

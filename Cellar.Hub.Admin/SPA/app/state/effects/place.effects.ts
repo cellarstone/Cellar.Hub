@@ -3,7 +3,7 @@ import { Observable } from "rxjs";
 import { Action } from "@ngrx/store";
 import { Actions, Effect, toPayload } from "@ngrx/effects";
 import { IoTService } from 'app/service/iot.service';
-import { LOAD_CELLAR_PLACES, LoadCellarPlacesSuccessAction, LoadCellarPlaceSuccessAction, LOAD_CELLAR_PLACE, SAVE_CELLAR_PLACE, DELETE_CELLAR_PLACE, DeleteCellarPlaceSuccessAction, DeleteCellarPlaceFailureAction, DELETE_CELLAR_PLACE_SUCCESS } from 'app/state/actions/place.actions';
+import { LOAD_ALL_CELLAR_PLACES, LoadAllCellarPlacesSuccessAction, LoadCellarPlaceSuccessAction, LOAD_CELLAR_PLACE, SAVE_CELLAR_PLACE, DELETE_CELLAR_PLACE, DeleteCellarPlaceSuccessAction, DeleteCellarPlaceFailureAction, DELETE_CELLAR_PLACE_SUCCESS } from 'app/state/actions/place.actions';
 import { CellarPlace } from 'app/entities/CellarPlace';
 import { CellarDTO } from 'app/entities/http/CellarDTO';
 import * as RouterActions from 'app/state/actions/router.actions';
@@ -15,9 +15,9 @@ export class PlaceEffects {
     constructor(private actions$: Actions, private iotservice: IoTService) { }
 
     @Effect() placesEffect$: Observable<Action> = this.actions$
-        .ofType(LOAD_CELLAR_PLACES)
+        .ofType(LOAD_ALL_CELLAR_PLACES)
         .switchMap(() => this.iotservice.GetAllCellarPlaces())
-        .map(items => new LoadCellarPlacesSuccessAction(<CellarPlace[]>items.data));
+        .map(items => new LoadAllCellarPlacesSuccessAction(<CellarPlace[]>items.data));
 
     @Effect() loadPlaceEffect$: Observable<Action> = this.actions$
         .ofType(LOAD_CELLAR_PLACE)

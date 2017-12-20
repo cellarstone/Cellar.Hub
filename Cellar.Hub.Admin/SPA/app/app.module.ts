@@ -133,9 +133,9 @@ import { SenzorBaseInfoComponent } from './components/senzor/base-info/base-info
 import { SenzorListComponent } from './components/senzor/list/list.component';
 
 //workflow
-import { WorkflowCliComponent } from './view/workflow/cli/cli.component';
-
-
+import { WorkflowCli } from './view/workflow/cli/workflow-cli';
+import { WorkflowList } from './view/workflow/list/workflow-list';
+import { WorkflowListComponent } from './components/workflow/list/list.component';
 
 //Router
 import { routes } from './app.routes';
@@ -150,6 +150,7 @@ import { RouterEffects } from 'app/state/effects/router.effects';
 // import { INITIAL_APPLICATION_STATE } from './store/todo.state';
 import { CustomSerializer } from './state/router-settings';
 import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
+
 
 
 
@@ -264,12 +265,14 @@ import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
         SenzorList,
         PlaceDashboard,
         PlaceDetail,
+        WorkflowCli,
+        WorkflowList,
         SenzorBaseInfoComponent,
         SenzorListComponent,
         PlaceBaseInfoComponent,
         SpaceListComponent,
         SpaceBaseInfoComponent,
-        WorkflowCliComponent
+        WorkflowListComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

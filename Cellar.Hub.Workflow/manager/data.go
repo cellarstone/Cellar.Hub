@@ -8,7 +8,7 @@ import (
 )
 
 type CellarWorkflow struct {
-	ID         bson.ObjectId `json:"_id" bson:"_id,omitempty"`
+	ID         bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Type       string        `json:"type" bson:"type,omitempty"`
 	State      string        `json:"state" bson:"state,omitempty"`
 	PID        string        `json:"pid" bson:"pid"`
@@ -72,7 +72,7 @@ func AddCellarWorkflow(wf *CellarWorkflow) *CellarWorkflow {
 	//SELECT TABLE
 	workflowsTable := session.DB(mongoDatabase).C("Workflows")
 
-	log.Println(wf)
+	wf.ID = bson.NewObjectId()
 
 	//INSERT
 	err = workflowsTable.Insert(wf)
@@ -96,8 +96,8 @@ func UpdateCellarWorkflow(wf *CellarWorkflow) *CellarWorkflow {
 	workflowsTable := session.DB(mongoDatabase).C("Workflows")
 
 	//UPDATE
-	colQuerier := bson.M{"_id": wf.ID}
-	err = workflowsTable.Update(colQuerier, wf)
+	// colQuerier := bson.M{"_id": bson.ObjectIdHex(wf.ID)}
+	err = workflowsTable.UpdateId(wf.ID, wf)
 	if err != nil {
 		panic(err)
 	}
