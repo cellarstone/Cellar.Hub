@@ -135,7 +135,11 @@ import { SenzorListComponent } from './components/senzor/list/list.component';
 //workflow
 import { WorkflowCli } from './view/workflow/cli/workflow-cli';
 import { WorkflowList } from './view/workflow/list/workflow-list';
+import { WorkflowDetail } from './view/workflow/detail/workflow-detail';
 import { WorkflowListComponent } from './components/workflow/list/list.component';
+import { SavetoprometheusComponent } from './components/workflow/savetoprometheus/savetoprometheus.component';
+import { SendtowebsocketComponent } from './components/workflow/sendtowebsocket/sendtowebsocket.component';
+
 
 //Router
 import { routes } from './app.routes';
@@ -150,6 +154,7 @@ import { RouterEffects } from 'app/state/effects/router.effects';
 // import { INITIAL_APPLICATION_STATE } from './store/todo.state';
 import { CustomSerializer } from './state/router-settings';
 import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
+
 
 
 
@@ -267,12 +272,15 @@ import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
         PlaceDetail,
         WorkflowCli,
         WorkflowList,
+        WorkflowDetail,
         SenzorBaseInfoComponent,
         SenzorListComponent,
         PlaceBaseInfoComponent,
         SpaceListComponent,
         SpaceBaseInfoComponent,
-        WorkflowListComponent
+        WorkflowListComponent,
+        SavetoprometheusComponent,
+        SendtowebsocketComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },

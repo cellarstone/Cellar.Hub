@@ -114,6 +114,9 @@ func main() {
 	r.Handle("/api/workflow", RecoverWrap(http.HandlerFunc(apiAddCellarWorkflowHandler))).Methods("PUT")
 	r.Handle("/api/workflow/{id}", RecoverWrap(http.HandlerFunc(apiGetOrRemoveOrUpdateCellarWorkflowHandler))).Methods("GET", "DELETE", "PATCH")
 
+	r.Handle("/api/runworkflow/{id}", RecoverWrap(http.HandlerFunc(apiRunWorkflowHandler)))
+	r.Handle("/api/stopworkflow/{id}", RecoverWrap(http.HandlerFunc(apiStopWorkflowHandler)))
+
 	//midlewares
 	// commonHandlers := alice.New(bodyParserHandler(cellarDTO{}))
 	// r.Handle("/api/workflow", commonHandlers.Then(RecoverWrap(http.HandlerFunc(apiAddOrUpdateCellarWorkflowHandler)))).Methods("PUT", "PATCH")
@@ -362,8 +365,35 @@ func workflowindbHandler(w http.ResponseWriter, r *http.Request) {
 	workflowindb.ExecuteTemplate(w, "layouttemplate", data)
 }
 
+func killprocessHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	idnumber, _ := strconv.Atoi(id)
+
+	proc, _ := os.FindProcess(idnumber)
+	err := proc.Kill()
+	if err != nil {
+		logger.Error("process can't be killed > " + err.Error())
+	}
+}
+
+func deleteworkflowHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	err := RemoveCellarWorkflow(id)
+	if err != nil {
+		logger.Error("workflow can't be deleted > " + err.Error())
+	}
+}
+
+//--------------------------------
+//--------------------------------
 //--------------------------------
 // API method
+//--------------------------------
+//--------------------------------
 //--------------------------------
 func apiProcessesHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -524,6 +554,8 @@ func apiAddCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
 
 	dtoIn := parseCellarDTO(r)
 
+	log.Println(dtoIn)
+
 	var item CellarWorkflow
 	mapstructure.Decode(dtoIn.Data, &item)
 
@@ -538,27 +570,114 @@ func apiAddCellarWorkflowHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func killprocessHandler(w http.ResponseWriter, r *http.Request) {
+func apiRunWorkflowHandler(w http.ResponseWriter, r *http.Request) {
+
 	vars := mux.Vars(r)
 	id := vars["id"]
 
-	idnumber, _ := strconv.Atoi(id)
+	//GET WORKFLOW
+	workflow := GetCellarWorkflow(id)
+
+	workflowType := workflow.Type
+	workflowName := workflow.Name
+
+	//RUN WORKFLOW
+
+	var cmdArgs []string
+	cmdArgs = append(cmdArgs, workflowName)
+
+	parCount := len(workflow.Parameters)
+	for i := 0; i < parCount; i++ {
+		cmdArgs = append(cmdArgs, workflow.Parameters[i])
+	}
+
+	cmdName := "./" + workflowType
+
+	// parameter1 := workflow.Parameters[0]
+	// parameter2 := workflow.Parameters[1]
+
+	// cmdName := ""
+	// if workflowType == "workflow1" {
+	// 	cmdName = "./workflow1"
+	// 	cmdArgs = []string{workflowName}
+	// } else if workflowType == "workflow2" {
+	// 	cmdName = "./workflow2"
+	// 	cmdArgs = []string{workflowName, parameter1}
+	// } else if workflowType == "savetoprometheus" {
+	// 	cmdName = "./savetoprometheus"
+	// 	cmdArgs = []string{workflowName, parameter1}
+	// } else if workflowType == "savetofluentd" {
+	// 	cmdName = "./savetofluentd"
+	// 	cmdArgs = []string{workflowName, parameter1}
+	// } else if workflowType == "sendtowebsocket" {
+	// 	cmdName = "./sendtowebsocket"
+	// 	cmdArgs = []string{workflowName, parameter1, parameter2}
+	// } else if workflowType == "cancelmeeting" {
+	// 	cmdName = "./cancelmeeting"
+	// 	cmdArgs = []string{workflowName, parameter1, parameter2}
+	// }
+
+	//run
+	cmd := exec.Command(cmdName, cmdArgs...)
+	cmdReader, err := cmd.StdoutPipe()
+	if err != nil {
+		logger.Error("can't run command > " + err.Error())
+	}
+
+	scanner := bufio.NewScanner(cmdReader)
+	go func() {
+		for scanner.Scan() {
+			//low-level exception logging
+			logger.Information("workflow process | " + scanner.Text())
+		}
+	}()
+
+	err = cmd.Start()
+	if err != nil {
+		logger.Error("can't start command > " + err.Error())
+	}
+
+	//RE-SAVE WORKFLOW
+	asdf := cmd.Process.Pid
+	//idnumber, _ := strconv.Atoi(cmd.Process.Pid)
+	workflow.PID = string(asdf)
+
+	UpdateCellarWorkflow(&workflow)
+
+	//SEND RESPONSE
+	dtoOut := cellarDTO{
+		ExceptionText: "",
+		Data:          workflow,
+	}
+
+	json.NewEncoder(w).Encode(dtoOut)
+
+}
+
+func apiStopWorkflowHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	//GET WORKFLOW
+	workflow := GetCellarWorkflow(id)
+
+	workflowPID := workflow.PID
+
+	idnumber, _ := strconv.Atoi(workflowPID)
 
 	proc, _ := os.FindProcess(idnumber)
 	err := proc.Kill()
 	if err != nil {
 		logger.Error("process can't be killed > " + err.Error())
 	}
-}
 
-func deleteworkflowHandler(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
-
-	err := RemoveCellarWorkflow(id)
-	if err != nil {
-		logger.Error("workflow can't be deleted > " + err.Error())
+	dtoOut := cellarDTO{
+		ExceptionText: "",
+		Data:          "OK",
 	}
+
+	json.NewEncoder(w).Encode(dtoOut)
+
 }
 
 func throwExceptionHandler(w http.ResponseWriter, r *http.Request) {

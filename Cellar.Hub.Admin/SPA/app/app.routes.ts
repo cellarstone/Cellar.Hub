@@ -15,6 +15,7 @@ import {SenzorList} from './view/senzor/list/senzor-list';
 
 import { WorkflowCli } from './view/workflow/cli/workflow-cli';
 import { WorkflowList } from './view/workflow/list/workflow-list';
+import { WorkflowDetail } from 'app/view/workflow/detail/workflow-detail';
 
 export const routes: Routes = [
     {
@@ -29,6 +30,7 @@ export const routes: Routes = [
     { path: 'senzor/:id', component: SenzorDetail },
     { path: 'workflow/cli', component: WorkflowCli },
     { path: 'workflows', component: WorkflowList },
+    { path: 'workflow/:id', component: WorkflowDetail },
 ];
 
 // export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);

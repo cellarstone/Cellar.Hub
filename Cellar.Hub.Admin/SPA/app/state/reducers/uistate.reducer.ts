@@ -5,6 +5,7 @@ import { Action } from "@ngrx/store";
 import { LOAD_CELLAR_SENZOR_SUCCESS, LoadCellarSenzorSuccessAction, LoadCellarSenzorAction, LOAD_CELLAR_SENZOR } from 'app/state/actions/senzor.actions';
 import { LoadCellarPlaceSuccessAction, LOAD_CELLAR_PLACE_SUCCESS, LoadCellarPlaceAction, LOAD_CELLAR_PLACE, DeleteCellarPlaceFailureAction, DELETE_CELLAR_PLACE_FAILURE } from 'app/state/actions/place.actions';
 import { LoadCellarSpaceAction, LoadCellarSpaceSuccessAction, LOAD_CELLAR_SPACE, LOAD_CELLAR_SPACE_SUCCESS, DELETE_CELLAR_SPACE_FAILURE, DeleteCellarSpaceFailureAction } from 'app/state/actions/space.actions';
+import { LoadCellarWorkflowAction, LoadCellarWorkflowSuccessAction, LOAD_CELLAR_WORKFLOW, LOAD_CELLAR_WORKFLOW_SUCCESS } from 'app/state/actions/workflow.actions';
 
 
 export function uiState(state: UiState = INITIAL_UI_STATE, action: any): UiState {
@@ -33,6 +34,12 @@ export function uiState(state: UiState = INITIAL_UI_STATE, action: any): UiState
 
         case DELETE_CELLAR_PLACE_FAILURE:
             return mapErrorToState(state, <DeleteCellarPlaceFailureAction>action);
+
+        case LOAD_CELLAR_WORKFLOW:
+            return mapWorkflowToState2(state, <LoadCellarWorkflowAction>action);
+
+        case LOAD_CELLAR_WORKFLOW_SUCCESS:
+            return mapWorkflowToState(state, <LoadCellarWorkflowSuccessAction>action);
 
 
         default:
@@ -84,6 +91,20 @@ function mapSpaceToState(state: UiState, action: LoadCellarSpaceSuccessAction): 
     return {
         ...state,
         selectedSpace: action.payload
+    };
+}
+
+function mapWorkflowToState2(state: UiState, action: LoadCellarWorkflowAction): UiState {
+    return {
+        ...state,
+        selectedWorkflow: null
+    };
+}
+
+function mapWorkflowToState(state: UiState, action: LoadCellarWorkflowSuccessAction): UiState {
+    return {
+        ...state,
+        selectedWorkflow: action.payload
     };
 }
 

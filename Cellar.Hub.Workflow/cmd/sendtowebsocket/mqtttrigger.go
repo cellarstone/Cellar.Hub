@@ -14,6 +14,7 @@ import (
 func RunMqttTrigger() {
 
 	clientID := RandStringBytesMaskImprSrc(10)
+	mqttTopic := senzorID + "/" + topic
 
 	//--------------------------------------------------
 	//MQTT ---------------------------------------------
@@ -50,7 +51,7 @@ func RunMqttTrigger() {
 	err2 = cli.Subscribe(&client.SubscribeOptions{
 		SubReqs: []*client.SubReq{
 			&client.SubReq{
-				TopicFilter: []byte(topic),
+				TopicFilter: []byte(mqttTopic),
 				QoS:         mqtt.QoS1,
 				// Define the processing of the message handler.
 				Handler: processMessage,

@@ -30,21 +30,7 @@ export class SenzorEffects {
   @Effect() loadSenzorEffect$: Observable<Action> = this.actions$
     .ofType(LOAD_CELLAR_SENZOR)
     .map(toPayload)
-    .switchMap((payload) => {
-
-
-
-      return this.iotservice.GetCellarSenzor(payload).switchMap(data => {
-
-        console.log(data);
-
-        return Observable.of(data);
-
-      });
-
-
-
-    })
+    .switchMap((payload) => this.iotservice.GetCellarSenzor(payload))
     .map(item => new LoadCellarSenzorSuccessAction(<CellarSenzor>item.data));
 
 
@@ -54,10 +40,6 @@ export class SenzorEffects {
     .switchMap((payload) => {
 
       let item = <CellarSenzor>payload;
-
-      console.log(payload);
-      console.log(item);
-
       if (item.id != undefined) {
         return this.iotservice.UpdateCellarSenzor(item)
           .switchMap((val) => {
@@ -75,9 +57,6 @@ export class SenzorEffects {
 
     })
     .map(item => {
-
-      console.log(item);
-
       let temp = <CellarSenzor>item.data;
 
       return new RouterActions.Go({
@@ -91,10 +70,7 @@ export class SenzorEffects {
     .switchMap((payload) => {
 
       let item = <CellarSenzor>payload;
-
-      let isOk1 = false;
-      let isOk2 = false;
-      let isOk3 = false;
+      let isOK = true;
 
       Observable.zip(
         this.iotservice.RemoveCellarSenzor(item.id),
@@ -107,34 +83,23 @@ export class SenzorEffects {
         let dat2 = <CellarDTO>data2;
         let dat3 = <CellarDTO>data3;
 
-        if(dat1.isOK){
-          isOk1 = true;
+        if(!dat1.isOK){
+          isOK = false;
         }
-
-        if(dat2.isOK){
-          isOk1 = true;
+        if(!dat2.isOK){
+          isOK = false;
         }
-
-        if(dat3.isOK){
-          isOk1 = true;
+        if(!dat3.isOK){
+          isOK = false;
         }
 
       });
 
-      if(isOk1 && isOk2 && isOk3){
+      if(!isOK){
         return 
-      } else {
-        
-      }
-
+      } 
 
       return this.iotservice.RemoveCellarSenzor(item.id);
-
-
-
-
-
-
     })
     .map(item => {
 

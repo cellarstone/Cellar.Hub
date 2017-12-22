@@ -26,7 +26,7 @@ func RunWorkflow(name string) {
 				InChannel:       workflowIn,
 				OutChannel:      workflowOut,
 			},
-			Tag:        topic,
+			Tag:        senzorID + "/" + topic,
 			FluentdUrl: fluentdUrl,
 		})
 

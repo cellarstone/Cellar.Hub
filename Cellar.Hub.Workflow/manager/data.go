@@ -11,6 +11,7 @@ type CellarWorkflow struct {
 	ID         bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Type       string        `json:"type" bson:"type,omitempty"`
 	State      string        `json:"state" bson:"state,omitempty"`
+	Name       string        `json:"name" bson:"name,omitempty"`
 	PID        string        `json:"pid" bson:"pid"`
 	Parameters []string      `json:"parameters" bson:"parameters,omitempty"`
 }
@@ -38,7 +39,7 @@ func GetAllCellarWorkflows() []CellarWorkflow {
 	return result
 }
 
-func GetCellarWorkflow(id string) []CellarWorkflow {
+func GetCellarWorkflow(id string) CellarWorkflow {
 	// Get session
 	session, err := mgo.Dial(mongoUrl)
 	if err != nil {
@@ -53,8 +54,8 @@ func GetCellarWorkflow(id string) []CellarWorkflow {
 	collection := session.DB(mongoDatabase).C("Workflows")
 
 	// Return data
-	var result []CellarWorkflow
-	err = collection.FindId(bson.ObjectIdHex(id)).All(&result)
+	var result CellarWorkflow
+	err = collection.FindId(bson.ObjectIdHex(id)).One(&result)
 	if err != nil && err.Error() != "not found" {
 		panic(err)
 	}

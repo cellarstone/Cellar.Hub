@@ -1,0 +1,44 @@
+<h1>Workflow Detail</h1>
+<div class="myerror" *ngIf="error$ | async">{{error$ | async}}</div>
+<div id="workflow-detail">
+
+    <div class="ui-g">
+        <div class="ui-g form-group">
+            <div class="ui-g-12 ui-md-12">
+                <label for="type">Type</label>
+                <div class="ui-fluid">
+                    <p-dropdown id="type" [options]="types" [(ngModel)]="selectedType"></p-dropdown>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui-g" *ngIf="item$ | async">
+        <div class="ui-g-12">
+
+            <div>{{(item$ | async).pid}}</div>
+
+        </div>
+    </div>
+
+
+    <div class="ui-g" *ngIf="(item$ | async) && selectedType != ''">
+        <div class="ui-g-12">
+
+
+            <!-- SAVETOPROMETHEUS -->
+            <workflow-savetoprometheus *ngIf="selectedType == 'savetoprometheus'" [item]="item$ | async" (onSave)="saveWorkflow($event)"
+                (onDelete)="deleteWorkflow($event)" (onCancel)="cancelWorkflow()">
+            </workflow-savetoprometheus>
+
+            <!-- SENDTOWEBSOCKET -->
+            <workflow-sendtowebsocket *ngIf="selectedType == 'sendtowebsocket'" [item]="item$ | async" (onSave)="saveWorkflow($event)"
+                (onDelete)="deleteWorkflow($event)" (onCancel)="cancelWorkflow()">
+            </workflow-sendtowebsocket>
+
+
+        </div>
+    </div>
+
+
+</div>

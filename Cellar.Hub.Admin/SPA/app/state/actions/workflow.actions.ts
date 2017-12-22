@@ -14,6 +14,42 @@ export class LoadAllCellarWorkflowsSuccessAction implements Action {
 }
 
 
+export const LOAD_CELLAR_WORKFLOW = '[CellarWorkflow] Load';
+export class LoadCellarWorkflowAction implements Action {
+    readonly type = LOAD_CELLAR_WORKFLOW;
+    constructor(public payload: string){}
+}
+
+export const LOAD_CELLAR_WORKFLOW_SUCCESS = '[CellarWorkflow] Load success';
+export class LoadCellarWorkflowSuccessAction implements Action {
+    readonly type = LOAD_CELLAR_WORKFLOW_SUCCESS;
+    constructor(public payload: CellarWorkflow){}
+}
+
+export const SAVE_CELLAR_WORKFLOW = '[CellarWorkflow] Save';
+export class SaveCellarWorkflowAction implements Action {
+    readonly type = SAVE_CELLAR_WORKFLOW;
+    constructor(public payload: CellarWorkflow){}
+}
+
+// export const SAVE_CELLAR_WORKFLOW_SUCCESS = '[CellarWorkflow] Save success';
+// export class SaveCellarWorkflowSuccessAction implements Action {
+//     readonly type = SAVE_CELLAR_WORKFLOW_SUCCESS;
+//     constructor(public payload: CellarWorkflow){}
+// }
+
+export const DELETE_CELLAR_WORKFLOW = '[CellarWorkflow] Delete';
+export class DeleteCellarWorkflowAction implements Action {
+    readonly type = DELETE_CELLAR_WORKFLOW;
+    constructor(public payload: CellarWorkflow){}
+}
+
+
+
+/*********************************************************************************/
+/*                                  CLI                                          */
+/*********************************************************************************/
+
 
 export const SET_CLI_COMMAND = '[WorkflowManager] Set CLI command';
 export class SetCLICommandAction implements Action {

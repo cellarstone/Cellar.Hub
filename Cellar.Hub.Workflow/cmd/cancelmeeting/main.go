@@ -10,23 +10,24 @@ import (
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/logging"
 )
 
-var err error
+//INPUT PARAMETERS -----------------
+var workflowName string
+var roomID string
+var timePeriodBack string
+var prometheusUrl = "http://prometheus/"
+var apiUrl = "http://cellar.hub.api"
 
+//----------------------------------
+
+//IN-OUT CHANNELS ------------------
 var workflowIn chan string
 var workflowOut chan string
 
+//----------------------------------
+
 //Logging
 var logger *logging.CLogger
-
-//Prometheus url
-var prometheusUrl = "http://prometheus/"
-
-//Api url
-var apiUrl = "http://cellar.hub.api"
-
-//other parameters
-var roomID string
-var timePeriodBack string
+var err error
 
 func init() {
 	//set logging
@@ -46,11 +47,13 @@ func main() {
 	signal.Notify(sigc, os.Interrupt, os.Kill)
 
 	// environment := os.Getenv("APP_ENV")
-	workflowName := os.Args[1]
-	gspt.SetProcTitle(workflowName)
-
+	workflowName = os.Args[1]
 	roomID = os.Args[2]
 	timePeriodBack = os.Args[3]
+	prometheusUrl = os.Args[4]
+	apiUrl = os.Args[5]
+
+	gspt.SetProcTitle(workflowName)
 
 	workflowIn = make(chan string)
 	workflowOut = make(chan string)

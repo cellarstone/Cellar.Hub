@@ -5,6 +5,7 @@ import { CellarDTO } from '../entities/http/CellarDTO';
 
 import { environment } from '../../environments/environment';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { CellarWorkflow } from 'app/entities/CellarWorkflow';
 
 
 @Injectable()
@@ -17,6 +18,7 @@ export class WorkflowService {
   private url_processes: string;
   private url_actualDirectory: string;
   private url_getAllCellarWorkflows: string;
+  private url_CellarWorkflow: string;
 
   private headers: HttpHeaders;
 
@@ -37,34 +39,17 @@ export class WorkflowService {
     this.url_processes = this.serverUrl + '/api/processes';
     this.url_actualDirectory = this.serverUrl + '/api/actualdirectory';
     this.url_getAllCellarWorkflows = this.serverUrl + '/api/workflows';
-
+    this.url_CellarWorkflow = this.serverUrl + '/api/workflow';
   }
 
   private setHeaders() {
-
     let headerJson = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Access-Control-Allow-Methods': '*',
       'Access-Control-Allow-Origin': '*'
     }
-
     this.headers = new HttpHeaders(headerJson);
-
-    // this.headers = new HttpHeaders();
-    // this.headers.append('Content-Type', 'application/json');
-    // this.headers.append('Accept', 'application/json');
-
-    // this.headers.append('Access-Control-Allow-Methods', '*');
-    // this.headers.append('Access-Control-Allow-Origin', '*');
-
-    // let token = this._securityService.GetToken();
-    // if (token !== '')
-    // {
-    //     let tokenValue = 'Bearer ' + token;
-    //     console.log('tokenValue:' + tokenValue);
-    //     this.headers.append('Authorization', tokenValue);
-    // }
   }
 
 
@@ -74,7 +59,7 @@ export class WorkflowService {
 
 
   public GetAllCellarWorkflows(): Observable<CellarDTO> {
-    console.log('IoTHubService GetAllCellarWorkflows()');
+    console.log('WorkflowService GetAllCellarWorkflows()');
 
     this.setHeaders();
     let options = { headers: this.headers };
@@ -82,6 +67,82 @@ export class WorkflowService {
     return this.http.get(this.url_getAllCellarWorkflows, options)
       .catch(this.handleError);
   }
+
+  public GetCellarWorkflow(id: string): Observable<CellarDTO> {
+    console.log('WorkflowService GetCellarWorkflow()');
+
+    //new workflow
+    if (id == "0") {
+
+      //create a new workflow
+      var res = new CellarDTO();
+      var aaa = new CellarWorkflow();
+
+      //set workflow state
+      aaa.state = "1";
+
+      res.data = aaa;
+
+      return Observable.of(res);
+    }
+    //get existing workflow   
+    else {
+
+      this.setHeaders();
+      let options = { headers: this.headers };
+
+      return this.http.get(this.url_CellarWorkflow + "/" + id, options)
+        .catch(this.handleError);
+    }
+  }
+
+  public AddCellarWorkflow(item: CellarWorkflow): Observable<CellarDTO> {
+    console.log('WorkflowService AddCellarWorkflow()');
+
+
+    //remove 0 id
+    item.id = "";
+
+    //create a DTO
+    var res = new CellarDTO();
+    res.data = item;
+
+
+
+    this.setHeaders();
+
+    let body = JSON.stringify(res);
+
+    let options = { headers: this.headers };
+
+    return this.http.put(this.url_CellarWorkflow, body, options)
+      .catch(this.handleError);
+  }
+
+  public UpdateCellarWorkflow(item: CellarWorkflow): Observable<CellarDTO> {
+    console.log('WorkflowService UpdateCellarWorkflow()');
+
+    this.setHeaders();
+
+    let body = JSON.stringify(item);
+
+    let options = { headers: this.headers };
+
+    return this.http.patch(this.url_CellarWorkflow + "/" + item.id, body, options)
+      .catch(this.handleError);
+  }
+
+  public RemoveCellarWorkflow(id: string): Observable<CellarDTO> {
+    console.log('WorkflowService RemoveCellarWorkflow()');
+
+    this.setHeaders();
+
+    let options = { headers: this.headers };
+
+    return this.http.delete(this.url_CellarWorkflow, options)
+      .catch(this.handleError);
+  }
+
 
 
 

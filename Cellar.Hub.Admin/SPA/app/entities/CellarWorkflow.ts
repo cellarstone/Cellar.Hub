@@ -7,7 +7,7 @@ export class CellarWorkflow {
 
     public pid: string;
 
-    public parameters: string[];
+    public parameters: string[] =  [];
 
 }
 

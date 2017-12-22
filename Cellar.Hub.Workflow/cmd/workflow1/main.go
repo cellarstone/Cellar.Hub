@@ -11,16 +11,24 @@ import (
 	"github.com/erikdubbelboer/gspt"
 )
 
-var err error
-
-var workflowIn chan string
-var workflowOut chan string
-
-//Logging
-var logger *logging.DLogger
+//INPUT PARAMETERS -----------------
+// ORDER MATTERS
+var workflowName string
 
 //Metrics
 var gatewayUrl = "http://pushgateway:9091/"
+
+//----------------------------------
+
+//IN-OUT CHANNELS ------------------
+var workflowIn chan string
+var workflowOut chan string
+
+//----------------------------------
+
+//Logging
+var logger *logging.DLogger
+var err error
 
 func init() {
 	//set logging
@@ -34,7 +42,9 @@ func main() {
 	defer recoverPanic()
 
 	// environment := os.Getenv("APP_ENV")
-	workflowName := os.Args[1]
+	workflowName = os.Args[1]
+	gatewayUrl = os.Args[2]
+
 	gspt.SetProcTitle(workflowName)
 
 	// Set up channel on which to send signal notifications.

@@ -11,7 +11,7 @@ declare var jQuery: any;
   styleUrls: ['./base-info.component.scss']
 })
 export class SenzorBaseInfoComponent implements OnInit {
-  
+
   @Input()
   private item: CellarSenzor;
 
@@ -32,7 +32,7 @@ export class SenzorBaseInfoComponent implements OnInit {
 
   types: SelectItem[];
   selectedType: string;
-  typesImages: Map<string,string> = new Map<string,string>();
+  typesImages: Map<string, string> = new Map<string, string>();
   selectedTypeImage: string = "";
 
   constructor() {
@@ -158,57 +158,57 @@ export class SenzorBaseInfoComponent implements OnInit {
   }
 
 
-  private deleteSenzor(){
+  private deleteSenzor() {
     this.onDelete.emit(this.item);
   }
 
-  private cancelSenzor(){
+  private cancelSenzor() {
     // go in router history back
     this.onCancel.emit();
   }
 
 
-   //*********************************/
-    //STATE
-    //*********************************/
+  //*********************************/
+  //STATE
+  //*********************************/
 
-    public selectState(e: any) {
-      var aaa = e.srcElement.innerHTML.toLowerCase();
-      if (aaa === "new") {
-          this.item.state = "1";
+  public selectState(e: any) {
+    var aaa = e.srcElement.innerHTML.toLowerCase();
+    if (aaa === "new") {
+      this.item.state = "1";
 
 
 
-          jQuery("#new").removeClass();
-          jQuery("#approved").removeClass();
-          jQuery("#forbidden").removeClass();
+      jQuery("#new").removeClass();
+      jQuery("#approved").removeClass();
+      jQuery("#forbidden").removeClass();
 
-          jQuery("#new").addClass("btn btn-warning");
-          jQuery("#approved").addClass("btn");
-          jQuery("#forbidden").addClass("btn");
-      }
-      else if (aaa === "approved") {
-          this.item.state = "2";
+      jQuery("#new").addClass("btn btn-warning");
+      jQuery("#approved").addClass("btn");
+      jQuery("#forbidden").addClass("btn");
+    }
+    else if (aaa === "approved") {
+      this.item.state = "2";
 
-          jQuery("#new").removeClass();
-          jQuery("#approved").removeClass();
-          jQuery("#forbidden").removeClass();
+      jQuery("#new").removeClass();
+      jQuery("#approved").removeClass();
+      jQuery("#forbidden").removeClass();
 
-          jQuery("#new").addClass("btn");
-          jQuery("#approved").addClass("btn btn-success");
-          jQuery("#forbidden").addClass("btn");
-      }
-      else if (aaa === "forbidden") {
-          this.item.state = "3";
+      jQuery("#new").addClass("btn");
+      jQuery("#approved").addClass("btn btn-success");
+      jQuery("#forbidden").addClass("btn");
+    }
+    else if (aaa === "forbidden") {
+      this.item.state = "3";
 
-          jQuery("#new").removeClass();
-          jQuery("#approved").removeClass();
-          jQuery("#forbidden").removeClass();
+      jQuery("#new").removeClass();
+      jQuery("#approved").removeClass();
+      jQuery("#forbidden").removeClass();
 
-          jQuery("#new").addClass("btn");
-          jQuery("#approved").addClass("btn");
-          jQuery("#forbidden").addClass("btn btn-danger");
-      }
+      jQuery("#new").addClass("btn");
+      jQuery("#approved").addClass("btn");
+      jQuery("#forbidden").addClass("btn btn-danger");
+    }
 
 
   }
@@ -216,7 +216,7 @@ export class SenzorBaseInfoComponent implements OnInit {
 
 
 
-  onTypeChange(data){
+  onTypeChange(data) {
     let img = this.typesImages.get(data);
     this.selectedTypeImage = img;
   }
