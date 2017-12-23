@@ -46,6 +46,29 @@ export class DeleteCellarWorkflowAction implements Action {
 
 
 
+
+
+
+export const CHECK_PROCESS_CELLAR_WORKFLOW = '[CellarWorkflow] Check process';
+export class CheckProcessWorkflowAction implements Action {
+    readonly type = CHECK_PROCESS_CELLAR_WORKFLOW;
+    constructor(public payload: string){}
+}
+
+export const RUN_CELLAR_WORKFLOW = '[CellarWorkflow] Run';
+export class RunCellarWorkflowAction implements Action {
+    readonly type = RUN_CELLAR_WORKFLOW;
+    constructor(public payload: string){}
+}
+
+export const STOP_CELLAR_WORKFLOW = '[CellarWorkflow] Stop';
+export class StopCellarWorkflowAction implements Action {
+    readonly type = STOP_CELLAR_WORKFLOW;
+    constructor(public payload: string){}
+}
+
+
+
 /*********************************************************************************/
 /*                                  CLI                                          */
 /*********************************************************************************/

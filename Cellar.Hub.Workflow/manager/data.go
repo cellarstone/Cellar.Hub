@@ -11,7 +11,6 @@ type CellarWorkflow struct {
 	ID         bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Type       string        `json:"type" bson:"type,omitempty"`
 	State      string        `json:"state" bson:"state,omitempty"`
-	Name       string        `json:"name" bson:"name,omitempty"`
 	PID        string        `json:"pid" bson:"pid"`
 	Parameters []string      `json:"parameters" bson:"parameters,omitempty"`
 }

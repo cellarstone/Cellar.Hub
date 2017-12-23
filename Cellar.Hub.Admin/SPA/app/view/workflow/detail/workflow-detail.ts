@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ApplicationState } from 'app/state/state/application.state';
 import * as RouterActions from 'app/state/actions/router.actions';
-import { LoadCellarWorkflowAction, SaveCellarWorkflowAction, DeleteCellarWorkflowAction } from 'app/state/actions/workflow.actions';
+import { LoadCellarWorkflowAction, SaveCellarWorkflowAction, DeleteCellarWorkflowAction, RunCellarWorkflowAction, StopCellarWorkflowAction, CheckProcessWorkflowAction } from 'app/state/actions/workflow.actions';
 import { SelectItem } from 'primeng/primeng';
 
 @Component({
@@ -27,7 +27,7 @@ export class WorkflowDetail implements OnInit {
     private route: ActivatedRoute,
     private store: Store<ApplicationState>) {
 
-      this.types = [];
+    this.types = [];
     this.types.push({ label: 'Select Type', value: null });
     // this.types.push({ label: 'Cancel Meeting', value: 'cancelmeeting' });
     // this.types.push({ label: 'Save to Fluentd', value: 'savetofluentd' });
@@ -38,6 +38,15 @@ export class WorkflowDetail implements OnInit {
 
 
     this.item$ = this.store.select(mapWorkflowFromState);
+
+
+    this.item$.subscribe((item: CellarWorkflow) => {
+      if (item) {
+        this.selectedType = item.type;
+
+        console.log(item);
+      }
+    });
 
   }
   ngOnInit() {
@@ -77,6 +86,21 @@ export class WorkflowDetail implements OnInit {
   }
 
 
+
+  private checkProcessWorkflow(pid: string){
+    this.store.dispatch(new CheckProcessWorkflowAction(pid));
+  }
+
+  private runWorkflow(id: string){
+    this.store.dispatch(new RunCellarWorkflowAction(id));
+  }
+
+
+  private stopWorkflow(id: string){
+    this.store.dispatch(new StopCellarWorkflowAction(id));
+  }
+
+
 }
 
 
@@ -84,7 +108,7 @@ export class WorkflowDetail implements OnInit {
 
 function mapWorkflowFromState(state: ApplicationState): CellarWorkflow {
   if (state.uiState == undefined) {
-      return undefined;
+    return undefined;
   }
 
   return state.uiState.selectedWorkflow;

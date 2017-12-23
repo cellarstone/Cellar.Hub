@@ -5,7 +5,7 @@ import { Actions, Effect, toPayload } from "@ngrx/effects";
 import { WorkflowService } from 'app/service/workflow.service';
 import { CellarDTO } from 'app/entities/http/CellarDTO';
 import * as RouterActions from 'app/state/actions/router.actions';
-import { LoadRunningProcessesSuccessAction, LOAD_RUNNING_PROCESSES, GET_ACTUAL_DIRECTORY, GetActualDirectoryActionSuccessAction, LOAD_ALL_CELLAR_WORKFLOWS, LoadAllCellarWorkflowsSuccessAction, LOAD_CELLAR_WORKFLOW, LoadCellarWorkflowSuccessAction, SAVE_CELLAR_WORKFLOW, DELETE_CELLAR_WORKFLOW } from 'app/state/actions/workflow.actions';
+import { LoadRunningProcessesSuccessAction, LOAD_RUNNING_PROCESSES, GET_ACTUAL_DIRECTORY, GetActualDirectoryActionSuccessAction, LOAD_ALL_CELLAR_WORKFLOWS, LoadAllCellarWorkflowsSuccessAction, LOAD_CELLAR_WORKFLOW, LoadCellarWorkflowSuccessAction, SAVE_CELLAR_WORKFLOW, DELETE_CELLAR_WORKFLOW, RUN_CELLAR_WORKFLOW, STOP_CELLAR_WORKFLOW, CHECK_PROCESS_CELLAR_WORKFLOW } from 'app/state/actions/workflow.actions';
 import { CellarWorkflow } from 'app/entities/CellarWorkflow';
 
 @Injectable()
@@ -25,13 +25,13 @@ export class WorkflowEffects {
         .switchMap((payload) => {
 
             return this.workflowservice.GetCellarWorkflow(payload)
-            .switchMap((val) => {
+                .switchMap((val) => {
 
-                console.log(val);
+                    console.log(val);
 
-                return Observable.of(val);
+                    return Observable.of(val);
 
-            });
+                });
         })
         .map(item => new LoadCellarWorkflowSuccessAction(<CellarWorkflow>item.data));
 
@@ -42,7 +42,7 @@ export class WorkflowEffects {
         .switchMap((payload) => {
 
             let item = <CellarWorkflow>payload;
-            if (item.id != undefined) {
+            if (item.id != '') {
                 return this.workflowservice.UpdateCellarWorkflow(item)
                     .switchMap((val) => {
 
@@ -109,6 +109,66 @@ export class WorkflowEffects {
             return new RouterActions.Back();
 
         });
+
+
+
+
+    //RUN
+    @Effect() runWorkflowEffect$: Observable<Action> = this.actions$
+        .ofType(RUN_CELLAR_WORKFLOW)
+        .map(toPayload)
+        .switchMap((payload) => {
+
+            return this.workflowservice.RunCellarWorkflow(payload)
+                .switchMap((val) => {
+
+                    console.log(val);
+
+                    return Observable.of(val);
+
+                });
+        })
+        .map(item => new LoadCellarWorkflowSuccessAction(<CellarWorkflow>item.data));
+
+    //STOP
+    @Effect() stopWorkflowEffect$: Observable<Action> = this.actions$
+        .ofType(STOP_CELLAR_WORKFLOW)
+        .map(toPayload)
+        .switchMap((payload) => {
+
+            return this.workflowservice.StopCellarWorkflow(payload)
+                .switchMap((val) => {
+
+                    console.log(val);
+
+                    return Observable.of(val);
+
+                });
+        })
+        .map(item => new LoadCellarWorkflowSuccessAction(<CellarWorkflow>item.data));
+
+
+        //CHECK PROCESS
+    @Effect() checkProcessWorkflowEffect$: Observable<Action> = this.actions$
+    .ofType(CHECK_PROCESS_CELLAR_WORKFLOW)
+    .map(toPayload)
+    .switchMap((payload) => {
+
+        return this.workflowservice.CheckProcessCellarWorkflow(payload)
+            .switchMap((val) => {
+
+                console.log(val);
+
+                return Observable.of(val);
+
+            });
+    })
+    .map(item => {
+        //???????????
+        return new LoadCellarWorkflowSuccessAction(null) //???????????
+        //???????????
+    });
+
 
 
 

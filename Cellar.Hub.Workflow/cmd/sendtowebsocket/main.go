@@ -22,7 +22,7 @@ var room string
 var MqttUrl = "cellar.hub.mqtt:1883"
 
 //Websocket url
-var websocketUrl = "cellar.hub.websockets:8080"
+var websocketUrl = "cellar.hub.websockets:8887"
 
 //----------------------------------
 

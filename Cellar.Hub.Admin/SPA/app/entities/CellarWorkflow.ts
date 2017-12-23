@@ -1,7 +1,7 @@
 
 export class CellarWorkflow {
 
-    public id: string;
+    public id: string = "";
     public type: string;
     public state: string;
 

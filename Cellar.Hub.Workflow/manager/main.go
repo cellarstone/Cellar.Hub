@@ -114,8 +114,9 @@ func main() {
 	r.Handle("/api/workflow", RecoverWrap(http.HandlerFunc(apiAddCellarWorkflowHandler))).Methods("PUT")
 	r.Handle("/api/workflow/{id}", RecoverWrap(http.HandlerFunc(apiGetOrRemoveOrUpdateCellarWorkflowHandler))).Methods("GET", "DELETE", "PATCH")
 
-	r.Handle("/api/runworkflow/{id}", RecoverWrap(http.HandlerFunc(apiRunWorkflowHandler)))
-	r.Handle("/api/stopworkflow/{id}", RecoverWrap(http.HandlerFunc(apiStopWorkflowHandler)))
+	r.Handle("/api/runworkflow/{id}", RecoverWrap(http.HandlerFunc(apiRunWorkflowHandler))).Methods("GET")
+	r.Handle("/api/stopworkflow/{id}", RecoverWrap(http.HandlerFunc(apiStopWorkflowHandler))).Methods("GET")
+	r.Handle("/api/checkprocessworkflow/{pid}", RecoverWrap(http.HandlerFunc(apiCheckProcessWorkflowHandler))).Methods("GET")
 
 	//midlewares
 	// commonHandlers := alice.New(bodyParserHandler(cellarDTO{}))
@@ -579,13 +580,9 @@ func apiRunWorkflowHandler(w http.ResponseWriter, r *http.Request) {
 	workflow := GetCellarWorkflow(id)
 
 	workflowType := workflow.Type
-	workflowName := workflow.Name
 
 	//RUN WORKFLOW
-
 	var cmdArgs []string
-	cmdArgs = append(cmdArgs, workflowName)
-
 	parCount := len(workflow.Parameters)
 	for i := 0; i < parCount; i++ {
 		cmdArgs = append(cmdArgs, workflow.Parameters[i])
@@ -671,9 +668,47 @@ func apiStopWorkflowHandler(w http.ResponseWriter, r *http.Request) {
 		logger.Error("process can't be killed > " + err.Error())
 	}
 
+	//RE-SAVE WORKFLOW
+	workflow.PID = ""
+	UpdateCellarWorkflow(&workflow)
+
+	//SEND RESPONSE
 	dtoOut := cellarDTO{
 		ExceptionText: "",
-		Data:          "OK",
+		Data:          workflow,
+	}
+
+	json.NewEncoder(w).Encode(dtoOut)
+
+}
+
+func apiCheckProcessWorkflowHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	pid := vars["pid"]
+
+	// pidnumber, _ := strconv.Atoi(pid)
+
+	// Process info -------------------------
+	// Create an *exec.Cmd
+	cmd := exec.Command("ps", "-p", pid, "-o", "pid,time,%cpu,%mem,rss")
+
+	// Combine stdout and stderr
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		logger.Error(err.Error())
+	}
+	data := printOutput(output)
+
+	dataFormatted := strings.Split(data, "\n")
+
+	//Number of goroutines ------------------
+	// numGoroutines := runtime.NumGoroutine()
+	// fmt.Println("number goroutine = ", numGoroutines)
+
+	//SEND RESPONSE
+	dtoOut := cellarDTO{
+		ExceptionText: "",
+		Data:          dataFormatted,
 	}
 
 	json.NewEncoder(w).Encode(dtoOut)

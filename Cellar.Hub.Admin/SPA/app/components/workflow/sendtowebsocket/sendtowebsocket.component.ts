@@ -22,7 +22,7 @@ export class SendtowebsocketComponent implements OnInit {
   messagesToUser: Message[] = [];
 
   isStateValid: boolean = true;
-  
+
 
   //PARAMETERS
   workflowName: string;
@@ -31,19 +31,43 @@ export class SendtowebsocketComponent implements OnInit {
   room: string;
   MqttUrl: string;
   websocketUrl: string;
-  
 
-  constructor() {}
+
+  constructor() { }
 
   ngOnInit() {
 
     console.log(this.item);
-    this.workflowName = this.item.parameters[0];
-    this.senzorID = this.item.parameters[1];
-    this.topic = this.item.parameters[2];
-    this.room = this.item.parameters[3];
-    this.MqttUrl = this.item.parameters[4];
-    this.websocketUrl = this.item.parameters[5];
+
+    if (this.item.parameters != null
+      && this.item.parameters.length > 0) {
+      this.workflowName = this.item.parameters[0];
+      this.senzorID = this.item.parameters[1];
+      this.topic = this.item.parameters[2];
+      this.room = this.item.parameters[3];
+      this.MqttUrl = this.item.parameters[4];
+      this.websocketUrl = this.item.parameters[5];
+    } else {
+      this.workflowName = "";
+      this.senzorID = "";
+      this.topic = "";
+      this.room = "";
+      this.MqttUrl = "";
+      this.websocketUrl = "";
+    }
+
+    //Default values
+    if (this.workflowName == "") {
+      this.workflowName = "workflow_" + this.generateUUID();
+    }
+
+    if (this.MqttUrl == "") {
+      this.MqttUrl = "cellar.hub.mqtt:1883";
+    }
+
+    if (this.websocketUrl == "") {
+      this.websocketUrl = "cellar.hub.websockets:8080";
+    }
 
   }
 
@@ -123,6 +147,18 @@ export class SendtowebsocketComponent implements OnInit {
 
 
   }
+
+
+
+  generateUUID() {
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+    return uuid;
+  };
 
 
 }

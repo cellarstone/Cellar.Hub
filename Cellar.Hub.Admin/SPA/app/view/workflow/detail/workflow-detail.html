@@ -2,8 +2,8 @@
 <div class="myerror" *ngIf="error$ | async">{{error$ | async}}</div>
 <div id="workflow-detail">
 
-    <div class="ui-g">
-        <div class="ui-g form-group">
+    <div class="ui-g" *ngIf="item$ | async">
+        <div class="ui-g form-group" *ngIf="(item$ | async).id == ''">
             <div class="ui-g-12 ui-md-12">
                 <label for="type">Type</label>
                 <div class="ui-fluid">
@@ -16,7 +16,22 @@
     <div class="ui-g" *ngIf="item$ | async">
         <div class="ui-g-12">
 
+            <button type="button" pButton icon="fa-retweet" label="Check process" (click)="checkProcessWorkflow((item$ | async).pid)" class="ui-button-info"></button>
+
+        </div>
+        <div class="ui-g-12">
+
             <div>{{(item$ | async).pid}}</div>
+
+        </div>
+        <div class="ui-g-12">
+
+            <button type="button" pButton icon="fa-play" label="RUN" (click)="runWorkflow((item$ | async).id)" class="ui-button-success"></button>
+
+        </div>
+        <div class="ui-g-12">
+
+            <button type="button" pButton icon="fa-stop" label="STOP" (click)="stopWorkflow((item$ | async).id)" class="ui-button-danger"></button>
 
         </div>
     </div>

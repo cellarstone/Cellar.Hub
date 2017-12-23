@@ -64,22 +64,22 @@ services:
     volumes:
      - /data/cellarstone.hub/cdn:/app/data
 
-  # cellar.hub.workflow:
-  #   image: cellar.hub.workflow
-  #   build:
-  #     context: ./Cellar.Hub.Workflow
-  #     dockerfile: Dockerfile
-  #   links:
-  #     - cellar.hub.mongodb
-  #     - fluentd
-  #     - pushgateway
-  #   logging:
-  #     driver: "fluentd"
-  #     options:
-  #       fluentd-address: localhost:24224
-  #       tag: docker.cellar.hub.workflow
-  #   ports:
-  #     - "5000:5000"
+  cellar.hub.workflow:
+    image: cellar.hub.workflow
+    build:
+      context: ./Cellar.Hub.Workflow
+      dockerfile: Dockerfile
+    links:
+      - cellar.hub.mongodb
+      - fluentd
+      - pushgateway
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.workflow
+    ports:
+      - "5000:5000"
 
   cellar.hub.websockets:
     image: cellar.hub.websockets
@@ -94,7 +94,7 @@ services:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.websockets
     ports:
-    - "8080:8080"
+    - "8887:8887"
 
   cellar.hub.mongodb:
     image: cellar.hub.mongodb
@@ -171,3 +171,13 @@ services:
       - /data/cellarstone.hub/grafana:/var/lib/grafana
     ports:
       - '3000:3000'
+
+  sysmon:
+    image: titpetric/netdata
+    cap_add:
+      - SYS_PTRACE
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+    ports:
+      - '19999:19999'

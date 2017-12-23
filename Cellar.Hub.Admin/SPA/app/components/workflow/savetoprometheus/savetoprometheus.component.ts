@@ -22,7 +22,7 @@ export class SavetoprometheusComponent implements OnInit {
   messagesToUser: Message[] = [];
 
   isStateValid: boolean = true;
-  
+
 
   //PARAMETERS
   workflowName: string;
@@ -31,20 +31,49 @@ export class SavetoprometheusComponent implements OnInit {
   MqttUrl: string;
   gatewayUrl: string;
 
-  
+
 
   constructor() {
-   }
+  }
 
   ngOnInit() {
 
     console.log(this.item);
-    this.workflowName = this.item.parameters[0];
-    this.senzorID = this.item.parameters[1];
-    this.topic = this.item.parameters[2];
-    this.MqttUrl = this.item.parameters[3];
-    this.gatewayUrl = this.item.parameters[4];
+    if (this.item.parameters != null
+      && this.item.parameters.length > 0) {
+      this.workflowName = this.item.parameters[0];
+      this.senzorID = this.item.parameters[1];
+      this.topic = this.item.parameters[2];
+      this.MqttUrl = this.item.parameters[3];
+      this.gatewayUrl = this.item.parameters[4];
+    } else {
+      this.workflowName = "";
+      this.senzorID = "";
+      this.topic = "";
+      this.MqttUrl = "";
+      this.gatewayUrl = "";
+    }
 
+    //Default values
+    if (this.workflowName == "") {
+      this.workflowName = "workflow_" + this.generateUUID();
+    }
+
+    if (this.MqttUrl == "") {
+      this.MqttUrl = "cellar.hub.mqtt:1883";
+    }
+
+    if (this.gatewayUrl == "") {
+      this.gatewayUrl = "http://pushgateway:9091/";
+    }
+
+
+
+    console.log(this.workflowName);
+    console.log(this.senzorID);
+    console.log(this.topic);
+    console.log(this.MqttUrl);
+    console.log(this.gatewayUrl);
   }
 
 
@@ -142,6 +171,19 @@ export class SavetoprometheusComponent implements OnInit {
 
 
   }
+
+
+
+
+  generateUUID() {
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+    return uuid;
+  };
 
 
 
