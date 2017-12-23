@@ -17,11 +17,11 @@ export ASPNETCORE_ENVIRONMENT="Development"
 
 # API
 sudo docker build -t cellar.hub.api .
-sudo docker run -d -p 8885:8885 -t cellar.hub.api
+sudo docker run -d -p 44403:44403 -t cellar.hub.api
 
 # Cdn
 sudo docker build -t cellar.hub.cdn .
-sudo docker run -d -p 8884:8884 -t cellar.hub.cdn
+sudo docker run -d -p 44404:44404 -t cellar.hub.cdn
 
 
 # Mosquitto - MQTT
@@ -73,12 +73,12 @@ sudo docker run -d -p 3000:3000 -t cellar.hub.log.grafana
 
 # Workflow
 sudo docker build -t cellar.hub.workflow .
-sudo docker run -d -p 3000:3000 -t cellar.hub.workflow
+sudo docker run -d -p 44405:44405 -t cellar.hub.workflow
 sudo docker run -it cellar.hub.workflow
 
 # Websockets
 sudo docker build -t cellar.hub.websockets .
-sudo docker run -d -p 8080:8080 -t cellar.hub.websockets
+sudo docker run -d -p 44406:44406 -t cellar.hub.websockets
 sudo docker run -it cellar.hub.websockets
 
 # docker-compose variants

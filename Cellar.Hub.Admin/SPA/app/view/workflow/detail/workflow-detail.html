@@ -16,7 +16,7 @@
     <div class="ui-g" *ngIf="item$ | async">
         <div class="ui-g-12">
 
-            <button type="button" pButton icon="fa-retweet" label="Check process" (click)="checkProcessWorkflow((item$ | async).pid)" class="ui-button-info"></button>
+            <button type="button" pButton icon="fa-retweet" label="Check process" (click)="checkProcessWorkflow()" class="ui-button-info"></button>
 
         </div>
         <div class="ui-g-12">
@@ -26,12 +26,12 @@
         </div>
         <div class="ui-g-12">
 
-            <button type="button" pButton icon="fa-play" label="RUN" (click)="runWorkflow((item$ | async).id)" class="ui-button-success"></button>
+            <button type="button" pButton icon="fa-play" label="RUN" (click)="runWorkflow()" class="ui-button-success"></button>
 
         </div>
         <div class="ui-g-12">
 
-            <button type="button" pButton icon="fa-stop" label="STOP" (click)="stopWorkflow((item$ | async).id)" class="ui-button-danger"></button>
+            <button type="button" pButton icon="fa-stop" label="STOP" (click)="stopWorkflow()" class="ui-button-danger"></button>
 
         </div>
     </div>

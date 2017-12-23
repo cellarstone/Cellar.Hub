@@ -66,7 +66,7 @@ export class SendtowebsocketComponent implements OnInit {
     }
 
     if (this.websocketUrl == "") {
-      this.websocketUrl = "cellar.hub.websockets:8080";
+      this.websocketUrl = "cellar.hub.websockets:44406";
     }
 
   }

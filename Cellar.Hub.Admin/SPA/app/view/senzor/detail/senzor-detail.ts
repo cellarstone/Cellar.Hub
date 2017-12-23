@@ -65,12 +65,12 @@ export class SenzorDetail {
         private store: Store<ApplicationState>) {
 
         //websockets
-        this.socket = new Socket("ws://localhost:8080/ws/s3102temperature");
+        this.socket = new Socket("ws://localhost:44406/ws/s3102temperature");
         this.socket.on('connect', this.onConnect.bind(this));
         this.socket.on('disconnect', this.onDisconnect.bind(this));
         this.socket.on('message', this.onMessage.bind(this));
 
-        this.socket2 = new Socket("ws://localhost:8080/ws/s3102status");
+        this.socket2 = new Socket("ws://localhost:44406/ws/s3102status");
         this.socket2.on('connect', this.onConnect2.bind(this));
         this.socket2.on('disconnect', this.onDisconnect2.bind(this));
         this.socket2.on('message', this.onMessage2.bind(this));

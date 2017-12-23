@@ -15,7 +15,7 @@ services:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.api
     ports:
-    - "8885:8885"
+    - "44403:44403"
 
   cellar.hub.cdn:
     image: cellar.hub.cdn
@@ -30,7 +30,7 @@ services:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.cdn
     ports:
-    - "8884:8884"
+    - "44404:44404"
     volumes:
      - /data/cellarstone.hub/cdn:/app/data
 

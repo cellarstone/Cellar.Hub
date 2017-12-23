@@ -14,7 +14,7 @@ services:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.web
     ports:
-    - "8881:8881"
+    - "44401:44401"
 
   # cellar.hub.admin:
   #   image: cellar.hub.admin
@@ -29,7 +29,7 @@ services:
   #       fluentd-address: localhost:24224
   #       tag: docker.cellar.hub.admin
   #   ports:
-  #   - "8889:8889"
+  #   - "44402:44402"
 
   cellar.hub.api:
     image: cellar.hub.api
@@ -45,7 +45,7 @@ services:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.api
     ports:
-    - "8885:8885"
+    - "44403:44403"
 
   cellar.hub.cdn:
     image: cellar.hub.cdn
@@ -60,7 +60,7 @@ services:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.cdn
     ports:
-    - "8884:8884"
+    - "44404:44404"
     volumes:
      - C:/data/cellarstone.hub/cdn:/app/data
 
@@ -79,7 +79,7 @@ services:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.workflow
     ports:
-      - "5000:5000"
+      - "44405:44405"
 
   cellar.hub.websockets:
     image: cellar.hub.websockets
@@ -94,7 +94,7 @@ services:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.websockets
     ports:
-    - "8080:8080"
+    - "44406:44406"
 
   cellar.hub.mongodb:
     image: cellar.hub.mongodb

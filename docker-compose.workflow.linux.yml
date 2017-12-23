@@ -18,7 +18,7 @@ services:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.workflow
     ports:
-      - "5000:5000"
+      - "44405:44405"
 
   cellar.hub.websockets:
     image: cellar.hub.websockets
@@ -33,7 +33,7 @@ services:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.websockets
     ports:
-    - "8080:8080"
+    - "44406:44406"
 
   cellar.hub.mongodb:
     image: cellar.hub.mongodb

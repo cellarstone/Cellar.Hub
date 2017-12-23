@@ -88,16 +88,22 @@ export class WorkflowDetail implements OnInit {
 
 
   private checkProcessWorkflow(pid: string){
-    this.store.dispatch(new CheckProcessWorkflowAction(pid));
+    this.item$.subscribe((item) => {
+      this.store.dispatch(new CheckProcessWorkflowAction(item.pid));
+    });
   }
 
   private runWorkflow(id: string){
-    this.store.dispatch(new RunCellarWorkflowAction(id));
+    this.item$.subscribe((item) => {
+      this.store.dispatch(new RunCellarWorkflowAction(item.id));
+    });
   }
 
 
   private stopWorkflow(id: string){
-    this.store.dispatch(new StopCellarWorkflowAction(id));
+    this.item$.subscribe((item) => {
+      this.store.dispatch(new StopCellarWorkflowAction(item.id));
+    });
   }
 
 

@@ -89,9 +89,9 @@
             "request": "launch",
             "mode": "debug",
             "remotePath": "",
-            "port": 3000,
+            "port": 44405,
             "host": "127.0.0.1",
-            "program": "${workspaceRoot}/Cellar.Hub.Workflow/cmd/manager",
+            "program": "${workspaceRoot}/Cellar.Hub.Workflow/manager",
             "env": {},
             "args": [],
             "showLog": true
