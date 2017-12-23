@@ -128,7 +128,7 @@ func main() {
 	originsOk := handlers.AllowedOrigins([]string{"*"})
 	methodsOk := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"})
 
-	http.ListenAndServe(":5000", handlers.CORS(headersOk, originsOk, methodsOk)(r))
+	http.ListenAndServe(":44405", handlers.CORS(headersOk, originsOk, methodsOk)(r))
 }
 
 //Exception Handling - Panic handler

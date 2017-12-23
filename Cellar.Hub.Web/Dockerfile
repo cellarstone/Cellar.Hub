@@ -15,6 +15,6 @@ RUN dotnet publish --output /app/ --configuration Release
  FROM microsoft/dotnet:2.0.0-runtime
  WORKDIR /app
  ENV ASPNETCORE_ENVIRONMENT="production"
- EXPOSE 8881
+ EXPOSE 44401
  COPY --from=builder /app .
  ENTRYPOINT ["dotnet", "Cellar.Hub.Web.dll"]

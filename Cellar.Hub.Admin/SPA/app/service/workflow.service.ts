@@ -27,16 +27,16 @@ export class WorkflowService {
 
   constructor(private http: HttpClient) {
     if (this.isProduction == true && this.isHttps == true) {
-      this.serverUrl = "https://cellar.hub.workflow:5000";
+      this.serverUrl = "https://cellar.hub.workflow:44405";
     }
     else if (this.isProduction == true && this.isHttps == false) {
-      this.serverUrl = "http://cellar.hub.workflow:5000";
+      this.serverUrl = "http://cellar.hub.workflow:44405";
     }
     else if (this.isProduction == false && this.isHttps == true) {
-      this.serverUrl = "https://localhost:5000";
+      this.serverUrl = "https://localhost:44405";
     }
     else if (this.isProduction == false && this.isHttps == false) {
-      this.serverUrl = "http://localhost:5000";
+      this.serverUrl = "http://localhost:44405";
     }
 
     this.url_processes = this.serverUrl + '/api/processes';

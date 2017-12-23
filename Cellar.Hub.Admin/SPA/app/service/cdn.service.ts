@@ -26,16 +26,16 @@ export class CdnService {
 
     constructor(private http: HttpClient) {
         if (this.isProduction == true && this.isHttps == true) {
-            this.serverUrl = "https://cellar.hub.cdn:8884";
+            this.serverUrl = "https://cellar.hub.cdn:44404";
         }
         else if (this.isProduction == true && this.isHttps == false) {
-            this.serverUrl = "http://cellar.hub.cdn:8884";
+            this.serverUrl = "http://cellar.hub.cdn:44404";
         }
         else if (this.isProduction == false && this.isHttps == true) {
-            this.serverUrl = "https://localhost:8884";
+            this.serverUrl = "https://localhost:44404";
         }
         else if (this.isProduction == false && this.isHttps == false) {
-            this.serverUrl = "http://localhost:8884";
+            this.serverUrl = "http://localhost:44404";
         }
 
         this.url_upload = this.serverUrl + '/Data/Upload';
