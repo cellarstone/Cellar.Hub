@@ -29,7 +29,7 @@
         <!--*********************************************************************************************-->
         <!--*********************************************************************************************-->
 
-        <div class="ui-g-6" *ngIf="(item$ | async).id">
+        <div class="ui-g-6" *ngIf="(item$ | async).type != 'CellarSenzor Power v1.0'">
             <div class="ui-g">
 
                 <div class="ui-g-12">
@@ -47,6 +47,34 @@
                     <div #chartTarget2>
                         chart target
                     </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <!--*********************************************************************************************-->
+        <!--*********************************************************************************************-->
+        <!--CONTROLS-->
+        <!--*********************************************************************************************-->
+        <!--*********************************************************************************************-->
+
+        <div class="ui-g-6" *ngIf="(item$ | async).type == 'CellarSenzor Power v1.0'">
+            <div class="ui-g">
+
+
+                <div class="ui-g-12">
+
+                    <div class="mypicture" [inlineSVG]="'/assets/images/senzorStates/lightbulb_on.svg'"></div>
+                    <div class="mypicture" [inlineSVG]="'/assets/images/senzorStates/lightbulb_off.svg'"></div>
+
+                </div>
+                <div class="ui-g-12">
+
+                    <button type="button" pButton icon="fa-arrow-left" label="ON" (click)="onSenzor()" class="ui-button-warning"></button>
+                    <button type="button" pButton icon="fa-arrow-left" label="OFF" (click)="offSenzor()" class="ui-button-warning"></button>
 
                 </div>
 

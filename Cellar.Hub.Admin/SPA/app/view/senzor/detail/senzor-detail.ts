@@ -6,6 +6,10 @@ import { ActivatedRoute } from '@angular/router';
 import { SelectItem } from 'primeng/primeng';
 import { Message } from 'primeng/primeng';
 
+//SVG
+import { SVGCacheService } from 'ng-inline-svg';
+
+
 //cellarstone
 import { CellarSpace } from '../../../entities/CellarSpace';
 import { CellarSenzor } from '../../../entities/CellarSenzor';
@@ -62,7 +66,11 @@ export class SenzorDetail {
 
     constructor(
         private route: ActivatedRoute,
-        private store: Store<ApplicationState>) {
+        private store: Store<ApplicationState>,
+        private svgService: SVGCacheService) {
+
+        //svgService.setBaseUrl({ baseUrl: 'http://localhost:44402' });
+
 
         //websockets
         this.socket = new Socket("ws://localhost:44406/ws/s3102temperature");
@@ -74,6 +82,8 @@ export class SenzorDetail {
         this.socket2.on('connect', this.onConnect2.bind(this));
         this.socket2.on('disconnect', this.onDisconnect2.bind(this));
         this.socket2.on('message', this.onMessage2.bind(this));
+
+
 
 
 
@@ -307,7 +317,7 @@ export class SenzorDetail {
 
         this.chart2 = chart(this.chartTarget2.nativeElement, options2);
     }
-    
+
 
 
 
@@ -330,7 +340,12 @@ export class SenzorDetail {
     }
 
 
-
+    private onSenzor() {
+        this.store.dispatch(new RouterActions.Back());
+    }
+    private offSenzor() {
+        this.store.dispatch(new RouterActions.Back());
+    }
 
 
 

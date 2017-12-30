@@ -10,13 +10,15 @@ CellarPubSubClient mypubsub;
 CellarEeprom myeeprom;
 
 int relayPin = D5;
-string subscribeTopic = "/relay";
+string subscribe_setRelay = "/set_Relay";
+string subscribe_checkRelay = "/check_Relay";
 string senzoridstring = "x";
 
 void mycallback(char *topic, byte *payload, unsigned int length);
 
 void setup()
 {
+    Serial.begin(115200);
     // -------- FIRMWARE version ---------------
     myeeprom.save_firmware("CELLAR_Relay_0.0.1");
     //------------------------------------------
@@ -24,7 +26,8 @@ void setup()
     senzoridstring = myeeprom.get_senzorid();
 
     mypubsub.set_Callback(mycallback);
-    mypubsub.set_Subscribe(senzoridstring + subscribeTopic);
+    mypubsub.add_Subscribe(senzoridstring + subscribe_setRelay);
+    mypubsub.add_Subscribe(senzoridstring + subscribe_checkRelay);
 
     myserver.start();
     mypubsub.start();
@@ -46,9 +49,10 @@ void loop()
 void mycallback(char *topic, byte *payload, unsigned int length)
 {
     string str_actualTopic = string(topic);
-    string str_RelayTopic = string(senzoridstring + subscribeTopic);
+    string str_SetRelayTopic = string(senzoridstring + subscribe_setRelay);
+    string str_CheckRelayTopic = string(senzoridstring + subscribe_checkRelay);
 
-    if (str_actualTopic == str_RelayTopic)
+    if (str_actualTopic == str_SetRelayTopic)
     {
         string str_payload = "";
         for (int i = 0; i < length; i++)
@@ -59,9 +63,29 @@ void mycallback(char *topic, byte *payload, unsigned int length)
         //RELAY ON-OFF
         if(str_payload == "1"){
             digitalWrite(relayPin, LOW);
+            mypubsub.send_Relay(str_payload);
         }
         if(str_payload == "0"){
             digitalWrite(relayPin, HIGH);
+            mypubsub.send_Relay(str_payload);
         }
+    }
+    else if (str_actualTopic == str_CheckRelayTopic) {
+        //RELAY CHECK
+        int val = digitalRead(relayPin);   
+        string valstr = int_to_string(val);
+
+        //HACK, because value is opaque of reality
+        // 0 = ON
+        // 1 = OFF
+        string resvalstr = "";
+        if(valstr == "0")
+        {
+            resvalstr = "1";
+        }else if (valstr == "1"){
+            resvalstr = "0";
+        }
+
+        mypubsub.send_Relay(resvalstr);
     }
 }
