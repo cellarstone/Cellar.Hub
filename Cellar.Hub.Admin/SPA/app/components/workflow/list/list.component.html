@@ -39,12 +39,18 @@
       <p-column field="pid" header="PID" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
       <p-column field="type" header="Type" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
       <p-column field="name" header="Name" [filter]="true" [style]="{'overflow':'visible'}" [sortable]="true">
-          <ng-template pTemplate="body" let-col let-asdf="rowData">
-            <div class="text-center">
-              {{asdf.parameters[0]}}
-            </div>
-          </ng-template>
-        </p-column>
+        <ng-template pTemplate="body" let-col let-asdf="rowData">
+          <div class="text-center">
+            {{asdf.parameters[0]}}
+          </div>
+          <div class="text-center">
+            {{asdf.parameters[1]}}
+          </div>
+          <div class="text-center">
+            {{asdf.parameters[2]}}
+          </div>
+        </ng-template>
+      </p-column>
     </p-dataTable>
 
   </div>

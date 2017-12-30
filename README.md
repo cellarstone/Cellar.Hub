@@ -30,7 +30,7 @@ Port | Application
 19999 | sysmon - netdata
 
 
-# Others notes
+# Author notes
 
 Inspect elasticsearch IP address
 

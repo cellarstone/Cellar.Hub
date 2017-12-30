@@ -15,7 +15,7 @@ type CellarWorkflow struct {
 	Parameters []string      `json:"parameters" bson:"parameters,omitempty"`
 }
 
-var mongoUrl = "127.0.0.1"
+var mongoUrl = "cellar.hub.mongodb"
 var mongoDatabase = "HubDatabase"
 
 func GetAllCellarWorkflows() []CellarWorkflow {

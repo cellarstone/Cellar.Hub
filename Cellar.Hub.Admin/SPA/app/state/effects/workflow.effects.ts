@@ -5,7 +5,7 @@ import { Actions, Effect, toPayload } from "@ngrx/effects";
 import { WorkflowService } from 'app/service/workflow.service';
 import { CellarDTO } from 'app/entities/http/CellarDTO';
 import * as RouterActions from 'app/state/actions/router.actions';
-import { LoadRunningProcessesSuccessAction, LOAD_RUNNING_PROCESSES, GET_ACTUAL_DIRECTORY, GetActualDirectoryActionSuccessAction, LOAD_ALL_CELLAR_WORKFLOWS, LoadAllCellarWorkflowsSuccessAction, LOAD_CELLAR_WORKFLOW, LoadCellarWorkflowSuccessAction, SAVE_CELLAR_WORKFLOW, DELETE_CELLAR_WORKFLOW, RUN_CELLAR_WORKFLOW, STOP_CELLAR_WORKFLOW, CHECK_PROCESS_CELLAR_WORKFLOW } from 'app/state/actions/workflow.actions';
+import { LoadRunningProcessesSuccessAction, LOAD_RUNNING_PROCESSES, GET_ACTUAL_DIRECTORY, GetActualDirectoryActionSuccessAction, LOAD_ALL_CELLAR_WORKFLOWS, LoadAllCellarWorkflowsSuccessAction, LOAD_CELLAR_WORKFLOW, LoadCellarWorkflowSuccessAction, SAVE_CELLAR_WORKFLOW, DELETE_CELLAR_WORKFLOW, RUN_CELLAR_WORKFLOW, STOP_CELLAR_WORKFLOW, CHECK_PROCESS_CELLAR_WORKFLOW, CheckProcessWorkflowSuccessAction } from 'app/state/actions/workflow.actions';
 import { CellarWorkflow } from 'app/entities/CellarWorkflow';
 
 @Injectable()
@@ -164,9 +164,7 @@ export class WorkflowEffects {
             });
     })
     .map(item => {
-        //???????????
-        return new LoadCellarWorkflowSuccessAction(null) //???????????
-        //???????????
+        return new CheckProcessWorkflowSuccessAction(<string>item.data)
     });
 
 

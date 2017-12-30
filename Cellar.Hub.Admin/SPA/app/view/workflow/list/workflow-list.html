@@ -3,7 +3,7 @@
 </div>
 
 
-<div>
+<div *ngIf="items$ | async">
   <app-workflow-list [items]="items$ | async" (onSelect)="selectWorkflow($event)"></app-workflow-list>
 </div>
 

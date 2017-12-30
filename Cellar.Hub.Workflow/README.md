@@ -26,7 +26,7 @@ Web App for managing everything
 ```Shell
 go build -o manager/workflow1 cmd/workflow1
 go build cmd/workflow2 -o manager/workflow2 
-go build -o manager/savetoprometheus cmd/savetoprometheus
+go build -o output/savetoprometheus
 go build cmd/fluentd -o manager/fluentd
 go build cmd/sendtowebsocket -o manager/sendtowebsocket
 go build cmd/cancelmeeting -o manager/cancelmeeting  

@@ -636,8 +636,10 @@ func apiRunWorkflowHandler(w http.ResponseWriter, r *http.Request) {
 
 	//RE-SAVE WORKFLOW
 	asdf := cmd.Process.Pid
-	//idnumber, _ := strconv.Atoi(cmd.Process.Pid)
-	workflow.PID = string(asdf)
+
+	logger.Information(strconv.Itoa(asdf))
+
+	workflow.PID = strconv.Itoa(asdf)
 
 	UpdateCellarWorkflow(&workflow)
 

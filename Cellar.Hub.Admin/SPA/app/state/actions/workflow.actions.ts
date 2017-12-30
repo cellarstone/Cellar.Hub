@@ -55,6 +55,12 @@ export class CheckProcessWorkflowAction implements Action {
     constructor(public payload: string){}
 }
 
+export const CHECK_PROCESS_CELLAR_WORKFLOW_SUCCESS = '[CellarWorkflow] Check process success';
+export class CheckProcessWorkflowSuccessAction implements Action {
+    readonly type = CHECK_PROCESS_CELLAR_WORKFLOW_SUCCESS;
+    constructor(public payload: string){}
+}
+
 export const RUN_CELLAR_WORKFLOW = '[CellarWorkflow] Run';
 export class RunCellarWorkflowAction implements Action {
     readonly type = RUN_CELLAR_WORKFLOW;

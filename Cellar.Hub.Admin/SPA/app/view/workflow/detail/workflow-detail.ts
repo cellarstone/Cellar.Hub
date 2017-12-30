@@ -19,9 +19,11 @@ export class WorkflowDetail implements OnInit {
   selectedType: string;
 
   item$: Observable<CellarWorkflow>;
+  actualProcess$: Observable<string>;
 
   private sub: any;
-
+  private pid: string;
+  private id: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,13 +40,14 @@ export class WorkflowDetail implements OnInit {
 
 
     this.item$ = this.store.select(mapWorkflowFromState);
+    this.actualProcess$ = this.store.select(mapActualProcessFromState);
 
 
     this.item$.subscribe((item: CellarWorkflow) => {
       if (item) {
         this.selectedType = item.type;
-
-        console.log(item);
+        this.pid = item.pid;
+        this.id = item.id;
       }
     });
 
@@ -87,23 +90,17 @@ export class WorkflowDetail implements OnInit {
 
 
 
-  private checkProcessWorkflow(pid: string){
-    this.item$.subscribe((item) => {
-      this.store.dispatch(new CheckProcessWorkflowAction(item.pid));
-    });
+  private checkProcessWorkflow(pid: string) {
+    this.store.dispatch(new CheckProcessWorkflowAction(this.pid));
   }
 
-  private runWorkflow(id: string){
-    this.item$.subscribe((item) => {
-      this.store.dispatch(new RunCellarWorkflowAction(item.id));
-    });
+  private runWorkflow() {
+    this.store.dispatch(new RunCellarWorkflowAction(this.id));
   }
 
 
-  private stopWorkflow(id: string){
-    this.item$.subscribe((item) => {
-      this.store.dispatch(new StopCellarWorkflowAction(item.id));
-    });
+  private stopWorkflow(id: string) {
+    this.store.dispatch(new StopCellarWorkflowAction(this.id));
   }
 
 
@@ -111,6 +108,13 @@ export class WorkflowDetail implements OnInit {
 
 
 
+function mapActualProcessFromState(state: ApplicationState): string {
+  if (state.uiState == undefined) {
+    return undefined;
+  }
+
+  return state.uiState.actualProcess;
+}
 
 function mapWorkflowFromState(state: ApplicationState): CellarWorkflow {
   if (state.uiState == undefined) {

@@ -9,6 +9,9 @@ export interface UiState {
     selectedSpace: CellarSpace;
     selectedPlace: CellarPlace;
     selectedWorkflow: CellarWorkflow;
+
+    actualProcess: string;
+
     error: string;
 }
 
@@ -18,5 +21,6 @@ export const INITIAL_UI_STATE: UiState = {
     selectedSpace: null,
     selectedPlace: null,
     selectedWorkflow: null,
+    actualProcess: "",
     error: ""
 };
