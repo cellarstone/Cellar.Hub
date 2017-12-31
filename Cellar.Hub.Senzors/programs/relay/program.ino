@@ -21,7 +21,7 @@ void setup()
 {
     Serial.begin(115200);
     // -------- FIRMWARE version ---------------
-    myeeprom.save_firmware("CELLAR_Relay_0.0.2");
+    myeeprom.save_firmware("CELLAR_Relay_0.0.3");
     //------------------------------------------
 
     senzoridstring = myeeprom.get_senzorid();
@@ -39,10 +39,11 @@ void setup()
 void loop()
 {
     myserver.handle();
-    mypubsub.updateTimer();
+    if (!myserver.IS_AP_MODE)
+    {
+        mypubsub.updateTimer();
+    }
 }
-
-
 
 /****************************************************************/
 /*               CUSTOM CALLBACK FOR MQTT Subscribe                  */
@@ -62,28 +63,33 @@ void mycallback(char *topic, byte *payload, unsigned int length)
         }
 
         //RELAY ON-OFF
-        if(str_payload == "1"){
+        if (str_payload == "1")
+        {
             digitalWrite(relayPin, LOW);
             mypubsub.send_Relay(str_payload);
         }
-        if(str_payload == "0"){
+        if (str_payload == "0")
+        {
             digitalWrite(relayPin, HIGH);
             mypubsub.send_Relay(str_payload);
         }
     }
-    else if (str_actualTopic == str_CheckRelayTopic) {
+    else if (str_actualTopic == str_CheckRelayTopic)
+    {
         //RELAY CHECK
-        int val = digitalRead(relayPin);   
+        int val = digitalRead(relayPin);
         string valstr = int_to_string(val);
 
         //HACK, because value is opaque of reality
         // 0 = ON
         // 1 = OFF
         string resvalstr = "";
-        if(valstr == "0")
+        if (valstr == "0")
         {
             resvalstr = "1";
-        }else if (valstr == "1"){
+        }
+        else if (valstr == "1")
+        {
             resvalstr = "0";
         }
 

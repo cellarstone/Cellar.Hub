@@ -30,7 +30,7 @@ void mycallback(char *topic, byte *payload, unsigned int length);
 void setup()
 {
     // -------- FIRMWARE version ---------------
-    myeeprom.save_firmware("CELLAR_DHT11_0.0.2");
+    myeeprom.save_firmware("CELLAR_DHT11_0.0.3");
     //------------------------------------------
 
     senzoridstring = myeeprom.get_senzorid();
@@ -48,36 +48,38 @@ void setup()
 void loop()
 {
     myserver.handle();
-    mypubsub.updateTimer();
-
-    actual_temperature = mojeDHT.readTemperature();
-    actual_humidity = mojeDHT.readHumidity();
-
-    if (actual_temperature < 999 && actual_temperature != oldval_temperature)
+    if (!myserver.IS_AP_MODE)
     {
-        Serial.print("temp: ");
-        Serial.println(actual_temperature);
+        mypubsub.updateTimer();
 
-        string valstr = int_to_string(actual_temperature);
+        actual_temperature = mojeDHT.readTemperature();
+        actual_humidity = mojeDHT.readHumidity();
 
-        mypubsub.send_Temperature(valstr);
+        if (actual_temperature < 999 && actual_temperature != oldval_temperature)
+        {
+            Serial.print("temp: ");
+            Serial.println(actual_temperature);
 
-        oldval_temperature = actual_temperature;
-    }
+            string valstr = int_to_string(actual_temperature);
 
-    if (actual_humidity < 999 && actual_humidity != oldval_humidity)
-    {
-        Serial.print("vlh: ");
-        Serial.println(actual_humidity);
+            mypubsub.send_Temperature(valstr);
 
-        string valstr = int_to_string(actual_humidity);
+            oldval_temperature = actual_temperature;
+        }
 
-        mypubsub.send_Humidity(valstr);
+        if (actual_humidity < 999 && actual_humidity != oldval_humidity)
+        {
+            Serial.print("vlh: ");
+            Serial.println(actual_humidity);
 
-        oldval_humidity = actual_humidity;
+            string valstr = int_to_string(actual_humidity);
+
+            mypubsub.send_Humidity(valstr);
+
+            oldval_humidity = actual_humidity;
+        }
     }
 }
-
 
 /****************************************************************/
 /*               CUSTOM CALLBACK FOR MQTT Subscribe                  */
@@ -88,15 +90,18 @@ void mycallback(char *topic, byte *payload, unsigned int length)
     string str_CheckTemperatureTopic = string(senzoridstring + subscribe_checkTemperature);
     string str_CheckHumidityTopic = string(senzoridstring + subscribe_checkHumidity);
 
-    if (str_actualTopic == str_CheckTemperatureTopic) {
+    if (str_actualTopic == str_CheckTemperatureTopic)
+    {
         //TEMPERATURE CHECK
-        float val = mojeDHT.readTemperature();   
+        float val = mojeDHT.readTemperature();
         string valstr = float_to_string(val);
 
         mypubsub.send_Temperature(valstr);
-    } else if (str_actualTopic == str_CheckHumidityTopic) {
+    }
+    else if (str_actualTopic == str_CheckHumidityTopic)
+    {
         //HUMIDITY CHECK
-        float val = mojeDHT.readHumidity();   
+        float val = mojeDHT.readHumidity();
         string valstr = float_to_string(val);
 
         mypubsub.send_Humidity(valstr);
