@@ -9,16 +9,27 @@ CellarServer myserver;
 CellarPubSubClient mypubsub;
 CellarEeprom myeeprom;
 
+string subscribe_checkPir = "/check_Pir";
+string senzoridstring = "x";
+
 int ledPin = LED_BUILTIN;
 int inputPin = D5;
 int actual_val = 0;
 int old_val = 0; 
 
+// MQTT subscribe callback
+void mycallback(char *topic, byte *payload, unsigned int length);
+
 void setup()
 {
     // -------- FIRMWARE version ---------------
-    myeeprom.save_firmware("CELLAR_PIR_0.0.1");
+    myeeprom.save_firmware("CELLAR_Pir_0.0.2");
     //------------------------------------------
+
+    senzoridstring = myeeprom.get_senzorid();
+
+    mypubsub.set_Callback(mycallback);
+    mypubsub.add_Subscribe(senzoridstring + subscribe_checkPir);
 
     myserver.start();
     mypubsub.start();
@@ -65,5 +76,24 @@ void loop()
 
             old_val = LOW;
         }
+    }
+}
+
+
+
+/****************************************************************/
+/*               CUSTOM CALLBACK FOR MQTT Subscribe                  */
+/****************************************************************/
+void mycallback(char *topic, byte *payload, unsigned int length)
+{
+    string str_actualTopic = string(topic);
+    string str_CheckPirTopic = string(senzoridstring + subscribe_checkPir);
+
+    if (str_actualTopic == str_CheckPirTopic) {
+        //PIR CHECK
+        int val = digitalRead(inputPin);   
+        string valstr = int_to_string(val);
+
+        mypubsub.send_Pir(valstr);
     }
 }

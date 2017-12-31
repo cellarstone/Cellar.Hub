@@ -14,13 +14,14 @@ string subscribe_setRelay = "/set_Relay";
 string subscribe_checkRelay = "/check_Relay";
 string senzoridstring = "x";
 
+// MQTT subscribe callback
 void mycallback(char *topic, byte *payload, unsigned int length);
 
 void setup()
 {
     Serial.begin(115200);
     // -------- FIRMWARE version ---------------
-    myeeprom.save_firmware("CELLAR_Relay_0.0.1");
+    myeeprom.save_firmware("CELLAR_Relay_0.0.2");
     //------------------------------------------
 
     senzoridstring = myeeprom.get_senzorid();
@@ -44,7 +45,7 @@ void loop()
 
 
 /****************************************************************/
-/*               CUSTOM CALLBACK FOR Subscribe                  */
+/*               CUSTOM CALLBACK FOR MQTT Subscribe                  */
 /****************************************************************/
 void mycallback(char *topic, byte *payload, unsigned int length)
 {

@@ -13,6 +13,10 @@ CellarServer myserver;
 CellarPubSubClient mypubsub;
 CellarEeprom myeeprom;
 
+string subscribe_checkTemperature = "/check_Temperature";
+string subscribe_checkHumidity = "/check_Humidity";
+string senzoridstring = "x";
+
 int inputPin = D5;
 int actual_temperature = 0;
 int actual_humidity = 0;
@@ -20,11 +24,20 @@ int oldval_temperature = 0;
 int oldval_humidity = 0;
 DHT mojeDHT(inputPin, DHT11);
 
+// MQTT subscribe callback
+void mycallback(char *topic, byte *payload, unsigned int length);
+
 void setup()
 {
     // -------- FIRMWARE version ---------------
-    myeeprom.save_firmware("CELLAR_DHT11_0.0.1");
+    myeeprom.save_firmware("CELLAR_DHT11_0.0.2");
     //------------------------------------------
+
+    senzoridstring = myeeprom.get_senzorid();
+
+    mypubsub.set_Callback(mycallback);
+    mypubsub.add_Subscribe(senzoridstring + subscribe_checkTemperature);
+    mypubsub.add_Subscribe(senzoridstring + subscribe_checkHumidity);
 
     myserver.start();
     mypubsub.start();
@@ -62,5 +75,30 @@ void loop()
         mypubsub.send_Humidity(valstr);
 
         oldval_humidity = actual_humidity;
+    }
+}
+
+
+/****************************************************************/
+/*               CUSTOM CALLBACK FOR MQTT Subscribe                  */
+/****************************************************************/
+void mycallback(char *topic, byte *payload, unsigned int length)
+{
+    string str_actualTopic = string(topic);
+    string str_CheckTemperatureTopic = string(senzoridstring + subscribe_checkTemperature);
+    string str_CheckHumidityTopic = string(senzoridstring + subscribe_checkHumidity);
+
+    if (str_actualTopic == str_CheckTemperatureTopic) {
+        //TEMPERATURE CHECK
+        float val = mojeDHT.readTemperature();   
+        string valstr = float_to_string(val);
+
+        mypubsub.send_Temperature(valstr);
+    } else if (str_actualTopic == str_CheckHumidityTopic) {
+        //HUMIDITY CHECK
+        float val = mojeDHT.readHumidity();   
+        string valstr = float_to_string(val);
+
+        mypubsub.send_Humidity(valstr);
     }
 }
