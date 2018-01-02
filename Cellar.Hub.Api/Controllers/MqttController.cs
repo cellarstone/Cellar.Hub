@@ -29,18 +29,19 @@ namespace Cellar.Hub.Api.Controllers
         [HttpPost]
         public CellarDTO PublishToMqtt([FromBody]MqttVM vm)
         {
-            _log.LogError("Topic : " + vm.topic);
-            _log.LogError("Value : " + vm.value);
+            // _log.LogError("Topic : " + vm.topic + ", Value : " + vm.value);
 
             var result = _service.PublishToMqtt(vm.topic, vm.value);
             return result;
         }
 
+
     }
 
-    public class MqttVM {
+    public class MqttVM
+    {
         public string topic;
-        public string value;   
+        public string value;
     }
 }
 

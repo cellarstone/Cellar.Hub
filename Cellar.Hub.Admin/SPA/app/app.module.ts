@@ -109,6 +109,7 @@ import { SharedService } from './service/shared.service';
 import { IoTService } from './service/iot.service';
 import { CdnService } from './service/cdn.service';
 import { WorkflowService } from './service/workflow.service';
+import { MqttService } from './service/mqtt.service';
 
 import { AppMenuComponent, AppSubMenu } from './app.menu.component';
 import { AppTopBar } from './app.topbar.component';
@@ -129,8 +130,18 @@ import { SpaceListComponent } from './components/space/list/list.component';
 //senzors
 import { SenzorDetail } from './view/senzor/detail/senzor-detail';
 import { SenzorList } from './view/senzor/list/senzor-list';
+import { SenzorWorkflowList } from './view/senzor/detail/workflows/workflow-list';
 import { SenzorBaseInfoComponent } from './components/senzor/base-info/base-info.component';
 import { SenzorListComponent } from './components/senzor/list/list.component';
+
+//senzor types
+import { Dht11Panel } from './view/senzor/detail/types/dht11/dht11-panel';
+import { PirPanel } from './view/senzor/detail/types/pir/pir-panel';
+import { RelayPanel } from './view/senzor/detail/types/relay/relay-panel';
+
+
+
+
 
 //workflow
 import { WorkflowCli } from './view/workflow/cli/workflow-cli';
@@ -139,6 +150,8 @@ import { WorkflowDetail } from './view/workflow/detail/workflow-detail';
 import { WorkflowListComponent } from './components/workflow/list/list.component';
 import { SavetoprometheusComponent } from './components/workflow/savetoprometheus/savetoprometheus.component';
 import { SendtowebsocketComponent } from './components/workflow/sendtowebsocket/sendtowebsocket.component';
+
+
 
 
 //Router
@@ -154,7 +167,7 @@ import { RouterEffects } from 'app/state/effects/router.effects';
 // import { INITIAL_APPLICATION_STATE } from './store/todo.state';
 import { CustomSerializer } from './state/router-settings';
 import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
-
+import { MqttEffects } from 'app/state/effects/mqtt.effects';
 
 
 
@@ -177,7 +190,7 @@ import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
         StoreDevtoolsModule.instrument({
           maxAge: 25
         }),
-        EffectsModule.forRoot([WorkflowEffects, SenzorEffects, SpaceEffects, PlaceEffects, RouterEffects]),
+        EffectsModule.forRoot([MqttEffects, WorkflowEffects, SenzorEffects, SpaceEffects, PlaceEffects, RouterEffects]),
         StoreRouterConnectingModule,
         //PrimeNG
         AccordionModule,
@@ -280,7 +293,11 @@ import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
         SpaceBaseInfoComponent,
         WorkflowListComponent,
         SavetoprometheusComponent,
-        SendtowebsocketComponent
+        SendtowebsocketComponent,
+        Dht11Panel,
+        PirPanel,
+        RelayPanel,
+        SenzorWorkflowList
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -288,7 +305,8 @@ import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
         IoTService,
         CdnService,
         SharedService,
-        WorkflowService
+        WorkflowService,
+        MqttService
     ],
     bootstrap: [AppComponent]
 })

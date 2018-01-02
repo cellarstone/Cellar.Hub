@@ -43,8 +43,5 @@ function mapWorkflowsFromState(state: ApplicationState): CellarWorkflow[]{
       return undefined;
   }
 
-  console.log("asdf");
-  console.log(state.storeData.workflows);
-
   return state.storeData.workflows;
 } 

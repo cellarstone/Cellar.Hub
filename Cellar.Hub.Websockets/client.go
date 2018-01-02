@@ -1,8 +1,10 @@
 package main
 
 import (
-	"github.com/gorilla/websocket"
 	"log"
+	"sync"
+
+	"github.com/gorilla/websocket"
 )
 
 /* To figure out if they wanna broadcast to all or broadcast to all except them */
@@ -15,6 +17,7 @@ type Message struct {
 type Client struct {
 	conn *websocket.Conn
 	out  chan Message
+	mu   sync.Mutex
 }
 
 /* Reads and pumps to out channel */
@@ -33,6 +36,8 @@ func (c *Client) ReadLoop() {
 
 /* Writes a message to the client */
 func (c *Client) WriteMessage(msg []byte) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
 	err := c.conn.WriteMessage(websocket.TextMessage, msg)
 	if err != nil {
 		log.Println("write:", err)

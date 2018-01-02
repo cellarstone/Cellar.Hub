@@ -14,6 +14,19 @@ export class LoadAllCellarWorkflowsSuccessAction implements Action {
 }
 
 
+export const LOAD_CELLAR_WORKFLOWS = '[CellarWorkflows] Load';
+export class LoadCellarWorkflowsAction implements Action {
+    readonly type = LOAD_CELLAR_WORKFLOWS;
+    constructor(public payload: string){}
+}
+
+export const LOAD_CELLAR_WORKFLOWS_SUCCESS = '[CellarWorkflows] Load Success';
+export class LoadCellarWorkflowsSuccessAction implements Action {
+    readonly type = LOAD_CELLAR_WORKFLOWS_SUCCESS;
+    constructor(public payload: CellarWorkflow[]){}
+}
+
+
 export const LOAD_CELLAR_WORKFLOW = '[CellarWorkflow] Load';
 export class LoadCellarWorkflowAction implements Action {
     readonly type = LOAD_CELLAR_WORKFLOW;
@@ -75,6 +88,9 @@ export class StopCellarWorkflowAction implements Action {
 
 
 
+
+
+
 /*********************************************************************************/
 /*                                  CLI                                          */
 /*********************************************************************************/
@@ -105,5 +121,27 @@ export class GetActualDirectoryAction implements Action {
 export const GET_ACTUAL_DIRECTORY_SUCCESS = '[WorkflowManager] Get Actual directory success';
 export class GetActualDirectoryActionSuccessAction implements Action {
     readonly type = GET_ACTUAL_DIRECTORY_SUCCESS;
+    constructor(public payload: string[]){}
+}
+
+export const RUN_ALL_CELLAR_WORKFLOWS = '[CellarWorkflows] Run All';
+export class RunAllCellarWorkflowsAction implements Action {
+    readonly type = RUN_ALL_CELLAR_WORKFLOWS;
+}
+
+export const RUN_ALL_CELLAR_WORKFLOWS_SUCCESS = '[CellarWorkflows] Run All success';
+export class RunAllCellarWorkflowsSuccessAction implements Action {
+    readonly type = RUN_ALL_CELLAR_WORKFLOWS_SUCCESS;
+    constructor(public payload: string[]){}
+}
+
+export const STOP_ALL_CELLAR_WORKFLOWS = '[CellarWorkflows] Stop All';
+export class StopAllCellarWorkflowsAction implements Action {
+    readonly type = STOP_ALL_CELLAR_WORKFLOWS;
+}
+
+export const STOP_ALL_CELLAR_WORKFLOWS_SUCCESS = '[CellarWorkflows] Stop All success';
+export class StopAllCellarWorkflowsSuccessAction implements Action {
+    readonly type = STOP_ALL_CELLAR_WORKFLOWS_SUCCESS;
     constructor(public payload: string[]){}
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ApplicationState } from 'app/state/state/application.state';
 import { Observable } from 'rxjs';
-import { LoadRunningProcessesAction, SetCLICommandAction, GetActualDirectoryAction } from 'app/state/actions/workflow.actions';
+import { LoadRunningProcessesAction, SetCLICommandAction, GetActualDirectoryAction, RunAllCellarWorkflowsAction, StopAllCellarWorkflowsAction } from 'app/state/actions/workflow.actions';
 
 @Component({
   selector: 'workflow-cli',
@@ -26,6 +26,18 @@ export class WorkflowCli implements OnInit {
     let command = "ps -ef";
     this.store.dispatch(new SetCLICommandAction(command));
     this.store.dispatch(new LoadRunningProcessesAction());
+  }
+
+  runAllWorkflows() {
+    let command = "custom script";
+    this.store.dispatch(new SetCLICommandAction(command));
+    this.store.dispatch(new RunAllCellarWorkflowsAction());
+  }
+
+  stopAllWorkflows() {
+    let command = "custom script";
+    this.store.dispatch(new SetCLICommandAction(command));
+    this.store.dispatch(new StopAllCellarWorkflowsAction());
   }
 
   getActualDirectory() {

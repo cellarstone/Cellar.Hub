@@ -38,6 +38,31 @@ func GetAllCellarWorkflows() []CellarWorkflow {
 	return result
 }
 
+func GetCellarWorkflows(senzorname string) []CellarWorkflow {
+	session, err := mgo.Dial(mongoUrl)
+	if err != nil {
+		panic(err)
+	}
+	defer session.Close()
+
+	// Error check on every access
+	session.SetSafe(&mgo.Safe{})
+
+	//Select table
+	workflowsTable := session.DB(mongoDatabase).C("Workflows")
+
+	//Return data
+	var result []CellarWorkflow
+	err = workflowsTable.Find(bson.M{"parameters": bson.M{"$in": []string{senzorname}}}).All(&result)
+	if err != nil && err.Error() != "not found" {
+		log.Fatal(err)
+	}
+
+	log.Println(result)
+
+	return result
+}
+
 func GetCellarWorkflow(id string) CellarWorkflow {
 	// Get session
 	session, err := mgo.Dial(mongoUrl)

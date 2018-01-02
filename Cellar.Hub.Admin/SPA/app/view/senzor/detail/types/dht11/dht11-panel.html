@@ -1,0 +1,75 @@
+<!-- ******************************************** -->
+<!-- CHECK -->
+<!-- ******************************************** -->
+
+<div class="ui-g">
+
+  <div class="ui-g-12">
+
+    <button type="button" pButton label="CHECK" (click)="checkSenzor()" class="ui-button-success"></button>
+
+  </div>
+
+</div>
+
+
+<!-- ******************************************** -->
+<!-- CONTROL PANEL -->
+<!-- ******************************************** -->
+
+
+<div class="ui-g">
+
+  <div class="ui-g-6">
+
+    <img class="mypicture" src="assets/images/senzorStates/temperature.png">
+
+  </div>
+  <div class="ui-g-6">
+
+    <img class="mypicture" src="assets/images/senzorStates/humidity.png">
+
+  </div>
+</div>
+
+<div class="ui-g">
+
+  <div class="ui-g-6">
+
+    <div>{{actualValue}}</div>
+
+  </div>
+  <div class="ui-g-6">
+
+    <div>{{actualValue2}}</div>
+
+  </div>
+
+</div>
+
+
+<!-- ******************************************** -->
+<!-- CHARTS -->
+<!-- ******************************************** -->
+
+<div class="ui-g">
+
+  <div class="ui-g-6">
+
+    <!-- https://www.usefuldev.com/blog/post/using-highcharts-in-an-angular-cli-project -->
+    <div #chartTarget>
+      chart target
+    </div>
+
+  </div>
+
+  <div class="ui-g-6">
+
+    <!-- https://www.usefuldev.com/blog/post/using-highcharts-in-an-angular-cli-project -->
+    <div #chartTarget2>
+      chart target
+    </div>
+
+  </div>
+
+</div>

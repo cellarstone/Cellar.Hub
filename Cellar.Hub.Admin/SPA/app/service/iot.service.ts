@@ -329,6 +329,8 @@ export class IoTService {
         this.setHeaders();
         let options = { headers: this.headers };
 
+        console.log(this.url_getAllCellarSenzors);
+
         return this.http.get(this.url_getAllCellarSenzors, options)
 
             .catch(this.handleError);

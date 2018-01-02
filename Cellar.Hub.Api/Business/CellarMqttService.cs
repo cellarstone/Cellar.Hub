@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 
@@ -13,27 +14,32 @@ namespace Cellar.Hub.Api.Business
 {
     public class CellarMqttService
     {
-        MqttClient client;
+        string mqttUrl;
 
-        public CellarMqttService(IConfigurationRoot conf){
+        ILogger<CellarMqttService> _log;
+        public CellarMqttService(IConfigurationRoot conf,
+            ILogger<CellarMqttService> log)
+        {
+            _log = log;
 
-
-            string aaa = conf.GetSection("ConnectionStrings:mqtt").Value;
-
-
-            client = new MqttClient(aaa); 
-
+            mqttUrl = conf.GetSection("ConnectionStrings:mqtt").Value;
         }
 
 
         public CellarDTO PublishToMqtt(string topic, string value)
         {
-            if(!client.IsConnected){
-                client.Connect("api"); 
-            }
+            MqttClient client = new MqttClient(mqttUrl);
 
-            var result = client.Publish(topic, Encoding.UTF8.GetBytes(value), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false); 
- 
+            string clientId = Guid.NewGuid().ToString();
+
+            client.Connect(clientId);
+
+            // _log.LogError("clientId : " + clientId + " ,topic : " + topic + ", connected : " + client.IsConnected);
+
+            var result = client.Publish(topic, Encoding.UTF8.GetBytes(value), MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE, false);
+
+            //client.Disconnect();
+
             return CellarDTO.Data(result);
         }
 

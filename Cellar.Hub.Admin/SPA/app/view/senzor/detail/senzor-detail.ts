@@ -1,24 +1,9 @@
 ﻿//angular
-import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-//primeNG
-import { SelectItem } from 'primeng/primeng';
-import { Message } from 'primeng/primeng';
-
-//SVG
-import { SVGCacheService } from 'ng-inline-svg';
-
-
 //cellarstone
-import { CellarSpace } from '../../../entities/CellarSpace';
 import { CellarSenzor } from '../../../entities/CellarSenzor';
-
-
-//others
-declare var jQuery: any;
-import { chart } from 'highcharts';
-
 
 //http + rxjs
 import { Observable } from 'rxjs/Observable';
@@ -28,14 +13,13 @@ import 'rxjs/add/operator/bufferCount';
 import 'rxjs/add/operator/map';
 import { Subject } from 'rxjs/Subject';
 
-//websocket
-import { Socket } from '../../../service/Socket';
-import { ApplicationState } from 'app/state/state/application.state';
-
 //ngRx
+import { ApplicationState } from 'app/state/state/application.state';
 import { Store } from '@ngrx/store';
 import { LoadCellarSenzorAction, SaveCellarSenzorAction, DeleteCellarSenzorAction } from 'app/state/actions/senzor.actions';
 import * as RouterActions from 'app/state/actions/router.actions';
+import { PublishToMqttModel } from 'app/models/publishToMqtt.model';
+import { PublishToMqttAction } from 'app/state/actions/mqtt.actions';
 
 @Component({
     templateUrl: './senzor-detail.html',
@@ -47,89 +31,25 @@ export class SenzorDetail {
 
     private sub: any;
 
-
-    //websockets
-    public socket: Socket;
-    public socket2: Socket;
-
-    @ViewChild('chartTarget') chartTarget: ElementRef;
-    chart: Highcharts.ChartObject;
-
-    @ViewChild('chartTarget2') chartTarget2: ElementRef;
-    chart2: Highcharts.ChartObject;
-
-
-
-    public actualValue: number = 0;
-    public actualValue2: number = 0;
+    senzorName = "";
 
 
     constructor(
         private route: ActivatedRoute,
-        private store: Store<ApplicationState>,
-        private svgService: SVGCacheService) {
+        private store: Store<ApplicationState>) {
 
-        //svgService.setBaseUrl({ baseUrl: 'http://localhost:44402' });
+        //this.item$ = this.store.select(mapSenzorFromState);
+        this.item$ = this.store.select(mapSenzorFromState)
+            .mergeMap((data: CellarSenzor) => {
 
+                console.log(data);
 
-        //websockets
-        this.socket = new Socket("ws://localhost:44406/ws/s3102temperature");
-        this.socket.on('connect', this.onConnect.bind(this));
-        this.socket.on('disconnect', this.onDisconnect.bind(this));
-        this.socket.on('message', this.onMessage.bind(this));
+                if (data != null && data.id != null) {
+                    this.senzorName = data.name;
+                }
 
-        this.socket2 = new Socket("ws://localhost:44406/ws/s3102status");
-        this.socket2.on('connect', this.onConnect2.bind(this));
-        this.socket2.on('disconnect', this.onDisconnect2.bind(this));
-        this.socket2.on('message', this.onMessage2.bind(this));
-
-
-
-
-
-        this.item$ = this.store.select(mapSenzorFromState);
-
-
-
-        // this.item$ = this.store.select(mapSenzorFromState)
-        //     .mergeMap((data: CellarSenzor) => {
-
-
-        //         console.log(data);
-
-
-        //         if (data != null && data.id != null) {
-        //             this.setCharts();
-        //         }
-
-        //         return Observable.of(data);
-
-
-
-        //     });
-
-
-
-
-
-        // this.store.select(mapSenzorFromState)
-        // .subscribe((data: CellarSenzor) => {
-
-
-        //     console.log(data);
-
-        //     if (data != null) {
-
-
-        //         if (data.id != null) {
-        //             this.setCharts();
-        //         }
-
-        //         this.item$ = Observable.of(data);
-
-        //     }
-
-        // });
+                return Observable.of(data);
+            });
 
     }
 
@@ -147,180 +67,8 @@ export class SenzorDetail {
         console.log("destroy");
 
         this.sub.unsubscribe();
-
-        this.chart = null;
-        this.chart2 = null;
-
-        this.socket.close();
-        this.socket.ee.removeAllListeners();
-        this.socket = null;
-        this.socket2.close();
-        this.socket2.ee.removeAllListeners();
-        this.socket2 = null;
     }
-    setCharts() {
-        const options: Highcharts.Options = {
-            chart: {
-                type: 'line',
-                // animation: Highcharts.svg, // don't animate in old IE
-                marginRight: 10,
-                events: {
-                    // load: function () {
-
-                    //     // set up the updating of the chart each second
-                    //     var series = this.series[0];
-                    //     setInterval(function () {
-                    //         var x = (new Date()).getTime(), // current time
-                    //             y = Math.random();
-                    //         series.addPoint([x, y], true, true);
-                    //     }, 1000);
-                    // }
-                }
-            },
-            title: {
-                text: 'Temperature °C'
-            },
-            xAxis: {
-                type: 'datetime',
-                tickPixelInterval: 150
-            },
-            yAxis: {
-                title: {
-                    text: 'Value'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            // tooltip: {
-            //     formatter: function () {
-            //         return '<b>' + this.series.name + '</b><br/>' +
-            //             this.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-            //             this.numberFormat(this.y, 2);
-            //     }
-            // },
-            legend: {
-                enabled: false
-            },
-            exporting: {
-                enabled: false
-            },
-            // series: [{
-            //     name: 's3102',
-            //     data: []
-            // }]
-            series: [{
-                name: 'Random data',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
-
-                    // data.push({
-                    //     x: time + i * 1000,
-                    //     y: 0
-                    // });
-
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: 0
-                        });
-                    }
-                    return data;
-                }())
-            }]
-        };
-
-        this.chart = chart(this.chartTarget.nativeElement, options);
-
-
-        const options2: Highcharts.Options = {
-            chart: {
-                type: 'line',
-                // animation: Highcharts.svg, // don't animate in old IE
-                marginRight: 10,
-                events: {
-                    // load: function () {
-
-                    //     // set up the updating of the chart each second
-                    //     var series = this.series[0];
-                    //     setInterval(function () {
-                    //         var x = (new Date()).getTime(), // current time
-                    //             y = Math.random();
-                    //         series.addPoint([x, y], true, true);
-                    //     }, 1000);
-                    // }
-                }
-            },
-            title: {
-                text: 'Status'
-            },
-            xAxis: {
-                type: 'datetime',
-                tickPixelInterval: 150
-            },
-            yAxis: {
-                title: {
-                    text: 'Value'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            // tooltip: {
-            //     formatter: function () {
-            //         return '<b>' + this.series.name + '</b><br/>' +
-            //             this.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-            //             this.numberFormat(this.y, 2);
-            //     }
-            // },
-            legend: {
-                enabled: false
-            },
-            exporting: {
-                enabled: false
-            },
-            // series: [{
-            //     name: 's3102',
-            //     data: []
-            // }]
-            series: [{
-                name: 'Random data',
-                data: (function () {
-                    // generate an array of random data
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
-
-                    // data.push({
-                    //     x: time + i * 1000,
-                    //     y: 0
-                    // });
-
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: 0
-                        });
-                    }
-                    return data;
-                }()),
-                color: "#009688"
-            }]
-        };
-
-        this.chart2 = chart(this.chartTarget2.nativeElement, options2);
-    }
-
-
-
-
+   
 
     //*********************************/
     /* SENZOR */
@@ -329,66 +77,12 @@ export class SenzorDetail {
     private saveSenzor(item: CellarSenzor) {
         this.store.dispatch(new SaveCellarSenzorAction(item));
     }
-
-
     private deleteSenzor(item: CellarSenzor) {
         this.store.dispatch(new DeleteCellarSenzorAction(item));
     }
-
     private cancelSenzor() {
         this.store.dispatch(new RouterActions.Back());
     }
-
-
-    private onSenzor() {
-        this.store.dispatch(new RouterActions.Back());
-    }
-    private offSenzor() {
-        this.store.dispatch(new RouterActions.Back());
-    }
-
-
-
-
-
-    //*********************************/
-    /* WEBSOCKET METHODS */
-    //*********************************/
-
-    onConnect() {
-        console.log("onConnect");
-    }
-    onDisconnect() {
-        console.log("onDisconnect");
-    }
-
-    onMessage(message) {
-        let number = parseFloat(message);
-        this.actualValue = number;
-
-        var x = (new Date()).getTime(), // current time
-            y = Math.round(this.actualValue);
-        this.chart.series[0].addPoint([x, y], true, true)
-    }
-
-    onConnect2() {
-        console.log("onConnect2");
-    }
-    onDisconnect2() {
-        console.log("onDisconnect2");
-    }
-
-    onMessage2(message) {
-        let number = parseFloat(message);
-        this.actualValue2 = number;
-
-        var x = (new Date()).getTime(), // current time
-            y = Math.round(this.actualValue2);
-        this.chart2.series[0].addPoint([x, y], true, true)
-    }
-
-
-
 
 }
 
