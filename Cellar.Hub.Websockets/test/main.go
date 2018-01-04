@@ -13,7 +13,7 @@ import (
 
 func main() {
 
-	addr := flag.String("addr", "localhost:8080", "http service address")
+	addr := flag.String("addr", "localhost:44406", "http service address")
 
 	u := url.URL{Scheme: "ws", Host: *addr, Path: "/ws/" + "room1"}
 	log.Printf("connecting to %s", u.String())

@@ -70,9 +70,16 @@ namespace Cellar.Hub.Api.Controllers
 
 
         [HttpPost]
-        public CellarDTO RemoveCellarSpace([FromBody]CellarSpace item)
+        public CellarDTO RemoveCellarSpace([FromBody]string id)
         {
-            var result = _service.RemoveCellarSpace(item);
+            var result = _service.RemoveCellarSpace(id);
+            return result;
+        }
+
+        [HttpPost]
+        public CellarDTO RemoveCellarSpaces([FromBody]string path)
+        {
+            var result = _service.RemoveCellarSpaces(path);
             return result;
         }
 
@@ -120,9 +127,16 @@ namespace Cellar.Hub.Api.Controllers
         }
 
         [HttpPost]
-        public CellarDTO RemoveCellarSenzor([FromBody]string item)
+        public CellarDTO RemoveCellarSenzor([FromBody]string id)
         {
-            var result = _service.RemoveCellarSenzor(item);
+            var result = _service.RemoveCellarSenzor(id);
+            return result;
+        }
+
+        [HttpPost]
+        public CellarDTO RemoveCellarSenzors([FromBody]string path)
+        {
+            var result = _service.RemoveCellarSenzors(path);
             return result;
         }
 
@@ -164,9 +178,9 @@ namespace Cellar.Hub.Api.Controllers
         }
 
         [HttpPost]
-        public CellarDTO RemoveCellarPlace([FromBody]string item)
+        public CellarDTO RemoveCellarPlace([FromBody]string id)
         {
-            var result = _service.RemoveCellarPlace(item);
+            var result = _service.RemoveCellarPlace(id);
             return result;
         }
 

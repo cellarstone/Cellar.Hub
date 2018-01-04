@@ -1,0 +1,163 @@
+<div id="senzor-base-info">
+
+
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+  <!--VALIDATIONS, MESSAGES ... etc.-->
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+
+  <p-messages [value]="messagesToUser"></p-messages>
+
+  <p-growl [value]="validations"></p-growl>
+
+
+
+
+
+
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+  <!--PRODUCT BASE info + CATEGORIES-->
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+
+  <div class="ui-g">
+
+    <!--STATE + BASE INDORMATIONS-->
+    <div class="ui-g-12">
+
+
+      <div class="ui-g">
+
+        <!--STATE-->
+        <div class="card card-w-title" style="width:  100%; padding-bottom: 16px;" [ngClass]="{'nonvalid': !isStateValid }">
+          <!--<h1>State</h1>-->
+
+          <div class="text-center">
+            <div class="btn-group" role="group">
+              <button type="button" id="new" class="btn" [class.btn-default]="item.state != '1'" [class.btn-warning]="item.state === '1'"
+                (click)="selectState($event)">New</button>
+              <button type="button" id="approved" class="btn" [class.btn-default]="item.state != '2'" [class.btn-success]="item.state == '2'"
+                (click)="selectState($event)">Approved</button>
+              <button type="button" id="forbidden" class="btn" [class.btn-default]="item.state != '3'" [class.btn-danger]="item.state === '3'"
+                (click)="selectState($event)">Forbidden</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="ui-g">
+
+        <!--BASE INDORMATIONS-->
+        <div class="card card-w-title" style="width: 100%;">
+          <h1>Base Informations</h1>
+
+
+          <!--MAIN IMAGE-->
+          <div class="ui-g-4">
+            <div *ngIf="selectedTypeImage != ''" class="thumbnail">
+              <img src="{{selectedTypeImage}}" class="img-thumbnail" alt="..." style="max-width: 100%; max-height: 100%;">
+            </div>
+          </div>
+
+
+
+
+          <div class="ui-g-8">
+
+            <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-12">
+                <label for="name">Name</label>
+                <div class="ui-fluid">
+                  <input id="name" type="text" pInputText [(ngModel)]="item.name" [ngClass]="{'nonvalid': !isNameValid }" />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="path">Path</label>
+                <div class="ui-fluid">
+                  <input id="path" type="text" pInputText [(ngModel)]="item.path" [ngClass]="{'nonvalid': !isPathValid }" />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="type">Type</label>
+                <div class="ui-fluid">
+                  <p-dropdown id="type" [options]="types" [(ngModel)]="selectedType" (ngModelChange)="onTypeChange($event)"></p-dropdown>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="wifissid">Wifi SSID</label>
+                <div class="ui-fluid">
+                  <input id="wifissid" type="text" pInputText [(ngModel)]="item.wifiSSID" [ngClass]="{'nonvalid': !isWifiSSIDValid }" />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="wifipassword">Wifi Password</label>
+                <div class="ui-fluid">
+                  <input id="wifipassword" type="password" pInputText [(ngModel)]="item.wifiPassword" [ngClass]="{'nonvalid': !isWifiPasswordValid }"
+                  />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="mqtturl">MQTT IP</label>
+                <div class="ui-fluid">
+                  <input id="mqtturl" type="text" pInputText [(ngModel)]="item.mqttUrl" [ngClass]="{'nonvalid': !isMqttValid }" />
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+  <!--BUTTONS-->
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+
+
+  <div class="ui-g">
+
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+
+        <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="cancelSenzor()" class="ui-button-warning"></button>
+
+
+        <button *ngIf="item.id" type="button" pButton icon="fa-trash-o" label="DELETE" (click)="deleteSenzor()" class="ui-button-danger"></button>
+
+
+        <button type="button" pButton icon="fa-check" label="SAVE" (click)="saveSenzor()" class="ui-button-success"></button>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <p-messages [value]="messagesToUser"></p-messages>
+
+</div>

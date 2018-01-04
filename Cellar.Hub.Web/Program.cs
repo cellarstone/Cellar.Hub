@@ -15,7 +15,7 @@ namespace Cellar.Hub.Web
 
             var host = new WebHostBuilder()
                 .UseKestrel()
-                .UseUrls("http://*:8881")
+                .UseUrls("http://*:44401")
                 // .UseUrls("http://127.0.0.1:8881", "http://0.0.0.0:8881", "http://localhost:8881")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()

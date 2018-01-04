@@ -1,0 +1,177 @@
+<div id="place-base-info">
+
+
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+  <!--VALIDATIONS, MESSAGES ... etc.-->
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+
+  <p-messages [value]="messagesToUser"></p-messages>
+
+  <p-growl [value]="validations"></p-growl>
+
+
+
+
+
+
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+  <!--BASE info-->
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+
+  <div class="ui-g">
+
+    <!--STATE + BASE INDORMATIONS-->
+    <div class="ui-g-12">
+
+
+      <div class="ui-g">
+
+        <!--STATE-->
+        <div class="card card-w-title" style="width:  100%; padding-bottom: 16px;" [ngClass]="{'nonvalid': !isStateValid }">
+          <!--<h1>State</h1>-->
+
+          <div class="text-center">
+            <div class="btn-group" role="group">
+              <button type="button" id="new" class="btn" [class.btn-default]="item.state != '1'" [class.btn-warning]="item.state === '1'"
+                (click)="selectState($event)">New</button>
+              <button type="button" id="approved" class="btn" [class.btn-default]="item.state != '2'" [class.btn-success]="item.state == '2'"
+                (click)="selectState($event)">Approved</button>
+              <button type="button" id="forbidden" class="btn" [class.btn-default]="item.state != '3'" [class.btn-danger]="item.state === '3'"
+                (click)="selectState($event)">Forbidden</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="ui-g">
+
+        <!--BASE INDORMATIONS-->
+        <div class="card card-w-title" style="width: 100%;">
+          <h1>Base Informations</h1>
+
+
+
+          <!--MAP-->
+          <div class="ui-g-12 ui-md-4" [ngClass]="{'nonvalid': !isMainPictureValid }">
+
+            <label for="mainImage">
+              Map
+            </label>
+
+            <div>
+              <agm-map [latitude]="lat" [longitude]="lng">
+                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+              </agm-map>
+            </div>
+          </div>
+
+
+
+
+          <div class="ui-g-12 ui-md-8">
+
+            <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-12">
+                <label for="name">Name</label>
+                <div class="ui-fluid">
+                  <input id="name" type="text" pInputText [(ngModel)]="item.name" [ngClass]="{'nonvalid': !isNameValid }" (keyup)="onNameInput($event)"
+                  />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="path">Path</label>
+                <div class="ui-fluid">
+                  <input id="path" type="text" pInputText [(ngModel)]="item.path" [ngClass]="{'nonvalid': !isPathValid }" disabled />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="country">Country</label>
+                <div class="ui-fluid">
+                  <input id="country" type="text" pInputText [(ngModel)]="item.country" [ngClass]="{'nonvalid': !isCountryValid }" />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="city">City</label>
+                <div class="ui-fluid">
+                  <input id="city" type="text" pInputText [(ngModel)]="item.city" [ngClass]="{'nonvalid': !isCityValid }" />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="street">Street</label>
+                <div class="ui-fluid">
+                  <input id="street" type="text" pInputText [(ngModel)]="item.street" [ngClass]="{'nonvalid': !isStreetValid }" />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="zipcode">ZipCode</label>
+                <div class="ui-fluid">
+                  <input id="zipcode" type="text" pInputText [(ngModel)]="item.zipcode" [ngClass]="{'nonvalid': !isZipCodeValid }" />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="latitude">Latitude</label>
+                <div class="ui-fluid">
+                  <input id="latitude" type="text" pInputText [(ngModel)]="item.latitude" [ngClass]="{'nonvalid': !isLatitudeValid }" />
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="longtitude">Longtitude</label>
+                <div class="ui-fluid">
+                  <input id="longtitude" type="text" pInputText [(ngModel)]="item.longtitude" [ngClass]="{'nonvalid': !isLongtitudeValid }" />
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+  <!--BUTTONS-->
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+
+
+  <div class="ui-g">
+
+    <div class="ui-g-12 ui-md-12">
+      <div class="card card-w-title">
+
+        <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="cancelPlace()" class="ui-button-warning"></button>
+
+
+        <button *ngIf="item.id" type="button" pButton icon="fa-trash-o" label="DELETE" (click)="deletePlace()" class="ui-button-danger"></button>
+        
+
+        <button type="button" pButton icon="fa-check" label="SAVE" (click)="savePlace()" class="ui-button-success"></button>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <p-messages [value]="messagesToUser"></p-messages>
+
+
+
+
+
+
+
+</div>

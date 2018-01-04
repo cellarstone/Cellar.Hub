@@ -19,6 +19,6 @@ ENV ASPNETCORE_ENVIRONMENT="production"
  RUN mkdir -p /app/data
 
  ENV ASPNETCORE_ENVIRONMENT="production"
- EXPOSE 8884
+ EXPOSE 44404
  COPY --from=builder /app .
  ENTRYPOINT ["dotnet", "Cellar.Hub.Cdn.dll"]

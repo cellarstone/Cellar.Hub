@@ -87,6 +87,7 @@ import { ToolbarModule } from 'primeng/primeng';
 import { TooltipModule } from 'primeng/primeng';
 import { TreeModule } from 'primeng/primeng';
 import { TreeTableModule } from 'primeng/primeng';
+import { ProgressBarModule } from 'primeng/components/progressbar/progressbar';
 
 //HammerJS - because Kendo UI wants it
 import 'hammerjs';
@@ -107,6 +108,8 @@ import { AppComponent } from './app.component';
 import { SharedService } from './service/shared.service';
 import { IoTService } from './service/iot.service';
 import { CdnService } from './service/cdn.service';
+import { WorkflowService } from './service/workflow.service';
+import { MqttService } from './service/mqtt.service';
 
 import { AppMenuComponent, AppSubMenu } from './app.menu.component';
 import { AppTopBar } from './app.topbar.component';
@@ -116,27 +119,61 @@ import { DashboardDemo } from './view/dashboard/dashboarddemo';
 //places
 import { PlaceDashboard } from './view/place/dashboard/place-dashboard';
 import { PlaceDetail } from './view/place/detail/place-detail';
+import { PlaceBaseInfoComponent } from './components/place/base-info/base-info.component';
 
 //spaces
-import { SpaceDashboard } from './view/space/dashboard/space-dashboard';
 import { SpaceDetail } from './view/space/detail/space-detail';
 import { SpaceList } from './view/space/list/space-list';
+import { SpaceBaseInfoComponent } from './components/space/base-info/base-info.component';
+import { SpaceListComponent } from './components/space/list/list.component';
 
 //senzors
-import { SenzorDashboard } from './view/senzor/dashboard/senzor-dashboard';
 import { SenzorDetail } from './view/senzor/detail/senzor-detail';
 import { SenzorList } from './view/senzor/list/senzor-list';
+import { SenzorWorkflowList } from './view/senzor/detail/workflows/workflow-list';
+import { SenzorBaseInfoComponent } from './components/senzor/base-info/base-info.component';
+import { SenzorListComponent } from './components/senzor/list/list.component';
+
+//senzor types
+import { Dht11Panel } from './view/senzor/detail/types/dht11/dht11-panel';
+import { PirPanel } from './view/senzor/detail/types/pir/pir-panel';
+import { RelayPanel } from './view/senzor/detail/types/relay/relay-panel';
+
+
+
+
+
+//workflow
+import { WorkflowCli } from './view/workflow/cli/workflow-cli';
+import { WorkflowList } from './view/workflow/list/workflow-list';
+import { WorkflowDetail } from './view/workflow/detail/workflow-detail';
+import { WorkflowListComponent } from './components/workflow/list/list.component';
+import { SavetoprometheusComponent } from './components/workflow/savetoprometheus/savetoprometheus.component';
+import { SendtowebsocketComponent } from './components/workflow/sendtowebsocket/sendtowebsocket.component';
+
+
+
 
 //Router
 import { routes } from './app.routes';
 
 //State
 import { reducers } from 'app/state/reducers/main.reducer';
-import { EffectService } from 'app/state/effects/effects';
+import { SenzorEffects } from 'app/state/effects/senzor.effects';
+import { SpaceEffects } from 'app/state/effects/space.effects';
+import { PlaceEffects } from 'app/state/effects/place.effects';
+import { WorkflowEffects } from 'app/state/effects/workflow.effects';
+import { RouterEffects } from 'app/state/effects/router.effects';
 // import { INITIAL_APPLICATION_STATE } from './store/todo.state';
 import { CustomSerializer } from './state/router-settings';
 import { INITIAL_APPLICATION_STATE } from './state/state/application.state';
-import { ProgressBarModule } from 'primeng/components/progressbar/progressbar';
+import { MqttEffects } from 'app/state/effects/mqtt.effects';
+
+
+
+
+
+
 
 
 
@@ -153,7 +190,7 @@ import { ProgressBarModule } from 'primeng/components/progressbar/progressbar';
         StoreDevtoolsModule.instrument({
           maxAge: 25
         }),
-        EffectsModule.forRoot([EffectService]),
+        EffectsModule.forRoot([MqttEffects, WorkflowEffects, SenzorEffects, SpaceEffects, PlaceEffects, RouterEffects]),
         StoreRouterConnectingModule,
         //PrimeNG
         AccordionModule,
@@ -240,21 +277,36 @@ import { ProgressBarModule } from 'primeng/components/progressbar/progressbar';
         AppTopBar,
         AppFooter,
         DashboardDemo,
-        SpaceDashboard,
         SpaceDetail,
         SpaceList,
-        SenzorDashboard,
         SenzorDetail,
         SenzorList,
         PlaceDashboard,
-        PlaceDetail
+        PlaceDetail,
+        WorkflowCli,
+        WorkflowList,
+        WorkflowDetail,
+        SenzorBaseInfoComponent,
+        SenzorListComponent,
+        PlaceBaseInfoComponent,
+        SpaceListComponent,
+        SpaceBaseInfoComponent,
+        WorkflowListComponent,
+        SavetoprometheusComponent,
+        SendtowebsocketComponent,
+        Dht11Panel,
+        PirPanel,
+        RelayPanel,
+        SenzorWorkflowList
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         { provide: RouterStateSerializer, useClass: CustomSerializer },
         IoTService,
         CdnService,
-        SharedService
+        SharedService,
+        WorkflowService,
+        MqttService
     ],
     bootstrap: [AppComponent]
 })

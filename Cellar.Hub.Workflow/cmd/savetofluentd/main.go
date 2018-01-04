@@ -5,31 +5,31 @@ import (
 	"math/rand"
 	"os"
 	"os/signal"
-	"strings"
 	"time"
 
 	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/logging"
 	"github.com/erikdubbelboer/gspt"
 )
 
-var err error
+//INPUT PARAMETERS -----------------
+// ORDER MATTERS
+var workflowName string
+var senzorID string
+var topic string
+var MqttUrl = "cellar.hub.mqtt:1883"
+var fluentdUrl = "fluentd"
 
+//----------------------------------
+
+//IN-OUT CHANNELS ------------------
 var workflowIn chan string
 var workflowOut chan string
 
+//----------------------------------
+
 //Logging
 var logger *logging.CLogger
-
-//Mqtt url
-var MqttUrl = "cellar.hub.mqtt:1883"
-
-//fluentd url
-var fluentdUrl = "fluentd"
-
-//INPUT PARAMETERS
-var senzor string
-var measurement string
-var topic string
+var err error
 
 func init() {
 	//set logging
@@ -52,9 +52,11 @@ func main() {
 	// fmt.Println(environment)
 
 	workflowName := os.Args[1]
-	topic = os.Args[2]
-	senzor = strings.Split(topic, "/")[0]
-	measurement = strings.Split(topic, "/")[1]
+	senzorID = os.Args[2]
+	topic = os.Args[3]
+	MqttUrl = os.Args[4]
+	fluentdUrl = os.Args[5]
+
 	gspt.SetProcTitle(workflowName)
 
 	workflowIn = make(chan string)

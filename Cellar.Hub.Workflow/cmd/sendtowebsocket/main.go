@@ -11,23 +11,31 @@ import (
 	"github.com/erikdubbelboer/gspt"
 )
 
-var err error
-
-var workflowIn chan string
-var workflowOut chan string
-
-//Logging
-var logger *logging.CLogger
+//INPUT PARAMETERS -----------------
+// ORDER MATTERS
+var workflowName string
+var senzorID string
+var topic string
+var room string
 
 //Mqtt url
 var MqttUrl = "cellar.hub.mqtt:1883"
 
 //Websocket url
-var websocketUrl = "cellar.hub.websockets:8080"
+var websocketUrl = "cellar.hub.websockets:8887"
 
-//INPUT PARAMETERS
-var room string
-var topic string
+//----------------------------------
+
+//IN-OUT CHANNELS ------------------
+var workflowIn chan string
+var workflowOut chan string
+
+//----------------------------------
+
+//Logging
+var logger *logging.CLogger
+
+var err error
 
 func init() {
 	//set logging
@@ -49,9 +57,12 @@ func main() {
 	// environment := os.Getenv("APP_ENV")
 	// fmt.Println(environment)
 
-	workflowName := os.Args[1]
-	topic = os.Args[2]
-	room = os.Args[3]
+	workflowName = os.Args[1]
+	senzorID = os.Args[2]
+	topic = os.Args[3]
+	room = os.Args[4]
+	MqttUrl = os.Args[5]
+	websocketUrl = os.Args[6]
 	// senzor = strings.Split(topic, "/")[0]
 	// measurement = strings.Split(topic, "/")[1]
 	gspt.SetProcTitle(workflowName)

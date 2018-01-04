@@ -17,6 +17,6 @@ ENV ASPNETCORE_ENVIRONMENT="production"
  FROM microsoft/dotnet:2.0.0-runtime
  WORKDIR /app
  ENV ASPNETCORE_ENVIRONMENT="production"
- EXPOSE 8885
+ EXPOSE 44403
  COPY --from=builder /app .
  ENTRYPOINT ["dotnet", "Cellar.Hub.Api.dll"]

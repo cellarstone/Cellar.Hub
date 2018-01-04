@@ -42,6 +42,7 @@ namespace Cellar.Hub.Api
 
             //SERVIE
             services.AddScoped<CellarHubService, CellarHubService>();
+            services.AddScoped<CellarMqttService, CellarMqttService>();
 
 
             services.AddCors();

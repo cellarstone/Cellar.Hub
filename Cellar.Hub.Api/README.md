@@ -1,5 +1,7 @@
 
 
+> Before running must be set : `export ASPNETCORE_ENVIRONMENT="Development"`
+
 
 PLACE - solution for real world problem
 
