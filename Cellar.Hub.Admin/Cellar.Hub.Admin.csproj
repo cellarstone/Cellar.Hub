@@ -8,18 +8,6 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
-  <!-- <ItemGroup>
-    <ProjectReference Include="..\Cellar.Hub.Core\Cellar.Hub.Core.csproj" />
-  </ItemGroup>    -->
-
-
-<ItemGroup>
-   <None Include="appsettings.json" CopyToPublishDirectory="Always" />
-   <!-- <None Include="appsettings.development.json" CopyToPublishDirectory="Always" /> -->
-   <None Include="appsettings.production.json" CopyToPublishDirectory="Always" />
-</ItemGroup>
-
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
