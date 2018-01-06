@@ -3,8 +3,8 @@
   "version": "1.1.0",
   "angular-cli": {},
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve"
+    "myappbuild": "ng build",
+    "myserverbuild": "tsc server.ts"
   },
   "private": true,
   "dependencies": {
@@ -47,7 +47,8 @@
     "quill": "^1.1.8",
     "rxjs": "^5.2.0",
     "web-animations-js": "^2.2.2",
-    "zone.js": "0.8.5"
+    "zone.js": "0.8.5",
+    "express": "^4.16.2"
   },
   "devDependencies": {
     "@angular/cli": "^1.5.2",
