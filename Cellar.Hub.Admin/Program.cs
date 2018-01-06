@@ -26,6 +26,8 @@ namespace Cellar.Hub.Admin
                 .UseStartup<Startup>()
                 .Build();
 
+                
+
             host.Run();
         }
     }
