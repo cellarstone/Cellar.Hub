@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="144 3494 300 427.652">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3, .cls-6 {
+        fill: none;
+      }
+
+      .cls-1 {
+        opacity: 0.4;
+      }
+
+      .cls-2, .cls-3 {
+        stroke: #fff;
+      }
+
+      .cls-2 {
+        stroke-width: 5px;
+      }
+
+      .cls-3 {
+        stroke-width: 3px;
+      }
+
+      .cls-4 {
+        fill: #fff;
+        font-size: 35px;
+        font-family: SegoeUI, Segoe UI;
+      }
+
+      .cls-5 {
+        stroke: none;
+      }
+    </style>
+  </defs>
+  <g id="Service_Needed" data-name="Service Needed" transform="translate(-240 3143)">
+    <rect id="Rectangle_102" data-name="Rectangle 102" class="cls-1" width="300" height="300" rx="77" transform="translate(384 351)"/>
+    <g id="clean-icon" transform="translate(7 2)">
+      <path id="Path_16" data-name="Path 16" class="cls-2" d="M4201.6,2719.69c-.308,1.934-25.669,13.934-79.6,5.187a31.391,31.391,0,0,0,9.406,18.725c5.847,2.637,26.9.791,26.9.791s1.055,3.209-21.143,6.9c4.923,5.758,21.143,20.131,21.143,20.131s10.154,1.758,29.67-13.318c-2.33,3.78-9.143,13.538-19.692,19.516,7.6,6.11,18.856,11.912,27.032,14.241,4.7-4.7,13.1-27.56,13.45-29.977-.352,14.461-2.769,25.274-6.681,31.6,2.637,1.846,10.373,2.286,14.5,1.495,7.121-5.407,9.758-16.571,4.483-62.768.4-.659,1.162-.213,2.022-.572,1.055-.44,3.78-4.044,4.176-6.066s.044-1.143,0-2.55-14.021-12.527-15.824-13.011a11.244,11.244,0,0,0-4.483-.44c-.572.22-4.176,2.637-4.879,4.835S4201.911,2717.756,4201.6,2719.69Z" transform="translate(-3677 -2209.507)"/>
+      <path id="Path_17" data-name="Path 17" class="cls-2" d="M4339.8,2591.094l10.9,8.088s55.56-80.746,56.087-82.416,1.143-3.648.615-5.45-2.418-2.681-4.044-3.077-4.22,1.758-5.055,2.33S4339.8,2591.094,4339.8,2591.094Z" transform="translate(-3799.065 -2096.69)"/>
+      <g id="Ellipse_20" data-name="Ellipse 20" class="cls-3" transform="matrix(0.996, -0.087, 0.087, 0.996, 457.396, 492.074)">
+        <circle class="cls-5" cx="5.5" cy="5.5" r="5.5"/>
+        <circle class="cls-6" cx="5.5" cy="5.5" r="4"/>
+      </g>
+      <g id="Ellipse_24" data-name="Ellipse 24" class="cls-3" transform="matrix(0.017, 1, -1, 0.017, 573.282, 560.572)">
+        <circle class="cls-5" cx="5.5" cy="5.5" r="5.5"/>
+        <circle class="cls-6" cx="5.5" cy="5.5" r="4"/>
+      </g>
+      <g id="Ellipse_21" data-name="Ellipse 21" class="cls-3" transform="matrix(0.996, -0.087, 0.087, 0.996, 476.324, 490.418)">
+        <circle class="cls-5" cx="3" cy="3" r="3"/>
+        <circle class="cls-6" cx="3" cy="3" r="1.5"/>
+      </g>
+      <g id="Ellipse_23" data-name="Ellipse 23" class="cls-3" transform="matrix(0.017, 1, -1, 0.017, 573.614, 579.569)">
+        <circle class="cls-5" cx="3" cy="3" r="3"/>
+        <circle class="cls-6" cx="3" cy="3" r="1.5"/>
+      </g>
+      <g id="Ellipse_22" data-name="Ellipse 22" class="cls-3" transform="matrix(0.996, -0.087, 0.087, 0.996, 461.717, 472.624)">
+        <circle class="cls-5" cx="6.5" cy="6.5" r="6.5"/>
+        <circle class="cls-6" cx="6.5" cy="6.5" r="5"/>
+      </g>
+      <g id="Ellipse_25" data-name="Ellipse 25" class="cls-3" transform="matrix(0.017, 1, -1, 0.017, 591.384, 565.239)">
+        <circle class="cls-5" cx="6.5" cy="6.5" r="6.5"/>
+        <circle class="cls-6" cx="6.5" cy="6.5" r="5"/>
+      </g>
+    </g>
+    <text id="Service_Needed-2" data-name="Service Needed" class="cls-4" transform="translate(534 769.652)"><tspan x="-117.151" y="0">Service needed</tspan></text>
+  </g>
+</svg>
