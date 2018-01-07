@@ -1,20 +1,56 @@
-# Sample contents of Dockerfile
- # Stage 1
-FROM microsoft/dotnet:2.0.0-sdk AS builder
-ENV ASPNETCORE_ENVIRONMENT="production"
-WORKDIR /source
+# -------------------------------------------------
+# Stage 1
+# -------------------------------------------------
+FROM node:8-onbuild AS builder
 
- # caches restore result by copying csproj file separately
-COPY . .
+# ANGULAR CLI ----
+# USER root
+# RUN npm install -g @angular/cli
+# -----------
 
-RUN dotnet restore
-# RUN 'cd ..'
-RUN dotnet publish --output /app/ --configuration Release
+# YARN ----
+# RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+# RUN apt-get update && apt-get install yarn
+# ----------
 
- # Stage 2
- FROM microsoft/dotnet:2.0.0-runtime
- WORKDIR /app
- ENV ASPNETCORE_ENVIRONMENT="production"
- EXPOSE 44404
- COPY --from=builder /app .
- ENTRYPOINT ["dotnet", "Cellar.Hub.Meetings.dll"]
+RUN pwd
+RUN ls -l
+
+
+
+# BUILD APP and SERVER
+RUN npm run-script myappbuild
+RUN npm run-script myserverbuild
+
+
+# -------------------------------------------------
+# Stage 2 
+# -------------------------------------------------
+FROM node:8-alpine
+EXPOSE 44407
+
+COPY --from=builder /usr/src/app/wwwroot /usr/src/app/wwwroot
+COPY --from=builder /usr/src/app/package.json /usr/src/app/package.json
+COPY --from=builder /usr/src/app/server.js /usr/src/app/server.js
+
+WORKDIR /usr/src/app
+
+RUN pwd
+RUN ls -l
+
+RUN npm install --only=production
+
+RUN pwd
+RUN ls -l
+
+WORKDIR /usr/src/app/wwwroot
+
+RUN pwd
+RUN ls -l
+
+WORKDIR /usr/src/app
+
+RUN pwd
+RUN ls -l
+
+CMD node server.js

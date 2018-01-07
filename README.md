@@ -19,6 +19,7 @@ Port | Application
 44404 | Cdn
 44405 | Workflow
 44406 | Websocket
+44407 | Meetings Web App
 27017 | mongodb
 1883 | mqtt
 24224 | fluentd
