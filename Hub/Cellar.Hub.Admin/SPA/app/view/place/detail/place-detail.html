@@ -1,0 +1,124 @@
+﻿<h1>Place Detail</h1>
+
+<div id="placeDetail" *ngIf="item$ | async">
+
+
+    <app-place-base-info [item]="item$ | async" (onSave)="savePlace($event)" (onDelete)="deletePlace($event)" (onCancel)="cancelPlace()"></app-place-base-info>
+
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!--SPACES-->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+
+    <div *ngIf="item$ | async" class="ui-g">
+
+        <div class="ui-g-12 ui-md-12">
+
+
+
+            <div class="card card-w-title">
+                <h1>SPACES</h1>
+
+
+
+
+                <button type="button" pButton icon="fa-plus" label="Add" (click)="showaddSubspace()"></button>
+                <br />
+                <!-- Sub-Space ADD DETAIL -->
+                <div *ngIf="addsubspaceDisplay">
+
+                    <div class="ui-g">
+
+                        <!--STATE + BASE INDORMATIONS-->
+                        <div class="ui-g-12">
+
+
+                            <div class="ui-g">
+
+                                <!--BASE INDORMATIONS-->
+                                <div class="card card-w-title" style="width: 100%;">
+                                    <h1>Base Informations</h1>
+
+                                    <div class="ui-g-12 ui-md-8">
+
+                                        <div class="ui-g form-group">
+                                            <div class="ui-g-12 ui-md-12">
+                                                <label for="name3">Name</label>
+                                                <div class="ui-fluid">
+                                                    <input id="name3" type="text" pInputText [(ngModel)]="addedsubspace.name" [ngClass]="{'nonvalid': !isNameValid }" />
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-12">
+                                                <label for="path3">Path</label>
+                                                <div class="ui-fluid">
+                                                    <input id="path3" type="text" pInputText [(ngModel)]="addedsubspace.path" [ngClass]="{'nonvalid': !isPathValid }" disabled
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="ui-g-12 ui-md-12">
+                                        <div class="card card-w-title">
+
+                                            <!-- <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="onBack()" class="ui-button-warning"></button> -->
+
+                                            <button type="button" pButton icon="fa-check" label="SAVE" (click)="addSubspace()" class="ui-button-success"></button>
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+
+                <!--VAZBA SPACE - SUBSPACE-->
+
+                <div class="ui-g" *ngIf="item_spaces$ | async">
+
+                    <div *ngFor="let itemsb of (item_spaces$ | async)" class="ui-g-12 ui-md-6 ui-lg-3">
+                        <div class="mycard" (click)="selectSpace(itemsb.id)" [ngClass]="colorMap[itemsb.state]">
+                            <div class="ui-g">
+                                <img src="{{itemsb.image}}" style="height: 100px; max-width: 100%;" />
+                            </div>
+                            <div class="ui-g">
+                                <span class="overview-box-name">{{itemsb.name}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+
+
+</div>

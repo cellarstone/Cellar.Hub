@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="588 3494 300 442.652">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+      }
+
+      .cls-1 {
+        opacity: 0.4;
+      }
+
+      .cls-2 {
+        stroke: #fff;
+        stroke-width: 5px;
+      }
+
+      .cls-3 {
+        fill: #fff;
+        font-size: 35px;
+        font-family: SegoeUI, Segoe UI;
+      }
+    </style>
+  </defs>
+  <g id="Summon_a_Receptionist" data-name="Summon a Receptionist" transform="translate(-222 3145)">
+    <rect id="Rectangle_103" data-name="Rectangle 103" class="cls-1" width="300" height="300" rx="77" transform="translate(810 349)"/>
+    <g id="summon-receptionist-icon" transform="translate(863.326 405.1)">
+      <path id="Path_20" data-name="Path 20" class="cls-2" d="M35.9,0A35.9,35.9,0,1,1,0,35.9,35.9,35.9,0,0,1,35.9,0Z" transform="translate(62.825 35.9)"/>
+      <path id="Path_18" data-name="Path 18" class="cls-2" d="M72.8,118.675c-23.963,0-71.8,12.027-71.8,35.9v17.95H144.6v-17.95C144.6,130.7,96.763,118.675,72.8,118.675Zm69.646-86.519L127.368,47.324a29.774,29.774,0,0,1,0,34.913L142.446,97.4c18.13-18.13,18.13-45.5,0-65.248ZM172.153,2,157.524,16.629c24.861,27.1,24.861,67.851,0,96.392l14.629,14.629C207.156,92.737,207.245,38.349,172.153,2Z" transform="translate(25.925 6.975)"/>
+    </g>
+    <text id="Summon_a_receptionist-2" data-name="Summon
+a receptionist" class="cls-3" transform="translate(960 735.652)"><tspan x="-69.504" y="0">Summon</tspan><tspan x="-104.376" y="47">a receptionist</tspan></text>
+  </g>
+</svg>

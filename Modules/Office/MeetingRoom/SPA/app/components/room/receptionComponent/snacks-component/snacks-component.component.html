@@ -1,0 +1,150 @@
+<div class="snacks">
+    <div class="snack-menu">
+        <div style="margin-top: 10px;" *ngIf="showSnackMenu">
+            <div class="categories" *ngFor="let snackItem of snackMenuItems" (click)="selectItem(snackItem)">
+                <div class="color-box">
+                    <img class="snack-category-icons" src="{{ snackItem.svg }}" alt="snack">
+                </div>
+                <p>{{ snackItem.name }}</p>
+            </div>
+        </div>
+        <div class="subcategories" *ngIf="!showSnackMenu">
+            <p class="snack-item" *ngFor="let subItem of selectedSnackMenuItem.childItems" (click)="selectItem(subItem)">
+                {{ subItem.name }}
+            </p>
+            <div id="button-back" (click)="subcategoryBack()">
+                <div class="arrow-left"></div>Back
+            </div>
+        </div>
+    </div>
+
+    <div class="snack-order">
+        <div class="shopping-cart">
+            <div class="option">
+                <div class="circle circle-plus">
+                    <div class="minus"></div>
+                </div>
+                <div class="circle amount">
+                    12x
+                </div>
+                <div class="circle circle-minus">
+                    <div class="minus"></div>
+                    <div class="plus"></div>
+                </div>
+                <div class="item">
+                    <div>
+                        Apple
+                    </div>
+                </div>
+                <div class="circle trash">
+                    <img src="../../../assets/icons/trash-can.svg" alt="icon">
+                </div>
+            </div>
+            <div class="option">
+                <div class="circle circle-plus">
+                    <div class="minus"></div>
+                </div>
+                <div class="circle amount">
+                    12x
+                </div>
+                <div class="circle circle-minus">
+                    <div class="minus"></div>
+                    <div class="plus"></div>
+                </div>
+                <div class="item">
+                    <div>
+                        Apple
+                    </div>
+                </div>
+                <div class="circle trash">
+                    <img src="../../../assets/icons/trash-can.svg" alt="icon">
+                </div>
+            </div>
+            <div class="option">
+                <div class="circle circle-plus">
+                    <div class="minus"></div>
+                </div>
+                <div class="circle amount">
+                    12x
+                </div>
+                <div class="circle circle-minus">
+                    <div class="minus"></div>
+                    <div class="plus"></div>
+                </div>
+                <div class="item">
+                    <div>
+                        Apple
+                    </div>
+                </div>
+                <div class="circle trash">
+                    <img src="../../../assets/icons/trash-can.svg" alt="icon">
+                </div>
+            </div>
+            <div class="option">
+                <div class="circle circle-plus">
+                    <div class="minus"></div>
+                </div>
+                <div class="circle amount">
+                    12x
+                </div>
+                <div class="circle circle-minus">
+                    <div class="minus"></div>
+                    <div class="plus"></div>
+                </div>
+                <div class="item">
+                    <div>
+                        Apple
+                    </div>
+                </div>
+                <div class="circle trash">
+                    <img src="../../../assets/icons/trash-can.svg" alt="icon">
+                </div>
+            </div>
+            <div class="option">
+                <div class="circle circle-plus">
+                    <div class="minus"></div>
+                </div>
+                <div class="circle amount">
+                    12x
+                </div>
+                <div class="circle circle-minus">
+                    <div class="minus"></div>
+                    <div class="plus"></div>
+                </div>
+                <div class="item">
+                    <div>
+                        Apple
+                    </div>
+                </div>
+                <div class="circle trash">
+                    <img src="../../../assets/icons/trash-can.svg" alt="icon">
+                </div>
+            </div>
+            <div class="option">
+                <div class="circle circle-plus">
+                    <div class="minus"></div>
+                </div>
+                <div class="circle amount">
+                    12x
+                </div>
+                <div class="circle circle-minus">
+                    <div class="minus"></div>
+                    <div class="plus"></div>
+                </div>
+                <div class="item">
+                    <div>
+                        Apple
+                    </div>
+                </div>
+                <div class="circle trash">
+                    <img src="../../../assets/icons/trash-can.svg" alt="icon">
+                </div>
+            </div>
+        </div>
+
+        <div class="order">
+            <div class="order-border"></div>
+            <div class="order-button">order</div>
+        </div>
+    </div>
+</div>

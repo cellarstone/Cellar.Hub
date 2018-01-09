@@ -1,0 +1,22 @@
+<button pButton type="button" label="Processes" (click)="showRunningProcesses()"></button>
+<button pButton type="button" label="Run All workflows" (click)="runAllWorkflows()"></button>
+<button pButton type="button" label="Stop All workflows" (click)="stopAllWorkflows()"></button>
+<button pButton type="button" label="Actual directory"(click)="getActualDirectory()"></button>
+
+
+<div class="ui-g">
+
+  <div class="ui-g-12">
+
+    <div class="shell-wrap">
+      <p class="shell-top-bar">/WorkflowManager/$bin/bash</p>
+      <ul class="shell-body">
+        <li>{{cliCommand$ | async}}</li>
+        <div *ngIf="cliResult$ | async">
+            <li *ngFor="let item of (cliResult$ | async)">{{item}}</li>
+        </div>
+      </ul>
+    </div>
+
+  </div>
+</div>

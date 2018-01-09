@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="calendar">
+
+    <div class="current-month">
+      <div class="arrow-left" (click)="previousMonth()"></div>
+      <div class="month-year">{{today.locale('en').format('MMMM YYYY')}}</div>
+      <div class="arrow-right" (click)="nextMonth()"></div>
+    </div>
+
+    <div class="days-of-week">
+      <div class="calendar-days">MON</div>
+      <div class="calendar-days">TUE</div>
+      <div class="calendar-days">WED</div>
+      <div class="calendar-days">THU</div>
+      <div class="calendar-days">FRI</div>
+      <div class="calendar-days">SAT</div>
+      <div class="calendar-days">SUN</div>
+    </div>
+    <div id="hr"></div>
+    <div class="days">
+      <div *ngFor="let day of daysArr">
+        <div [ngClass]="{'current-week-body': thisWeekCheck(day), 'current-week-start': thisWeekCheckFirst(day), 'current-week-end': thisWeekCheckLast(day)}">
+          <span class="meeting-counter" [ngClass]="{'inactive':!day}">  </span>
+          <div class="day-box" [ngClass]="{'today': todayCheck(day), 'inactive': !thisMonthCheck(day)}" (click)="selectDate(day)" [ngStyle]="{'border': day === selectedDate ? '1px solid #95989A' : '1px solid white', 'color': day.isoWeekday() === 6 || day.isoWeekday() === 7 ? 'red' : '#95989A'}">
+            {{day?.date()}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="booking">
+    <div class="selected-date">
+      <div class="date">{{selectedDate.locale('en').format('D')}}</div>
+      <div class="inverse">
+        <div class="month">{{selectedDate.locale('en').format('MMMM')}}</div>
+        <div class="year">{{selectedDate.locale('en').format('YYYY')}}</div>
+      </div>
+    </div>
+    <div class="selected-date__details">
+      <form class="selected-date__form" [formGroup]="dateForm">
+        <input type="text" placeholder="Start Date">
+        <input type="text" placeholder="End Date">
+        <button class="button__reserve">Reserve</button>
+      </form>
+
+    </div>
+    <div></div>
+  </div>
+</div>

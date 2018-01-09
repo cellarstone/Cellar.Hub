@@ -19,7 +19,9 @@ Port | Application
 44404 | Cdn
 44405 | Workflow
 44406 | Websocket
-44407 | Meetings Web App
+44511 | Office Module - Meeting rooms Web App
+44512 | Office Module - Reception Web App
+44513 | Office Module - Api
 27017 | mongodb
 1883 | mqtt
 24224 | fluentd

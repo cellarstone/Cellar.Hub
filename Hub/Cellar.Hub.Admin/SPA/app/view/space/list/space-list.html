@@ -1,0 +1,9 @@
+<div style="margin-bottom: 15px">
+    <button type="button" pButton icon="fa-plus" label="Add" (click)="newSpace()"></button>
+</div>
+
+
+<div>
+    <app-space-list [items]="items$ | async" (onSelect)="selectSpace($event)"></app-space-list>
+</div>
+

@@ -1,8 +1,0 @@
-<div style="margin-bottom: 15px">
-    <button type="button" pButton icon="fa-plus" label="Add" (click)="newSenzor()"></button>
-</div>
-
-
-<div>
-    <app-senzor-list [items]="items$ | async" (onSelect)="selectSenzor($event)"></app-senzor-list>
-</div>

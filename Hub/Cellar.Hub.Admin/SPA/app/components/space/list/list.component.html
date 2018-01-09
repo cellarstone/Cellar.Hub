@@ -1,0 +1,45 @@
+<div id="space-list">
+
+  <div *ngIf="!items" style="width: 100%; height: 800px;">
+
+    <div class="splash-screen">
+      <div class="splash-container">
+        <div class="box">
+          <div class="wave -one"></div>
+          <div class="wave -two"></div>
+          <div class="wave -three"></div>
+          <div class="title">
+            <img src="assets/layout/images/CSlogo.svg" alt="Logo" style="height:75%; width:75%;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="items">
+
+    <p-dataTable #dt [value]="items" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,25,50,100]" selectionMode="single"
+      [(selection)]="selectedItem" (onRowSelect)="onRowSelect($event)" (onFilter)="onFilter($event)" [responsive]="true" dataKey="id">
+      <p-header>List of Spaces</p-header>
+      <!--<p-column field="id" header="Id" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>-->
+      <p-column field="state" header="State" [filter]="true" [style]="{'overflow':'visible'}" [sortable]="true">
+        <ng-template pTemplate="filter" let-col>
+          <p-dropdown [options]="states" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)"
+            styleClass="ui-column-filter"></p-dropdown>
+        </ng-template>
+        <ng-template pTemplate="body" let-col let-asdf="rowData">
+          <div class="text-center">
+            <div *ngIf="asdf.state == '1'" class="newState"></div>
+            <div *ngIf="asdf.state == '2'" class="approvedState"></div>
+            <div *ngIf="asdf.state == '3'" class="forbiddenState"></div>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-column field="name" header="Name" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
+      <p-column field="path" header="Path" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
+    </p-dataTable>
+
+  </div>
+
+</div>

@@ -1,0 +1,30 @@
+<div class="ui-g">
+
+    <div class="ui-g-6">
+
+        <div *ngIf="items$ | async">
+            <agm-map [latitude]="lat" [longitude]="lng">
+                <agm-marker *ngFor="let item of (items$ | async)" [latitude]="getNumber(item.latitude)" [longitude]="getNumber(item.longtitude)"></agm-marker>
+            </agm-map>
+        </div>
+
+    </div>
+    <div class="ui-g-6">
+
+        <div class="ui-g">
+            <button pButton type="button" label="Add" (click)="newPlace()"></button>
+        </div>
+        <div class="ui-g">
+
+            <div *ngFor="let item of (items$ | async)" class="ui-g-12 ui-md-6 ui-lg-3">
+                <div class="mycard ui-g" (click)="selectItem(item.id)" [ngClass]="colorMap[item.state]">
+                    <div class="ui-g-12">
+                        <span>{{item.name}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

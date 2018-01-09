@@ -1,0 +1,22 @@
+html,body {
+    height: 100%;
+    @import url('https://fonts.googleapis.com/css?family=Lato');
+    background: #d3d3d3;
+}
+
+a.active{
+    background-color: gray;
+}
+.flex-container {
+    font-family: 'Lato', sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
+.calendar-days {
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    background: #669999;
+    border: 3px solid #c2c2c2;
+}

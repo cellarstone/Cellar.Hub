@@ -1,0 +1,13 @@
+{{define "yield"}}
+
+  <h1>Workflows</h1>  
+ 
+  {{range .}} 
+    <div>{{.ID}}</div>
+    <div>{{.Type}}</div>
+      {{range .Parameters}} 
+        <p> {{.}} </p>
+      {{end}}
+  {{end}}
+
+{{end}}
