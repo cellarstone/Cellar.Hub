@@ -13,6 +13,10 @@
 # SET ENVIRONMENT
 export ASPNETCORE_ENVIRONMENT="Development"
 
+# Web
+sudo docker build -t cellar.hub.web .
+sudo docker run -d -p 44401:44401 -t cellar.hub.web
+
 # Admin
 sudo docker build -t cellar.hub.admin .
 sudo docker run -d -p 44402:44402 -t cellar.hub.admin

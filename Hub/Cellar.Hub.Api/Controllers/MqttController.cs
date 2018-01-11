@@ -38,10 +38,5 @@ namespace Cellar.Hub.Api.Controllers
 
     }
 
-    public class MqttVM
-    {
-        public string topic;
-        public string value;
-    }
 }
 

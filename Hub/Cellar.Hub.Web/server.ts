@@ -18,7 +18,6 @@ server.use(express.static("wwwroot"));
 
 server.get('/*', function (req, res) {
     res.sendFile('index.html' , { root : 'wwwroot'});
-    // res.sendFile(path.join("wwwroot", 'index.html'));
 });
 
 // catch 404 and forward to error handler
@@ -28,6 +27,6 @@ server.use(function (req, res, next) {
     next(err);
 });
 
-server.listen(44402, function () {
-    console.log('Example listening on port 44402!');
+server.listen(44401, function () {
+    console.log('Example listening on port 44401!');
 });
