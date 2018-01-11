@@ -26,17 +26,17 @@ pipeline {
             sh 'docker push cellarstone/cellar.hub.cdn:0.0.1'
           },
           web: {
-            sh 'docker build -t cellar.hub.web ./Cellar.Hub.Web'
+            sh 'docker build -t cellar.hub.web ./Hub/Cellar.Hub.Web'
             sh 'docker tag cellar.hub.web cellarstone/cellar.hub.web:0.0.1'
             sh 'docker push cellarstone/cellar.hub.web:0.0.1'
           },
           websockets: {
-            sh 'docker build -t cellar.hub.websockets ./Cellar.Hub.Websockets'
+            sh 'docker build -t cellar.hub.websockets ./Hub/Cellar.Hub.Websockets'
             sh 'docker tag cellar.hub.websockets cellarstone/cellar.hub.websockets:0.0.1'
             sh 'docker push cellarstone/cellar.hub.websockets:prod.0.0.1'
           },
           workflow: {
-            sh 'docker build -t cellar.hub.workflow ./Cellar.Hub.Workflow'
+            sh 'docker build -t cellar.hub.workflow ./Hub/Cellar.Hub.Workflow'
             sh 'docker tag cellar.hub.workflow cellarstone/cellar.hub.workflow:0.0.1'
             sh 'docker push cellarstone/cellar.hub.workflow:0.0.1'
           }
