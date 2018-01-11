@@ -11,44 +11,34 @@ pipeline {
       steps {
         parallel (
           admin: {
-            sh 'docker build -t cellar.hub.admin -f ./Cellar.Hub.Admin'
-            sh 'docker tag cellar.hub.dataflow cellarstone/cellar.hub.dataflow:prod.0.0.15'
-            sh 'docker push cellarstone/cellar.hub.dataflow:prod.0.0.15'
-          },
-          websocket: {
-            sh 'docker build -t cellar.hub.websockets ./Cellar.Hub.WebSockets'
-            sh 'docker tag cellar.hub.websockets cellarstone/cellar.hub.websockets:prod.0.0.12'
-            sh 'docker push cellarstone/cellar.hub.websockets:prod.0.0.12'
+            sh 'docker build -t cellar.hub.admin ./Hub/Cellar.Hub.Admin'
+            sh 'docker tag cellar.hub.admin cellarstone/cellar.hub.admin:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.admin:0.0.1'
           },
           api: {
-            sh 'docker build -t cellar.hub.api -f Dockerfile_Cellar.Hub.Api .'
-            sh 'docker tag cellar.hub.api cellarstone/cellar.hub.api:prod.0.0.11'
-            sh 'docker push cellarstone/cellar.hub.api:prod.0.0.11'
+            sh 'docker build -t cellar.hub.api ./Hub/Cellar.Hub.Api'
+            sh 'docker tag cellar.hub.api cellarstone/cellar.hub.api:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.api:0.0.1'
+          },
+          cdn: {
+            sh 'docker build -t cellar.hub.cdn ./Hub/Cellar.Hub.Cdn'
+            sh 'docker tag cellar.hub.websockets cellarstone/cellar.hub.cdn:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.cdn:0.0.1'
           },
           web: {
             sh 'docker build -t cellar.hub.web ./Cellar.Hub.Web'
-            sh 'docker tag cellar.hub.web cellarstone/cellar.hub.web:prod.0.0.14'
-            sh 'docker push cellarstone/cellar.hub.web:prod.0.0.14'
+            sh 'docker tag cellar.hub.web cellarstone/cellar.hub.web:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.web:0.0.1'
           },
-          admin: {
-            sh 'docker build -t cellar.hub.admin ./Cellar.Hub.Admin'
-            sh 'docker tag cellar.hub.admin cellarstone/cellar.hub.admin:prod.0.0.1'
-            sh 'docker push cellarstone/cellar.hub.admin:prod.0.0.1'
+          websockets: {
+            sh 'docker build -t cellar.hub.websockets ./Cellar.Hub.Websockets'
+            sh 'docker tag cellar.hub.websockets cellarstone/cellar.hub.websockets:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.websockets:prod.0.0.1'
           },
-          mongodb: {
-            sh 'docker build -t cellar.hub.mongodb ./Cellar.Hub.MongoDb'
-            sh 'docker tag cellar.hub.mongodb cellarstone/cellar.hub.mongodb:prod.0.0.11'
-            sh 'docker push cellarstone/cellar.hub.mongodb:prod.0.0.11'
-          },
-          rethinkdb: {
-            sh 'docker build -t cellar.hub.rethinkdb ./Cellar.Hub.RethinkDb'
-            sh 'docker tag cellar.hub.rethinkdb cellarstone/cellar.hub.rethinkdb:prod.0.0.12'
-            sh 'docker push cellarstone/cellar.hub.rethinkdb:prod.0.0.12'
-          },
-          mqtt: {
-            sh 'docker build -t cellar.hub.mqtt ./Cellar.Hub.Mqtt'
-            sh 'docker tag cellar.hub.mqtt cellarstone/cellar.hub.mqtt:prod.0.0.11'
-            sh 'docker push cellarstone/cellar.hub.mqtt:prod.0.0.11'
+          workflow: {
+            sh 'docker build -t cellar.hub.workflow ./Cellar.Hub.Workflow'
+            sh 'docker tag cellar.hub.workflow cellarstone/cellar.hub.workflow:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.workflow:0.0.1'
           }
         )
       }
