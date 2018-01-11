@@ -33,7 +33,7 @@ pipeline {
           websockets: {
             sh 'docker build -t cellar.hub.websockets ./Hub/Cellar.Hub.Websockets'
             sh 'docker tag cellar.hub.websockets cellarstone/cellar.hub.websockets:0.0.1'
-            sh 'docker push cellarstone/cellar.hub.websockets:prod.0.0.1'
+            sh 'docker push cellarstone/cellar.hub.websockets:0.0.1'
           },
           workflow: {
             sh 'docker build -t cellar.hub.workflow ./Hub/Cellar.Hub.Workflow'
