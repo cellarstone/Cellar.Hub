@@ -51,9 +51,6 @@ sudo docker rmi --force $(sudo docker images -a -q)
 #Docker_Hub_Network=$(sudo docker network ls --filter "name=cellarhub_default" --format "{{.ID}}")
 #sudo docker network rm ${Docker_Hub_Network}
 
-#ln -s ~/Dropbox/Cellar.Hub hubDropbox
-#cd Dropbox/Cellar.Hub
-
 
 # SET ENVIRONMENT
 export ASPNETCORE_ENVIRONMENT="Development"
@@ -73,6 +70,16 @@ sudo docker run -d -p 44403:44403 -t cellar.hub.api
 # Cdn
 sudo docker build -t cellar.hub.cdn .
 sudo docker run -d -p 44404:44404 -t cellar.hub.cdn
+
+# Workflow
+sudo docker build -t cellar.hub.workflow .
+sudo docker run -d -p 44405:44405 -t cellar.hub.workflow
+sudo docker run -it cellar.hub.workflow
+
+# Websockets
+sudo docker build -t cellar.hub.websockets .
+sudo docker run -d -p 44406:44406 -t cellar.hub.websockets
+sudo docker run -it cellar.hub.websockets
 
 
 # Mosquitto - MQTT
@@ -122,25 +129,11 @@ sudo docker run -d -p 3000:3000 -t cellar.hub.log.grafana
 # or specify logging with fluentd in docker-compose.yml
 
 
-# Workflow
-sudo docker build -t cellar.hub.workflow .
-sudo docker run -d -p 44405:44405 -t cellar.hub.workflow
-sudo docker run -it cellar.hub.workflow
-
-# Websockets
-sudo docker build -t cellar.hub.websockets .
-sudo docker run -d -p 44406:44406 -t cellar.hub.websockets
-sudo docker run -it cellar.hub.websockets
-
-# docker-compose variants
-sudo docker-compose -f docker-compose.api.linux.yml up --build
-sudo docker-compose -f docker-compose.workflow.linux.yml up --build
-
-# DEV
+# DEV --------------------------
 sudo docker-compose -f docker-compose.full.development.linux.yml up --build
 
-# PROD
-sudo docker-compose -f docker-compose.production.yml up --build
+# PROD ------------------------
+sudo docker-compose -f docker-compose.production.linux.yml up --build
 ```
 
 
@@ -150,9 +143,6 @@ sudo docker-compose -f docker-compose.production.yml up --build
 docker rm --force @(docker ps -aq)
 docker rmi --force @(docker images -aq)
 
-docker-compose -f docker-compose.yml up --build
-
-
 # Mosquitto - MQTT
 docker build -t cellar.hub.mqtt .
 docker run -d -p 1883:1883 -p 9001:9001 -t cellar.hub.mqtt
@@ -161,15 +151,9 @@ docker run -d -p 1883:1883 -p 9001:9001 -t cellar.hub.mqtt
 docker build -t cellar.hub.mongodb .
 docker run -d -p 27017:27017 -t cellar.hub.mongodb
 
-
 # Workflow
 docker build -t cellar.hub.workflow .
 docker run -it cellar.hub.workflow
-
-
-
-# docker-compose variants
-docker-compose -f docker-compose.workflow.windows.yml up --build
 
 # DEV
 docker-compose -f docker-compose.full.development.windows.yml up --build

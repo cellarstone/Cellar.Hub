@@ -50,7 +50,7 @@ func handleRequests() {
 	myRouter.HandleFunc("/", homePage)
 	myRouter.HandleFunc("/all", returnAllArticles)
 	myRouter.HandleFunc("/article/{id}", returnSingleArticle)
-	log.Fatal(http.ListenAndServe(":55503", myRouter))
+	log.Fatal(http.ListenAndServe(":44513", myRouter))
 }
 
 func main() {
