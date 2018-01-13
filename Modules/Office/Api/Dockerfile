@@ -1,13 +1,13 @@
 FROM golang
-ADD . $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Websockets
+ADD . $GOPATH/src/github.com/cellarstone/Cellar.Hub/Office/Api
 
 
 
 # Cellar websockets - get packages & build
-WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Websockets
+WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Office/Api
 RUN go-wrapper download
 RUN go-wrapper install
-RUN go build -o cellarwebsockets  
+RUN go build -o moduleofficeapi  
 
 # helpers
 # RUN echo $GOPATH
@@ -18,13 +18,11 @@ RUN ls -l
 # -----------------------
 # Stage 2
 # -----------------------
-#  FROM alpine:latest
-#  RUN apk --no-cache add ca-certificates
 FROM golang
  WORKDIR /app
- COPY --from=0 /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Websockets/ /app/
+ COPY --from=0 /go/src/github.com/cellarstone/Cellar.Hub/Office/Api/ /app/
  RUN ls -l  
 
-CMD ["./cellarwebsockets"]
+CMD ["./moduleofficeapi"]
 
 
