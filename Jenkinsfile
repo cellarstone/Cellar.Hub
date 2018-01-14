@@ -62,28 +62,28 @@ pipeline {
       steps {
         parallel (
           admin: {
-            sh 'docker tag cellar.hub.admin cellarstone/cellar.hub.admin:0.0.1'
-            sh 'docker push cellarstone/cellar.hub.admin:0.0.1'
+            sh 'docker tag cellar.hub.core.admin cellarstone/cellar.hub.core.admin:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.core.admin:0.0.1'
           },
           api: {
-            sh 'docker tag cellar.hub.api cellarstone/cellar.hub.api:0.0.1'
-            sh 'docker push cellarstone/cellar.hub.api:0.0.1'
+            sh 'docker tag cellar.hub.core.api cellarstone/cellar.hub.core.api:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.core.api:0.0.1'
           },
           cdn: {
-            sh 'docker tag cellar.hub.cdn cellarstone/cellar.hub.cdn:0.0.1'
-            sh 'docker push cellarstone/cellar.hub.cdn:0.0.1'
+            sh 'docker tag cellar.hub.core.cdn cellarstone/cellar.hub.core.cdn:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.core.cdn:0.0.1'
           },
           web: {
-            sh 'docker tag cellar.hub.web cellarstone/cellar.hub.web:0.0.1'
-            sh 'docker push cellarstone/cellar.hub.web:0.0.1'
+            sh 'docker tag cellar.hub.core.web cellarstone/cellar.hub.core.web:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.core.web:0.0.1'
           },
           websockets: {
-            sh 'docker tag cellar.hub.websockets cellarstone/cellar.hub.websockets:0.0.1'
-            sh 'docker push cellarstone/cellar.hub.websockets:0.0.1'
+            sh 'docker tag cellar.hub.core.websockets cellarstone/cellar.hub.core.websockets:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.core.websockets:0.0.1'
           },
           workflow: {
-            sh 'docker tag cellar.hub.workflow cellarstone/cellar.hub.workflow:0.0.1'
-            sh 'docker push cellarstone/cellar.hub.workflow:0.0.1'
+            sh 'docker tag cellar.hub.core.workflow cellarstone/cellar.hub.core.workflow:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.core.workflow:0.0.1'
           }
         )
       }
