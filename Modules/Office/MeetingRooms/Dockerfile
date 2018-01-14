@@ -29,6 +29,7 @@ RUN npm run-script myserverbuild
 FROM node:8-alpine
 
 COPY --from=builder /usr/src/app/wwwroot /usr/src/app/wwwroot
+COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
 COPY --from=builder /usr/src/app/package.json /usr/src/app/package.json
 COPY --from=builder /usr/src/app/server.js /usr/src/app/server.js
 
@@ -37,19 +38,19 @@ WORKDIR /usr/src/app
 RUN pwd
 RUN ls -l
 
-RUN npm install --only=production
+# RUN npm install --only=production
 
-RUN pwd
-RUN ls -l
+# RUN pwd
+# RUN ls -l
 
-WORKDIR /usr/src/app/wwwroot
+# WORKDIR /usr/src/app/wwwroot
 
-RUN pwd
-RUN ls -l
+# RUN pwd
+# RUN ls -l
 
-WORKDIR /usr/src/app
+# WORKDIR /usr/src/app
 
-RUN pwd
-RUN ls -l
+# RUN pwd
+# RUN ls -l
 
 CMD node server.js

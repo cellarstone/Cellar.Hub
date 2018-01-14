@@ -12,7 +12,7 @@ import (
 	// mylog "../log"
 	// "../send"
 
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/src/abstraction"
 
 	log "github.com/sirupsen/logrus"
 )

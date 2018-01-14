@@ -2,22 +2,26 @@ version: '2'
 
 services:
 
-  proxy:
+# PROXY ***************************
+
+  cellar.hub.proxy:
     image: mynginx
     build:
       context: ./Nginx
       dockerfile: Dockerfile
     links:
-        - cellar.hub.web
-        - cellar.hub.admin
+        - cellar.hub.core.web
+        - cellar.hub.core.admin
     ports:
       - 8080:8080
       - 8081:8081
 
-  cellar.hub.web:
-    image: cellar.hub.web
+# CORE ***************************
+
+  cellar.hub.core.web:
+    image: cellar.hub.core.web
     build:
-      context: ./Hub/Cellar.Hub.Web
+      context: ./Core/Web
       dockerfile: Dockerfile
     links:
       - fluentd
@@ -25,14 +29,14 @@ services:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
-        tag: docker.cellar.hub.web
+        tag: docker.cellar.hub.core.web
     ports:
     - "44401:44401"
 
-  cellar.hub.admin:
-    image: cellar.hub.admin
+  cellar.hub.core.admin:
+    image: cellar.hub.core.admin
     build:
-      context: ./Hub/Cellar.Hub.Admin
+      context: ./Core/Admin
       dockerfile: Dockerfile
     links:
       - fluentd
@@ -40,30 +44,30 @@ services:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
-        tag: docker.cellar.hub.admin
+        tag: docker.cellar.hub.core.admin
     ports:
     - "44402:44402"
 
-  cellar.hub.api:
-    image: cellar.hub.api
+  cellar.hub.core.api:
+    image: cellar.hub.core.api
     build:
-      context: ./Hub/Cellar.Hub.Api
+      context: ./Core/Api
       dockerfile: Dockerfile
     links:
       - fluentd
-      - cellar.hub.mongodb
+      - mongodb
     logging:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
-        tag: docker.cellar.hub.api
+        tag: docker.cellar.hub.core.api
     ports:
     - "44403:44403"
 
-  cellar.hub.cdn:
-    image: cellar.hub.cdn
+  cellar.hub.core.cdn:
+    image: cellar.hub.core.cdn
     build:
-      context: ./Hub/Cellar.Hub.Cdn
+      context: ./Core/Cdn
       dockerfile: Dockerfile
     links:
       - fluentd
@@ -71,33 +75,33 @@ services:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
-        tag: docker.cellar.hub.cdn
+        tag: docker.cellar.hub.core.cdn
     ports:
     - "44404:44404"
     volumes:
-     - /data/cellarstone.hub/cdn:/app/data
+     - /data/cellarstone.hub/core/cdn:/app/data
 
-  cellar.hub.workflow:
-    image: cellar.hub.workflow
+  cellar.hub.core.workflow:
+    image: cellar.hub.core.workflow
     build:
-      context: ./Hub/Cellar.Hub.Workflow
+      context: ./Core/Workflow
       dockerfile: Dockerfile
     links:
-      - cellar.hub.mongodb
+      - mongodb
       - fluentd
       - pushgateway
     logging:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
-        tag: docker.cellar.hub.workflow
+        tag: docker.cellar.hub.core.workflow
     ports:
       - "44405:44405"
 
-  cellar.hub.websockets:
-    image: cellar.hub.websockets
+  cellar.hub.core.websockets:
+    image: cellar.hub.core.websockets
     build:
-      context: ./Hub/Cellar.Hub.Websockets
+      context: ./Core/Websockets
       dockerfile: Dockerfile
     links:
       - fluentd
@@ -105,36 +109,40 @@ services:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
-        tag: docker.cellar.hub.websockets
+        tag: docker.cellar.hub.core.websockets
     ports:
     - "44406:44406"
 
-  cellar.hub.mongodb:
-    image: cellar.hub.mongodb
-    build: 
-      context: ./Hub/Cellar.Hub.Db/mongodb
-      dockerfile: Dockerfile
-    ports:
-    - "27017:27017"
-    volumes:
-     - /data/cellarstone.hub/mongodb:/data/db 
 
-  cellar.hub.mqtt:
-    image: cellar.hub.mqtt
-    build: 
-      context: ./Hub/Cellar.Hub.Mqtt
-      dockerfile: Dockerfile
-    ports:
-    - "1883:1883"
+
+# CORE - Third party ***************************
 
 # don't rename to the cellar.hub.** pattern
 # some stuffs with elaticsearch require the simple name pattern
 
+  mongodb:
+    image: cellar.hub.mongodb
+    build: 
+      context: ./Core/Db/mongodb
+      dockerfile: Dockerfile
+    ports:
+    - "27017:27017"
+    volumes:
+     - /data/cellarstone.hub/core/mongodb:/data/db 
+
+  mqtt:
+    image: cellar.hub.mqtt
+    build: 
+      context: ./Core/Mqtt
+      dockerfile: Dockerfile
+    ports:
+    - "1883:1883"
+
   fluentd:
     image: cellar.hub.fluentd
-    build: ./Hub/Cellar.Hub.Log/fluentd
+    build: ./Core/Log/fluentd
     volumes:
-      - ./Hub/Cellar.Hub.Log/fluentd/conf:/fluentd/etc
+      - ./Core/Log/fluentd/conf:/fluentd/etc
     links:
       - "elasticsearch"
     ports:
@@ -144,7 +152,7 @@ services:
   elasticsearch:
     image: elasticsearch
     volumes:
-        - /data/cellarstone.hub/elasticsearch:/var/lib/elasticsearch
+        - /data/cellarstone.hub/core/elasticsearch:/var/lib/elasticsearch
     expose:
       - 9200
     ports:
@@ -160,10 +168,10 @@ services:
   prometheus:
     image: cellar.hub.prometheus
     build:
-      context: ./Hub/Cellar.Hub.Log/prometheus
+      context: ./Core/Db/prometheus
       dockerfile: Dockerfile
     volumes:
-      - /data/cellarstone.hub/prometheus:/data/prometheus
+      - /data/cellarstone.hub/core/prometheus:/data/prometheus
     ports:
       - '9090:9090'
     links:
@@ -181,7 +189,7 @@ services:
       - prometheus
       - elasticsearch
     volumes:
-      - /data/cellarstone.hub/grafana:/var/lib/grafana
+      - /data/cellarstone.hub/core/grafana:/var/lib/grafana
     ports:
       - '3000:3000'
 
@@ -194,3 +202,50 @@ services:
       - /sys:/host/sys:ro
     ports:
       - '19999:19999'
+
+# MODULES ***************************
+
+  cellar.hub.module.office.api:
+    image: cellar.hub.module.office.api
+    build:
+      context: ./Modules/Office/Api
+      dockerfile: Dockerfile
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.module.office.api
+    ports:
+    - "44513:44513"
+
+  cellar.hub.module.office.meetingrooms:
+    image: cellar.hub.module.office.meetingrooms
+    build:
+      context: ./Modules/Office/MeetingRooms
+      dockerfile: Dockerfile
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.module.office.meetingrooms
+    ports:
+    - "44511:44511"
+
+  cellar.hub.module.office.reception:
+    image: cellar.hub.module.office.reception
+    build:
+      context: ./Modules/Office/Reception
+      dockerfile: Dockerfile
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.module.office.reception
+    ports:
+    - "44512:44512"

@@ -5,7 +5,7 @@ import (
 
 	"strconv"
 
-	abs "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
+	abs "github.com/cellarstone/Cellar.Hub/Core/Workflow/src/abstraction"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/push"
 )

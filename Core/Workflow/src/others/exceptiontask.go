@@ -5,7 +5,7 @@ import (
 
 	"errors"
 
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/src/abstraction"
 )
 
 //**********************************

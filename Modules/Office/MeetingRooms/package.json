@@ -1,5 +1,5 @@
 {
-  "name": "Cellar.Hub.Meetings",
+  "name": "cellar-hub-office-meetings",
   "version": "1.1.0",
   "angular-cli": {},
   "scripts": {
@@ -31,7 +31,6 @@
     "@angular/cli": "^1.5.2",
     "@angular/compiler-cli": "^5.0.2",
     "@angular/language-service": "^4.2.4",
-    "@types/jquery": "^3.2.13",
     "@types/node": "~6.0.60",
     "@types/greensock": "1.15.32",
     "codelyzer": "~3.2.0",

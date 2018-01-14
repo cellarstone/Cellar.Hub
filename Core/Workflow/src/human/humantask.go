@@ -3,7 +3,7 @@ package human
 import (
 
 	// abs "../abstraction"
-	abs "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
+	abs "github.com/cellarstone/Cellar.Hub/Core/Workflow/src/abstraction"
 	"gopkg.in/mgo.v2/bson"
 )
 

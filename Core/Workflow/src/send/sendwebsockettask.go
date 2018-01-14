@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/url"
 
-	abs "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
+	abs "github.com/cellarstone/Cellar.Hub/Core/Workflow/src/abstraction"
 	"github.com/gorilla/websocket"
 )
 

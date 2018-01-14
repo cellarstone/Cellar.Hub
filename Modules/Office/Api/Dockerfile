@@ -1,10 +1,10 @@
 FROM golang
-ADD . $GOPATH/src/github.com/cellarstone/Cellar.Hub/Office/Api
+ADD . $GOPATH/src/github.com/cellarstone/Cellar.Hub/Modules/Office/Api
 
 
 
 # Cellar websockets - get packages & build
-WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Office/Api
+WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Modules/Office/Api
 RUN go-wrapper download
 RUN go-wrapper install
 RUN go build -o moduleofficeapi  
@@ -20,7 +20,7 @@ RUN ls -l
 # -----------------------
 FROM golang
  WORKDIR /app
- COPY --from=0 /go/src/github.com/cellarstone/Cellar.Hub/Office/Api/ /app/
+ COPY --from=0 /go/src/github.com/cellarstone/Cellar.Hub/Modules/Office/Api/ /app/
  RUN ls -l  
 
 CMD ["./moduleofficeapi"]

@@ -13,24 +13,26 @@ Windows: `docker-compone -f docker-compose.full.production.windows.yml`
 
 Port | Application
 --- | ---
-44401 | Web
-44402 | Admin
-44403 | Api
-44404 | Cdn
-44405 | Workflow
-44406 | Websocket
+8080 | Nginx
+44401 | Core - Web
+44402 | Core - Admin
+44403 | Core - Api
+44404 | Core - Cdn
+44405 | Core - Workflow
+44406 | Core - Websocket
+27017 | Core - mongodb
+1883 | Core - mqtt
+24224 | Core - fluentd
+9200 | Core - elastic
+5601 | Core - kibana
+9090 | Core - prometheus
+9091 | Core - prometheus pushgateway
+3000 | Core - grafana
+19999 | sysmon - netdata
 44511 | Office Module - Meeting rooms Web App
 44512 | Office Module - Reception Web App
 44513 | Office Module - Api
-27017 | mongodb
-1883 | mqtt
-24224 | fluentd
-9200 | elastic
-5601 | kibana
-9090 | prometheus
-9091 | prometheus pushgateway
-3000 | grafana
-19999 | sysmon - netdata
+
 
 
 # Author notes
@@ -43,17 +45,40 @@ Inspect elasticsearch IP address
 # Commands for Linux
 
 ```Shell
+
+
+# ----------------------------------
+# DOCKER-COMPOSE
+# ----------------------------------
+
+# DEV --------------------------
+sudo docker-compose -f docker-compose.full.development.linux.yml up --build
+
+# PROD ------------------------
+sudo docker-compose -f docker-compose.production.linux.yml up --build
+
+
+# ----------------------------------
+# STOP and DELETE Docker images
+# ----------------------------------
+
 sudo docker rm --force $(sudo docker ps -a -q)
 sudo docker rmi --force $(sudo docker images -a -q)
 
-#sudo systemctl restart docker
+# restart Docker
+sudo systemctl restart docker
 
+# Delete Docker Network
 #Docker_Hub_Network=$(sudo docker network ls --filter "name=cellarhub_default" --format "{{.ID}}")
-#sudo docker network rm ${Docker_Hub_Network}
+sudo docker network rm ${Docker_Hub_Network}
 
 
-# SET ENVIRONMENT
+# SET ENVIRONMENT for aspnet core app
 export ASPNETCORE_ENVIRONMENT="Development"
+
+# ----------------------------------
+# CORE
+# ----------------------------------
 
 # Web
 sudo docker build -t cellar.hub.web .
@@ -128,12 +153,22 @@ sudo docker run -d -p 3000:3000 -t cellar.hub.log.grafana
 #docker run --log-driver=fluentd --log-opt fluentd-address=192.168.0.1:24224 IMAGE echo "Hello Fluentd"
 # or specify logging with fluentd in docker-compose.yml
 
+# ----------------------------------
+# MODULES
+# ----------------------------------
 
-# DEV --------------------------
-sudo docker-compose -f docker-compose.full.development.linux.yml up --build
+# Office - Api
+sudo docker build -t cellar.hub.module.office.api .
+sudo docker run -d -p 44513:44513 -t cellar.hub.module.office.api
 
-# PROD ------------------------
-sudo docker-compose -f docker-compose.production.linux.yml up --build
+# Office - MeetingRooms
+sudo docker build -t cellar.hub.module.office.meetingrooms .
+sudo docker run -d -p 44511:44511 -t cellar.hub.module.office.meetingrooms
+
+# Office - Reception
+sudo docker build -t cellar.hub.module.office.reception .
+sudo docker run -d -p 44512:44512 -t cellar.hub.module.office.reception
+
 ```
 
 

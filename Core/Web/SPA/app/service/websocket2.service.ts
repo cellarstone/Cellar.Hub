@@ -30,10 +30,10 @@ export class WebsocketService2 {
 
 
     if (this.isProduction == true && this.isHttps == true) {
-      this.serverUrl = "ws://cellar.hub.websockets:4000";
+      this.serverUrl = "ws://cellar.hub.core.websockets:4000";
     }
     else if (this.isProduction == true && this.isHttps == false) {
-      this.serverUrl = "ws://cellar.hub.websockets:4000";
+      this.serverUrl = "ws://cellar.hub.core.websockets:4000";
     }
     else if (this.isProduction == false && this.isHttps == true) {
       this.serverUrl = "ws://192.168.1.234:4000";

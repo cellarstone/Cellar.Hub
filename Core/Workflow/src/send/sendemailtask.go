@@ -3,7 +3,7 @@ package send
 import (
 	// abs "../abstraction"
 
-	abs "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
+	abs "github.com/cellarstone/Cellar.Hub/Core/Workflow/src/abstraction"
 
 	log "github.com/sirupsen/logrus"
 )

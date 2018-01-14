@@ -1,10 +1,10 @@
 FROM golang
-ADD . $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Websockets
+ADD . $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Websockets
 
 
 
 # Cellar websockets - get packages & build
-WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Websockets
+WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Websockets
 RUN go-wrapper download
 RUN go-wrapper install
 RUN go build -o cellarwebsockets  
@@ -22,7 +22,7 @@ RUN ls -l
 #  RUN apk --no-cache add ca-certificates
 FROM golang
  WORKDIR /app
- COPY --from=0 /go/src/github.com/cellarstone/Cellar.Hub/Cellar.Hub.Websockets/ /app/
+ COPY --from=0 /go/src/github.com/cellarstone/Cellar.Hub/Core/Websockets/ /app/
  RUN ls -l  
 
 CMD ["./cellarwebsockets"]

@@ -19,4 +19,4 @@ ENV ASPNETCORE_ENVIRONMENT="production"
  ENV ASPNETCORE_ENVIRONMENT="production"
  EXPOSE 44403
  COPY --from=builder /app .
- ENTRYPOINT ["dotnet", "Cellar.Hub.Api.dll"]
+ ENTRYPOINT ["dotnet", "Cellar.Hub.Core.Api.dll"]
