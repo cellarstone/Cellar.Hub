@@ -28,7 +28,7 @@ Port | Application
 9090 | Core - prometheus
 9091 | Core - prometheus pushgateway
 3000 | Core - grafana
-19999 | sysmon - netdata
+19999 | Core - sysmon (netdata)
 44511 | Office Module - Meeting rooms Web App
 44512 | Office Module - Reception Web App
 44513 | Office Module - Api
