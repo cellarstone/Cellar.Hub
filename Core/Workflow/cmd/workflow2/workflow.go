@@ -8,12 +8,12 @@ import (
 	// "./core/send"
 	// "./core/workflow"
 
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/decision"
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/human"
-	logtask "github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/others"
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/send"
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/workflow"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/src/abstraction"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/src/decision"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/src/human"
+	logtask "github.com/cellarstone/Cellar.Hub/Core/Workflow/src/others"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/src/send"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/src/workflow"
 
 	"gopkg.in/mgo.v2/bson"
 )

@@ -20,7 +20,7 @@ import (
 
 	"github.com/mitchellh/mapstructure"
 
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/logging"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/logging"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 )

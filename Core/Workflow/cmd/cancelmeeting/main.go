@@ -7,7 +7,7 @@ import (
 
 	"github.com/erikdubbelboer/gspt"
 
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/logging"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/logging"
 )
 
 //INPUT PARAMETERS -----------------
