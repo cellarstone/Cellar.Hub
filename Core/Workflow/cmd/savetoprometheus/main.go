@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/logging"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/logging"
 	"github.com/erikdubbelboer/gspt"
 )
 

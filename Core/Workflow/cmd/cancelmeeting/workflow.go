@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/abstraction"
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/check"
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/decision"
-	"github.com/cellarstone/Cellar.Hub/Cellar.Hub.Workflow/src/workflow"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/src/abstraction"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/src/check"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/src/decision"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/src/workflow"
 
 	"gopkg.in/mgo.v2/bson"
 )
