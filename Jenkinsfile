@@ -43,13 +43,13 @@ pipeline {
       }
       steps {
         parallel (
-          office-api: {
+          office_api: {
             sh 'docker build -t cellar.hub.module.office.api ./Modules/Office/Api'
           },
-          office-meeting-rooms: {
+          office_meeting_rooms: {
             sh 'docker build -t cellar.hub.module.office.meetingrooms ./Modules/Office/MeetingRooms'
           },
-          office-reception: {
+          office_reception: {
             sh 'docker build -t cellar.hub.module.office.reception ./Modules/Office/Reception'
           }
         )
@@ -94,15 +94,15 @@ pipeline {
       }
       steps {
         parallel (
-          office-api: {
+          office_api: {
             sh 'docker tag cellar.hub.module.office.api cellarstone/cellar.hub.module.office.api:0.0.1'
             sh 'docker push cellarstone/cellar.hub.module.office.api:0.0.1'
           },
-          office-meeting-rooms: {
+          office_meeting_rooms: {
             sh 'docker tag cellar.hub.module.office.meetingrooms cellarstone/cellar.hub.module.office.meetingrooms:0.0.1'
             sh 'docker push cellarstone/cellar.hub.module.office.meetingrooms:0.0.1'
           },
-          office-reception: {
+          office_reception: {
             sh 'docker tag cellar.hub.module.office.reception cellarstone/cellar.hub.module.office.reception:0.0.1'
             sh 'docker push cellarstone/cellar.hub.module.office.reception:0.0.1'
           }
