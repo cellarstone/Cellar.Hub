@@ -16,6 +16,12 @@ pipeline {
       }
       steps {
         parallel (
+          nginx: {
+            sh 'docker build -t cellar.hub.proxy ./Nginx'
+          },
+          web: {
+            sh 'docker build -t cellar.hub.core.web ./Core/Web'
+          },
           admin: {
             sh 'docker build -t cellar.hub.core.admin ./Core/Admin'
           },
@@ -25,14 +31,23 @@ pipeline {
           cdn: {
             sh 'docker build -t cellar.hub.core.cdn ./Core/Cdn'
           },
-          web: {
-            sh 'docker build -t cellar.hub.core.web ./Core/Web'
+          workflow: {
+            sh 'docker build -t cellar.hub.core.workflow ./Core/Workflow'
           },
           websockets: {
             sh 'docker build -t cellar.hub.core.websockets ./Core/Websockets'
           },
-          workflow: {
-            sh 'docker build -t cellar.hub.core.workflow ./Core/Workflow'
+          mongodb: {
+            sh 'docker build -t cellar.hub.mongodb ./Core/Db/mongodb'
+          },
+          mqtt: {
+            sh 'docker build -t cellar.hub.mqtt ./Core/Mqtt'
+          },
+          fluentd: {
+            sh 'docker build -t cellar.hub.fluentd ./Core/Log/fluentd'
+          },
+          prometheus: {
+            sh 'docker build -t cellar.hub.prometheus ./Core/Db/prometheus'
           }
         )
       }
@@ -61,6 +76,14 @@ pipeline {
       }
       steps {
         parallel (
+          nginx: {
+            sh 'docker tag cellar.hub.proxy cellarstone/cellar.hub.proxy:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.proxy:0.0.1'
+          },
+          web: {
+            sh 'docker tag cellar.hub.core.web cellarstone/cellar.hub.core.web:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.core.web:0.0.1'
+          },
           admin: {
             sh 'docker tag cellar.hub.core.admin cellarstone/cellar.hub.core.admin:0.0.1'
             sh 'docker push cellarstone/cellar.hub.core.admin:0.0.1'
@@ -73,17 +96,29 @@ pipeline {
             sh 'docker tag cellar.hub.core.cdn cellarstone/cellar.hub.core.cdn:0.0.1'
             sh 'docker push cellarstone/cellar.hub.core.cdn:0.0.1'
           },
-          web: {
-            sh 'docker tag cellar.hub.core.web cellarstone/cellar.hub.core.web:0.0.1'
-            sh 'docker push cellarstone/cellar.hub.core.web:0.0.1'
+          workflow: {
+            sh 'docker tag cellar.hub.core.workflow cellarstone/cellar.hub.core.workflow:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.core.workflow:0.0.1'
           },
           websockets: {
             sh 'docker tag cellar.hub.core.websockets cellarstone/cellar.hub.core.websockets:0.0.1'
             sh 'docker push cellarstone/cellar.hub.core.websockets:0.0.1'
           },
-          workflow: {
-            sh 'docker tag cellar.hub.core.workflow cellarstone/cellar.hub.core.workflow:0.0.1'
-            sh 'docker push cellarstone/cellar.hub.core.workflow:0.0.1'
+          mongodb: {
+            sh 'docker tag cellar.hub.mongodb cellarstone/cellar.hub.mongodb:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.mongodb:0.0.1'
+          },
+          mqtt: {
+            sh 'docker tag cellar.hub.mqtt cellarstone/cellar.hub.mqtt:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.mqtt:0.0.1'
+          },
+          fluentd: {
+            sh 'docker tag cellar.hub.fluentd cellarstone/cellar.hub.fluentd:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.fluentd:0.0.1'
+          },
+          prometheus: {
+            sh 'docker tag cellar.hub.prometheus cellarstone/cellar.hub.prometheus:0.0.1'
+            sh 'docker push cellarstone/cellar.hub.prometheus:0.0.1'
           }
         )
       }
