@@ -36,16 +36,16 @@ pipeline {
           },
           websockets: {
             sh 'docker build -t cellar.hub.core.websockets ./Core/Websockets'
-          }
+          },
           mongodb: {
             sh 'docker build -t cellar.hub.mongodb ./Core/Db/mongodb'
-          }
+          },
           mqtt: {
             sh 'docker build -t cellar.hub.mqtt ./Core/Mqtt'
-          }
+          },
           fluentd: {
             sh 'docker build -t cellar.hub.fluentd ./Core/Log/fluentd'
-          }
+          },
           prometheus: {
             sh 'docker build -t cellar.hub.prometheus ./Core/Db/prometheus'
           }
@@ -99,7 +99,7 @@ pipeline {
           workflow: {
             sh 'docker tag cellar.hub.core.workflow cellarstone/cellar.hub.core.workflow:0.0.1'
             sh 'docker push cellarstone/cellar.hub.core.workflow:0.0.1'
-          }
+          },
           websockets: {
             sh 'docker tag cellar.hub.core.websockets cellarstone/cellar.hub.core.websockets:0.0.1'
             sh 'docker push cellarstone/cellar.hub.core.websockets:0.0.1'
@@ -119,7 +119,7 @@ pipeline {
           prometheus: {
             sh 'docker tag cellar.hub.prometheus cellarstone/cellar.hub.prometheus:0.0.1'
             sh 'docker push cellarstone/cellar.hub.prometheus:0.0.1'
-          },
+          }
         )
       }
     }
