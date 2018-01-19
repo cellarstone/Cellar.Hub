@@ -4,9 +4,9 @@
 
 Run everything with these commands.
 
-Linux : `docker-compone -f docker-compose.full.production.linux.yml`
+Linux : `sudo docker-compose -f docker-compose.full.production.linux.yml up`
 
-Windows: `docker-compone -f docker-compose.full.production.windows.yml`
+Windows: `docker-compose -f docker-compose.full.production.windows.yml up`
 
 
 # Ports
@@ -28,6 +28,10 @@ Port | Application
 9090 | Core - prometheus
 9091 | Core - prometheus pushgateway
 3000 | Core - grafana
+8086 | Core - infuxdb
+8888 | Core - chronograf
+8094 | Core - telegraf
+9092 | Core - kapacitor
 19999 | Core - sysmon (netdata)
 44511 | Office Module - Meeting rooms Web App
 44512 | Office Module - Reception Web App
@@ -45,6 +49,17 @@ Inspect elasticsearch IP address
 # Commands for Linux
 
 ```Shell
+
+
+# ----------------------------------
+# DOCKER-STACK
+# ----------------------------------
+
+# DEV --------------------------
+docker stack deploy -c docker-stack.dev.yml cellarhub
+
+# PROD ------------------------
+docker stack deploy -c docker-stack.prod.yml cellarhub
 
 
 # ----------------------------------
@@ -177,20 +192,5 @@ sudo docker run -d -p 44512:44512 -t cellar.hub.module.office.reception
 ```Shell
 docker rm --force @(docker ps -aq)
 docker rmi --force @(docker images -aq)
-
-# Mosquitto - MQTT
-docker build -t cellar.hub.mqtt .
-docker run -d -p 1883:1883 -p 9001:9001 -t cellar.hub.mqtt
-
-# MongoDB
-docker build -t cellar.hub.mongodb .
-docker run -d -p 27017:27017 -t cellar.hub.mongodb
-
-# Workflow
-docker build -t cellar.hub.workflow .
-docker run -it cellar.hub.workflow
-
-# DEV
-docker-compose -f docker-compose.full.development.windows.yml up --build
 
 ```
