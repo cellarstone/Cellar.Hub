@@ -4,7 +4,7 @@ services:
 
 # PROXY ***************************
 
-  cellar.hub.proxy:
+  cellar-hub-proxy:
     image: mynginx
     build:
       context: ./Nginx
@@ -18,7 +18,7 @@ services:
 
 # CORE ***************************
 
-  cellar.hub.core.web:
+  cellar-hub-core-web:
     image: cellar.hub.core.web
     build:
       context: ./Core/Web
@@ -33,7 +33,7 @@ services:
     ports:
     - "44401:44401"
 
-  cellar.hub.core.admin:
+  cellar-hub-core-admin:
     image: cellar.hub.core.admin
     build:
       context: ./Core/Admin
@@ -48,7 +48,7 @@ services:
     ports:
     - "44402:44402"
 
-  cellar.hub.core.api:
+  cellar-hub-core-api:
     image: cellar.hub.core.api
     build:
       context: ./Core/Api
@@ -64,7 +64,7 @@ services:
     ports:
     - "44403:44403"
 
-  cellar.hub.core.cdn:
+  cellar-hub-core-cdn:
     image: cellar.hub.core.cdn
     build:
       context: ./Core/Cdn
@@ -81,7 +81,7 @@ services:
     volumes:
      - /data/cellarstone.hub/core/cdn:/app/data
 
-  cellar.hub.core.workflow:
+  cellar-hub-core-workflow:
     image: cellar.hub.core.workflow
     build:
       context: ./Core/Workflow
@@ -98,7 +98,7 @@ services:
     ports:
       - "44405:44405"
 
-  cellar.hub.core.websockets:
+  cellar-hub-core-websockets:
     image: cellar.hub.core.websockets
     build:
       context: ./Core/Websockets
@@ -205,7 +205,7 @@ services:
 
 # MODULES ***************************
 
-  cellar.hub.module.office.api:
+  cellar-hub-module-office-api:
     image: cellar.hub.module.office.api
     build:
       context: ./Modules/Office/Api
@@ -220,7 +220,7 @@ services:
     ports:
     - "44513:44513"
 
-  cellar.hub.module.office.meetingrooms:
+  cellar-hub-module-office-meetingrooms:
     image: cellar.hub.module.office.meetingrooms
     build:
       context: ./Modules/Office/MeetingRooms
@@ -235,7 +235,7 @@ services:
     ports:
     - "44511:44511"
 
-  cellar.hub.module.office.reception:
+  cellar-hub-module-office-reception:
     image: cellar.hub.module.office.reception
     build:
       context: ./Modules/Office/Reception
