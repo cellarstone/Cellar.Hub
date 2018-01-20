@@ -4,9 +4,7 @@
 
 Run everything with these commands.
 
-Linux : `sudo docker-compose -f docker-compose.full.production.linux.yml up`
-
-Windows: `docker-compose -f docker-compose.full.production.windows.yml up`
+Linux : `docker stack deploy -c docker-stack.yml cellarhub --with-registry-auth`
 
 
 # Ports
@@ -52,25 +50,17 @@ Inspect elasticsearch IP address
 
 
 # ----------------------------------
-# DOCKER-STACK
+# DOCKER-STACK - PROD
 # ----------------------------------
 
-# DEV --------------------------
-docker stack deploy -c docker-stack.dev.yml cellarhub
-
-# PROD ------------------------
-docker stack deploy -c docker-stack.prod.yml cellarhub
+docker stack deploy -c docker-stack.yml cellarhub --with-registry-auth
 
 
 # ----------------------------------
-# DOCKER-COMPOSE
+# DOCKER-COMPOSE - DEV
 # ----------------------------------
 
-# DEV --------------------------
-sudo docker-compose -f docker-compose.full.development.linux.yml up --build
-
-# PROD ------------------------
-sudo docker-compose -f docker-compose.production.linux.yml up --build
+sudo docker-compose -f docker-compose.yml up --build
 
 
 # ----------------------------------
