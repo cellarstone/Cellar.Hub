@@ -16,6 +16,7 @@ ENV ASPNETCORE_ENVIRONMENT="production"
  # Stage 2
  FROM microsoft/dotnet:2.0.0-runtime
  WORKDIR /app
+
  ENV ASPNETCORE_ENVIRONMENT="production"
  EXPOSE 44403
  COPY --from=builder /app .
