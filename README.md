@@ -1,20 +1,19 @@
 
-# Warning
-
-On target device must exist all folders mounted :
-- /data/cellarstone.hub/core/cdn
-- /data/cellarstone.hub/core/mongodb
-- /data/cellarstone.hub/core/elasticsearch
-- /data/cellarstone.hub/core/prometheus
-- /data/cellarstone.hub/core/grafana
-- /data/cellarstone.hub/core/influxdb
-
 # Run
 
 Run everything with these commands.
 
 Linux : `docker stack deploy -c docker-stack.yml cellarhub --with-registry-auth`
 
+# Warning
+
+On target device must exist all folders necessary for apps :
+- /data/cellarstone.hub/core/cdn
+- /data/cellarstone.hub/core/mongodb
+- /data/cellarstone.hub/core/elasticsearch
+- /data/cellarstone.hub/core/prometheus
+- /data/cellarstone.hub/core/grafana
+- /data/cellarstone.hub/core/influxdb
 
 # Ports
 
