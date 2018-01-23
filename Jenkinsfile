@@ -48,6 +48,9 @@ pipeline {
           },
           prometheus: {
             sh 'docker build -t cellar.hub.prometheus ./Core/Db/prometheus'
+          },
+          telegraf: {
+            sh 'docker build -t cellar.hub.telegraf ./Core/Db/tickstack/telegraf'
           }
         )
       }
@@ -119,6 +122,10 @@ pipeline {
           prometheus: {
             sh 'docker tag cellar.hub.prometheus cellarstone/cellar.hub.prometheus:0.0.2'
             sh 'docker push cellarstone/cellar.hub.prometheus:0.0.2'
+          },
+          telegraf: {
+            sh 'docker tag cellar.hub.telegraf cellarstone/cellar.hub.telegraf:0.0.2'
+            sh 'docker push cellarstone/cellar.hub.telegraf:0.0.2'
           }
         )
       }
