@@ -7,6 +7,8 @@
 # ENV FLUENTD_CONF fluent.conf
 # ADD fluent.conf /fluentd/etc/
 
+# COPY fluent.conf /fluentd/etc/
+
 # WORKDIR /fluentd/etc
 # RUN ls -l
 # RUN echo $FLUENTD_CONF
@@ -18,6 +20,9 @@ FROM fluent/fluentd:v0.14
 RUN ["gem", "install", "fluent-plugin-elasticsearch", "--no-rdoc", "--no-ri", "--version", "1.9.5"]
 # RUN ["gem", "install", "fluent-plugin-concat", "--version", "2.1.0"] 
 # RUN ["gem", "install", "fluent-plugin-detect-exceptions"]
+
+ENV FLUENTD_CONF fluent.conf
+COPY fluent.conf /fluentd/etc/
 
 # WORKDIR /home/fluent
 # ADD wait-for-it.sh /home/fluent
