@@ -63,6 +63,8 @@ Inspect elasticsearch IP address
 
 docker stack deploy -c docker-stack.yml cellarhub --with-registry-auth
 
+watch -n1 docker services ps
+
 
 # ----------------------------------
 # DOCKER-COMPOSE - DEV
@@ -72,11 +74,16 @@ sudo docker-compose -f docker-compose.yml up --build
 
 
 # ----------------------------------
-# STOP and DELETE Docker images
+# CLEANING
 # ----------------------------------
+docker system prune
 
 sudo docker rm --force $(sudo docker ps -a -q)
 sudo docker rmi --force $(sudo docker images -a -q)
+docker volume rm $(docker volume ls -qf dangling=true)
+docker network rm $(docker network ls | grep "bridge" | awk '/ / { print $1 }')
+
+
 
 # restart Docker
 sudo systemctl restart docker
