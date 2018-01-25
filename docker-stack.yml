@@ -9,7 +9,7 @@ services:
 
 # MONGO DB ----------------
   mongodb:
-    image: cellarstone/cellar.hub.mongodb:0.0.2
+    image: cellarstone/cellar.hub.mongodb:0.0.3
     deploy:
       replicas: 1
       update_config:
@@ -30,7 +30,7 @@ services:
 
 # MQTT ----------------
   mqtt:
-    image: cellarstone/cellar.hub.mqtt:0.0.2
+    image: cellarstone/cellar.hub.mqtt:0.0.3
     deploy:
       replicas: 1
       update_config:
@@ -49,7 +49,7 @@ services:
 
 # EFK Stack ----------------
   fluentd:
-    image: cellarstone/cellar.hub.fluentd:0.0.2
+    image: cellarstone/cellar.hub.fluentd:0.0.3
     deploy:
       replicas: 1
       update_config:
@@ -107,7 +107,7 @@ services:
 
 # PROMETHEUS ----------------
   prometheus:
-    image: cellarstone/cellar.hub.prometheus:0.0.2
+    image: cellarstone/cellar.hub.prometheus:0.0.3
     deploy:
       replicas: 1
       update_config:
@@ -192,7 +192,7 @@ services:
 
   # Define a Telegraf service
   telegraf:
-    image: cellarstone/cellar.hub.telegraf:0.0.2
+    image: cellarstone/cellar.hub.telegraf:0.0.3
     deploy:
       replicas: 1
       update_config:
@@ -282,7 +282,7 @@ services:
 # PROXY ***************************
 
   cellar-hub-proxy:
-    image: cellarstone/cellar.hub.proxy:0.0.2
+    image: cellarstone/cellar.hub.proxy:0.0.3
     deploy:
       replicas: 1
       update_config:
@@ -306,7 +306,7 @@ services:
 # CORE ***************************
 
   cellar-hub-core-web:
-    image: cellarstone/cellar.hub.core.web:0.0.2
+    image: cellarstone/cellar.hub.core.web:0.0.3
     deploy:
       replicas: 1
       update_config:
@@ -330,7 +330,7 @@ services:
     - "44401:44401"
 
   cellar-hub-core-admin:
-    image: cellarstone/cellar.hub.core.admin:0.0.2
+    image: cellarstone/cellar.hub.core.admin:0.0.3
     deploy:
       replicas: 1
       update_config:
@@ -354,7 +354,7 @@ services:
     - "44402:44402"
 
   cellar-hub-core-api:
-    image: cellarstone/cellar.hub.core.api:0.0.2
+    image: cellarstone/cellar.hub.core.api:0.0.3
     deploy:
       replicas: 1
       update_config:
@@ -378,7 +378,7 @@ services:
     - "44403:44403"
 
   cellar-hub-core-cdn:
-    image: cellarstone/cellar.hub.core.cdn:0.0.2
+    image: cellarstone/cellar.hub.core.cdn:0.0.3
     deploy:
       replicas: 1
       update_config:
@@ -405,7 +405,7 @@ services:
     
 
   cellar-hub-core-workflow:
-    image: cellarstone/cellar.hub.core.workflow:0.0.2
+    image: cellarstone/cellar.hub.core.workflow:0.0.3
     deploy:
       replicas: 1
       update_config:
@@ -429,7 +429,7 @@ services:
       - "44405:44405"
 
   cellar-hub-core-websockets:
-    image: cellarstone/cellar.hub.core.websockets:0.0.2
+    image: cellarstone/cellar.hub.core.websockets:0.0.3
     deploy:
       replicas: 1
       update_config:
@@ -458,7 +458,7 @@ services:
 # MODULES ***************************
 
   cellar-hub-module-office-api:
-    image: cellarstone/cellar.hub.module.office.api:0.0.2
+    image: cellarstone/cellar.hub.module.office.api:0.0.3
     deploy:
       replicas: 1
       update_config:
@@ -482,7 +482,7 @@ services:
     - "44513:44513"
 
   cellar-hub-module-office-meetingrooms:
-    image: cellarstone/cellar.hub.module.office.meetingrooms:0.0.2
+    image: cellarstone/cellar.hub.module.office.meetingrooms:0.0.3
     deploy:
       replicas: 1
       update_config:
@@ -506,7 +506,7 @@ services:
     - "44511:44511"
 
   cellar-hub-module-office-reception:
-    image: cellarstone/cellar.hub.module.office.reception:0.0.2
+    image: cellarstone/cellar.hub.module.office.reception:0.0.3
     deploy:
       replicas: 1
       update_config:
