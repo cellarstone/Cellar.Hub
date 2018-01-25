@@ -10,8 +10,8 @@ services:
       context: ./Nginx
       dockerfile: Dockerfile
     links:
-        - cellar.hub.core.web
-        - cellar.hub.core.admin
+        - cellar-hub-core-web
+        - cellar-hub-core-admin
     ports:
       - 8080:8080
       - 8081:8081
@@ -23,13 +23,13 @@ services:
     build:
       context: ./Core/Web
       dockerfile: Dockerfile
-    links:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: docker.cellar.hub.core.web
+    # links:
+    #   - fluentd
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     fluentd-address: localhost:24224
+    #     tag: docker.cellar.hub.core.web
     ports:
     - "44401:44401"
 

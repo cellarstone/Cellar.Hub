@@ -2,6 +2,6 @@
     "board": "esp8266:esp8266:d1_mini",
     "configuration": "CpuFrequency=80,UploadSpeed=921600,FlashSize=4M3M",
     "port": "/dev/ttyUSB0",
-    "sketch": "Cellar.Hub.Senzors/programs/test4/program.ino",
+    "sketch": "Core/Senzors/programs/relay/program.ino",
     "output": "Cellar.Hub.Senzors/output"
 }
