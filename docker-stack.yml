@@ -290,12 +290,12 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    depends_on:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        tag: docker.cellar.hub.core.web
+    # depends_on:
+    #   - fluentd
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     tag: docker.cellar.hub.core.web
     ports:
     - "44401:44401"
 
@@ -312,12 +312,12 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    depends_on:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        tag: docker.cellar.hub.core.admin
+    # depends_on:
+    #   - fluentd
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     tag: docker.cellar.hub.core.admin
     ports:
     - "44402:44402"
 
@@ -334,12 +334,12 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    depends_on:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        tag: docker.cellar.hub.core.api
+    # depends_on:
+    #   - fluentd
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     tag: docker.cellar.hub.core.api
     ports:
     - "44403:44403"
 
@@ -356,12 +356,12 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    depends_on:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        tag: docker.cellar.hub.core.cdn
+    # depends_on:
+    #   - fluentd
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     tag: docker.cellar.hub.core.cdn
     volumes:
      - /data/cellarstone.hub/core/cdn:/app/data
     ports:
@@ -381,12 +381,12 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    depends_on:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        tag: docker.cellar.hub.core.workflow
+    # depends_on:
+    #   - fluentd
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     tag: docker.cellar.hub.core.workflow
     ports:
       - "44405:44405"
 
@@ -403,12 +403,12 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    depends_on:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        tag: docker.cellar.hub.core.websockets
+    # depends_on:
+    #   - fluentd
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     tag: docker.cellar.hub.core.websockets
     ports:
     - "44406:44406"
 
@@ -430,12 +430,12 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    depends_on:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        tag: docker.cellar.hub.module.office.api
+    # depends_on:
+    #   - fluentd
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     tag: docker.cellar.hub.module.office.api
     ports:
     - "44513:44513"
 
@@ -452,12 +452,12 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    depends_on:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        tag: docker.cellar.hub.module.office.meetingrooms
+    # depends_on:
+    #   - fluentd
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     tag: docker.cellar.hub.module.office.meetingrooms
     ports:
     - "44511:44511"
 
@@ -474,12 +474,12 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    depends_on:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        tag: docker.cellar.hub.module.office.reception
+    # depends_on:
+    #   - fluentd
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     tag: docker.cellar.hub.module.office.reception
     ports:
     - "44512:44512"
 
