@@ -21,6 +21,8 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    healthcheck:
+      interval: 10m
     volumes:
      - /data/cellarstone.hub/core/mongodb:/data/db
     ports:
@@ -40,6 +42,8 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    healthcheck:
+      interval: 10m
     ports:
     - "1883:1883"
 
@@ -57,6 +61,8 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    healthcheck:
+      interval: 10m
     ports:
       - "24224:24224"
       - "24224:24224/udp"
@@ -74,6 +80,8 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    healthcheck:
+      interval: 10m
     volumes:
         - /data/cellarstone.hub/core/elasticsearch:/var/lib/elasticsearch
     ports:
@@ -92,6 +100,8 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    healthcheck:
+      interval: 10m
     ports:
       - "5601:5601"
 
@@ -109,6 +119,8 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    healthcheck:
+      interval: 10m
     volumes:
       - /data/cellarstone.hub/core/prometheus:/data/prometheus
     ports:
@@ -128,6 +140,8 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    healthcheck:
+      interval: 10m
     ports:
       - 9091:9091
 
@@ -145,6 +159,8 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    healthcheck:
+      interval: 10m
     volumes:
       - /data/cellarstone.hub/core/grafana:/var/lib/grafana
     ports:
@@ -164,6 +180,8 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    healthcheck:
+      interval: 10m
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -186,6 +204,8 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    healthcheck:
+      interval: 10m
     ports:
       - "8092:8092/udp"
       - "8094:8094"
@@ -205,6 +225,8 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    healthcheck:
+      interval: 10m
     volumes:
       - /data/cellarstone.hub/core/influxdb:/var/lib/influxdb
     ports:
@@ -224,6 +246,8 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    healthcheck:
+      interval: 10m
     environment:
       INFLUXDB_URL: http://influxdb:8086
       KAPACITOR_URL: http://kapacitor:9092
@@ -244,6 +268,8 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    healthcheck:
+      interval: 10m
     environment:
       KAPACITOR_HOSTNAME: kapacitor
       KAPACITOR_INFLUXDB_0_URLS_0: http://influxdb:8086
@@ -268,6 +294,8 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
+    healthcheck:
+      interval: 10m
     depends_on:
       - cellar-hub-core-web
       - cellar-hub-core-admin
@@ -290,12 +318,14 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    # depends_on:
-    #   - fluentd
-    # logging:
-    #   driver: "fluentd"
-    #   options:
-    #     tag: docker.cellar.hub.core.web
+    healthcheck:
+      interval: 10m
+    depends_on:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        tag: docker.cellar.hub.core.web
     ports:
     - "44401:44401"
 
@@ -312,12 +342,14 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    # depends_on:
-    #   - fluentd
-    # logging:
-    #   driver: "fluentd"
-    #   options:
-    #     tag: docker.cellar.hub.core.admin
+    healthcheck:
+      interval: 10m
+    depends_on:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        tag: docker.cellar.hub.core.admin
     ports:
     - "44402:44402"
 
@@ -334,12 +366,14 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    # depends_on:
-    #   - fluentd
-    # logging:
-    #   driver: "fluentd"
-    #   options:
-    #     tag: docker.cellar.hub.core.api
+    healthcheck:
+      interval: 10m
+    depends_on:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        tag: docker.cellar.hub.core.api
     ports:
     - "44403:44403"
 
@@ -356,12 +390,14 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    # depends_on:
-    #   - fluentd
-    # logging:
-    #   driver: "fluentd"
-    #   options:
-    #     tag: docker.cellar.hub.core.cdn
+    healthcheck:
+      interval: 10m
+    depends_on:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        tag: docker.cellar.hub.core.cdn
     volumes:
      - /data/cellarstone.hub/core/cdn:/app/data
     ports:
@@ -381,12 +417,14 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    # depends_on:
-    #   - fluentd
-    # logging:
-    #   driver: "fluentd"
-    #   options:
-    #     tag: docker.cellar.hub.core.workflow
+    healthcheck:
+      interval: 10m
+    depends_on:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        tag: docker.cellar.hub.core.workflow
     ports:
       - "44405:44405"
 
@@ -403,12 +441,14 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    # depends_on:
-    #   - fluentd
-    # logging:
-    #   driver: "fluentd"
-    #   options:
-    #     tag: docker.cellar.hub.core.websockets
+    healthcheck:
+      interval: 10m
+    depends_on:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        tag: docker.cellar.hub.core.websockets
     ports:
     - "44406:44406"
 
@@ -430,12 +470,14 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    # depends_on:
-    #   - fluentd
-    # logging:
-    #   driver: "fluentd"
-    #   options:
-    #     tag: docker.cellar.hub.module.office.api
+    healthcheck:
+      interval: 10m
+    depends_on:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        tag: docker.cellar.hub.module.office.api
     ports:
     - "44513:44513"
 
@@ -452,12 +494,14 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    # depends_on:
-    #   - fluentd
-    # logging:
-    #   driver: "fluentd"
-    #   options:
-    #     tag: docker.cellar.hub.module.office.meetingrooms
+    healthcheck:
+      interval: 10m
+    depends_on:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        tag: docker.cellar.hub.module.office.meetingrooms
     ports:
     - "44511:44511"
 
@@ -474,12 +518,14 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    # depends_on:
-    #   - fluentd
-    # logging:
-    #   driver: "fluentd"
-    #   options:
-    #     tag: docker.cellar.hub.module.office.reception
+    healthcheck:
+      interval: 10m
+    depends_on:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        tag: docker.cellar.hub.module.office.reception
     ports:
     - "44512:44512"
 
