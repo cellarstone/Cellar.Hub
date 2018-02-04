@@ -203,10 +203,6 @@
   version "1.15.32"
   resolved "https://registry.yarnpkg.com/@types/greensock/-/greensock-1.15.32.tgz#083daac25a9e6f332d5678b1462d6f97a82251f7"
 
-"@types/jquery@^3.2.13":
-  version "3.2.17"
-  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.2.17.tgz#01df9805dd5cf83a14cf5bfd81adced7d4fbd970"
-
 "@types/node@~6.0.60":
   version "6.0.96"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.96.tgz#7bf0bf40d6ce51e93762cc47d010c8cc5ebb2179"

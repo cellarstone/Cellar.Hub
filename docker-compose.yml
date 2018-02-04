@@ -24,6 +24,7 @@ services:
       context: ./Core/Web
       dockerfile: Dockerfile
     labels:
+      - "traefik.enabled=true"
       - "traefik.port=44401"
       - "traefik.backend=core-web"
       - "traefik.frontend.rule=Host:web.cellarstone.hub"
@@ -42,6 +43,7 @@ services:
       context: ./Core/Admin
       dockerfile: Dockerfile
     labels:
+      - "traefik.enabled=true"
       - "traefik.port=44402"
       - "traefik.backend=core-admin"
       - "traefik.frontend.rule=Host:admin.cellarstone.hub"
@@ -63,6 +65,7 @@ services:
       context: ./Core/Api
       dockerfile: Dockerfile
     labels:
+      - "traefik.enabled=true"
       - "traefik.port=44403"
       - "traefik.backend=core-api"
       - "traefik.frontend.rule=Host:api.cellarstone.hub"
@@ -82,6 +85,7 @@ services:
       context: ./Core/Cdn
       dockerfile: Dockerfile
     labels:
+      - "traefik.enabled=true"
       - "traefik.port=44404"
       - "traefik.backend=core-cdn"
       - "traefik.frontend.rule=Host:cdn.cellarstone.hub"
@@ -102,6 +106,7 @@ services:
       context: ./Core/Workflow
       dockerfile: Dockerfile
     labels:
+      - "traefik.enabled=true"
       - "traefik.port=44405"
       - "traefik.backend=core-workflow"
       - "traefik.frontend.rule=Host:workflow.cellarstone.hub"
@@ -122,6 +127,7 @@ services:
       context: ./Core/Websockets
       dockerfile: Dockerfile
     labels:
+      - "traefik.enabled=true"
       - "traefik.port=44406"
       - "traefik.backend=core-websockets"
       - "traefik.frontend.rule=Host:websockets.cellarstone.hub"
@@ -234,6 +240,7 @@ services:
       context: ./Modules/Office/Api
       dockerfile: Dockerfile
     labels:
+      - "traefik.enabled=true"
       - "traefik.port=44513"
       - "traefik.backend=office-api"
       - "traefik.frontend.rule=Host:office-api.cellarstone.hub"
@@ -245,8 +252,6 @@ services:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.module.office.api
         mode: non-blocking
-    ports:
-    - "44513:44513"
 
   cellar-hub-module-office-meetingrooms:
     image: cellar.hub.module.office.meetingrooms
@@ -254,6 +259,7 @@ services:
       context: ./Modules/Office/MeetingRooms
       dockerfile: Dockerfile
     labels:
+      - "traefik.enabled=true"
       - "traefik.port=44511"
       - "traefik.backend=office-meetingrooms"
       - "traefik.frontend.rule=Host:meetingrooms.cellarstone.hub"
@@ -265,8 +271,6 @@ services:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.module.office.meetingrooms
         mode: non-blocking
-    ports:
-    - "44511:44511"
 
   cellar-hub-module-office-reception:
     image: cellar.hub.module.office.reception
@@ -274,6 +278,7 @@ services:
       context: ./Modules/Office/Reception
       dockerfile: Dockerfile
     labels:
+      - "traefik.enabled=true"
       - "traefik.port=44512"
       - "traefik.backend=office-reception"
       - "traefik.frontend.rule=Host:reception.cellarstone.hub"
@@ -285,5 +290,3 @@ services:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.module.office.reception
         mode: non-blocking
-    ports:
-    - "44512:44512"

@@ -82,7 +82,7 @@ export class Dht11Panel implements OnInit {
   /* CHECK Senzor Actual State */
   //*********************************/
 
-  private checkSenzor() {
+  checkSenzor() {
 
     // CHECK TEMPERATURE
     let vm = new PublishToMqttModel();

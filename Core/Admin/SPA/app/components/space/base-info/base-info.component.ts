@@ -50,7 +50,7 @@ export class SpaceBaseInfoComponent implements OnInit {
   //*********************************/
 
 
-  private saveSpace() {
+  saveSpace() {
 
     //validace
     if (this.item.state === "0") {
@@ -107,11 +107,11 @@ export class SpaceBaseInfoComponent implements OnInit {
   }
 
 
-  private deleteSpace(){
+  deleteSpace(){
     this.onDelete.emit(this.item);
   }
 
-  private cancelSpace(){
+  cancelSpace(){
     this.onCancel.emit();
   }
 
@@ -121,7 +121,7 @@ export class SpaceBaseInfoComponent implements OnInit {
   //STATE
   //*********************************/
 
-  public selectState(e: any) {
+  selectState(e: any) {
     var aaa = e.srcElement.innerHTML.toLowerCase();
 
 
@@ -186,7 +186,7 @@ export class SpaceBaseInfoComponent implements OnInit {
 
   //File upload - main picture
 
-  public addMainPictureChangeEvent(fileInput: any) {
+  addMainPictureChangeEvent(fileInput: any) {
 
     if (fileInput.target.files && fileInput.target.files[0]) {
       let fileToUpload = fileInput.target.files[0];

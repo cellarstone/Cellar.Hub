@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
   activeTab: string;
 
   constructor(
-    private sharedService: SharedService,
+    public sharedService: SharedService,
     private router: Router
   ) { 
   }

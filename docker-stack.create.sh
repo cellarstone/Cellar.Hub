@@ -1,5 +1,21 @@
 #!/bin/sh
 
+# NETWORK ---------------------------------------------
+# docker network rm cellarstone-net
+IS_NETWORK_EXIST=`docker network ls | grep cellarstone-net`
+if [ "$IS_NETWORK_EXIST" != "" ]; then
+	echo "NETWORK EXIST!"
+    echo $IS_NETWORK_EXIST
+
+else
+	echo "NETWORK DOESN'T EXIST!"
+    echo $IS_NETWORK_EXIST
+
+    docker network create --driver overlay cellarstone-net
+
+fi
+
+
 # FLUENTD ---------------------------------------------
 # docker service rm fluentd
 IS_FLUENTD_EXIST=`docker service ps fluentd`
@@ -7,7 +23,7 @@ if [ "$IS_FLUENTD_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_FLUENTD_EXIST
 
-    docker service update --image cellarstone/cellar.hub.fluentd:0.0.4 \
+    docker service update --image cellarstone/cellar.hub.fluentd:0.0.5 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -32,9 +48,10 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
                       --publish 24224:24224 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.fluentd:0.0.4
+                      cellarstone/cellar.hub.fluentd:0.0.5
 
 fi
 
@@ -69,6 +86,7 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
                       --mount type=bind,source=/data/cellarstone.hub/core/elasticsearch,target=/var/lib/elasticsearch \
                       --publish 9200:9200 \
                       elasticsearch
@@ -106,6 +124,7 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
                       --publish 5601:5601 \
                       kibana
 
@@ -118,7 +137,7 @@ if [ "$IS_MONGO_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_MONGO_EXIST
 
-    docker service update --image cellarstone/cellar.hub.mongodb:0.0.4 \
+    docker service update --image cellarstone/cellar.hub.mongodb:0.0.5 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -143,10 +162,11 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
                       --mount type=bind,source=/data/cellarstone.hub/core/mongodb,target=/data/db \
                       --publish 27017:27017 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.mongodb:0.0.4
+                      cellarstone/cellar.hub.mongodb:0.0.5
 
 fi
 
@@ -157,7 +177,7 @@ if [ "$IS_MQTT_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_MQTT_EXIST
 
-    docker service update --image cellarstone/cellar.hub.mqtt:0.0.4 \
+    docker service update --image cellarstone/cellar.hub.mqtt:0.0.5 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -182,9 +202,10 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
                       --publish 1883:1883 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.mqtt:0.0.4
+                      cellarstone/cellar.hub.mqtt:0.0.5
 
 fi
 
@@ -195,7 +216,7 @@ if [ "$IS_PROMETHEUS_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_PROMETHEUS_EXIST
 
-    docker service update --image cellarstone/cellar.hub.prometheus:0.0.4 \
+    docker service update --image cellarstone/cellar.hub.prometheus:0.0.5 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -220,10 +241,11 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
                       --mount type=bind,source=/data/cellarstone.hub/core/prometheus,target=/data/prometheus \
                       --publish 9090:9090 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.prometheus:0.0.4
+                      cellarstone/cellar.hub.prometheus:0.0.5
 
 fi
 
@@ -258,6 +280,7 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
                       --publish 9091:9091 \
                       prom/pushgateway
 
@@ -294,6 +317,7 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
                       --mount type=bind,source=/data/cellarstone.hub/core/grafana,target=/var/lib/grafana \
                       --publish 3000:3000 \
                       grafana/grafana
@@ -331,6 +355,7 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
                       --mount type=bind,source=/proc,target=/host/proc:ro \
                       --mount type=bind,source=/sys,target=/host/sys:ro \
                       --publish 19999:19999 \
@@ -347,7 +372,7 @@ if [ "$IS_TELEGRAF_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_TELEGRAF_EXIST
 
-    docker service update --image cellarstone/cellar.hub.telegraf:0.0.4 \
+    docker service update --image cellarstone/cellar.hub.telegraf:0.0.5 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -372,11 +397,12 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
                       --publish 8094:8094 \
                       --publish 8092:8092/udp \
                       --publish 8125:8125/udp \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.telegraf:0.0.4
+                      cellarstone/cellar.hub.telegraf:0.0.5
 
 fi
 
@@ -411,6 +437,7 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
                       --mount type=bind,source=/data/cellarstone.hub/core/influxdb,target=/var/lib/influxdb \
                       --publish 8086:8086 \
                       influxdb:1.3.5
@@ -450,6 +477,7 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
                       --publish 9092:9092 \
                       kapacitor:1.3.3
 
@@ -488,6 +516,7 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
                       --publish 8888:8888 \
                       chronograf:1.3.8
 
@@ -503,7 +532,7 @@ if [ "$IS_HUBCOREWEB_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_HUBCOREWEB_EXIST
 
-    docker service update --image cellarstone/cellar.hub.core.web:0.0.4 \
+    docker service update --image cellarstone/cellar.hub.core.web:0.0.5 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -531,15 +560,16 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
+                      --label traefik.enable=true \
                       --label traefik.port=44401 \
-                      --label traefik.backend="core-web" \
-                      --label traefik.frontend.rule="Host:web.cellarstone.hub" \
+                      --label traefik.backend=core-web \
+                      --label traefik.frontend.rule=Host:web.cellarstone.hub \
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.web" \
-                      --publish 44401:44401 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.core.web:0.0.4     
+                      cellarstone/cellar.hub.core.web:0.0.5     
 
 fi
 
@@ -551,7 +581,7 @@ if [ "$IS_HUBCOREADMIN_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_HUBCOREADMIN_EXIST
 
-    docker service update --image cellarstone/cellar.hub.core.admin:0.0.4 \
+    docker service update --image cellarstone/cellar.hub.core.admin:0.0.5 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -579,15 +609,16 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
+                      --label traefik.enable=true \
                       --label traefik.port=44402 \
-                      --label traefik.backend="core-admin" \
-                      --label traefik.frontend.rule="Host:admin.cellarstone.hub" \
+                      --label traefik.backend=core-admin \
+                      --label traefik.frontend.rule=Host:admin.cellarstone.hub \
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.admin" \
-                      --publish 44402:44402 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.core.admin:0.0.4     
+                      cellarstone/cellar.hub.core.admin:0.0.5     
 
 fi
 
@@ -599,7 +630,7 @@ if [ "$IS_HUBCOREAPI_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_HUBCOREAPI_EXIST
 
-    docker service update --image cellarstone/cellar.hub.core.api:0.0.4 \
+    docker service update --image cellarstone/cellar.hub.core.api:0.0.5 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -627,17 +658,18 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
                       --env PORT=44403 \
                       --env MQTT_URL="http://mqtt:1883" \
+                      --label traefik.enable=true \
                       --label traefik.port=44403 \
-                      --label traefik.backend="core-api" \
-                      --label traefik.frontend.rule="Host:api.cellarstone.hub" \
+                      --label traefik.backend=core-api \
+                      --label traefik.frontend.rule=Host:api.cellarstone.hub \
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.api" \
-                      --publish 44403:44403 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.core.api:0.0.4     
+                      cellarstone/cellar.hub.core.api:0.0.5     
 
 fi
 
@@ -649,7 +681,7 @@ if [ "$IS_HUBCORECDN_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_HUBCORECDN_EXIST
 
-    docker service update --image cellarstone/cellar.hub.core.cdn:0.0.4 \
+    docker service update --image cellarstone/cellar.hub.core.cdn:0.0.5 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -677,13 +709,18 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
+                      --label traefik.enable=true \
+                      --label traefik.port=44404 \
+                      --label traefik.backend=core-cdn \
+                      --label traefik.frontend.rule=Host:cdn.cellarstone.hub \
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.cdn" \
                       --mount type=bind,source=/data/cellarstone.hub/core/cdn,target=/app/data \
                       --publish 44404:44404 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.core.cdn:0.0.4     
+                      cellarstone/cellar.hub.core.cdn:0.0.5     
 
 fi
 
@@ -695,7 +732,7 @@ if [ "$IS_HUBCOREWORKFLOW_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_HUBCOREWORKFLOW_EXIST
 
-    docker service update --image cellarstone/cellar.hub.core.workflow:0.0.4 \
+    docker service update --image cellarstone/cellar.hub.core.workflow:0.0.5 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -723,12 +760,17 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
+                      --label traefik.enable=true \
+                      --label traefik.port=44405 \
+                      --label traefik.backend=core-workflow \
+                      --label traefik.frontend.rule=Host:workflow.cellarstone.hub \
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.workflow" \
                       --publish 44405:44405 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.core.workflow:0.0.4     
+                      cellarstone/cellar.hub.core.workflow:0.0.5     
 
 fi
 
@@ -740,7 +782,7 @@ if [ "$IS_HUBCOREWEBSOCKETS_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_HUBCOREWEBSOCKETS_EXIST
 
-    docker service update --image cellarstone/cellar.hub.core.websockets:0.0.4 \
+    docker service update --image cellarstone/cellar.hub.core.websockets:0.0.5 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -768,12 +810,17 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
+                      --label traefik.enable=true \
+                      --label traefik.port=44406 \
+                      --label traefik.backend=core-websockets \
+                      --label traefik.frontend.rule=Host:websockets.cellarstone.hub \
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.websockets" \
                       --publish 44406:44406 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.core.websockets:0.0.4     
+                      cellarstone/cellar.hub.core.websockets:0.0.5     
 
 fi
 
@@ -787,7 +834,7 @@ if [ "$IS_HUBMODULE_OFFICEAPI_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_HUBMODULE_OFFICEAPI_EXIST
 
-    docker service update --image cellarstone/cellar.hub.module.office.api:0.0.4 \
+    docker service update --image cellarstone/cellar.hub.module.office.api:0.0.5 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -815,12 +862,17 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
+                      --label traefik.enable=true \
+                      --label traefik.port=44513 \
+                      --label traefik.backend=office-api \
+                      --label traefik.frontend.rule=Host:officeapi.cellarstone.hub \
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar-hub-module-office-api" \
                       --publish 44513:44513 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.module.office.api:0.0.4
+                      cellarstone/cellar.hub.module.office.api:0.0.5
 
 fi
 
@@ -832,7 +884,7 @@ if [ "$IS_HUBMODULE_OFFICEMEETINGS_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_HUBMODULE_OFFICEMEETINGS_EXIST
 
-    docker service update --image cellarstone/cellar.hub.module.office.meetingrooms:0.0.4 \
+    docker service update --image cellarstone/cellar.hub.module.office.meetingrooms:0.0.5 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -860,12 +912,17 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
+                      --label traefik.enable=true \
+                      --label traefik.port=44511 \
+                      --label traefik.backend=office-meetingrooms \
+                      --label traefik.frontend.rule=Host:meetingrooms.cellarstone.hub \
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar-hub-module-office-meetingrooms" \
                       --publish 44511:44511 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.module.office.meetingrooms:0.0.4
+                      cellarstone/cellar.hub.module.office.meetingrooms:0.0.5
 
 fi
 
@@ -877,7 +934,7 @@ if [ "$IS_HUBMODULE_OFFICERECEPTION_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_HUBMODULE_OFFICERECEPTION_EXIST
 
-    docker service update --image cellarstone/cellar.hub.module.office.reception:0.0.4 \
+    docker service update --image cellarstone/cellar.hub.module.office.reception:0.0.5 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -905,12 +962,17 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
+                      --label traefik.enable=true \
+                      --label traefik.port=44512 \
+                      --label traefik.backend=office-reception \
+                      --label traefik.frontend.rule=Host:reception.cellarstone.hub \
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar-hub-module-office-reception" \
                       --publish 44512:44512 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.module.office.reception:0.0.4
+                      cellarstone/cellar.hub.module.office.reception:0.0.5
 
 fi
 
@@ -926,7 +988,7 @@ if [ "$IS_HUBPROXY_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_HUBPROXY_EXIST
 
-    docker service update --image cellarstone/cellar.hub.proxy:0.0.4 \
+    docker service update --image cellarstone/cellar.hub.proxy:0.0.5 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -948,7 +1010,6 @@ else
     docker service create --name cellar-hub-proxy \
                       --constraint=node.role==manager \
                       --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
-                      --network traefik-net \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -957,16 +1018,18 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --network cellarstone-net \
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.proxy" \
                       --publish 80:80 \
                       --publish 8080:8080 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.proxy:0.0.4 
+                      cellarstone/cellar.hub.proxy:0.0.5 \
                       --docker \
                       --docker.swarmmode \
-                      --docker.domain=traefik \
+                      --docker.domain=cellar.hub \
                       --docker.watch \
-                      --api
+                      --api \
+                      --web
 fi

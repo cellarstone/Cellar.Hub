@@ -12,7 +12,7 @@ declare var jQuery: any;
 export class SendtowebsocketComponent implements OnInit {
 
   @Input()
-  private item: CellarWorkflow;
+  item: CellarWorkflow;
 
   @Output() onSave = new EventEmitter<CellarWorkflow>();
   @Output() onCancel = new EventEmitter();
@@ -71,7 +71,7 @@ export class SendtowebsocketComponent implements OnInit {
 
   }
 
-  private saveWorkflow() {
+  saveWorkflow() {
 
     this.item.parameters[0] = this.workflowName;
     this.item.parameters[1] = this.senzorID;
@@ -91,11 +91,11 @@ export class SendtowebsocketComponent implements OnInit {
   }
 
 
-  private deleteWorkflow() {
+  deleteWorkflow() {
     this.onDelete.emit(this.item);
   }
 
-  private cancelWorkflow() {
+  cancelWorkflow() {
     // go in router history back
     this.onCancel.emit();
   }
@@ -107,7 +107,7 @@ export class SendtowebsocketComponent implements OnInit {
   //STATE
   //*********************************/
 
-  public selectState(e: any) {
+  selectState(e: any) {
     var aaa = e.srcElement.innerHTML.toLowerCase();
     if (aaa === "new") {
       this.item.state = "1";

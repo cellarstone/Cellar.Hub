@@ -51,7 +51,9 @@ Linux : `docker-compose up` or `docker-compose up --build`
 
 You can see every registered service with :
 
-`http://localhost:8080`
+`http://localhost:8080` - in docker compose mode
+
+`http://127.0.0.1:8080` - in docker swarm mode
 
 
 # Routes
@@ -165,18 +167,18 @@ sudo docker build -t cellar.hub.core.api .
 sudo docker run -d -p 44403:44403 -t cellar.hub.core.api
 
 # Cdn
-sudo docker build -t cellar.hub.cdn .
-sudo docker run -d -p 44404:44404 -t cellar.hub.cdn
+sudo docker build -t cellar.hub.core.cdn .
+sudo docker run -d -p 44404:44404 -t cellar.hub.core.cdn
 
 # Workflow
-sudo docker build -t cellar.hub.workflow .
-sudo docker run -d -p 44405:44405 -t cellar.hub.workflow
-sudo docker run -it cellar.hub.workflow
+sudo docker build -t cellar.hub.core.workflow .
+sudo docker run -d -p 44405:44405 -t cellar.hub.core.workflow
+sudo docker run -it cellar.hub.core.workflow
 
 # Websockets
-sudo docker build -t cellar.hub.websockets .
-sudo docker run -d -p 44406:44406 -t cellar.hub.websockets
-sudo docker run -it cellar.hub.websockets
+sudo docker build -t cellar.hub.core.websockets .
+sudo docker run -d -p 44406:44406 -t cellar.hub.core.websockets
+sudo docker run -it cellar.hub.core.websockets
 
 
 # Mosquitto - MQTT

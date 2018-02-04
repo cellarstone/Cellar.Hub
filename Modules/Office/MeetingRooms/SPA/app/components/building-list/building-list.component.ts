@@ -22,7 +22,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 export class BuildingListComponent implements OnInit {
 
-  private viewBox:any = '0 0 1920 1080';
+  viewBox:any = '0 0 1920 1080';
 
   counter$: Observable<any>;
   dom$: Observable<any>;

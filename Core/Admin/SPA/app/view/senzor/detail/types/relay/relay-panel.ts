@@ -73,7 +73,7 @@ export class RelayPanel implements OnInit {
   //*********************************/
 
 
-  private onSenzor() {
+  onSenzor() {
 
     let vm = new PublishToMqttModel();
     vm.topic = this.senzorName + "/set_Relay";
@@ -84,7 +84,7 @@ export class RelayPanel implements OnInit {
 
     this.store.dispatch(new PublishToMqttAction(arrVM));
   }
-  private offSenzor() {
+  offSenzor() {
     let vm = new PublishToMqttModel();
     vm.topic = this.senzorName + "/set_Relay";
     vm.value = "0";
@@ -101,7 +101,7 @@ export class RelayPanel implements OnInit {
   /* CHECK Senzor Actual State */
   //*********************************/
 
-  private checkSenzor() {
+  checkSenzor() {
 
     // CHECK RELAY
     let vm = new PublishToMqttModel();

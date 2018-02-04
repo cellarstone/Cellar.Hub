@@ -64,7 +64,7 @@ export class PlaceBaseInfoComponent implements OnInit {
 
 
 
-  private savePlace() {
+  savePlace() {
 
     //validace
     if (this.item.state === "0") {
@@ -116,11 +116,11 @@ export class PlaceBaseInfoComponent implements OnInit {
   }
 
 
-  private cancelPlace(){
+  cancelPlace(){
     this.onCancel.emit();
   }
 
-  private deletePlace(){
+  deletePlace(){
     this.onDelete.emit(this.item);
   }
 
@@ -130,7 +130,7 @@ export class PlaceBaseInfoComponent implements OnInit {
   //STATE
   //*********************************/
 
-  public selectState(e: any) {
+  selectState(e: any) {
     var aaa = e.srcElement.innerHTML.toLowerCase();
 
     if (aaa === "new") {
