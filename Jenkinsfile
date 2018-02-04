@@ -17,7 +17,7 @@ pipeline {
       steps {
         parallel (
           nginx: {
-            sh 'docker build -t cellar.hub.proxy ./Nginx'
+            sh 'docker build -t cellar.hub.proxy ./Traefik'
           },
           web: {
             sh 'docker build -t cellar.hub.core.web ./Core/Web'
@@ -80,52 +80,52 @@ pipeline {
       steps {
         parallel (
           nginx: {
-            sh 'docker tag cellar.hub.proxy cellarstone/cellar.hub.proxy:0.0.3'
-            sh 'docker push cellarstone/cellar.hub.proxy:0.0.3'
+            sh 'docker tag cellar.hub.proxy cellarstone/cellar.hub.proxy:0.0.4'
+            sh 'docker push cellarstone/cellar.hub.proxy:0.0.4'
           },
           web: {
-            sh 'docker tag cellar.hub.core.web cellarstone/cellar.hub.core.web:0.0.3'
-            sh 'docker push cellarstone/cellar.hub.core.web:0.0.3'
+            sh 'docker tag cellar.hub.core.web cellarstone/cellar.hub.core.web:0.0.4'
+            sh 'docker push cellarstone/cellar.hub.core.web:0.0.4'
           },
           admin: {
-            sh 'docker tag cellar.hub.core.admin cellarstone/cellar.hub.core.admin:0.0.3'
-            sh 'docker push cellarstone/cellar.hub.core.admin:0.0.3'
+            sh 'docker tag cellar.hub.core.admin cellarstone/cellar.hub.core.admin:0.0.4'
+            sh 'docker push cellarstone/cellar.hub.core.admin:0.0.4'
           },
           api: {
-            sh 'docker tag cellar.hub.core.api cellarstone/cellar.hub.core.api:0.0.3'
-            sh 'docker push cellarstone/cellar.hub.core.api:0.0.3'
+            sh 'docker tag cellar.hub.core.api cellarstone/cellar.hub.core.api:0.0.4'
+            sh 'docker push cellarstone/cellar.hub.core.api:0.0.4'
           },
           cdn: {
-            sh 'docker tag cellar.hub.core.cdn cellarstone/cellar.hub.core.cdn:0.0.3'
-            sh 'docker push cellarstone/cellar.hub.core.cdn:0.0.3'
+            sh 'docker tag cellar.hub.core.cdn cellarstone/cellar.hub.core.cdn:0.0.4'
+            sh 'docker push cellarstone/cellar.hub.core.cdn:0.0.4'
           },
           workflow: {
-            sh 'docker tag cellar.hub.core.workflow cellarstone/cellar.hub.core.workflow:0.0.3'
-            sh 'docker push cellarstone/cellar.hub.core.workflow:0.0.3'
+            sh 'docker tag cellar.hub.core.workflow cellarstone/cellar.hub.core.workflow:0.0.4'
+            sh 'docker push cellarstone/cellar.hub.core.workflow:0.0.4'
           },
           websockets: {
-            sh 'docker tag cellar.hub.core.websockets cellarstone/cellar.hub.core.websockets:0.0.3'
-            sh 'docker push cellarstone/cellar.hub.core.websockets:0.0.3'
+            sh 'docker tag cellar.hub.core.websockets cellarstone/cellar.hub.core.websockets:0.0.4'
+            sh 'docker push cellarstone/cellar.hub.core.websockets:0.0.4'
           },
           mongodb: {
-            sh 'docker tag cellar.hub.mongodb cellarstone/cellar.hub.mongodb:0.0.3'
-            sh 'docker push cellarstone/cellar.hub.mongodb:0.0.3'
+            sh 'docker tag cellar.hub.mongodb cellarstone/cellar.hub.mongodb:0.0.4'
+            sh 'docker push cellarstone/cellar.hub.mongodb:0.0.4'
           },
           mqtt: {
-            sh 'docker tag cellar.hub.mqtt cellarstone/cellar.hub.mqtt:0.0.3'
-            sh 'docker push cellarstone/cellar.hub.mqtt:0.0.3'
+            sh 'docker tag cellar.hub.mqtt cellarstone/cellar.hub.mqtt:0.0.4'
+            sh 'docker push cellarstone/cellar.hub.mqtt:0.0.4'
           },
           fluentd: {
-            sh 'docker tag cellar.hub.fluentd cellarstone/cellar.hub.fluentd:0.0.3'
-            sh 'docker push cellarstone/cellar.hub.fluentd:0.0.3'
+            sh 'docker tag cellar.hub.fluentd cellarstone/cellar.hub.fluentd:0.0.4'
+            sh 'docker push cellarstone/cellar.hub.fluentd:0.0.4'
           },
           prometheus: {
-            sh 'docker tag cellar.hub.prometheus cellarstone/cellar.hub.prometheus:0.0.3'
-            sh 'docker push cellarstone/cellar.hub.prometheus:0.0.3'
+            sh 'docker tag cellar.hub.prometheus cellarstone/cellar.hub.prometheus:0.0.4'
+            sh 'docker push cellarstone/cellar.hub.prometheus:0.0.4'
           },
           telegraf: {
-            sh 'docker tag cellar.hub.telegraf cellarstone/cellar.hub.telegraf:0.0.3'
-            sh 'docker push cellarstone/cellar.hub.telegraf:0.0.3'
+            sh 'docker tag cellar.hub.telegraf cellarstone/cellar.hub.telegraf:0.0.4'
+            sh 'docker push cellarstone/cellar.hub.telegraf:0.0.4'
           }
         )
       }
@@ -137,16 +137,16 @@ pipeline {
       steps {
         parallel (
           office_api: {
-            sh 'docker tag cellar.hub.module.office.api cellarstone/cellar.hub.module.office.api:0.0.3'
-            sh 'docker push cellarstone/cellar.hub.module.office.api:0.0.3'
+            sh 'docker tag cellar.hub.module.office.api cellarstone/cellar.hub.module.office.api:0.0.4'
+            sh 'docker push cellarstone/cellar.hub.module.office.api:0.0.4'
           },
           office_meeting_rooms: {
-            sh 'docker tag cellar.hub.module.office.meetingrooms cellarstone/cellar.hub.module.office.meetingrooms:0.0.3'
-            sh 'docker push cellarstone/cellar.hub.module.office.meetingrooms:0.0.3'
+            sh 'docker tag cellar.hub.module.office.meetingrooms cellarstone/cellar.hub.module.office.meetingrooms:0.0.4'
+            sh 'docker push cellarstone/cellar.hub.module.office.meetingrooms:0.0.4'
           },
           office_reception: {
-            sh 'docker tag cellar.hub.module.office.reception cellarstone/cellar.hub.module.office.reception:0.0.3'
-            sh 'docker push cellarstone/cellar.hub.module.office.reception:0.0.3'
+            sh 'docker tag cellar.hub.module.office.reception cellarstone/cellar.hub.module.office.reception:0.0.4'
+            sh 'docker push cellarstone/cellar.hub.module.office.reception:0.0.4'
           }
         )
       }
@@ -156,7 +156,8 @@ pipeline {
         branch 'master' 
       }
       steps {
-         sh 'gsutil cp docker-stack.yml gs://cellarhub-dockerstack-files/'
+         sh 'gsutil cp docker-stack.create.sh gs://cellarhub-dockerstack-files/'
+         sh 'gsutil cp docker-stack.delete.sh gs://cellarhub-dockerstack-files/'
       }
     }
     // stage('Human Check - Publish files to Dropbox') {

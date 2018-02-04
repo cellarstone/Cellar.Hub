@@ -1,25 +1,79 @@
 
 # Run
 
-Run everything with these commands.
+Run everything with this command.
+
+`./docker-stack.create.sh` for running
+
+`./docker-stack.delete.sh` for stop and clean
+
+
+DEPRECATED - don't use docker stack, because it doesn't support `mode=non-blocking` for logging fluentd driver
 
 Linux : `docker stack deploy -c docker-stack.yml cellarhub --with-registry-auth`
 
-# Warning
+## Warning
 
-On target device must exist all folders necessary for apps :
-- /data/cellarstone.hub/core/cdn
-- /data/cellarstone.hub/core/mongodb
-- /data/cellarstone.hub/core/elasticsearch
-- /data/cellarstone.hub/core/prometheus
-- /data/cellarstone.hub/core/grafana
-- /data/cellarstone.hub/core/influxdb
+
+1. On target device must exist all folders necessary for apps :
+    - /data/cellarstone.hub/core/cdn
+    - /data/cellarstone.hub/core/mongodb
+    - /data/cellarstone.hub/core/elasticsearch
+    - /data/cellarstone.hub/core/prometheus
+    - /data/cellarstone.hub/core/grafana
+    - /data/cellarstone.hub/core/influxdb
+
+2. On target device must be set all address on local /etc/hosts DNS file
+
+    So, open the file `sudo gedit /etc/hosts`
+
+    Add, all Hub's addresses. You will find you local IP address by `ifconfig` command
+
+    ```Shell
+    192.168.1.19   web.cellarstone.hub
+    192.168.1.19   admin.cellarstone.hub
+    192.168.1.19   api.cellarstone.hub
+    192.168.1.19   cdn.cellarstone.hub
+    192.168.1.19   workflow.cellarstone.hub
+    192.168.1.19   websockets.cellarstone.hub
+    192.168.1.19   meetingrooms.cellarstone.hub
+    192.168.1.19   reception.cellarstone.hub
+    192.168.1.19   officeapi.cellarstone.hub
+    ```
+
+# Development
+
+Run everything with this command.
+
+Linux : `docker-compose up` or `docker-compose up --build`
+
+# Proxy
+
+You can see every registered service with :
+
+`http://localhost:8080`
+
+
+# Routes
+
+Application | Url
+--- | ---
+Hub Web | http://web.cellarstone.hub
+Hub Admin | http://admin.cellarstone.hub
+Hub Api | http://api.cellarstone.hub/metrics
+Hub Cdn | http://cdn.cellarstone.hub
+Workflow Manager | http://workflow.cellarstone.hub
+Websockets | http://websockets.cellarstone.hub
+Office - meeting rooms | http://meetingrooms.cellarstone.hub
+Office - reception | http://reception.cellarstone.hub
+Office - api | http://officeapi.cellarstone.hub
+
 
 # Ports
 
 Port | Application
 --- | ---
-8080 | Nginx
+80 | Traefik proxy
 44401 | Core - Web
 44402 | Core - Admin
 44403 | Core - Api
@@ -44,12 +98,6 @@ Port | Application
 44513 | Office Module - Api
 
 
-
-# Author notes
-
-Inspect elasticsearch IP address
-
-`docker inspect cellarhub_elasticsearch_1 | grep IPAddress`
 
 
 # Commands for Linux
@@ -100,17 +148,21 @@ export ASPNETCORE_ENVIRONMENT="Development"
 # CORE
 # ----------------------------------
 
+# Proxy
+sudo docker build -t cellar.hub.proxy .
+sudo docker run -d -p 80:80 -p 8080:8080 -t cellar.hub.proxy
+
 # Web
-sudo docker build -t cellar.hub.web .
-sudo docker run -d -p 44401:44401 -t cellar.hub.web
+sudo docker build -t cellar.hub.core.web .
+sudo docker run -d -p 44401:44401 -t cellar.hub.core.web
 
 # Admin
-sudo docker build -t cellar.hub.admin .
-sudo docker run -d -p 44402:44402 -t cellar.hub.admin
+sudo docker build -t cellar.hub.core.admin .
+sudo docker run -d -p 44402:44402 -t cellar.hub.core.admin
 
 # API
-sudo docker build -t cellar.hub.api .
-sudo docker run -d -p 44403:44403 -t cellar.hub.api
+sudo docker build -t cellar.hub.core.api .
+sudo docker run -d -p 44403:44403 -t cellar.hub.core.api
 
 # Cdn
 sudo docker build -t cellar.hub.cdn .
@@ -199,3 +251,11 @@ docker rm --force @(docker ps -aq)
 docker rmi --force @(docker images -aq)
 
 ```
+
+
+
+# Author notes
+
+Inspect elasticsearch IP address
+
+`docker inspect cellarhub_elasticsearch_1 | grep IPAddress`

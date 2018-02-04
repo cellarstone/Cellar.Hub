@@ -1,20 +1,35 @@
-package main
+package mqtt
 
 import (
 	"fmt"
-	"log"
 	"math/rand"
-	"os"
 	"time"
 
 	"github.com/yosssi/gmq/mqtt"
 	"github.com/yosssi/gmq/mqtt/client"
 )
 
-func RunMqttTrigger() {
+// create type that return function.
+// this will be needed in main.go
+// type ServiceMiddleware func(Service) Service
+
+type Service interface {
+	PublishToMqtt(topic string, value string) error
+}
+
+type MqttService struct {
+	Mqtturl string
+}
+
+func NewService(mqtturl string) *MqttService {
+	return &MqttService{
+		Mqtturl: mqtturl,
+	}
+}
+
+func (s MqttService) PublishToMqtt(topic string, value string) error {
 
 	clientID := RandStringBytesMaskImprSrc(10)
-	mqttTopic := senzorID + "/" + topic
 
 	//--------------------------------------------------
 	//MQTT ---------------------------------------------
@@ -25,10 +40,7 @@ func RunMqttTrigger() {
 		// Define the processing of the error handler.
 		ErrorHandler: func(err error) {
 			//low-level exception logging
-			fmt.Println(err)
-			log.Fatalln(err)
-			logger.Fatal(err.Error())
-			os.Exit(1) // Exit a program
+			fmt.Println(err.Error())
 		},
 	})
 
@@ -38,40 +50,30 @@ func RunMqttTrigger() {
 	// Connect to the MQTT Server.
 	err2 := cli.Connect(&client.ConnectOptions{
 		Network:  "tcp",
-		Address:  MqttUrl,
+		Address:  s.Mqtturl,
 		ClientID: []byte(clientID),
 	})
 	if err2 != nil {
 		//low-level exception logging
-		fmt.Println(err2)
-		os.Exit(1) // Exit a program
+		return err2
 	}
 
-	// Subscribe to topics.
-	err2 = cli.Subscribe(&client.SubscribeOptions{
-		SubReqs: []*client.SubReq{
-			&client.SubReq{
-				TopicFilter: []byte(mqttTopic),
-				QoS:         mqtt.QoS1,
-				// Define the processing of the message handler.
-				Handler: processMessage,
-			},
-		},
+	// Publish a message.
+	err := cli.Publish(&client.PublishOptions{
+		QoS:       mqtt.QoS1,
+		TopicName: []byte(topic),
+		Message:   []byte(value),
 	})
-	if err2 != nil {
-		//low-level exception logging
-		fmt.Println(err2)
-		os.Exit(1) // Exit a program
+	if err != nil {
+		return err
 	}
+
+	return nil
 }
 
-func processMessage(topicName, message []byte) {
-
-	value := string(message)
-	logger.Information(value)
-
-	workflowIn <- value
-}
+//---------------------------------------------------------
+//HELPERS -------------------------------------------------
+//---------------------------------------------------------
 
 var src = rand.NewSource(time.Now().UnixNano())
 

@@ -5,16 +5,16 @@ services:
 # PROXY ***************************
 
   cellar-hub-proxy:
-    image: mynginx
+    image: cellar.hub.proxy
     build:
-      context: ./Nginx
+      context: ./Traefik
       dockerfile: Dockerfile
-    links:
-        - cellar-hub-core-web
-        - cellar-hub-core-admin
+    # command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
+      - 80:80
       - 8080:8080
-      - 8081:8081
 
 # CORE ***************************
 
@@ -23,21 +23,28 @@ services:
     build:
       context: ./Core/Web
       dockerfile: Dockerfile
-    # links:
-    #   - fluentd
-    # logging:
-    #   driver: "fluentd"
-    #   options:
-    #     fluentd-address: localhost:24224
-    #     tag: docker.cellar.hub.core.web
-    ports:
-    - "44401:44401"
+    labels:
+      - "traefik.port=44401"
+      - "traefik.backend=core-web"
+      - "traefik.frontend.rule=Host:web.cellarstone.hub"
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.core.web
+        mode: non-blocking
 
   cellar-hub-core-admin:
     image: cellar.hub.core.admin
     build:
       context: ./Core/Admin
       dockerfile: Dockerfile
+    labels:
+      - "traefik.port=44402"
+      - "traefik.backend=core-admin"
+      - "traefik.frontend.rule=Host:admin.cellarstone.hub"
     links:
       - fluentd
     logging:
@@ -45,14 +52,20 @@ services:
       options:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.core.admin
-    ports:
-    - "44402:44402"
+        mode: non-blocking
 
   cellar-hub-core-api:
     image: cellar.hub.core.api
+    environment:
+      - PORT=44403
+      - MQTT_URL=http://mqtt:1883
     build:
       context: ./Core/Api
       dockerfile: Dockerfile
+    labels:
+      - "traefik.port=44403"
+      - "traefik.backend=core-api"
+      - "traefik.frontend.rule=Host:api.cellarstone.hub"
     links:
       - fluentd
       - mongodb
@@ -61,14 +74,17 @@ services:
       options:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.core.api
-    ports:
-    - "44403:44403"
+        mode: non-blocking
 
   cellar-hub-core-cdn:
     image: cellar.hub.core.cdn
     build:
       context: ./Core/Cdn
       dockerfile: Dockerfile
+    labels:
+      - "traefik.port=44404"
+      - "traefik.backend=core-cdn"
+      - "traefik.frontend.rule=Host:cdn.cellarstone.hub"
     links:
       - fluentd
     logging:
@@ -76,8 +92,7 @@ services:
       options:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.core.cdn
-    ports:
-    - "44404:44404"
+        mode: non-blocking
     volumes:
      - /data/cellarstone.hub/core/cdn:/app/data
 
@@ -86,6 +101,10 @@ services:
     build:
       context: ./Core/Workflow
       dockerfile: Dockerfile
+    labels:
+      - "traefik.port=44405"
+      - "traefik.backend=core-workflow"
+      - "traefik.frontend.rule=Host:workflow.cellarstone.hub"
     links:
       - mongodb
       - fluentd
@@ -95,14 +114,17 @@ services:
       options:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.core.workflow
-    ports:
-      - "44405:44405"
+        mode: non-blocking
 
   cellar-hub-core-websockets:
     image: cellar.hub.core.websockets
     build:
       context: ./Core/Websockets
       dockerfile: Dockerfile
+    labels:
+      - "traefik.port=44406"
+      - "traefik.backend=core-websockets"
+      - "traefik.frontend.rule=Host:websockets.cellarstone.hub"
     links:
       - fluentd
     logging:
@@ -110,6 +132,7 @@ services:
       options:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.core.websockets
+        mode: non-blocking
     ports:
     - "44406:44406"
 
@@ -140,9 +163,9 @@ services:
 
   fluentd:
     image: cellar.hub.fluentd
-    build: ./Core/Log/fluentd
-    volumes:
-      - ./Core/Log/fluentd/conf:/fluentd/etc
+    build: 
+      context: ./Core/Log/fluentd
+      dockerfile: Dockerfile
     links:
       - "elasticsearch"
     ports:
@@ -210,6 +233,10 @@ services:
     build:
       context: ./Modules/Office/Api
       dockerfile: Dockerfile
+    labels:
+      - "traefik.port=44513"
+      - "traefik.backend=office-api"
+      - "traefik.frontend.rule=Host:office-api.cellarstone.hub"
     links:
       - fluentd
     logging:
@@ -217,6 +244,7 @@ services:
       options:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.module.office.api
+        mode: non-blocking
     ports:
     - "44513:44513"
 
@@ -225,6 +253,10 @@ services:
     build:
       context: ./Modules/Office/MeetingRooms
       dockerfile: Dockerfile
+    labels:
+      - "traefik.port=44511"
+      - "traefik.backend=office-meetingrooms"
+      - "traefik.frontend.rule=Host:meetingrooms.cellarstone.hub"
     links:
       - fluentd
     logging:
@@ -232,6 +264,7 @@ services:
       options:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.module.office.meetingrooms
+        mode: non-blocking
     ports:
     - "44511:44511"
 
@@ -240,6 +273,10 @@ services:
     build:
       context: ./Modules/Office/Reception
       dockerfile: Dockerfile
+    labels:
+      - "traefik.port=44512"
+      - "traefik.backend=office-reception"
+      - "traefik.frontend.rule=Host:reception.cellarstone.hub"
     links:
       - fluentd
     logging:
@@ -247,5 +284,6 @@ services:
       options:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.module.office.reception
+        mode: non-blocking
     ports:
     - "44512:44512"

@@ -3,5 +3,5 @@
     "configuration": "CpuFrequency=80,UploadSpeed=921600,FlashSize=4M3M",
     "port": "/dev/ttyUSB0",
     "sketch": "Core/Senzors/programs/relay/program.ino",
-    "output": "Cellar.Hub.Senzors/output"
+    "output": "Core/Senzors/output"
 }
