@@ -627,6 +627,8 @@ else
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
+                      --env PORT=44403 \
+                      --env MQTT_URL="http://mqtt:1883" \
                       --label traefik.port=44403 \
                       --label traefik.backend="core-api" \
                       --label traefik.frontend.rule="Host:api.cellarstone.hub" \
