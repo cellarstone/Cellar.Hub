@@ -24,7 +24,7 @@ import { ChangeDetectionStrategy } from '@angular/core/src/change_detection/cons
 })
 export class SenzorList implements OnInit {
 
-    private items$: Observable<CellarSenzor[]>;
+    items$: Observable<CellarSenzor[]>;
 
     
     constructor(private store: Store<ApplicationState>) {

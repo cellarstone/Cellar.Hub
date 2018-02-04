@@ -72,7 +72,7 @@ export class PirPanel implements OnInit {
   /* CHECK Senzor Actual State */
   //*********************************/
 
-  private checkSenzor() {
+  checkSenzor() {
 
     // CHECK PIR
     let vm = new PublishToMqttModel();

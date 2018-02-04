@@ -27,10 +27,9 @@ RUN npm run-script myserverbuild
 # Stage 2 
 # -------------------------------------------------
 FROM node:8-alpine
-EXPOSE 44402
 
 COPY --from=builder /usr/src/app/wwwroot /usr/src/app/wwwroot
-COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
+# COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
 COPY --from=builder /usr/src/app/package.json /usr/src/app/package.json
 COPY --from=builder /usr/src/app/server.js /usr/src/app/server.js
 
@@ -39,6 +38,9 @@ WORKDIR /usr/src/app
 
 RUN pwd
 RUN ls -l
+
+RUN npm install express
+
 
 # RUN npm install --only=production
 

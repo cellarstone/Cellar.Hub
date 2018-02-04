@@ -9,44 +9,51 @@ ADD . $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Workflow
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Workflow/cmd/workflow1
 RUN go-wrapper download
 RUN go-wrapper install
-RUN go build -o bin/workflow1 
+#RUN go build -o bin/workflow1 
+RUN GOOS=linux GOARCH=amd64 go build -o bin/workflow1 
 
 # Cellar workflow2 - get packages & build
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Workflow/cmd/workflow2
 RUN go-wrapper download
 RUN go-wrapper install
-RUN go build -o bin/workflow2
+#RUN go build -o bin/workflow2
+RUN GOOS=linux GOARCH=amd64 go build -o bin/workflow2
 
 # Cellar savetoprometheus - get packages & build
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Workflow/cmd/savetoprometheus
 RUN go-wrapper download
 RUN go-wrapper install
-RUN go build -o bin/savetoprometheus
+#RUN go build -o bin/savetoprometheus
+RUN GOOS=linux GOARCH=amd64 go build -o bin/savetoprometheus 
 
 # Cellar sendtowebsocket - get packages & build
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Workflow/cmd/sendtowebsocket
 RUN go-wrapper download
 RUN go-wrapper install
-RUN go build -o bin/sendtowebsocket
+#RUN go build -o bin/sendtowebsocket
+RUN GOOS=linux GOARCH=amd64 go build -o bin/sendtowebsocket
 
 # Cellar savetofluentd - get packages & build
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Workflow/cmd/savetofluentd
 RUN go-wrapper download
 RUN go-wrapper install
-RUN go build -o bin/savetofluentd
+#RUN go build -o bin/savetofluentd
+RUN GOOS=linux GOARCH=amd64 go build -o bin/savetofluentd
 
 # Cellar cancelmeeting - get packages & build
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Workflow/cmd/cancelmeeting
 RUN go-wrapper download
 RUN go-wrapper install
-RUN go build -o bin/cancelmeeting
+#RUN go build -o bin/cancelmeeting
+RUN GOOS=linux GOARCH=amd64 go build -o bin/cancelmeeting
 
 
 # Cellar workflow manager - get packages & build
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Workflow/manager
 RUN go-wrapper download
 RUN go-wrapper install
-RUN go build -o cellarworkflowmanager  
+#RUN go build -o cellarworkflowmanager
+RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o cellarworkflowmanager  
 
 
 
@@ -72,19 +79,20 @@ RUN ls -l
 # -----------------------
 # Stage 2
 # -----------------------
-#  FROM alpine:latest
-#  RUN apk --no-cache add ca-certificates
-FROM golang
- WORKDIR /app
- COPY --from=0 /go/src/github.com/cellarstone/Cellar.Hub/Core/Workflow/manager/ /app/
- RUN ls -l  
-#  CMD workflow1
-#ENTRYPOINT ./cellarworkflowmanager
+# FROM golang
+#  WORKDIR /app
+#  COPY --from=0 /go/src/github.com/cellarstone/Cellar.Hub/Core/Workflow/manager/ /app/
+#  RUN ls -l  
+
+# CMD ["./cellarworkflowmanager"]
 
 
 
-#CMD cellarworkflowmanager
+FROM alpine:3.5
+COPY --from=0 /go/src/github.com/cellarstone/Cellar.Hub/Core/Workflow/manager/ /app/
+RUN chmod +x /app/cellarworkflowmanager
 
-CMD ["./cellarworkflowmanager"]
-# CMD ["/go/src/github.com/cellarstone/Cellar.Hub/Core/Workflow/cmd/workflow1/workflow1"]
-# CMD workflow1
+# helpers
+RUN ls -l  
+
+ENTRYPOINT /app/cellarworkflowmanager

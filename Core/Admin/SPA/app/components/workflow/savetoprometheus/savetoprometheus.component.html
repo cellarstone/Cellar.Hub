@@ -63,32 +63,31 @@
                 <div class="ui-g-12 ui-md-12">
                   <label for="name">Workflow Name</label>
                   <div class="ui-fluid">
-                    <input id="name" type="text" pInputText [(ngModel)]="workflowName" [ngClass]="{'nonvalid': !isNameValid }" disabled />
+                    <input id="name" type="text" pInputText [(ngModel)]="workflowName" disabled />
                   </div>
                 </div>
                 <div class="ui-g-12 ui-md-12">
                   <label for="senzorid">Senzor ID</label>
                   <div class="ui-fluid">
-                    <input id="senzorid" type="text" pInputText [(ngModel)]="senzorID" [ngClass]="{'nonvalid': !isPathValid }" />
+                    <input id="senzorid" type="text" pInputText [(ngModel)]="senzorID" />
                   </div>
                 </div>
                 <div class="ui-g-12 ui-md-12">
                   <label for="topic">Topic</label>
                   <div class="ui-fluid">
-                    <input id="topic" type="text" pInputText [(ngModel)]="topic" [ngClass]="{'nonvalid': !isWifiSSIDValid }" />
+                    <input id="topic" type="text" pInputText [(ngModel)]="topic"  />
                   </div>
                 </div>
                 <div class="ui-g-12 ui-md-12">
                   <label for="mqtturl">MQTT Url</label>
                   <div class="ui-fluid">
-                    <input id="mqtturl" type="text" pInputText [(ngModel)]="MqttUrl" [ngClass]="{'nonvalid': !isWifiPasswordValid }"
-                    />
+                    <input id="mqtturl" type="text" pInputText [(ngModel)]="MqttUrl" />
                   </div>
                 </div>
                 <div class="ui-g-12 ui-md-12">
                   <label for="prometheusurl">Prometheus Url</label>
                   <div class="ui-fluid">
-                    <input id="prometheusurl" type="text" pInputText [(ngModel)]="gatewayUrl" [ngClass]="{'nonvalid': !isMqttValid }" />
+                    <input id="prometheusurl" type="text" pInputText [(ngModel)]="gatewayUrl" />
                   </div>
                 </div>
               </div>

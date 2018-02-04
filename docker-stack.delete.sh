@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # FLUENTD ---------------------------------------------
 docker service rm fluentd
@@ -76,11 +76,12 @@ docker service rm cellar-hub-module-office-reception
 docker service rm cellar-hub-proxy
 
 
-
-until docker ps --no-trunc | grep 'cellar'
+temp=`docker ps --no-trunc | grep -c 'cellar'`
+while [ $temp -gt 0 ]
 do
     echo "wait for container"
     sleep 1
+    temp=`docker ps --no-trunc | grep -c 'cellar'`
 done
 
 

@@ -13,7 +13,7 @@ declare var jQuery: any;
 export class SenzorBaseInfoComponent implements OnInit {
 
   @Input()
-  private item: CellarSenzor;
+  item: CellarSenzor;
 
   @Output() onSave = new EventEmitter<CellarSenzor>();
   @Output() onCancel = new EventEmitter();
@@ -63,7 +63,7 @@ export class SenzorBaseInfoComponent implements OnInit {
   }
 
 
-  private saveSenzor() {
+  saveSenzor() {
 
 
     this.item.type = this.selectedType;
@@ -158,11 +158,11 @@ export class SenzorBaseInfoComponent implements OnInit {
   }
 
 
-  private deleteSenzor() {
+  deleteSenzor() {
     this.onDelete.emit(this.item);
   }
 
-  private cancelSenzor() {
+  cancelSenzor() {
     // go in router history back
     this.onCancel.emit();
   }
@@ -172,7 +172,7 @@ export class SenzorBaseInfoComponent implements OnInit {
   //STATE
   //*********************************/
 
-  public selectState(e: any) {
+  selectState(e: any) {
     var aaa = e.srcElement.innerHTML.toLowerCase();
     if (aaa === "new") {
       this.item.state = "1";

@@ -12,7 +12,7 @@ declare var jQuery: any;
 export class SavetoprometheusComponent implements OnInit {
 
   @Input()
-  private item: CellarWorkflow;
+  item: CellarWorkflow;
 
   @Output() onSave = new EventEmitter<CellarWorkflow>();
   @Output() onCancel = new EventEmitter();
@@ -79,7 +79,7 @@ export class SavetoprometheusComponent implements OnInit {
 
 
 
-  private saveWorkflow() {
+  saveWorkflow() {
 
 
 
@@ -115,11 +115,11 @@ export class SavetoprometheusComponent implements OnInit {
   }
 
 
-  private deleteWorkflow() {
+  deleteWorkflow() {
     this.onDelete.emit(this.item);
   }
 
-  private cancelWorkflow() {
+  cancelWorkflow() {
     // go in router history back
     this.onCancel.emit();
   }
@@ -131,7 +131,7 @@ export class SavetoprometheusComponent implements OnInit {
   //STATE
   //*********************************/
 
-  public selectState(e: any) {
+  selectState(e: any) {
     var aaa = e.srcElement.innerHTML.toLowerCase();
     if (aaa === "new") {
       this.item.state = "1";
