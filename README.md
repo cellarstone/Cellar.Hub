@@ -12,6 +12,8 @@ DEPRECATED - don't use docker stack, because it doesn't support `mode=non-blocki
 
 Linux : `docker stack deploy -c docker-stack.yml cellarhub --with-registry-auth`
 
+
+
 ## Warning
 
 
@@ -261,3 +263,16 @@ docker rmi --force @(docker images -aq)
 Inspect elasticsearch IP address
 
 `docker inspect cellarhub_elasticsearch_1 | grep IPAddress`
+
+
+
+
+# BUILD VERSION vs. PROD VERSION
+
+Build version
+
+![BUILD VERSION](https://storage.googleapis.com/cellarstone-public-images/BUILD_VERSION.png "Build version")
+
+Production version
+
+![PROD VERSION](https://storage.googleapis.com/cellarstone-public-images/PROD_VERSION.png "Production version")
