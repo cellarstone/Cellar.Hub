@@ -296,7 +296,6 @@ services:
       driver: "fluentd"
       options:
         tag: docker.cellar.hub.core.web
-        mode: non-blocking
     ports:
     - "44401:44401"
 
@@ -319,7 +318,6 @@ services:
       driver: "fluentd"
       options:
         tag: docker.cellar.hub.core.admin
-        mode: non-blocking
     ports:
     - "44402:44402"
 
@@ -342,7 +340,6 @@ services:
       driver: "fluentd"
       options:
         tag: docker.cellar.hub.core.api
-        mode: non-blocking
     ports:
     - "44403:44403"
 
@@ -365,7 +362,6 @@ services:
       driver: "fluentd"
       options:
         tag: docker.cellar.hub.core.cdn
-        mode: non-blocking
     volumes:
      - /data/cellarstone.hub/core/cdn:/app/data
     ports:
@@ -391,7 +387,8 @@ services:
       driver: "fluentd"
       options:
         tag: docker.cellar.hub.core.workflow
-        mode: non-blocking
+    log_opt:
+      mode: non-blocking
     ports:
       - "44405:44405"
 
@@ -414,7 +411,8 @@ services:
       driver: "fluentd"
       options:
         tag: docker.cellar.hub.core.websockets
-        mode: non-blocking
+    log_opt:
+      mode: non-blocking
     ports:
     - "44406:44406"
 
