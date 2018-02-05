@@ -9,11 +9,11 @@ import (
 	"os/signal"
 	"syscall"
 
-	iot "../iot"
-	mqtt "../mqtt"
+	// iot "../iot"
+	// mqtt "../mqtt"
 
-	// "github.com/cellarstone/Cellar.Hub/Core/Api/iot"
-	// "github.com/cellarstone/Cellar.Hub/Core/Api/mqtt"
+	"github.com/cellarstone/Cellar.Hub/Core/Api/iot"
+	"github.com/cellarstone/Cellar.Hub/Core/Api/mqtt"
 	"github.com/go-kit/kit/log"
 	kitprometheus "github.com/go-kit/kit/metrics/prometheus"
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
