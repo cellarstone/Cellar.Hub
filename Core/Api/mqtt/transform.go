@@ -28,7 +28,7 @@ func MakeHttpHandler(ctx context.Context, endpoint Endpoints, logger kitlog.Logg
 		httptransport.ServerErrorEncoder(encodeError),
 	}
 
-	r.Methods("POST").Path("/publishtomqtt").Handler(httptransport.NewServer(
+	r.Methods("POST").Path("/mqtt/publishtomqtt").Handler(httptransport.NewServer(
 		endpoint.PublishToMqttEndpoint,
 		decodePublishToMqttRequest,
 		encodePublishToMqttResponse,
