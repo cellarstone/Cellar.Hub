@@ -42,12 +42,12 @@
         "../SPA/assets/SplitText.js",
         "../SPA/assets/ThrowPropsPlugin.js"
       ],
-      "environmentSource": "SPA/environments/environment.ts",
+      "environmentSource": "environments/environment.ts",
       "environments": {
-        "source": "SPA/environments/environment.ts",
-        "dev": "SPA/environments/environment.ts",
-        "prod": "SPA/environments/environment.prod.ts"
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
       }
+
     }
   ],
   "lint": [
