@@ -2,7 +2,6 @@ FROM golang
 ADD . $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Api
 
 
-
 # Cellar websockets - get packages & build
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Api/server.d
 RUN go-wrapper download

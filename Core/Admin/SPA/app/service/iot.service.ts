@@ -63,27 +63,27 @@ export class IoTService {
             this.serverUrl = "http://localhost:44403";
         }
 
-        this.url_getAllCellarPlaces = this.serverUrl + '/Space/GetAllCellarPlaces';
-        this.url_getCellarPlace = this.serverUrl + '/Space/GetCellarPlace';
-        this.url_addCellarPlace = this.serverUrl + '/Space/AddCellarPlace';
-        this.url_removeCellarPlace = this.serverUrl + '/Space/RemoveCellarPlace';
-        this.url_updateCellarPlace = this.serverUrl + '/Space/UpdateCellarPlace';
+        this.url_getAllCellarPlaces = this.serverUrl + '/iot/GetAllCellarPlaces';
+        this.url_getCellarPlace = this.serverUrl + '/iot/GetCellarPlace';
+        this.url_addCellarPlace = this.serverUrl + '/iot/AddCellarPlace';
+        this.url_removeCellarPlace = this.serverUrl + '/iot/RemoveCellarPlace';
+        this.url_updateCellarPlace = this.serverUrl + '/iot/UpdateCellarPlace';
 
-        this.url_getAllCellarSpaces = this.serverUrl + '/Space/GetAllCellarSpaces';
-        this.url_getCellarSpaces = this.serverUrl + '/Space/GetCellarSpaces';
-        this.url_removeCellarSpaces = this.serverUrl + '/Space/RemoveCellarSpaces';
-        this.url_getCellarSpace = this.serverUrl + '/Space/GetCellarSpace';
-        this.url_addCellarSpace = this.serverUrl + '/Space/AddCellarSpace';
-        this.url_removeCellarSpace = this.serverUrl + '/Space/RemoveCellarSpace';
-        this.url_updateCellarSpace = this.serverUrl + '/Space/UpdateCellarSpace';
+        this.url_getAllCellarSpaces = this.serverUrl + '/iot/GetAllCellarSpaces';
+        this.url_getCellarSpaces = this.serverUrl + '/iot/GetCellarSpaces';
+        this.url_removeCellarSpaces = this.serverUrl + '/iot/RemoveCellarSpaces';
+        this.url_getCellarSpace = this.serverUrl + '/iot/GetCellarSpace';
+        this.url_addCellarSpace = this.serverUrl + '/iot/AddCellarSpace';
+        this.url_removeCellarSpace = this.serverUrl + '/iot/RemoveCellarSpace';
+        this.url_updateCellarSpace = this.serverUrl + '/iot/UpdateCellarSpace';
 
-        this.url_getAllCellarSenzors = this.serverUrl + '/Space/GetAllCellarSenzors';
-        this.url_getCellarSenzors = this.serverUrl + '/Space/GetCellarSenzors';
-        this.url_removeCellarSenzors = this.serverUrl + '/Space/RemoveCellarSenzors';
-        this.url_getCellarSenzor = this.serverUrl + '/Space/GetCellarSenzor';
-        this.url_addCellarSenzor = this.serverUrl + '/Space/AddCellarSenzor';
-        this.url_removeCellarSenzor = this.serverUrl + '/Space/RemoveCellarSenzor';
-        this.url_updateCellarSenzor = this.serverUrl + '/Space/UpdateCellarSenzor';
+        this.url_getAllCellarSenzors = this.serverUrl + '/iot/GetAllCellarSenzors';
+        this.url_getCellarSenzors = this.serverUrl + '/iot/GetCellarSenzors';
+        this.url_removeCellarSenzors = this.serverUrl + '/iot/RemoveCellarSenzors';
+        this.url_getCellarSenzor = this.serverUrl + '/iot/GetCellarSenzor';
+        this.url_addCellarSenzor = this.serverUrl + '/iot/AddCellarSenzor';
+        this.url_removeCellarSenzor = this.serverUrl + '/iot/RemoveCellarSenzor';
+        this.url_updateCellarSenzor = this.serverUrl + '/iot/UpdateCellarSenzor';
 
     }
 

@@ -13,40 +13,6 @@
             "cwd": "${file}"
         },
         {
-            "name": "DataFlow debug",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceRoot}/Cellar.Hub.DataFlow/bin/Debug/netcoreapp2.0/Cellar.Hub.DataFlow.dll",
-            "args": [],
-            "cwd": "${workspaceRoot}/Cellar.Hub.DataFlow",
-            // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
-            "console": "internalConsole",
-            "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart",
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            }
-        },
-        {
-            "name": "Api debug",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "buildApi",
-            // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceRoot}/Cellar.Hub.Api/bin/Debug/netcoreapp2.0/Cellar.Hub.Api.dll",
-            "args": [],
-            "cwd": "${workspaceRoot}/Cellar.Hub.Api",
-            // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
-            "console": "internalConsole",
-            "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart",
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            }
-        },
-        {
             "name": "Cdn debug",
             "type": "coreclr",
             "request": "launch",
@@ -64,26 +30,6 @@
             }
         },
         {
-            "name": "Web debug",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceRoot}/Cellar.Hub.Web/bin/Debug/netcoreapp2.0/Cellar.Hub.Web.dll",
-            "args": [],
-            "cwd": "${workspaceRoot}/Cellar.Hub.Web",
-            // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
-            "console": "internalConsole",
-            "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart"
-        },
-        {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
-            "request": "attach",
-            "processId": "${command:pickProcess}"
-        },
-        {
             "name": "Workflow/manager",
             "type": "go",
             "request": "launch",
@@ -92,6 +38,19 @@
             "port": 44405,
             "host": "127.0.0.1",
             "program": "${workspaceRoot}/Cellar.Hub.Workflow/manager",
+            "env": {},
+            "args": [],
+            "showLog": true
+        },
+        {
+            "name": "Api",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "remotePath": "",
+            "port": 44403,
+            "host": "127.0.0.1",
+            "program": "${workspaceRoot}/Core/Api/server.d",
             "env": {},
             "args": [],
             "showLog": true

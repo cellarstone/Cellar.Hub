@@ -563,6 +563,7 @@ else
                       --network cellarstone-net \
                       --label traefik.enable=true \
                       --label traefik.port=44401 \
+                      --label traefik.docker.network=cellarstone-net \
                       --label traefik.backend=core-web \
                       --label traefik.frontend.rule=Host:web.cellarstone.hub \
                       --log-driver fluentd \
@@ -612,6 +613,7 @@ else
                       --network cellarstone-net \
                       --label traefik.enable=true \
                       --label traefik.port=44402 \
+                      --label traefik.docker.network=cellarstone-net \
                       --label traefik.backend=core-admin \
                       --label traefik.frontend.rule=Host:admin.cellarstone.hub \
                       --log-driver fluentd \
@@ -663,6 +665,7 @@ else
                       --env MQTT_URL="http://mqtt:1883" \
                       --label traefik.enable=true \
                       --label traefik.port=44403 \
+                      --label traefik.docker.network=cellarstone-net \
                       --label traefik.backend=core-api \
                       --label traefik.frontend.rule=Host:api.cellarstone.hub \
                       --log-driver fluentd \
@@ -712,6 +715,7 @@ else
                       --network cellarstone-net \
                       --label traefik.enable=true \
                       --label traefik.port=44404 \
+                      --label traefik.docker.network=cellarstone-net \
                       --label traefik.backend=core-cdn \
                       --label traefik.frontend.rule=Host:cdn.cellarstone.hub \
                       --log-driver fluentd \
@@ -763,6 +767,7 @@ else
                       --network cellarstone-net \
                       --label traefik.enable=true \
                       --label traefik.port=44405 \
+                      --label traefik.docker.network=cellarstone-net \
                       --label traefik.backend=core-workflow \
                       --label traefik.frontend.rule=Host:workflow.cellarstone.hub \
                       --log-driver fluentd \
@@ -813,6 +818,7 @@ else
                       --network cellarstone-net \
                       --label traefik.enable=true \
                       --label traefik.port=44406 \
+                      --label traefik.docker.network=cellarstone-net \
                       --label traefik.backend=core-websockets \
                       --label traefik.frontend.rule=Host:websockets.cellarstone.hub \
                       --log-driver fluentd \
@@ -865,6 +871,7 @@ else
                       --network cellarstone-net \
                       --label traefik.enable=true \
                       --label traefik.port=44513 \
+                      --label traefik.docker.network=cellarstone-net \
                       --label traefik.backend=office-api \
                       --label traefik.frontend.rule=Host:officeapi.cellarstone.hub \
                       --log-driver fluentd \
@@ -915,6 +922,7 @@ else
                       --network cellarstone-net \
                       --label traefik.enable=true \
                       --label traefik.port=44511 \
+                      --label traefik.docker.network=cellarstone-net \
                       --label traefik.backend=office-meetingrooms \
                       --label traefik.frontend.rule=Host:meetingrooms.cellarstone.hub \
                       --log-driver fluentd \
@@ -965,6 +973,7 @@ else
                       --network cellarstone-net \
                       --label traefik.enable=true \
                       --label traefik.port=44512 \
+                      --label traefik.docker.network=cellarstone-net \
                       --label traefik.backend=office-reception \
                       --label traefik.frontend.rule=Host:reception.cellarstone.hub \
                       --log-driver fluentd \

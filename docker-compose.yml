@@ -56,28 +56,29 @@ services:
         tag: docker.cellar.hub.core.admin
         mode: non-blocking
 
-  cellar-hub-core-api:
-    image: cellar.hub.core.api
-    environment:
-      - PORT=44403
-      - MQTT_URL=http://mqtt:1883
-    build:
-      context: ./Core/Api
-      dockerfile: Dockerfile
-    labels:
-      - "traefik.enabled=true"
-      - "traefik.port=44403"
-      - "traefik.backend=core-api"
-      - "traefik.frontend.rule=Host:api.cellarstone.hub"
-    links:
-      - fluentd
-      - mongodb
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: docker.cellar.hub.core.api
-        mode: non-blocking
+  # cellar-hub-core-api:
+  #   image: cellar.hub.core.api
+  #   environment:
+  #     - PORT=44403
+  #     - MQTT_URL=http://mqtt:1883
+  #     - MONGO_URL=mongodb
+  #   build:
+  #     context: ./Core/Api
+  #     dockerfile: Dockerfile
+  #   labels:
+  #     - "traefik.enabled=true"
+  #     - "traefik.port=44403"
+  #     - "traefik.backend=core-api"
+  #     - "traefik.frontend.rule=Host:api.cellarstone.hub"
+  #   links:
+  #     - fluentd
+  #     - mongodb
+  #   logging:
+  #     driver: "fluentd"
+  #     options:
+  #       fluentd-address: localhost:24224
+  #       tag: docker.cellar.hub.core.api
+  #       mode: non-blocking
 
   cellar-hub-core-cdn:
     image: cellar.hub.core.cdn
