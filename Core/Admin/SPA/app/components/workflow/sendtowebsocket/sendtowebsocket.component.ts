@@ -62,11 +62,11 @@ export class SendtowebsocketComponent implements OnInit {
     }
 
     if (this.MqttUrl == "") {
-      this.MqttUrl = "cellar.hub.mqtt:1883";
+      this.MqttUrl = "mqtt:1883";
     }
 
     if (this.websocketUrl == "") {
-      this.websocketUrl = "cellar.hub.websockets:44406";
+      this.websocketUrl = "cellar-hub-core-websockets:44406";
     }
 
   }

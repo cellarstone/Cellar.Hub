@@ -1,6 +1,8 @@
 package iot
 
 import (
+	"log"
+
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -12,7 +14,7 @@ import (
 //-----------------------------
 
 type CellarSpace struct {
-	ID    bson.ObjectId `json:"_id" bson:"_id,omitempty"`
+	ID    bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Name  string        `json:"name" bson:"name"`
 	State string        `json:"state" bson:"state"`
 	Image string        `json:"image" bson:"image"`
@@ -20,7 +22,7 @@ type CellarSpace struct {
 }
 
 type CellarPlace struct {
-	ID         bson.ObjectId `json:"_id" bson:"_id,omitempty"`
+	ID         bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Name       string        `json:"name" bson:"name"`
 	State      string        `json:"state" bson:"state"`
 	Path       string        `json:"path" bson:"path"`
@@ -33,7 +35,7 @@ type CellarPlace struct {
 }
 
 type CellarSenzor struct {
-	ID           bson.ObjectId `json:"_id" bson:"_id,omitempty"`
+	ID           bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Name         string        `json:"name" bson:"name"`
 	State        string        `json:"state" bson:"state"`
 	Path         string        `json:"path" bson:"path"`
@@ -57,24 +59,24 @@ type Service interface {
 	GetRootSpaces() ([]CellarSpace, error)
 	GetSpaces(path string) ([]CellarSpace, error)
 	RemoveSpaces(path string) error
-	GetSpace(path string) (CellarSpace, error)
-	AddSpace(item CellarSpace) error
+	GetSpace(id string) (CellarSpace, error)
+	AddSpace(item CellarSpace) (CellarSpace, error)
 	RemoveSpace(id string) error
-	UpdateSpace(item CellarSpace) error
+	UpdateSpace(item CellarSpace) (CellarSpace, error)
 	//Senzor
 	GetAllSenzors() ([]CellarSenzor, error)
 	GetSenzors(path string) ([]CellarSenzor, error)
 	RemoveSenzors(path string) error
 	GetSenzor(id string) (CellarSenzor, error)
-	AddSenzor(item CellarSenzor) error
+	AddSenzor(item CellarSenzor) (CellarSenzor, error)
 	RemoveSenzor(id string) error
-	UpdateSenzor(item CellarSenzor) error
+	UpdateSenzor(item CellarSenzor) (CellarSenzor, error)
 	//Place
 	GetAllPlaces() ([]CellarPlace, error)
 	GetPlace(id string) (CellarPlace, error)
-	AddPlace(item CellarPlace) error
+	AddPlace(item CellarPlace) (CellarPlace, error)
 	RemovePlace(id string) error
-	UpdatePlace(item CellarPlace) error
+	UpdatePlace(item CellarPlace) (CellarPlace, error)
 }
 
 type IotService struct {
@@ -82,8 +84,15 @@ type IotService struct {
 }
 
 var Database = "HubDatabase"
+var session *mgo.Session
 
 func NewService(mongodburl string) *IotService {
+
+	var err error
+	if session, err = mgo.Dial(mongodburl); err != nil {
+		log.Fatal(err)
+	}
+
 	return &IotService{
 		MongoDbUrl: mongodburl,
 	}
@@ -94,18 +103,15 @@ func NewService(mongodburl string) *IotService {
 //-----------------------------
 
 func (s IotService) GetAllSpaces() ([]CellarSpace, error) {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return nil, err
-	}
-	defer session.Close()
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Spaces")
+	table := sess.DB(Database).C("Spaces")
 
 	//SELECT
 	var result []CellarSpace
-	err = table.Find(nil).All(&result)
+	err := table.Find(nil).All(&result)
 	if err != nil {
 		return nil, err
 	}
@@ -114,20 +120,17 @@ func (s IotService) GetAllSpaces() ([]CellarSpace, error) {
 }
 
 func (s IotService) GetRootSpaces() ([]CellarSpace, error) {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return nil, err
-	}
-	defer session.Close()
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Spaces")
+	table := sess.DB(Database).C("Spaces")
 
 	// var bsonQuery = "{path: /^\/[A-Za-z0-9]*$/ }"
 
 	//SELECT
 	var result []CellarSpace
-	err = table.Find(bson.M{"path": bson.M{"$regex": bson.RegEx{`^\/[A-Za-z0-9]*$`, ""}}}).All(&result)
+	err := table.Find(bson.M{"path": bson.M{"$regex": bson.RegEx{`^\/[A-Za-z0-9]*$`, ""}}}).All(&result)
 	if err != nil {
 		return nil, err
 	}
@@ -136,18 +139,15 @@ func (s IotService) GetRootSpaces() ([]CellarSpace, error) {
 }
 
 func (s IotService) GetSpaces(path string) ([]CellarSpace, error) {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return nil, err
-	}
-	defer session.Close()
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Spaces")
+	table := sess.DB(Database).C("Spaces")
 
 	//SELECT
 	var result []CellarSpace
-	err = table.Find(bson.M{"path": bson.M{"$regex": bson.RegEx{`^` + path + `/`, ""}}}).All(&result)
+	err := table.Find(bson.M{"path": bson.M{"$regex": bson.RegEx{`^` + path + `$`, ""}}}).All(&result)
 	if err != nil {
 		return nil, err
 	}
@@ -156,17 +156,14 @@ func (s IotService) GetSpaces(path string) ([]CellarSpace, error) {
 }
 
 func (s IotService) RemoveSpaces(path string) error {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return err
-	}
-	defer session.Close()
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Spaces")
+	table := sess.DB(Database).C("Spaces")
 
 	//SELECT
-	_, err = table.RemoveAll(bson.M{"path": bson.M{"$regex": bson.RegEx{`^` + path + `/`, ""}}})
+	_, err := table.RemoveAll(bson.M{"path": bson.M{"$regex": bson.RegEx{`^` + path, ""}}})
 	if err != nil {
 		return err
 	}
@@ -174,19 +171,16 @@ func (s IotService) RemoveSpaces(path string) error {
 	return nil
 }
 
-func (s IotService) GetSpace(path string) (CellarSpace, error) {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return CellarSpace{}, err
-	}
-	defer session.Close()
+func (s IotService) GetSpace(id string) (CellarSpace, error) {
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Spaces")
+	table := sess.DB(Database).C("Spaces")
 
 	//SELECT
 	var result CellarSpace
-	err = table.Find(bson.M{"path": path}).One(&result)
+	err := table.Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&result)
 	if err != nil {
 		return CellarSpace{}, err
 	}
@@ -194,37 +188,34 @@ func (s IotService) GetSpace(path string) (CellarSpace, error) {
 	return result, nil
 }
 
-func (s IotService) AddSpace(item CellarSpace) error {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return err
-	}
-	defer session.Close()
+func (s IotService) AddSpace(item CellarSpace) (CellarSpace, error) {
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Spaces")
+	table := sess.DB(Database).C("Spaces")
+
+	//New ID
+	item.ID = bson.NewObjectId()
 
 	//SELECT
-	err = table.Insert(&item)
+	err := table.Insert(&item)
 	if err != nil {
-		return err
+		return CellarSpace{}, err
 	}
 
-	return nil
+	return item, nil
 }
 
 func (s IotService) RemoveSpace(id string) error {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return err
-	}
-	defer session.Close()
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Spaces")
+	table := sess.DB(Database).C("Spaces")
 
 	//SELECT
-	err = table.Remove(bson.M{"_id": id})
+	err := table.Remove(bson.M{"_id": bson.ObjectIdHex(id)})
 	if err != nil {
 		return err
 	}
@@ -232,24 +223,21 @@ func (s IotService) RemoveSpace(id string) error {
 	return nil
 }
 
-func (s IotService) UpdateSpace(item CellarSpace) error {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return err
-	}
-	defer session.Close()
+func (s IotService) UpdateSpace(item CellarSpace) (CellarSpace, error) {
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Spaces")
+	table := sess.DB(Database).C("Spaces")
 
 	// Update
 	colQuerier := bson.M{"_id": item.ID}
-	err = table.Update(colQuerier, item)
+	err := table.Update(colQuerier, item)
 	if err != nil {
-		panic(err)
+		return CellarSpace{}, err
 	}
 
-	return nil
+	return item, nil
 }
 
 //-----------------------------
@@ -257,18 +245,15 @@ func (s IotService) UpdateSpace(item CellarSpace) error {
 //-----------------------------
 
 func (s IotService) GetAllSenzors() ([]CellarSenzor, error) {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return nil, err
-	}
-	defer session.Close()
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Senzors")
+	table := sess.DB(Database).C("Senzors")
 
 	//SELECT
 	var result []CellarSenzor
-	err = table.Find(nil).All(&result)
+	err := table.Find(nil).All(&result)
 	if err != nil {
 		return nil, err
 	}
@@ -277,18 +262,15 @@ func (s IotService) GetAllSenzors() ([]CellarSenzor, error) {
 }
 
 func (s IotService) GetSenzors(path string) ([]CellarSenzor, error) {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return nil, err
-	}
-	defer session.Close()
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Senzors")
+	table := sess.DB(Database).C("Senzors")
 
 	//SELECT
 	var result []CellarSenzor
-	err = table.Find(bson.M{"path": bson.M{"$regex": bson.RegEx{`^` + path + `/`, ""}}}).All(&result)
+	err := table.Find(bson.M{"path": bson.M{"$regex": bson.RegEx{`^` + path + `$`, ""}}}).All(&result)
 	if err != nil {
 		return nil, err
 	}
@@ -297,17 +279,14 @@ func (s IotService) GetSenzors(path string) ([]CellarSenzor, error) {
 }
 
 func (s IotService) RemoveSenzors(path string) error {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return err
-	}
-	defer session.Close()
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Senzors")
+	table := sess.DB(Database).C("Senzors")
 
 	//SELECT
-	_, err = table.RemoveAll(bson.M{"path": bson.M{"$regex": bson.RegEx{`^` + path + `/`, ""}}})
+	_, err := table.RemoveAll(bson.M{"path": bson.M{"$regex": bson.RegEx{`^` + path, ""}}})
 	if err != nil {
 		return err
 	}
@@ -315,19 +294,16 @@ func (s IotService) RemoveSenzors(path string) error {
 	return nil
 }
 
-func (s IotService) GetSenzor(path string) (CellarSenzor, error) {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return CellarSenzor{}, err
-	}
-	defer session.Close()
+func (s IotService) GetSenzor(id string) (CellarSenzor, error) {
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Senzors")
+	table := sess.DB(Database).C("Senzors")
 
 	//SELECT
 	var result CellarSenzor
-	err = table.Find(bson.M{"path": path}).One(&result)
+	err := table.Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&result)
 	if err != nil {
 		return CellarSenzor{}, err
 	}
@@ -335,37 +311,34 @@ func (s IotService) GetSenzor(path string) (CellarSenzor, error) {
 	return result, nil
 }
 
-func (s IotService) AddSenzor(item CellarSenzor) error {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return err
-	}
-	defer session.Close()
+func (s IotService) AddSenzor(item CellarSenzor) (CellarSenzor, error) {
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Senzors")
+	table := sess.DB(Database).C("Senzors")
+
+	//New ID
+	item.ID = bson.NewObjectId()
 
 	//SELECT
-	err = table.Insert(&item)
+	err := table.Insert(&item)
 	if err != nil {
-		return err
+		return CellarSenzor{}, err
 	}
 
-	return nil
+	return item, nil
 }
 
 func (s IotService) RemoveSenzor(id string) error {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return err
-	}
-	defer session.Close()
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Senzors")
+	table := sess.DB(Database).C("Senzors")
 
 	//SELECT
-	err = table.Remove(bson.M{"_id": id})
+	err := table.Remove(bson.M{"_id": bson.ObjectIdHex(id)})
 	if err != nil {
 		return err
 	}
@@ -373,24 +346,21 @@ func (s IotService) RemoveSenzor(id string) error {
 	return nil
 }
 
-func (s IotService) UpdateSenzor(item CellarSenzor) error {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return err
-	}
-	defer session.Close()
+func (s IotService) UpdateSenzor(item CellarSenzor) (CellarSenzor, error) {
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Senzors")
+	table := sess.DB(Database).C("Senzors")
 
 	// Update
 	colQuerier := bson.M{"_id": item.ID}
-	err = table.Update(colQuerier, item)
+	err := table.Update(colQuerier, item)
 	if err != nil {
-		panic(err)
+		return CellarSenzor{}, err
 	}
 
-	return nil
+	return item, nil
 }
 
 //-----------------------------
@@ -398,18 +368,15 @@ func (s IotService) UpdateSenzor(item CellarSenzor) error {
 //-----------------------------
 
 func (s IotService) GetAllPlaces() ([]CellarPlace, error) {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return nil, err
-	}
-	defer session.Close()
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Places")
+	table := sess.DB(Database).C("Places")
 
 	//SELECT
 	var result []CellarPlace
-	err = table.Find(nil).All(&result)
+	err := table.Find(nil).All(&result)
 	if err != nil {
 		return nil, err
 	}
@@ -417,19 +384,16 @@ func (s IotService) GetAllPlaces() ([]CellarPlace, error) {
 	return result, nil
 }
 
-func (s IotService) GetPlace(path string) (CellarPlace, error) {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return CellarPlace{}, err
-	}
-	defer session.Close()
+func (s IotService) GetPlace(id string) (CellarPlace, error) {
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Places")
+	table := sess.DB(Database).C("Places")
 
 	//SELECT
 	var result CellarPlace
-	err = table.Find(bson.M{"path": path}).One(&result)
+	err := table.Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&result)
 	if err != nil {
 		return CellarPlace{}, err
 	}
@@ -437,37 +401,31 @@ func (s IotService) GetPlace(path string) (CellarPlace, error) {
 	return result, nil
 }
 
-func (s IotService) AddPlace(item CellarPlace) error {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return err
-	}
-	defer session.Close()
+func (s IotService) AddPlace(item CellarPlace) (CellarPlace, error) {
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Places")
+	table := sess.DB(Database).C("Places")
 
 	//SELECT
-	err = table.Insert(&item)
+	err := table.Insert(&item)
 	if err != nil {
-		return err
+		return CellarPlace{}, err
 	}
 
-	return nil
+	return item, nil
 }
 
 func (s IotService) RemovePlace(id string) error {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return err
-	}
-	defer session.Close()
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Places")
+	table := sess.DB(Database).C("Places")
 
 	//SELECT
-	err = table.Remove(bson.M{"_id": id})
+	err := table.Remove(bson.M{"_id": bson.ObjectIdHex(id)})
 	if err != nil {
 		return err
 	}
@@ -475,22 +433,19 @@ func (s IotService) RemovePlace(id string) error {
 	return nil
 }
 
-func (s IotService) UpdatePlace(item CellarPlace) error {
-	session, err := mgo.Dial(s.MongoDbUrl)
-	if err != nil {
-		return err
-	}
-	defer session.Close()
+func (s IotService) UpdatePlace(item CellarPlace) (CellarPlace, error) {
+	sess := session.Clone()
+	defer sess.Close()
 
 	//SELECT TABLE
-	table := session.DB(Database).C("Places")
+	table := sess.DB(Database).C("Places")
 
 	// Update
 	colQuerier := bson.M{"_id": item.ID}
-	err = table.Update(colQuerier, item)
+	err := table.Update(colQuerier, item)
 	if err != nil {
-		panic(err)
+		return CellarPlace{}, err
 	}
 
-	return nil
+	return item, nil
 }

@@ -44,10 +44,9 @@ export class SenzorEffects {
         return this.iotservice.UpdateCellarSenzor(item)
           .switchMap((val) => {
 
-            let asdf = new CellarDTO();
-            asdf.data = item;
+            let temp = <CellarSenzor>val;
 
-            return Observable.of(asdf);
+            return Observable.of(temp);
 
           });
       }
@@ -57,7 +56,7 @@ export class SenzorEffects {
 
     })
     .map(item => {
-      let temp = <CellarSenzor>item.data;
+      let temp = <CellarSenzor>item;
 
       return new RouterActions.Go({
         path: ['senzor/' + temp.id]

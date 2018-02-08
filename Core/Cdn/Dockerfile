@@ -21,8 +21,17 @@ FROM alpine:3.5
 COPY --from=0 /go/src/github.com/cellarstone/Cellar.Hub/Core/Cdn/cellarhubcdn /app/cellarhubcdn
 RUN chmod +x /app/cellarhubcdn
 
+WORKDIR /app
+RUN mkdir data
+
 # helpers
 RUN ls -l  
+
+WORKDIR /
+
+# helpers
+RUN ls -l  
+
 
 ENTRYPOINT /app/cellarhubcdn
 

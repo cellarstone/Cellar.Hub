@@ -16,7 +16,7 @@ import (
 var workflowName string
 var senzorID string
 var topic string
-var MqttUrl = "cellar.hub.mqtt:1883"
+var MqttUrl = "mqtt:1883"
 var gatewayUrl = "http://pushgateway:9091/"
 
 //----------------------------------

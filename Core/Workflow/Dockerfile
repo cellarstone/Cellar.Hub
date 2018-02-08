@@ -89,10 +89,36 @@ RUN ls -l
 
 
 FROM alpine:3.5
-COPY --from=0 /go/src/github.com/cellarstone/Cellar.Hub/Core/Workflow/manager/ /app/
-RUN chmod +x /app/cellarworkflowmanager
+RUN apk add --no-cache procps
+RUN apk add --no-cache bash
+RUN apk add --update bash && rm -rf /var/cache/apk/*
+RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
 
+COPY --from=0 /go/src/github.com/cellarstone/Cellar.Hub/Core/Workflow/manager/ /app/
+
+
+WORKDIR /app
 # helpers
 RUN ls -l  
+
+# RUN chmod 755 ./workflow1
+# RUN chmod 755 ./workflow2
+# RUN chmod 755 ./savetoprometheus
+# RUN chmod 755 ./sendtowebsocket
+# RUN chmod 755 ./savetofluentd
+# RUN chmod 755 ./cancelmeeting
+# RUN chmod 755 ./cellarworkflowmanager
+
+# RUN chmod +x /app/workflow1
+# RUN chmod +x /app/workflow2
+# RUN chmod +x /app/savetoprometheus
+# RUN chmod +x /app/sendtowebsocket
+# RUN chmod +x /app/savetofluentd
+# RUN chmod +x /app/cancelmeeting
+# RUN chmod +x /app/cellarworkflowmanager
+
+# helpers
+# RUN ls -l  
+
 
 ENTRYPOINT /app/cellarworkflowmanager

@@ -60,7 +60,7 @@ export class SavetoprometheusComponent implements OnInit {
     }
 
     if (this.MqttUrl == "") {
-      this.MqttUrl = "cellar.hub.mqtt:1883";
+      this.MqttUrl = "mqtt:1883";
     }
 
     if (this.gatewayUrl == "") {

@@ -26,8 +26,8 @@
     <!--*********************************************************************************************-->
     <!--*********************************************************************************************-->
 
-
-    <div *ngIf="(item$ | async).id != undefined && (item_senzors$ | async)" class="ui-g">
+    <!-- && (item_senzors$ | async) -->
+    <div *ngIf="(item$ | async).id != undefined" class="ui-g">
 
         <div class="ui-g-12 ui-md-12">
 
@@ -171,8 +171,8 @@
     <!--*********************************************************************************************-->
 
 
-
-    <div *ngIf="(item$ | async).id != undefined && (item_subspaces$ | async)" class="ui-g">
+    <!-- && (item_subspaces$ | async) -->
+    <div *ngIf="(item$ | async).id != undefined" class="ui-g">
 
         <div class="ui-g-12 ui-md-12">
 

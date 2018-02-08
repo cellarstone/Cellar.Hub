@@ -51,10 +51,10 @@ export class IoTService {
 
     constructor(private http: HttpClient) {
         if (this.isProduction == true && this.isHttps == true) {
-            this.serverUrl = "https://cellar-hub-core-api:44403";
+            this.serverUrl = "https://api.cellarstone.hub";
         }
         else if (this.isProduction == true && this.isHttps == false) {
-            this.serverUrl = "http://cellar-hub-core-api:44403";
+            this.serverUrl = "http://api.cellarstone.hub";
         }
         else if (this.isProduction == false && this.isHttps == true) {
             this.serverUrl = "https://localhost:44403";
@@ -63,27 +63,27 @@ export class IoTService {
             this.serverUrl = "http://localhost:44403";
         }
 
-        this.url_getAllCellarPlaces = this.serverUrl + '/iot/GetAllCellarPlaces';
-        this.url_getCellarPlace = this.serverUrl + '/iot/GetCellarPlace';
-        this.url_addCellarPlace = this.serverUrl + '/iot/AddCellarPlace';
-        this.url_removeCellarPlace = this.serverUrl + '/iot/RemoveCellarPlace';
-        this.url_updateCellarPlace = this.serverUrl + '/iot/UpdateCellarPlace';
+        this.url_getAllCellarPlaces = this.serverUrl + '/iot/getallplaces';
+        this.url_getCellarPlace = this.serverUrl + '/iot/getplace';
+        this.url_addCellarPlace = this.serverUrl + '/iot/addplace';
+        this.url_removeCellarPlace = this.serverUrl + '/iot/removeplace';
+        this.url_updateCellarPlace = this.serverUrl + '/iot/updateplace';
 
-        this.url_getAllCellarSpaces = this.serverUrl + '/iot/GetAllCellarSpaces';
-        this.url_getCellarSpaces = this.serverUrl + '/iot/GetCellarSpaces';
-        this.url_removeCellarSpaces = this.serverUrl + '/iot/RemoveCellarSpaces';
-        this.url_getCellarSpace = this.serverUrl + '/iot/GetCellarSpace';
-        this.url_addCellarSpace = this.serverUrl + '/iot/AddCellarSpace';
-        this.url_removeCellarSpace = this.serverUrl + '/iot/RemoveCellarSpace';
-        this.url_updateCellarSpace = this.serverUrl + '/iot/UpdateCellarSpace';
+        this.url_getAllCellarSpaces = this.serverUrl + '/iot/getallspaces';
+        this.url_getCellarSpaces = this.serverUrl + '/iot/getspaces';
+        this.url_removeCellarSpaces = this.serverUrl + '/iot/removespaces';
+        this.url_getCellarSpace = this.serverUrl + '/iot/getspace';
+        this.url_addCellarSpace = this.serverUrl + '/iot/addspace';
+        this.url_removeCellarSpace = this.serverUrl + '/iot/removespace';
+        this.url_updateCellarSpace = this.serverUrl + '/iot/updatespace';
 
-        this.url_getAllCellarSenzors = this.serverUrl + '/iot/GetAllCellarSenzors';
-        this.url_getCellarSenzors = this.serverUrl + '/iot/GetCellarSenzors';
-        this.url_removeCellarSenzors = this.serverUrl + '/iot/RemoveCellarSenzors';
-        this.url_getCellarSenzor = this.serverUrl + '/iot/GetCellarSenzor';
-        this.url_addCellarSenzor = this.serverUrl + '/iot/AddCellarSenzor';
-        this.url_removeCellarSenzor = this.serverUrl + '/iot/RemoveCellarSenzor';
-        this.url_updateCellarSenzor = this.serverUrl + '/iot/UpdateCellarSenzor';
+        this.url_getAllCellarSenzors = this.serverUrl + '/iot/getallsenzors';
+        this.url_getCellarSenzors = this.serverUrl + '/iot/getsenzors';
+        this.url_removeCellarSenzors = this.serverUrl + '/iot/removesenzors';
+        this.url_getCellarSenzor = this.serverUrl + '/iot/getsenzor';
+        this.url_addCellarSenzor = this.serverUrl + '/iot/addsenzor';
+        this.url_removeCellarSenzor = this.serverUrl + '/iot/removesenzor';
+        this.url_updateCellarSenzor = this.serverUrl + '/iot/updatesenzor';
 
     }
 
@@ -131,7 +131,6 @@ export class IoTService {
         let options = { headers: this.headers };
 
         return this.http.get(this.url_getAllCellarPlaces, options)
-
             .catch(this.handleError);
     }
 
@@ -140,27 +139,29 @@ export class IoTService {
 
         this.setHeaders();
 
-        let body = JSON.stringify(id);
+        let body = {
+            id: id
+        }
 
         let options = { headers: this.headers };
 
         return this.http.post(this.url_getCellarPlace, body, options)
-
             .catch(this.handleError);
     }
 
 
-    public AddCellarPlace(item: CellarPlace): Observable<CellarDTO> {
+    public AddCellarPlace(item: CellarPlace): Observable<CellarPlace> {
         console.log('IoTHubService AddCellarPlace()');
 
         this.setHeaders();
 
-        let body = JSON.stringify(item);
+        let body = {
+            item: item
+        }
 
         let options = { headers: this.headers };
 
         return this.http.post(this.url_addCellarPlace, body, options)
-
             .catch(this.handleError);
     }
 
@@ -169,26 +170,28 @@ export class IoTService {
 
         this.setHeaders();
 
-        let body = JSON.stringify(id);
+        let body = {
+            id: id
+        }
 
         let options = { headers: this.headers };
 
         return this.http.post(this.url_removeCellarPlace, body, options)
-
             .catch(this.handleError);
     }
 
-    public UpdateCellarPlace(item: CellarPlace): Observable<CellarDTO> {
+    public UpdateCellarPlace(item: CellarPlace): Observable<CellarPlace> {
         console.log('IoTHubService UpdateCellarPlace()');
 
         this.setHeaders();
 
-        let body = JSON.stringify(item);
+        let body = {
+            item: item
+        }
 
         let options = { headers: this.headers };
 
         return this.http.post(this.url_updateCellarPlace, body, options)
-
             .catch(this.handleError);
     }
 
@@ -215,13 +218,14 @@ export class IoTService {
         this.setHeaders();
 
 
-        let body = JSON.stringify(path);
+        let body = {
+            path: path
+        }
 
 
         let options = { headers: this.headers };
 
         return this.http.post(this.url_getCellarSpaces, body, options)
-
             .catch(this.handleError);
     }
 
@@ -247,7 +251,9 @@ export class IoTService {
 
             this.setHeaders();
 
-            let body = JSON.stringify(id);
+            let body = {
+                id: id
+            }
 
             let options = { headers: this.headers };
 
@@ -256,17 +262,18 @@ export class IoTService {
         }
     }
 
-    public AddCellarSpace(item: CellarSpace): Observable<CellarDTO> {
+    public AddCellarSpace(item: CellarSpace): Observable<CellarSpace> {
         console.log('IoTHubService AddCellarSpace()');
 
         this.setHeaders();
 
-        let body = JSON.stringify(item);
+        let body = {
+            item: item
+        }
 
         let options = { headers: this.headers };
 
         return this.http.post(this.url_addCellarSpace, body, options)
-
             .catch(this.handleError);
     }
 
@@ -275,12 +282,13 @@ export class IoTService {
 
         this.setHeaders();
 
-        let body = JSON.stringify(id);
+        let body = {
+            id: id
+        }
 
         let options = { headers: this.headers };
 
         return this.http.post(this.url_removeCellarSpace, body, options)
-
             .catch(this.handleError);
     }
 
@@ -289,7 +297,9 @@ export class IoTService {
 
         this.setHeaders();
 
-        let body = JSON.stringify(path);
+        let body = {
+            path: path
+        }
 
         let options = { headers: this.headers };
 
@@ -297,17 +307,18 @@ export class IoTService {
             .catch(this.handleError);
     }
 
-    public UpdateCellarSpace(item: CellarSpace): Observable<CellarDTO> {
+    public UpdateCellarSpace(item: CellarSpace): Observable<CellarSpace> {
         console.log('IoTHubService UpdateCellarSpace()');
 
         this.setHeaders();
 
-        let body = JSON.stringify(item);
+        let body = {
+            item: item
+        }
 
         let options = { headers: this.headers };
 
         return this.http.post(this.url_updateCellarSpace, body, options)
-
             .catch(this.handleError);
     }
 
@@ -332,7 +343,6 @@ export class IoTService {
         console.log(this.url_getAllCellarSenzors);
 
         return this.http.get(this.url_getAllCellarSenzors, options)
-
             .catch(this.handleError);
     }
 
@@ -341,14 +351,13 @@ export class IoTService {
 
         this.setHeaders();
 
-
-        let body = JSON.stringify(path);
-
+        let body = {
+            path: path
+        }
 
         let options = { headers: this.headers };
 
         return this.http.post(this.url_getCellarSenzors, body, options)
-
             .catch(this.handleError);
     }
 
@@ -376,7 +385,9 @@ export class IoTService {
 
             this.setHeaders();
 
-            let body = JSON.stringify(id);
+            let body = {
+                id: id
+            }
 
             let options = { headers: this.headers };
 
@@ -386,17 +397,18 @@ export class IoTService {
 
     }
 
-    public AddCellarSenzor(item: CellarSenzor): Observable<CellarDTO> {
+    public AddCellarSenzor(item: CellarSenzor): Observable<CellarSenzor> {
         console.log('IoTHubService AddCellarSenzor()');
 
         this.setHeaders();
 
-        let body = JSON.stringify(item);
+        let body = {
+            item: item
+        }
 
         let options = { headers: this.headers };
 
         return this.http.post(this.url_addCellarSenzor, body, options)
-
             .catch(this.handleError);
     }
 
@@ -405,12 +417,13 @@ export class IoTService {
 
         this.setHeaders();
 
-        let body = JSON.stringify(id);
+        let body = {
+            id: id
+        }
 
         let options = { headers: this.headers };
 
         return this.http.post(this.url_removeCellarSenzor, body, options)
-
             .catch(this.handleError);
     }
 
@@ -419,26 +432,28 @@ export class IoTService {
 
         this.setHeaders();
 
-        let body = JSON.stringify(path);
+        let body = {
+            path: path
+        }
 
         let options = { headers: this.headers };
 
         return this.http.post(this.url_removeCellarSenzors, body, options)
-
             .catch(this.handleError);
     }
 
-    public UpdateCellarSenzor(item: CellarSenzor): Observable<CellarDTO> {
+    public UpdateCellarSenzor(item: CellarSenzor): Observable<CellarSenzor> {
         console.log('IoTHubService UpdateCellarSenzor()');
 
         this.setHeaders();
 
-        let body = JSON.stringify(item);
-
+        let body = {
+            item: item
+        }
+        
         let options = { headers: this.headers };
 
         return this.http.post(this.url_updateCellarSenzor, body, options)
-
             .catch(this.handleError);
     }
 

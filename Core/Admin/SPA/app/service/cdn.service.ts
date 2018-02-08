@@ -26,10 +26,10 @@ export class CdnService {
 
     constructor(private http: HttpClient) {
         if (this.isProduction == true && this.isHttps == true) {
-            this.serverUrl = "https://cellar.hub.core.cdn:44404";
+            this.serverUrl = "https://cdn.cellarstone.hub";
         }
         else if (this.isProduction == true && this.isHttps == false) {
-            this.serverUrl = "http://cellar.hub.core.cdn:44404";
+            this.serverUrl = "http://cdn.cellarstone.hub";
         }
         else if (this.isProduction == false && this.isHttps == true) {
             this.serverUrl = "https://localhost:44404";
@@ -38,7 +38,7 @@ export class CdnService {
             this.serverUrl = "http://localhost:44404";
         }
 
-        this.url_upload = this.serverUrl + '/Data/Upload';
+        this.url_upload = this.serverUrl + '/upload';
         this.url_uploadFullSmall = this.serverUrl + '/Data/UploadFullSmall';
     }
 

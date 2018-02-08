@@ -24,10 +24,10 @@ export class MqttService {
 
     constructor(private http: HttpClient) {
         if (this.isProduction == true && this.isHttps == true) {
-            this.serverUrl = "https://cellar.hub.core.api:44403";
+            this.serverUrl = "https://api.cellarstone.hub";
         }
         else if (this.isProduction == true && this.isHttps == false) {
-            this.serverUrl = "http://cellar.hub.core.api:44403";
+            this.serverUrl = "http://api.cellarstone.hub";
         }
         else if (this.isProduction == false && this.isHttps == true) {
             this.serverUrl = "https://localhost:44403";
@@ -36,7 +36,7 @@ export class MqttService {
             this.serverUrl = "http://localhost:44403";
         }
 
-        this.url_publishToMqtt = this.serverUrl + '/mqtt/PublishToMqtt';
+        this.url_publishToMqtt = this.serverUrl + '/mqtt/publishtomqtt';
     }
 
 
