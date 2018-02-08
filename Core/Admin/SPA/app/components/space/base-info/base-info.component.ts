@@ -196,13 +196,17 @@ export class SpaceBaseInfoComponent implements OnInit {
         .subscribe(art => {
           let response = art;
 
+          console.log(response);
+
           //BEZ CHYB ze serveru
           if (response.isOK) {
 
             var url = response.data as string;
 
+            console.log(url);
 
-            this.item.image = url;
+            this.item.image = "http://cdn.cellarstone.hub/" + url;
+            // this.item.image = "http://localhost:44404/" + url;
 
             console.log(this.item.image);
 

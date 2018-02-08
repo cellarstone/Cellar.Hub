@@ -82,6 +82,9 @@ services:
 
   cellar-hub-core-cdn:
     image: cellar.hub.core.cdn
+    environment:
+      - PORT=44404
+      - DIRECTORY=/app/data
     build:
       context: ./Core/Cdn
       dockerfile: Dockerfile
@@ -167,6 +170,7 @@ services:
       dockerfile: Dockerfile
     ports:
     - "1883:1883"
+    - "9001:9001"
 
   fluentd:
     image: cellar.hub.fluentd

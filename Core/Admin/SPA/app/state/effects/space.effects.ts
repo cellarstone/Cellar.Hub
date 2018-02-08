@@ -71,17 +71,13 @@ export class SpaceEffects {
 
       let item = <CellarSpace>payload;
 
-      console.log(payload);
-      console.log(item);
-
       if (item.id != undefined) {
         return this.iotservice.UpdateCellarSpace(item)
           .switchMap((val) => {
 
-            let asdf = new CellarDTO();
-            asdf.data = item;
+            let temp = <CellarSpace>val;
 
-            return Observable.of(asdf);
+            return Observable.of(temp);
 
           });
       }
@@ -91,9 +87,7 @@ export class SpaceEffects {
 
     }).map(item => {
 
-      console.log(item);
-
-      let temp = <CellarSpace>item.data;
+      let temp = <CellarSpace>item;
 
       return new RouterActions.Go({
         path: ['space/' + temp.id]

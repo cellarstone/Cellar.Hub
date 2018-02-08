@@ -71,17 +71,13 @@ export class PlaceEffects {
 
             let item = <CellarPlace>payload;
 
-            console.log(payload);
-            console.log(item);
-
             if (item.id != undefined) {
                 return this.iotservice.UpdateCellarPlace(item)
                     .switchMap((val) => {
 
-                        let asdf = new CellarDTO();
-                        asdf.data = item;
+                      let temp = <CellarPlace>val;
 
-                        return Observable.of(asdf);
+                        return Observable.of(temp);
 
                     });
             }
@@ -94,7 +90,7 @@ export class PlaceEffects {
 
             console.log(item);
 
-            let temp = <CellarPlace>item.data;
+            let temp = <CellarPlace>item;
 
             return new RouterActions.Go({
                 path: ['place/' + temp.id]

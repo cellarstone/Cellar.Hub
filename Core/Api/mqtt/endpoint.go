@@ -26,7 +26,7 @@ func MakePublishToMqttEndpoint(svc Service) endpoint.Endpoint {
 		//call service
 		result2 := svc.PublishToMqtt(req.Topic, req.Value)
 		if result2 != nil {
-			return PublishToMqttResponse{Result: result2.Error()}, nil
+			return PublishToMqttResponse{Result: "ERROR"}, result2
 		}
 
 		return PublishToMqttResponse{Result: "OK"}, nil

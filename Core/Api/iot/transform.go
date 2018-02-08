@@ -28,7 +28,7 @@ func MakeHttpHandler(ctx context.Context, endpoint Endpoints, logger kitlog.Logg
 	// SPACE
 	//-----------------------------
 
-	r.Methods("GET").Path("/iot/getallspaces").Handler(httptransport.NewServer(
+	r.Path("/iot/getallspaces").Handler(httptransport.NewServer(
 		endpoint.GetAllSpacesEndpoint,
 		decodeGetAllSpacesRequest,
 		encodeResponse,
@@ -56,10 +56,10 @@ func MakeHttpHandler(ctx context.Context, endpoint Endpoints, logger kitlog.Logg
 		options...,
 	))
 
-	r.Methods("POST").Path("/iot/getspace").Handler(httptransport.NewServer(
+	r.Path("/iot/getspace").Handler(httptransport.NewServer(
 		endpoint.GetSpaceEndpoint,
 		decodeGetSpaceRequest,
-		encodeResponse,
+		encodeGetSpaceResponse,
 		options...,
 	))
 
@@ -112,7 +112,7 @@ func MakeHttpHandler(ctx context.Context, endpoint Endpoints, logger kitlog.Logg
 	r.Methods("POST").Path("/iot/getsenzor").Handler(httptransport.NewServer(
 		endpoint.GetSenzorEndpoint,
 		decodeGetSenzorRequest,
-		encodeResponse,
+		encodeGetSenzorResponse,
 		options...,
 	))
 
@@ -151,7 +151,7 @@ func MakeHttpHandler(ctx context.Context, endpoint Endpoints, logger kitlog.Logg
 	r.Methods("POST").Path("/iot/getplace").Handler(httptransport.NewServer(
 		endpoint.GetPlaceEndpoint,
 		decodeGetPlaceRequest,
-		encodeResponse,
+		encodeGetPlaceResponse,
 		options...,
 	))
 
@@ -265,6 +265,22 @@ func decodeGetSpaceRequest(_ context.Context, r *http.Request) (interface{}, err
 	return body, nil
 }
 
+func encodeGetSpaceResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
+
+	if e, ok := response.(errorer); ok && e.error() != nil {
+		encodeError(ctx, e.error(), w)
+		return nil
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+
+	result := GetSpaceResponse{
+		Data: response.(CellarSpace),
+	}
+
+	return json.NewEncoder(w).Encode(result)
+}
+
 func decodeAddSpaceRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	body := AddSpaceRequest{}
 
@@ -333,6 +349,22 @@ func decodeGetSenzorRequest(_ context.Context, r *http.Request) (interface{}, er
 	return body, nil
 }
 
+func encodeGetSenzorResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
+
+	if e, ok := response.(errorer); ok && e.error() != nil {
+		encodeError(ctx, e.error(), w)
+		return nil
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+
+	result := GetSenzorResponse{
+		Data: response.(CellarSenzor),
+	}
+
+	return json.NewEncoder(w).Encode(result)
+}
+
 func decodeAddSenzorRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	body := AddSenzorRequest{}
 
@@ -379,6 +411,22 @@ func decodeGetPlaceRequest(_ context.Context, r *http.Request) (interface{}, err
 	}
 
 	return body, nil
+}
+
+func encodeGetPlaceResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
+
+	if e, ok := response.(errorer); ok && e.error() != nil {
+		encodeError(ctx, e.error(), w)
+		return nil
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+
+	result := GetPlaceResponse{
+		Data: response.(CellarPlace),
+	}
+
+	return json.NewEncoder(w).Encode(result)
 }
 
 func decodeAddPlaceRequest(_ context.Context, r *http.Request) (interface{}, error) {

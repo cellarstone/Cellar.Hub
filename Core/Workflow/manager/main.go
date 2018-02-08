@@ -35,6 +35,7 @@ var workflowindb *template.Template
 var err error
 
 type cellarDTO struct {
+	isOK          bool        `json:"isok"`
 	ExceptionText string      `json:"exceptionText"`
 	Data          interface{} `json:"data"`
 }
@@ -567,7 +568,7 @@ func apiRunWorkflowHandler(w http.ResponseWriter, r *http.Request) {
 		cmdArgs = append(cmdArgs, workflow.Parameters[i])
 	}
 
-	cmdName := "./" + workflowType
+	cmdName := "/app/" + workflowType
 
 	// parameter1 := workflow.Parameters[0]
 	// parameter2 := workflow.Parameters[1]
@@ -927,6 +928,7 @@ func runWorkflow(workflow *CellarWorkflow) string {
 	err = cmd.Start()
 	if err != nil {
 		logger.Error("can't start command > " + err.Error())
+		return "error"
 	}
 
 	//RE-SAVE WORKFLOW

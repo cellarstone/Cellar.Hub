@@ -21,6 +21,8 @@ FROM alpine:3.5
 COPY --from=0 /go/src/github.com/cellarstone/Cellar.Hub/Core/Api/server.d/cellarhubapi /app/cellarhubapi
 RUN chmod +x /app/cellarhubapi
 
+
+
 # helpers
 RUN ls -l  
 

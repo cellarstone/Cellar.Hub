@@ -16,6 +16,7 @@ import (
 	"github.com/cellarstone/Cellar.Hub/Core/Api/mqtt"
 	"github.com/go-kit/kit/log"
 	kitprometheus "github.com/go-kit/kit/metrics/prometheus"
+	"github.com/gorilla/handlers"
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
@@ -115,9 +116,15 @@ func main() {
 	// SERVER -------------------------------------------
 	httpLogger := log.With(logger, "component", "http")
 
-	http.Handle("/iot/", iot.MakeHttpHandler(ctx, iotendpoints, httpLogger))
-	http.Handle("/mqtt/", mqtt.MakeHttpHandler(ctx, mqttendpoints, httpLogger))
+	headersOk := handlers.AllowedHeaders([]string{"Content-Type", "Accept", "Access-Control-Allow-Methods", "Access-Control-Allow-Origin"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
+	methodsOk := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"})
+
+	http.Handle("/iot/", handlers.CORS(headersOk, originsOk, methodsOk)(iot.MakeHttpHandler(ctx, iotendpoints, httpLogger)))
+	http.Handle("/mqtt/", handlers.CORS(headersOk, originsOk, methodsOk)(mqtt.MakeHttpHandler(ctx, mqttendpoints, httpLogger)))
 	http.Handle("/metrics", promhttp.Handler())
+
+	logger.Log("API IS RUNNING")
 
 	errs := make(chan error, 2)
 	go func() {

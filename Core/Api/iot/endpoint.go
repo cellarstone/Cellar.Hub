@@ -2,6 +2,7 @@ package iot
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/go-kit/kit/endpoint"
 )
@@ -39,7 +40,7 @@ type Endpoints struct {
 type GetAllSpacesRequest struct{}
 
 type GetAllSpacesResponse struct {
-	Result []CellarSpace `json:"result"`
+	Data []CellarSpace `json:"data"`
 }
 
 func MakeGetAllSpacesEndpoint(svc Service) endpoint.Endpoint {
@@ -51,14 +52,14 @@ func MakeGetAllSpacesEndpoint(svc Service) endpoint.Endpoint {
 			return nil, err
 		}
 
-		return GetAllSpacesResponse{Result: result}, nil
+		return GetAllSpacesResponse{Data: result}, nil
 	}
 }
 
 type GetRootSpacesRequest struct{}
 
 type GetRootSpacesResponse struct {
-	Result []CellarSpace `json:"result"`
+	Data []CellarSpace `json:"data"`
 }
 
 func MakeGetRootSpacesEndpoint(svc Service) endpoint.Endpoint {
@@ -70,7 +71,7 @@ func MakeGetRootSpacesEndpoint(svc Service) endpoint.Endpoint {
 			return nil, err
 		}
 
-		return GetRootSpacesResponse{Result: result}, nil
+		return GetRootSpacesResponse{Data: result}, nil
 	}
 }
 
@@ -79,7 +80,7 @@ type GetSpacesRequest struct {
 }
 
 type GetSpacesResponse struct {
-	Result []CellarSpace `json:"result"`
+	Data []CellarSpace `json:"data"`
 }
 
 func MakeGetSpacesEndpoint(svc Service) endpoint.Endpoint {
@@ -92,7 +93,7 @@ func MakeGetSpacesEndpoint(svc Service) endpoint.Endpoint {
 			return nil, err
 		}
 
-		return GetSpacesResponse{Result: result}, nil
+		return GetSpacesResponse{Data: result}, nil
 	}
 }
 
@@ -118,11 +119,11 @@ func MakeRemoveSpacesEndpoint(svc Service) endpoint.Endpoint {
 }
 
 type GetSpaceRequest struct {
-	Path string `json:"path"`
+	Id string `json:"id"`
 }
 
 type GetSpaceResponse struct {
-	Result CellarSpace `json:"result"`
+	Data CellarSpace `json:"data"`
 }
 
 func MakeGetSpaceEndpoint(svc Service) endpoint.Endpoint {
@@ -130,7 +131,7 @@ func MakeGetSpaceEndpoint(svc Service) endpoint.Endpoint {
 		req := request.(GetSpaceRequest)
 
 		//call service
-		result, err := svc.GetSpace(req.Path)
+		result, err := svc.GetSpace(req.Id)
 		if err != nil {
 			return nil, err
 		}
@@ -144,6 +145,7 @@ type AddSpaceRequest struct {
 }
 
 type AddSpaceResponse struct {
+	Item CellarSpace `json:"item"`
 }
 
 func MakeAddSpaceEndpoint(svc Service) endpoint.Endpoint {
@@ -151,12 +153,12 @@ func MakeAddSpaceEndpoint(svc Service) endpoint.Endpoint {
 		req := request.(AddSpaceRequest)
 
 		//call service
-		err := svc.AddSpace(req.Item)
+		item, err := svc.AddSpace(req.Item)
 		if err != nil {
 			return nil, err
 		}
 
-		return nil, nil
+		return item, nil
 	}
 }
 
@@ -186,6 +188,7 @@ type UpdateSpaceRequest struct {
 }
 
 type UpdateSpaceResponse struct {
+	Item CellarSpace `json:"item"`
 }
 
 func MakeUpdateSpaceEndpoint(svc Service) endpoint.Endpoint {
@@ -193,12 +196,12 @@ func MakeUpdateSpaceEndpoint(svc Service) endpoint.Endpoint {
 		req := request.(UpdateSpaceRequest)
 
 		//call service
-		err := svc.UpdateSpace(req.Item)
+		item, err := svc.UpdateSpace(req.Item)
 		if err != nil {
 			return nil, err
 		}
 
-		return nil, nil
+		return item, nil
 	}
 }
 
@@ -209,7 +212,7 @@ func MakeUpdateSpaceEndpoint(svc Service) endpoint.Endpoint {
 type GetAllSenzorsRequest struct{}
 
 type GetAllSenzorsResponse struct {
-	Result []CellarSenzor `json:"result"`
+	Data []CellarSenzor `json:"data"`
 }
 
 func MakeGetAllSenzorsEndpoint(svc Service) endpoint.Endpoint {
@@ -221,7 +224,9 @@ func MakeGetAllSenzorsEndpoint(svc Service) endpoint.Endpoint {
 			return nil, err
 		}
 
-		return GetAllSenzorsResponse{Result: result}, nil
+		fmt.Println(result)
+
+		return GetAllSenzorsResponse{Data: result}, nil
 	}
 }
 
@@ -230,7 +235,7 @@ type GetSenzorsRequest struct {
 }
 
 type GetSenzorsResponse struct {
-	Result []CellarSenzor `json:"result"`
+	Data []CellarSenzor `json:"data"`
 }
 
 func MakeGetSenzorsEndpoint(svc Service) endpoint.Endpoint {
@@ -243,7 +248,7 @@ func MakeGetSenzorsEndpoint(svc Service) endpoint.Endpoint {
 			return nil, err
 		}
 
-		return GetSenzorsResponse{Result: result}, nil
+		return GetSenzorsResponse{Data: result}, nil
 	}
 }
 
@@ -269,11 +274,11 @@ func MakeRemoveSenzorsEndpoint(svc Service) endpoint.Endpoint {
 }
 
 type GetSenzorRequest struct {
-	Path string `json:"path"`
+	Id string `json:"id"`
 }
 
 type GetSenzorResponse struct {
-	Result CellarSenzor `json:"result"`
+	Data CellarSenzor `json:"data"`
 }
 
 func MakeGetSenzorEndpoint(svc Service) endpoint.Endpoint {
@@ -281,7 +286,7 @@ func MakeGetSenzorEndpoint(svc Service) endpoint.Endpoint {
 		req := request.(GetSenzorRequest)
 
 		//call service
-		result, err := svc.GetSenzor(req.Path)
+		result, err := svc.GetSenzor(req.Id)
 		if err != nil {
 			return nil, err
 		}
@@ -295,6 +300,7 @@ type AddSenzorRequest struct {
 }
 
 type AddSenzorResponse struct {
+	Item CellarSenzor `json:"item"`
 }
 
 func MakeAddSenzorEndpoint(svc Service) endpoint.Endpoint {
@@ -302,12 +308,14 @@ func MakeAddSenzorEndpoint(svc Service) endpoint.Endpoint {
 		req := request.(AddSenzorRequest)
 
 		//call service
-		err := svc.AddSenzor(req.Item)
+		item, err := svc.AddSenzor(req.Item)
 		if err != nil {
 			return nil, err
 		}
 
-		return nil, nil
+		fmt.Println(item)
+
+		return item, nil
 	}
 }
 
@@ -337,6 +345,7 @@ type UpdateSenzorRequest struct {
 }
 
 type UpdateSenzorResponse struct {
+	Item CellarSenzor `json:"item"`
 }
 
 func MakeUpdateSenzorEndpoint(svc Service) endpoint.Endpoint {
@@ -344,12 +353,12 @@ func MakeUpdateSenzorEndpoint(svc Service) endpoint.Endpoint {
 		req := request.(UpdateSenzorRequest)
 
 		//call service
-		err := svc.UpdateSenzor(req.Item)
+		item, err := svc.UpdateSenzor(req.Item)
 		if err != nil {
 			return nil, err
 		}
 
-		return nil, nil
+		return item, nil
 	}
 }
 
@@ -360,7 +369,7 @@ func MakeUpdateSenzorEndpoint(svc Service) endpoint.Endpoint {
 type GetAllPlacesRequest struct{}
 
 type GetAllPlacesResponse struct {
-	Result []CellarPlace `json:"result"`
+	Data []CellarPlace `json:"data"`
 }
 
 func MakeGetAllPlacesEndpoint(svc Service) endpoint.Endpoint {
@@ -372,16 +381,16 @@ func MakeGetAllPlacesEndpoint(svc Service) endpoint.Endpoint {
 			return nil, err
 		}
 
-		return GetAllPlacesResponse{Result: result}, nil
+		return GetAllPlacesResponse{Data: result}, nil
 	}
 }
 
 type GetPlaceRequest struct {
-	Path string `json:"path"`
+	Id string `json:"id"`
 }
 
 type GetPlaceResponse struct {
-	Result CellarPlace `json:"result"`
+	Data CellarPlace `json:"data"`
 }
 
 func MakeGetPlaceEndpoint(svc Service) endpoint.Endpoint {
@@ -389,7 +398,7 @@ func MakeGetPlaceEndpoint(svc Service) endpoint.Endpoint {
 		req := request.(GetPlaceRequest)
 
 		//call service
-		result, err := svc.GetPlace(req.Path)
+		result, err := svc.GetPlace(req.Id)
 		if err != nil {
 			return nil, err
 		}
@@ -403,6 +412,7 @@ type AddPlaceRequest struct {
 }
 
 type AddPlaceResponse struct {
+	Item CellarPlace `json:"item"`
 }
 
 func MakeAddPlaceEndpoint(svc Service) endpoint.Endpoint {
@@ -410,12 +420,12 @@ func MakeAddPlaceEndpoint(svc Service) endpoint.Endpoint {
 		req := request.(AddPlaceRequest)
 
 		//call service
-		err := svc.AddPlace(req.Item)
+		item, err := svc.AddPlace(req.Item)
 		if err != nil {
 			return nil, err
 		}
 
-		return nil, nil
+		return item, nil
 	}
 }
 
@@ -445,6 +455,7 @@ type UpdatePlaceRequest struct {
 }
 
 type UpdatePlaceResponse struct {
+	Item CellarPlace `json:"item"`
 }
 
 func MakeUpdatePlaceEndpoint(svc Service) endpoint.Endpoint {
@@ -452,11 +463,11 @@ func MakeUpdatePlaceEndpoint(svc Service) endpoint.Endpoint {
 		req := request.(UpdatePlaceRequest)
 
 		//call service
-		err := svc.UpdatePlace(req.Item)
+		item, err := svc.UpdatePlace(req.Item)
 		if err != nil {
 			return nil, err
 		}
 
-		return nil, nil
+		return item, nil
 	}
 }
