@@ -1,37 +1,36 @@
+# Dodelat
+
+- status pro kazdou spustenou goroutine (task) + workflow
+provolam workflow, on provola kazdy task a zpet posle stav
 
 
-# Architecture
+- store = ukladani workflow 
+muze byt stejne jako jsou requesty na spusteni
 
-## src
+```JSON
+{
+	"workflowtype": "workflow1",
+	"name": "test1",
+	"params": {
+		"triggertype": "mqtt",
+		"topic": "randomValues1"
+	}
+}
+``` 
 
-workflow
-task
-
-## cmd
-
-concrete workflows
-
-## manager
-
-Web App for managing everything
-
-
-
+nebo 
 
 
-# Commands
+```JSON
+{
+	"workflowtype": "rand2mqtt",
+	"name": "randomValues1",
+	"params": {
+		"triggertype": "time"
+	}
+	
+}
+``` 
 
-1. Build workflow programs
 
-```Shell
-go build -o manager/workflow1 cmd/workflow1
-go build cmd/workflow2 -o manager/workflow2 
-go build -o output/savetoprometheus
-go build cmd/fluentd -o manager/fluentd
-go build cmd/sendtowebsocket -o manager/sendtowebsocket
-go build cmd/cancelmeeting -o manager/cancelmeeting  
-```
-
-2. Run with VSCode
-
-Debug workflow/manager profile
+- store = nacitani workflow z DB pri startu

@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ApplicationState } from 'app/state/state/application.state';
 import * as RouterActions from 'app/state/actions/router.actions';
-import { LoadCellarWorkflowAction, SaveCellarWorkflowAction, DeleteCellarWorkflowAction, RunCellarWorkflowAction, StopCellarWorkflowAction, CheckProcessWorkflowAction } from 'app/state/actions/workflow.actions';
+import { LoadCellarWorkflowAction, SaveCellarWorkflowAction, DeleteCellarWorkflowAction, RunCellarWorkflowAction, StopCellarWorkflowAction, CheckCellarWorkflowAction } from 'app/state/actions/workflow.actions';
 import { SelectItem } from 'primeng/primeng';
 
 @Component({
@@ -15,39 +15,45 @@ import { SelectItem } from 'primeng/primeng';
 })
 export class WorkflowDetail implements OnInit {
 
-  types: SelectItem[];
-  selectedType: string;
+  workflowTypes: SelectItem[];
+  selectedWorkflowType: string;
+
+  triggerTypes: SelectItem[];
+  selectedTriggerType: string;
 
   item$: Observable<CellarWorkflow>;
-  actualProcess$: Observable<string>;
+  actualStatus$: Observable<string>;
+
+  selectedTags: string[];
 
   private sub: any;
-  private pid: string;
   private id: string;
 
   constructor(
     private route: ActivatedRoute,
     private store: Store<ApplicationState>) {
 
-    this.types = [];
-    this.types.push({ label: 'Select Type', value: null });
-    // this.types.push({ label: 'Cancel Meeting', value: 'cancelmeeting' });
-    // this.types.push({ label: 'Save to Fluentd', value: 'savetofluentd' });
-    this.types.push({ label: 'Save to Prometheus', value: 'savetoprometheus' });
-    this.types.push({ label: 'Send to Websocket', value: 'sendtowebsocket' });
-    // this.types.push({ label: 'Test workflow1', value: 'workflow1' });
-    // this.types.push({ label: 'Test workflow2', value: 'workflow2' });
+    this.workflowTypes = [];
+    this.workflowTypes.push({ label: 'Select Type', value: null });
+    this.workflowTypes.push({ label: 'X to MQTT', value: 'rand2mqtt' });
+    this.workflowTypes.push({ label: 'Test 1 workflow', value: 'test1' });
+    this.workflowTypes.push({ label: 'Test exception', value: 'testexception' });
 
+    this.triggerTypes = [];
+    this.triggerTypes.push({ label: 'Select Type', value: null });
+    this.triggerTypes.push({ label: 'Time', value: 'time' });
+    this.triggerTypes.push({ label: 'Mqtt', value: 'mqtt' });
 
     this.item$ = this.store.select(mapWorkflowFromState);
-    this.actualProcess$ = this.store.select(mapActualProcessFromState);
+    this.actualStatus$ = this.store.select(mapActualStatusFromState);
 
 
     this.item$.subscribe((item: CellarWorkflow) => {
       if (item) {
-        this.selectedType = item.type;
-        this.pid = item.pid;
+        this.selectedWorkflowType = item.workflowtype;
+        this.selectedTriggerType = item.triggertype;
         this.id = item.id;
+        this.selectedTags = item.tags;
       }
     });
 
@@ -57,6 +63,10 @@ export class WorkflowDetail implements OnInit {
 
       let id = params['id']; // (+) converts string 'id' to a number
       this.store.dispatch(new LoadCellarWorkflowAction(id));
+
+      if(id != '0'){
+        this.store.dispatch(new CheckCellarWorkflowAction(id));
+      }
 
     });
 
@@ -70,18 +80,58 @@ export class WorkflowDetail implements OnInit {
   /* WORKFLOW */
   //*********************************/
 
-  private saveWorkflow(item: CellarWorkflow) {
+  private setWorkflow(item: CellarWorkflow) {
 
-    item.type = this.selectedType;
+    this.item$.map((value) => {
 
-    console.log(item);
+      value.workflowtype = item.workflowtype;
+      value.workflowparams = item.workflowparams;
 
-    this.store.dispatch(new SaveCellarWorkflowAction(item));
+      //return Observable.of(value)
+    })
+
+    this.selectedWorkflowType = null;
+
+    //this.store.dispatch(new SaveCellarWorkflowAction(item));
+  }
+
+  private setTrigger(item: CellarWorkflow) {
+
+    this.item$.map((value) => {
+
+      value.triggertype = item.triggertype;
+      value.triggerparams = item.triggerparams;
+
+      //return Observable.of(value)
+    })
+
+    this.selectedTriggerType = null;
   }
 
 
-  private deleteWorkflow(item: CellarWorkflow) {
-    this.store.dispatch(new DeleteCellarWorkflowAction(item));
+  private saveWorkflow() {
+
+    let itemResult = new CellarWorkflow();
+
+    this.item$.subscribe((item: CellarWorkflow) => {
+      if (item) {
+        itemResult.id = item.id;
+      itemResult.workflowtype = item.workflowtype;
+      itemResult.workflowparams = item.workflowparams;
+      itemResult.triggertype = item.triggertype;
+      itemResult.triggerparams = item.triggerparams;
+      itemResult.tags = this.selectedTags;
+      }
+      
+    })
+    
+      this.store.dispatch(new SaveCellarWorkflowAction(itemResult))
+    
+  }
+
+
+  private deleteWorkflow() {
+      this.store.dispatch(new DeleteCellarWorkflowAction(this.id));
   }
 
   private cancelWorkflow() {
@@ -90,16 +140,15 @@ export class WorkflowDetail implements OnInit {
 
 
 
-  private checkProcessWorkflow(pid: string) {
-    this.store.dispatch(new CheckProcessWorkflowAction(this.pid));
-  }
-
   private runWorkflow() {
     this.store.dispatch(new RunCellarWorkflowAction(this.id));
   }
 
+  private checkWorkflow() {
+    this.store.dispatch(new CheckCellarWorkflowAction(this.id));
+  }
 
-  private stopWorkflow(id: string) {
+  private stopWorkflow() {
     this.store.dispatch(new StopCellarWorkflowAction(this.id));
   }
 
@@ -108,18 +157,20 @@ export class WorkflowDetail implements OnInit {
 
 
 
-function mapActualProcessFromState(state: ApplicationState): string {
+function mapActualStatusFromState(state: ApplicationState): string {
   if (state.uiState == undefined) {
     return undefined;
   }
 
-  return state.uiState.actualProcess;
+  return state.uiState.actualStatus;
 }
 
 function mapWorkflowFromState(state: ApplicationState): CellarWorkflow {
   if (state.uiState == undefined) {
     return undefined;
   }
+
+  console.log(state.uiState.selectedWorkflow)
 
   return state.uiState.selectedWorkflow;
 }

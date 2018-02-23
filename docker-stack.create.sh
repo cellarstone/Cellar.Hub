@@ -663,6 +663,7 @@ else
                       --network cellarstone-net \
                       --env PORT=44403 \
                       --env MQTT_URL="http://mqtt:1883" \
+                      --env MONGO_URL="mongodb" \
                       --label traefik.enable=true \
                       --label traefik.port=44403 \
                       --label traefik.docker.network=cellarstone-net \
@@ -704,6 +705,8 @@ else
     echo $IS_HUBCORECDN_EXIST
 
     docker service create --name cellar-hub-core-cdn \
+                      --env PORT=44404 \
+                      --env DIRECTORY=/app/data \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -756,6 +759,11 @@ else
     echo $IS_HUBCOREWORKFLOW_EXIST
 
     docker service create --name cellar-hub-core-workflow \
+                      --env PORT=44405 \
+                      --env MONGO_URL=mongodb \
+                      --env MQTT_URL=mqtt \
+                      --env INFLUX_URL=http://influxdb:8086 \
+                      --env WEBSOCKETS_URL=websockets:44406 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \

@@ -54,23 +54,23 @@ export class SaveCellarWorkflowAction implements Action {
 export const DELETE_CELLAR_WORKFLOW = '[CellarWorkflow] Delete';
 export class DeleteCellarWorkflowAction implements Action {
     readonly type = DELETE_CELLAR_WORKFLOW;
-    constructor(public payload: CellarWorkflow){}
-}
-
-
-
-
-
-
-export const CHECK_PROCESS_CELLAR_WORKFLOW = '[CellarWorkflow] Check process';
-export class CheckProcessWorkflowAction implements Action {
-    readonly type = CHECK_PROCESS_CELLAR_WORKFLOW;
     constructor(public payload: string){}
 }
 
-export const CHECK_PROCESS_CELLAR_WORKFLOW_SUCCESS = '[CellarWorkflow] Check process success';
-export class CheckProcessWorkflowSuccessAction implements Action {
-    readonly type = CHECK_PROCESS_CELLAR_WORKFLOW_SUCCESS;
+
+
+
+
+
+export const CHECK_CELLAR_WORKFLOW = '[CellarWorkflow] Check status';
+export class CheckCellarWorkflowAction implements Action {
+    readonly type = CHECK_CELLAR_WORKFLOW;
+    constructor(public payload: string){}
+}
+
+export const CHECK_CELLAR_WORKFLOW_SUCCESS = '[CellarWorkflow] Check status success';
+export class CheckCellarWorkflowSuccessAction implements Action {
+    readonly type = CHECK_CELLAR_WORKFLOW_SUCCESS;
     constructor(public payload: string){}
 }
 
@@ -80,13 +80,23 @@ export class RunCellarWorkflowAction implements Action {
     constructor(public payload: string){}
 }
 
+export const RUN_CELLAR_WORKFLOW_SUCCESS = '[CellarWorkflow] Run success';
+export class RunCellarWorkflowSuccessAction implements Action {
+    readonly type = RUN_CELLAR_WORKFLOW_SUCCESS;
+    constructor(public payload: string){}
+}
+
 export const STOP_CELLAR_WORKFLOW = '[CellarWorkflow] Stop';
 export class StopCellarWorkflowAction implements Action {
     readonly type = STOP_CELLAR_WORKFLOW;
     constructor(public payload: string){}
 }
 
-
+export const STOP_CELLAR_WORKFLOW_SUCCESS = '[CellarWorkflow] Stop success';
+export class StopCellarWorkflowSuccessAction implements Action {
+    readonly type = STOP_CELLAR_WORKFLOW_SUCCESS;
+    constructor(public payload: string){}
+}
 
 
 

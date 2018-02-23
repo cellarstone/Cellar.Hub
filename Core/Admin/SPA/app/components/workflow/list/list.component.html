@@ -23,7 +23,7 @@
       [(selection)]="selectedItem" (onRowSelect)="onRowSelect($event)" (onFilter)="onFilter($event)" [responsive]="true" dataKey="id">
       <p-header>List of Workflows</p-header>
       <!--<p-column field="id" header="Id" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>-->
-      <p-column field="state" header="State" [filter]="true" [style]="{'overflow':'visible'}" [sortable]="true">
+      <!-- <p-column field="state" header="State" [filter]="true" [style]="{'overflow':'visible'}" [sortable]="true">
         <ng-template pTemplate="filter" let-col>
           <p-dropdown [options]="states" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)"
             styleClass="ui-column-filter"></p-dropdown>
@@ -35,22 +35,25 @@
             <div *ngIf="asdf.state == '3'" class="forbiddenState"></div>
           </div>
         </ng-template>
-      </p-column>
-      <p-column field="pid" header="PID" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
-      <p-column field="type" header="Type" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
-      <p-column field="name" header="Name" [filter]="true" [style]="{'overflow':'visible'}" [sortable]="true">
+      </p-column> -->
+
+      <p-column field="workflowtype" header="Type" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
+      <p-column field="workflowparams" header="Params1" [style]="{'overflow':'visible'}">
         <ng-template pTemplate="body" let-col let-asdf="rowData">
           <div class="text-center">
-            {{asdf.parameters[0]}}
-          </div>
-          <div class="text-center">
-            {{asdf.parameters[1]}}
-          </div>
-          <div class="text-center">
-            {{asdf.parameters[2]}}
+            {{asdf.workflowparams | json }}
           </div>
         </ng-template>
       </p-column>
+      <p-column field="triggertype" header="Trigger" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
+      <p-column field="triggerparams" header="Params2" [style]="{'overflow':'visible'}">
+        <ng-template pTemplate="body" let-col let-asdf="rowData">
+          <div class="text-center">
+            {{asdf.triggerparams | json }}
+          </div>
+        </ng-template>
+      </p-column>
+      <p-column field="tags" header="Tags"></p-column>
     </p-dataTable>
 
   </div>

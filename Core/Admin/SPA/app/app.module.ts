@@ -148,8 +148,11 @@ import { WorkflowCli } from './view/workflow/cli/workflow-cli';
 import { WorkflowList } from './view/workflow/list/workflow-list';
 import { WorkflowDetail } from './view/workflow/detail/workflow-detail';
 import { WorkflowListComponent } from './components/workflow/list/list.component';
-import { SavetoprometheusComponent } from './components/workflow/savetoprometheus/savetoprometheus.component';
-import { SendtowebsocketComponent } from './components/workflow/sendtowebsocket/sendtowebsocket.component';
+import { Rand2MqttWorkflowComponent } from './components/workflow/rand2mqtt/rand2mqtt.component';
+import { TestExceptionWorkflowComponent } from './components/workflow/testexception/testexception.component';
+import { Test1WorkflowComponent } from './components/workflow/test1/test1.component';
+import { TimeTriggerComponent } from './components/trigger/time/time.component';
+import { MqttTriggerComponent } from './components/trigger/mqtt/mqtt.component';
 
 
 
@@ -292,8 +295,11 @@ import { MqttEffects } from 'app/state/effects/mqtt.effects';
         SpaceListComponent,
         SpaceBaseInfoComponent,
         WorkflowListComponent,
-        SavetoprometheusComponent,
-        SendtowebsocketComponent,
+        Rand2MqttWorkflowComponent,
+        Test1WorkflowComponent,
+        TestExceptionWorkflowComponent,
+        TimeTriggerComponent,
+        MqttTriggerComponent,
         Dht11Panel,
         PirPanel,
         RelayPanel,
