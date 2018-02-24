@@ -1,7 +1,7 @@
 # -------------------------------------------------
 # Stage 1
 # -------------------------------------------------
-FROM node:8-onbuild AS builder
+FROM node:9-onbuild AS builder
 
 # ANGULAR CLI ----
 # USER root
