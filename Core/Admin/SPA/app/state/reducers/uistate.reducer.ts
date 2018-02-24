@@ -5,7 +5,7 @@ import { Action } from "@ngrx/store";
 import { LOAD_CELLAR_SENZOR_SUCCESS, LoadCellarSenzorSuccessAction, LoadCellarSenzorAction, LOAD_CELLAR_SENZOR } from 'app/state/actions/senzor.actions';
 import { LoadCellarPlaceSuccessAction, LOAD_CELLAR_PLACE_SUCCESS, LoadCellarPlaceAction, LOAD_CELLAR_PLACE, DeleteCellarPlaceFailureAction, DELETE_CELLAR_PLACE_FAILURE } from 'app/state/actions/place.actions';
 import { LoadCellarSpaceAction, LoadCellarSpaceSuccessAction, LOAD_CELLAR_SPACE, LOAD_CELLAR_SPACE_SUCCESS, DELETE_CELLAR_SPACE_FAILURE, DeleteCellarSpaceFailureAction } from 'app/state/actions/space.actions';
-import { LoadCellarWorkflowAction, LoadCellarWorkflowSuccessAction, LOAD_CELLAR_WORKFLOW, LOAD_CELLAR_WORKFLOW_SUCCESS, CheckProcessWorkflowSuccessAction, CHECK_PROCESS_CELLAR_WORKFLOW_SUCCESS } from 'app/state/actions/workflow.actions';
+import { LoadCellarWorkflowAction, LoadCellarWorkflowSuccessAction, LOAD_CELLAR_WORKFLOW, LOAD_CELLAR_WORKFLOW_SUCCESS, CHECK_CELLAR_WORKFLOW_SUCCESS, CheckCellarWorkflowSuccessAction, RUN_CELLAR_WORKFLOW_SUCCESS, RunCellarWorkflowSuccessAction, StopCellarWorkflowSuccessAction, STOP_CELLAR_WORKFLOW_SUCCESS } from 'app/state/actions/workflow.actions';
 
 
 export function uiState(state: UiState = INITIAL_UI_STATE, action: any): UiState {
@@ -41,8 +41,14 @@ export function uiState(state: UiState = INITIAL_UI_STATE, action: any): UiState
         case LOAD_CELLAR_WORKFLOW_SUCCESS:
             return mapWorkflowToState(state, <LoadCellarWorkflowSuccessAction>action);
 
-        case CHECK_PROCESS_CELLAR_WORKFLOW_SUCCESS:
-            return mapActualProcessToState(state, <CheckProcessWorkflowSuccessAction>action);
+        case RUN_CELLAR_WORKFLOW_SUCCESS:
+            return mapActualWorkflowStatusToState(state, <RunCellarWorkflowSuccessAction>action);
+
+        case CHECK_CELLAR_WORKFLOW_SUCCESS:
+            return mapActualWorkflowStatusToState(state, <CheckCellarWorkflowSuccessAction>action);
+
+        case STOP_CELLAR_WORKFLOW_SUCCESS:
+            return mapActualWorkflowStatusToState(state, <StopCellarWorkflowSuccessAction>action);
 
 
         default:
@@ -111,11 +117,11 @@ function mapWorkflowToState(state: UiState, action: LoadCellarWorkflowSuccessAct
     };
 }
 
-function mapActualProcessToState(state: UiState, action: CheckProcessWorkflowSuccessAction): UiState {
+function mapActualWorkflowStatusToState(state: UiState, action: any): UiState {
 
     return {
         ...state,
-        actualProcess: action.payload
+        actualStatus: action.payload
     };
 }
 

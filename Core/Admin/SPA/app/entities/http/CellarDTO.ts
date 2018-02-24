@@ -11,6 +11,7 @@
     identityErrorText: string;
     validations: Array<Tuple>;
     data: Object;
+    result: string;
 }
 
 

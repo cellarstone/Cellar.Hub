@@ -1,55 +1,107 @@
 <h1>Workflow Detail</h1>
-<div id="workflow-detail">
+<div id="workflow-detail" *ngIf="(item$ | async)">
 
+    <div>{{item$ | async | json}}</div>
+
+    <div class="ui-g" *ngIf="(item$ | async).id != ''">
+        <div class="ui-g-2">
+
+            <button type="button"  pButton icon="fa-play" label="RUN" (click)="runWorkflow()" class="ui-button-success"></button>
+
+            <button type="button"  pButton icon="fa-stop" label="STOP" (click)="stopWorkflow()" class="ui-button-danger"></button>
+
+        </div>
+        <div class="ui-g-2">
+
+            <button type="button"  pButton icon="fa-retweet" label="Check process" (click)="checkWorkflow()"
+                class="ui-button-info"></button>
+
+        </div>
+        <div>
+            {{ this.actualStatus$ | async }}
+        </div>
+       
+    </div>
+
+    <h2>0. Set Tags </h2>
     <div class="ui-g" *ngIf="item$ | async">
-        <div class="ui-g form-group" *ngIf="(item$ | async).id == ''">
+        <div class="ui-g form-group">
             <div class="ui-g-12 ui-md-12">
                 <label for="type">Type</label>
                 <div class="ui-fluid">
-                    <p-dropdown id="type" [options]="types" [(ngModel)]="selectedType"></p-dropdown>
+                    <p-chips id="tags" [(ngModel)]="selectedTags"></p-chips>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="ui-g" *ngIf="(item$ | async) && selectedType != ''">
-        <div class="ui-g-2">
+    <h2>1. Choose Trigger </h2>
 
-            <button type="button" *ngIf="!(item$ | async).pid" pButton icon="fa-play" label="RUN" (click)="runWorkflow()" class="ui-button-success"></button>
+    <div class="ui-g" *ngIf="item$ | async">
+        <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-12">
+                    <label for="triggertype">Type</label>
+                    <div class="ui-fluid">
+                        <p-dropdown id="triggertype" [options]="triggerTypes" [(ngModel)]="selectedTriggerType"></p-dropdown>
+                    </div>
+                </div>
+            </div>
+    </div>
 
-            <button type="button" *ngIf="(item$ | async).pid" pButton icon="fa-stop" label="STOP" (click)="stopWorkflow()" class="ui-button-danger"></button>
-
-        </div>
-        <div class="ui-g-2">
-
-            <button type="button" *ngIf="(item$ | async).pid" pButton icon="fa-retweet" label="Check process" (click)="checkProcessWorkflow()"
-                class="ui-button-info"></button>
-
-        </div>
+    <div class="ui-g" *ngIf="(item$ | async) && selectedTriggerType != ''">
         <div class="ui-g-12">
-            <pre>{{(item$ | async).pid}}</pre>
-            <pre>{{actualProcess$ | async}}</pre>
-        </div>
 
+            <!-- TIME -->
+            <trigger-time *ngIf="selectedTriggerType == 'time'" [item]="item$ | async" (onSave)="setTrigger($event)">
+            </trigger-time> 
+
+            <!-- MQTT -->
+            <trigger-mqtt *ngIf="selectedTriggerType == 'mqtt'" [item]="item$ | async" (onSave)="setTrigger($event)">
+            </trigger-mqtt> 
+
+        </div>
     </div>
 
 
-    <div class="ui-g" *ngIf="(item$ | async) && selectedType != ''">
+    <h2>2. Choose Workflow </h2>
+
+    <div class="ui-g" *ngIf="item$ | async">
+        <div class="ui-g form-group">
+            <div class="ui-g-12 ui-md-12">
+                <label for="workflowtype">Type</label>
+                <div class="ui-fluid">
+                    <p-dropdown id="workflowtype" [options]="workflowTypes" [(ngModel)]="selectedWorkflowType"></p-dropdown>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui-g" *ngIf="(item$ | async) && selectedWorkflowType != ''">
         <div class="ui-g-12">
 
+            <!-- RAND2MQTT -->
+            <workflow-rand2mqtt *ngIf="selectedWorkflowType == 'rand2mqtt'" [item]="item$ | async" (onSave)="setWorkflow($event)">
+            </workflow-rand2mqtt> 
 
-            <!-- SAVETOPROMETHEUS -->
-            <workflow-savetoprometheus *ngIf="selectedType == 'savetoprometheus'" [item]="item$ | async" (onSave)="saveWorkflow($event)"
-                (onDelete)="deleteWorkflow($event)" (onCancel)="cancelWorkflow()">
-            </workflow-savetoprometheus>
+            <!-- TESTEXCEPTION -->
+            <workflow-testexception *ngIf="selectedWorkflowType == 'testexception'" [item]="item$ | async" (onSave)="setWorkflow($event)">
+            </workflow-testexception> 
 
-            <!-- SENDTOWEBSOCKET -->
-            <workflow-sendtowebsocket *ngIf="selectedType == 'sendtowebsocket'" [item]="item$ | async" (onSave)="saveWorkflow($event)"
-                (onDelete)="deleteWorkflow($event)" (onCancel)="cancelWorkflow()">
-            </workflow-sendtowebsocket>
-
+            <!-- TEST1 -->
+            <workflow-test1 *ngIf="selectedWorkflowType == 'test1'" [item]="item$ | async" (onSave)="setWorkflow($event)">
+            </workflow-test1> 
 
         </div>
+    </div>
+
+
+    <div class="ui-g" *ngIf="(item$ | async) && selectedWorkflowType != ''&& selectedTriggerType != ''">
+        <div class="card card-w-title">
+  
+            <button type="button" pButton icon="fa-check" label="SAVE" (click)="saveWorkflow()" class="ui-button-success"></button>
+    
+            <button *ngIf="(item$ | async).id != ''" type="button" pButton icon="fa-trash" label="DELETE" (click)="deleteWorkflow()" class="ui-button-danger"></button>
+          </div>
     </div>
 
 

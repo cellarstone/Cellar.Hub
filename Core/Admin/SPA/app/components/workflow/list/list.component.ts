@@ -54,4 +54,13 @@ export class WorkflowListComponent implements OnInit {
   }
 
 
+  objectToMap(obj) {
+    let map = new Map<string, string>();
+    for (let member in obj) {
+      map.set(member, obj[member]);
+    }
+    return map
+  }
+
+
 }

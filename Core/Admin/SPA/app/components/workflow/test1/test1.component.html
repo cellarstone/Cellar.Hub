@@ -1,0 +1,111 @@
+<div id="workflow-test1">
+
+
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!--VALIDATIONS, MESSAGES ... etc.-->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+  
+    <p-messages [value]="messagesToUser"></p-messages>
+  
+    <p-growl [value]="validations"></p-growl>
+  
+  
+  
+  
+  
+    <h1>Test1 workflow</h1>
+    <div>save into websocket</div>
+    <div>send into mqtt</div>
+    <div>save into influx db</div>
+  
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!--PRODUCT BASE info + CATEGORIES-->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+  
+    <div class="ui-g">
+  
+      <!--STATE + BASE INDORMATIONS-->
+      <div class="ui-g-12">
+  
+  
+        <div class="ui-g">
+  
+          <!--BASE INDORMATIONS-->
+          <div class="card card-w-title" style="width: 100%;">
+            <h1>Base Informations</h1>
+  
+  
+            <div class="ui-g-12">
+  
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-12">
+                  <label for="websocketroom">Websocket room</label>
+                  <div class="ui-fluid">
+                    <input id="websocketroom" type="text" pInputText [(ngModel)]="websocketroom" />
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-md-12">
+                  <label for="mqtttopic">MQTT Topic</label>
+                  <div class="ui-fluid">
+                    <input id="mqtttopic" type="text" pInputText [(ngModel)]="mqtttopic" />
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-md-12">
+                  <label for="influxtopic">Influx Topic</label>
+                  <div class="ui-fluid">
+                    <input id="influxtopic" type="text" pInputText [(ngModel)]="influxtopic" />
+                  </div>
+                </div>
+                <!-- <div class="ui-g-12 ui-md-12">
+                  <label for="tags">Tags</label>
+                  <div class="ui-fluid">
+                    <p-chips id="tags" [(ngModel)]="item.tags"></p-chips>
+                  </div>
+                </div> -->
+                
+              </div>
+  
+            </div>
+  
+  
+  
+          </div>
+  
+        </div>
+  
+      </div>
+  
+    </div>
+  
+  
+  
+  
+  
+  
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!--BUTTONS-->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+  
+  
+    <div class="ui-g">
+  
+      <div class="ui-g-12">
+        <div class="card card-w-title">
+  
+          <button type="button" pButton icon="fa-check" label="SET" (click)="saveWorkflow()" class="ui-button-success"></button>
+  
+        </div>
+      </div>
+  
+    </div>
+  
+  
+    <p-messages [value]="messagesToUser"></p-messages>
+  
+  </div>
