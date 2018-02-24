@@ -36,6 +36,8 @@ func RunNewMqttTrigger(channelOut chan string, params interface{}) (channelClose
 	//CHANNELS --------------------------------------
 	trigger_channelClose := make(chan string)
 
+	fmt.Println(wParams.Topic)
+
 	//TRIGGER --------------------------------------
 	trigger := MqttTrigger{
 		BaseTrigger: BaseTrigger{
