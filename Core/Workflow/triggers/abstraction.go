@@ -19,7 +19,7 @@ var (
 	mqtturl string
 )
 
-func init() {
+func InitTriggers() {
 	mqtturl = envString("MQTT_URL", defaultMqttUrl)
 }
 

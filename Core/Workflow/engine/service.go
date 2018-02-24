@@ -35,6 +35,8 @@ type WorkflowEngineService struct {
 func NewService(mongourl string, mqtturl string, influxurl string, websocketsurl string) *WorkflowEngineService {
 
 	InitRepository()
+	triggers.InitTriggers()
+	workflows.InitWorkflows()
 
 	return &WorkflowEngineService{
 		Mongourl:      mongourl,

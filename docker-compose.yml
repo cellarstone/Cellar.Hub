@@ -37,24 +37,24 @@ services:
         tag: docker.cellar.hub.core.web
         mode: non-blocking
 
-  # cellar-hub-core-admin:
-  #   image: cellar.hub.core.admin
-  #   build:
-  #     context: ./Core/Admin
-  #     dockerfile: Dockerfile
-  #   labels:
-  #     - "traefik.enabled=true"
-  #     - "traefik.port=44402"
-  #     - "traefik.backend=core-admin"
-  #     - "traefik.frontend.rule=Host:admin.cellarstone.hub"
-  #   links:
-  #     - fluentd
-  #   logging:
-  #     driver: "fluentd"
-  #     options:
-  #       fluentd-address: localhost:24224
-  #       tag: docker.cellar.hub.core.admin
-  #       mode: non-blocking
+  cellar-hub-core-admin:
+    image: cellar.hub.core.admin
+    build:
+      context: ./Core/Admin
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.enabled=true"
+      - "traefik.port=44402"
+      - "traefik.backend=core-admin"
+      - "traefik.frontend.rule=Host:admin.cellarstone.hub"
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.core.admin
+        mode: non-blocking
 
   cellar-hub-core-api:
     image: cellar.hub.core.api
@@ -104,34 +104,34 @@ services:
     volumes:
      - /data/cellarstone.hub/core/cdn:/app/data
 
-  # cellar-hub-core-workflow:
-  #   image: cellar.hub.core.workflow
-  #   build:
-  #     context: ./Core/Workflow
-  #     dockerfile: Dockerfile
-  #   environment:
-  #     - PORT=44405
-  #     - MONGO_URL=mongodb
-  #     - MQTT_URL=mqtt
-  #     - INFLUX_URL=http://influxdb:8086
-  #     - WEBSOCKETS_URL=websockets:44406
-  #   labels:
-  #     - "traefik.enabled=true"
-  #     - "traefik.port=44405"
-  #     - "traefik.backend=core-workflow"
-  #     - "traefik.frontend.rule=Host:workflow.cellarstone.hub"
-  #   links:
-  #     - mongodb
-  #     - mqtt
-  #     - influxdb
-  #     - cellar-hub-core-websockets
-  #     - fluentd
-  #   logging:
-  #     driver: "fluentd"
-  #     options:
-  #       fluentd-address: localhost:24224
-  #       tag: docker.cellar.hub.core.workflow
-  #       mode: non-blocking
+  cellar-hub-core-workflow:
+    image: cellar.hub.core.workflow
+    build:
+      context: ./Core/Workflow
+      dockerfile: Dockerfile
+    environment:
+      - PORT=44405
+      - MONGO_URL=mongodb
+      - MQTT_URL=mqtt
+      - INFLUX_URL=http://influxdb:8086
+      - WEBSOCKETS_URL=cellar-hub-core-websockets:44406
+    labels:
+      - "traefik.enabled=true"
+      - "traefik.port=44405"
+      - "traefik.backend=core-workflow"
+      - "traefik.frontend.rule=Host:workflow.cellarstone.hub"
+    links:
+      - mongodb
+      - mqtt
+      - influxdb
+      - cellar-hub-core-websockets
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.core.workflow
+        mode: non-blocking
 
   cellar-hub-core-websockets:
     image: cellar.hub.core.websockets

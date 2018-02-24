@@ -44,6 +44,8 @@ func CreateAndRun_Rand2MqttWorkflow(params interface{}, tags []string) *Rand2Mqt
 	ct1_channelStatus := make(chan string)
 	ct1_channelClose := make(chan string)
 
+	fmt.Println(mqtturl)
+
 	//TASKS --------------------------------------
 	ct1 := tasks.SendMqttTask{
 		BaseTask: tasks.BaseTask{
@@ -52,7 +54,7 @@ func CreateAndRun_Rand2MqttWorkflow(params interface{}, tags []string) *Rand2Mqt
 			ChannelStatus: ct1_channelStatus,
 			ChannelClose:  ct1_channelClose,
 		},
-		MqttUrl: mongourl,
+		MqttUrl: mqtturl,
 		Topic:   wParams.MqttTopic,
 	}
 

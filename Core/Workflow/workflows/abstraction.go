@@ -32,7 +32,7 @@ var (
 	websocketsurl string
 )
 
-func init() {
+func InitWorkflows() {
 	mongourl = envString("MONGO_URL", defaultMongoUrl)
 	mqtturl = envString("MQTT_URL", defaultMqttUrl)
 	influxurl = envString("INFLUX_URL", defaultInfluxUrl)

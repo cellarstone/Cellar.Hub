@@ -3,6 +3,7 @@ package workflows
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"sync"
 	"time"
 
@@ -22,7 +23,7 @@ type TestExceptionWorkflow struct {
 }
 
 type Params_TestExceptionWorkflow struct {
-	MessageCount int    `json:"messagecount" bson:"messagecount"`
+	MessageCount string `json:"messagecount" bson:"messagecount"`
 	MqttTopic    string `json:"mqtttopic"`
 }
 
@@ -52,6 +53,11 @@ func CreateAndRun_TestExceptionWorkflow(params interface{}, tags []string) *Test
 	ct2_channelStatus := make(chan string)
 	ct2_channelClose := make(chan string)
 
+	messageCount, err := strconv.Atoi(wParams.MessageCount)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	//TASKS --------------------------------------
 	ct1 := tasks.ExceptionTask{
 		BaseTask: tasks.BaseTask{
@@ -60,7 +66,7 @@ func CreateAndRun_TestExceptionWorkflow(params interface{}, tags []string) *Test
 			ChannelStatus: ct1_channelStatus,
 			ChannelClose:  ct1_channelClose,
 		},
-		MessageCount: wParams.MessageCount,
+		MessageCount: messageCount,
 	}
 
 	ct2 := tasks.SendMqttTask{
