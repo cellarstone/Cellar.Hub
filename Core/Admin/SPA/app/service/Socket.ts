@@ -1,10 +1,22 @@
 import {EventEmitter} from 'events';
+import { environment } from 'environments/environment';
 
 export class Socket {
   private ws: WebSocket;
   public ee: EventEmitter;
 
   constructor(url: string){
+
+    let fullurl = "";
+
+    if(environment.production){
+      fullurl = "ws://websockets.cellarstone.hub/ws/";
+    } else {
+      fullurl = "ws://localhost:44406/ws/";
+    }
+
+    fullurl += url;
+
     this.ws = new WebSocket(url);
     this.ee = new EventEmitter();
     this.ws.onmessage = this.message.bind(this);

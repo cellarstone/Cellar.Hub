@@ -47,7 +47,7 @@ export class RelayPanel implements OnInit {
     this.setCharts();
 
     //websockets
-    this.socket = new Socket("ws://localhost:44406/ws/" + this.senzorName + "relay");
+    this.socket = new Socket(this.senzorName + "relay");
     this.socket.on('connect', this.onConnect.bind(this));
     this.socket.on('disconnect', this.onDisconnect.bind(this));
     this.socket.on('message', this.onMessage.bind(this));
