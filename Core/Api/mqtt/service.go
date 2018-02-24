@@ -50,7 +50,7 @@ func (s MqttService) PublishToMqtt(topic string, value string) error {
 	// Connect to the MQTT Server.
 	err2 := cli.Connect(&client.ConnectOptions{
 		Network:  "tcp",
-		Address:  s.Mqtturl,
+		Address:  s.Mqtturl + ":1883",
 		ClientID: []byte(clientID),
 	})
 	if err2 != nil {
