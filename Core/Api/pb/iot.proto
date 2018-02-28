@@ -1,0 +1,23 @@
+syntax = "proto3";
+package pb;
+
+
+service IoTService {
+    rpc GetAllSpaces(GetAllSpacesRequest) returns (GetAllSpacesResponse) {}
+}
+
+//OBJECTS
+message CellarSpace {
+    string Id = 1;
+    string Name = 2;
+    string State = 3;
+    string Image = 4;
+    string Path = 5;
+}
+
+message GetAllSpacesRequest {
+}
+
+message GetAllSpacesResponse {
+    repeated CellarSpace Data = 1;
+}

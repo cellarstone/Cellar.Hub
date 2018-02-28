@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -14,26 +15,33 @@ import (
 
 	"github.com/cellarstone/Cellar.Hub/Core/Api/iot"
 	"github.com/cellarstone/Cellar.Hub/Core/Api/mqtt"
+	"github.com/cellarstone/Cellar.Hub/Core/Api/pb"
 	"github.com/go-kit/kit/log"
 	kitprometheus "github.com/go-kit/kit/metrics/prometheus"
 	"github.com/gorilla/handlers"
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"google.golang.org/grpc"
 )
 
 const (
-	defaultPort     = "44403"
+	defaultHTTPPort = "44403"
+	defaultGRPCPort = "44413"
 	defaultMqttUrl  = "http://localhost:1883"
 	defaultMongoUrl = "localhost"
 )
 
 func main() {
+	errs := make(chan error, 2)
+
 	var (
-		addr     = envString("PORT", defaultPort)
+		httpaddr = envString("HTTP_PORT", defaultHTTPPort)
+		rpcpaddr = envString("GRPC_PORT", defaultGRPCPort)
 		mqtturl  = envString("MQTT_URL", defaultMqttUrl)
 		mongourl = envString("MONGO_URL", defaultMongoUrl)
 
-		httpAddr = flag.String("http.addr", ":"+addr, "HTTP listen address")
+		httpAddr = flag.String("http.addr", ":"+httpaddr, "HTTP listen address")
+		gRPCAddr = flag.String("grpc.addr", ":"+rpcpaddr, "gRPC listen address")
 
 		ctx = context.Background()
 	)
@@ -45,6 +53,36 @@ func main() {
 	logger = log.With(logger, "ts", log.DefaultTimestampUTC)
 
 	fieldKeys := []string{"method"}
+
+	//-----------------------------------------
+	// gRPC server
+	//-----------------------------------------
+
+	// init lorem service
+	var bs0 iot.Service
+	bs0 = iot.NewService(mongourl)
+
+	// creating Endpoints struct
+	endpoints1 := iot.Endpoints{
+		GetAllSpacesEndpoint: iot.MakeGetAllSpacesEndpoint(bs0),
+	}
+
+	//execute grpc server
+	go func() {
+		listener, err := net.Listen("tcp", *gRPCAddr)
+		if err != nil {
+			errs <- err
+			return
+		}
+		handler := iot.MakeGrpcHandler(ctx, endpoints1)
+		gRPCServer := grpc.NewServer()
+		pb.RegisterIoTServiceServer(gRPCServer, handler)
+		errs <- gRPCServer.Serve(listener)
+	}()
+
+	//-----------------------------------------
+	// HTTP server
+	//-----------------------------------------
 
 	// MQTT --------------------------
 	var bs mqtt.Service
@@ -126,11 +164,15 @@ func main() {
 
 	logger.Log("API IS RUNNING")
 
-	errs := make(chan error, 2)
 	go func() {
 		logger.Log("transport", "http", "address", *httpAddr, "msg", "listening")
 		errs <- http.ListenAndServe(*httpAddr, nil)
 	}()
+
+	//-----------------------------------------
+	// END SIGNAL
+	//-----------------------------------------
+
 	go func() {
 		c := make(chan os.Signal)
 		signal.Notify(c, syscall.SIGINT)
