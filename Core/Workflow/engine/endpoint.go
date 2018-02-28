@@ -9,17 +9,23 @@ import (
 
 type Endpoints struct {
 	GetAllWorkflowsEndpoint   endpoint.Endpoint
-	GetWorkflowsEndpoint      endpoint.Endpoint
-	GetWorkflowEndpoint       endpoint.Endpoint
 	RunAllWorkflowsEndpoint   endpoint.Endpoint
-	RunWorkflowEndpoint       endpoint.Endpoint
 	CheckAllWorkflowsEndpoint endpoint.Endpoint
-	CheckWorkflowEndpoint     endpoint.Endpoint
-	CloseAllWorkflowsEndpoint endpoint.Endpoint
-	CloseWorkflowEndpoint     endpoint.Endpoint
-	SaveWorkflowEndpoint      endpoint.Endpoint
-	UpdateWorkflowEndpoint    endpoint.Endpoint
-	DeleteWorkflowEndpoint    endpoint.Endpoint
+	StopAllWorkflowsEndpoint  endpoint.Endpoint
+
+	GetWorkflowsEndpoint    endpoint.Endpoint
+	DeleteWorkflowsEndpoint endpoint.Endpoint
+	RunWorkflowsEndpoint    endpoint.Endpoint
+	CheckWorkflowsEndpoint  endpoint.Endpoint
+	StopWorkflowsEndpoint   endpoint.Endpoint
+
+	GetWorkflowEndpoint    endpoint.Endpoint
+	SaveWorkflowEndpoint   endpoint.Endpoint
+	UpdateWorkflowEndpoint endpoint.Endpoint
+	DeleteWorkflowEndpoint endpoint.Endpoint
+	RunWorkflowEndpoint    endpoint.Endpoint
+	CheckWorkflowEndpoint  endpoint.Endpoint
+	StopWorkflowEndpoint   endpoint.Endpoint
 }
 
 //*************************
@@ -70,6 +76,114 @@ func MakeGetWorkflowsEndpoint(svc Service) endpoint.Endpoint {
 		}
 
 		return GetWorkflowsResponse{Data: result}, nil
+	}
+}
+
+//*************************
+// DELETE WORKFLOWS
+//*************************
+
+type DeleteWorkflowsRequest struct {
+	SenzorName string `json:"senzorname"`
+}
+
+type DeleteWorkflowsResponse struct {
+	Result string `json:"result"`
+}
+
+func MakeDeleteWorkflowsEndpoint(svc Service) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+
+		req := request.(DeleteWorkflowsRequest)
+
+		//call service
+		err := svc.DeleteWorkflows(req.SenzorName)
+		if err != nil {
+			return nil, err
+		}
+
+		return DeleteWorkflowsResponse{Result: "OK"}, nil
+	}
+}
+
+//*************************
+// RUN WORKFLOWS
+//*************************
+
+type RunWorkflowsRequest struct {
+	SenzorName string `json:"senzorname"`
+}
+
+type RunWorkflowsResponse struct {
+	Result string `json:"result"`
+}
+
+func MakeRunWorkflowsEndpoint(svc Service) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+
+		req := request.(RunWorkflowsRequest)
+
+		//call service
+		err := svc.RunWorkflows(req.SenzorName)
+		if err != nil {
+			return nil, err
+		}
+
+		return RunWorkflowsResponse{Result: "OK"}, nil
+	}
+}
+
+//*************************
+// CHECK WORKFLOWS
+//*************************
+
+type CheckWorkflowsRequest struct {
+	SenzorName string `json:"senzorname"`
+}
+
+type CheckWorkflowsResponse struct {
+	Result string `json:"result"`
+}
+
+func MakeCheckWorkflowsEndpoint(svc Service) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+
+		req := request.(CheckWorkflowsRequest)
+
+		//call service
+		result, err := svc.CheckWorkflows(req.SenzorName)
+		if err != nil {
+			return nil, err
+		}
+
+		return CheckWorkflowsResponse{Result: result}, nil
+	}
+}
+
+//*************************
+// STOP WORKFLOWS
+//*************************
+
+type StopWorkflowsRequest struct {
+	SenzorName string `json:"senzorname"`
+}
+
+type StopWorkflowsResponse struct {
+	Result string `json:"result"`
+}
+
+func MakeStopWorkflowsEndpoint(svc Service) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+
+		req := request.(StopWorkflowsRequest)
+
+		//call service
+		err := svc.StopWorkflows(req.SenzorName)
+		if err != nil {
+			return nil, err
+		}
+
+		return StopWorkflowsResponse{Result: "OK"}, nil
 	}
 }
 
@@ -200,52 +314,52 @@ func MakeCheckWorkflowEndpoint(svc Service) endpoint.Endpoint {
 }
 
 //*************************
-// CLOSE ALL WORKFLOWS
+// STOP ALL WORKFLOWS
 //*************************
 
-type CloseAllWorkflowsRequest struct {
+type StopAllWorkflowsRequest struct {
 }
 
-type CloseAllWorkflowsResponse struct {
+type StopAllWorkflowsResponse struct {
 	Result string `json:"result"`
 }
 
-func MakeCloseAllWorkflowsEndpoint(svc Service) endpoint.Endpoint {
+func MakeStopAllWorkflowsEndpoint(svc Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 
 		//call service
-		err := svc.CloseAllWorkflows()
+		err := svc.StopAllWorkflows()
 		if err != nil {
 			return nil, err
 		}
 
-		return CloseAllWorkflowsResponse{Result: "OK"}, nil
+		return StopAllWorkflowsResponse{Result: "OK"}, nil
 	}
 }
 
 //*************************
-// CLOSE WORKFLOW
+// STOP WORKFLOW
 //*************************
 
-type CloseWorkflowRequest struct {
+type StopWorkflowRequest struct {
 	ID string `json:"id"`
 }
 
-type CloseWorkflowResponse struct {
+type StopWorkflowResponse struct {
 	Result string `json:"result"`
 }
 
-func MakeCloseWorkflowEndpoint(svc Service) endpoint.Endpoint {
+func MakeStopWorkflowEndpoint(svc Service) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		req := request.(CloseWorkflowRequest)
+		req := request.(StopWorkflowRequest)
 
 		//call service
-		err := svc.CloseWorkflow(req.ID)
+		err := svc.StopWorkflow(req.ID)
 		if err != nil {
 			return nil, err
 		}
 
-		return CloseWorkflowResponse{Result: "OK"}, nil
+		return StopWorkflowResponse{Result: "OK"}, nil
 	}
 }
 

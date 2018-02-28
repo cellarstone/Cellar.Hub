@@ -10,18 +10,24 @@ import (
 )
 
 type Service interface {
-	GetWorkflow(id string) (CellarWorkflow, error)
-	GetWorkflows(senzorname string) ([]CellarWorkflow, error)
 	GetAllWorkflows() ([]CellarWorkflow, error)
-	RunWorkflow(id string) error
 	RunAllWorkflows() error
-	CheckWorkflow(id string) (string, error)
 	CheckAllWorkflows() string
-	CloseWorkflow(id string) error
-	CloseAllWorkflows() error
+	StopAllWorkflows() error
+
+	GetWorkflows(senzorname string) ([]CellarWorkflow, error)
+	DeleteWorkflows(senzorname string) error
+	RunWorkflows(senzorname string) error
+	CheckWorkflows(senzorname string) (string, error)
+	StopWorkflows(senzorname string) error
+
+	GetWorkflow(id string) (CellarWorkflow, error)
 	SaveWorkflow(workflowType string, workflowParams interface{}, tags []string, triggerType string, triggerParams interface{}) (CellarWorkflow, error)
 	UpdateWorkflow(workflow CellarWorkflow) (CellarWorkflow, error)
 	DeleteWorkflow(id string) error
+	RunWorkflow(id string) error
+	CheckWorkflow(id string) (string, error)
+	StopWorkflow(id string) error
 }
 
 type WorkflowEngineService struct {
@@ -204,6 +210,64 @@ func (s *WorkflowEngineService) GetWorkflows(senzorname string) ([]CellarWorkflo
 	return workflows, nil
 }
 
+func (s *WorkflowEngineService) DeleteWorkflows(senzorname string) (err error) {
+
+	//save into db
+	err = DeleteCellarWorkflows(senzorname)
+
+	return err
+}
+
+func (s *WorkflowEngineService) RunWorkflows(senzorname string) (err error) {
+
+	workflows, err := GetCellarWorkflows(senzorname)
+	if err != nil {
+		return err
+	}
+
+	for _, item := range workflows {
+		err := s.RunWorkflow(string(item.ID))
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (s *WorkflowEngineService) CheckWorkflows(senzorname string) (result string, err error) {
+
+	workflows, err := GetCellarWorkflows(senzorname)
+	if err != nil {
+		return "", err
+	}
+
+	result = ""
+	for _, item := range workflows {
+		temp, _ := s.CheckWorkflow(string(item.ID))
+		result += temp
+	}
+
+	return result, nil
+}
+
+func (s *WorkflowEngineService) StopWorkflows(senzorname string) (err error) {
+
+	workflows, err := GetCellarWorkflows(senzorname)
+	if err != nil {
+		return err
+	}
+
+	for _, item := range workflows {
+		err := s.StopWorkflow(string(item.ID))
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (s *WorkflowEngineService) GetWorkflow(id string) (CellarWorkflow, error) {
 
 	workflow, err := GetCellarWorkflow(id)
@@ -240,7 +304,7 @@ func (s *WorkflowEngineService) CheckWorkflow(id string) (result string, err err
 	return result, nil
 }
 
-func (s *WorkflowEngineService) CloseAllWorkflows() error {
+func (s *WorkflowEngineService) StopAllWorkflows() error {
 	for _, item := range s.WorkflowsInMemory {
 		item.Close()
 	}
@@ -253,7 +317,7 @@ func (s *WorkflowEngineService) CloseAllWorkflows() error {
 	return nil
 }
 
-func (s *WorkflowEngineService) CloseWorkflow(id string) error {
+func (s *WorkflowEngineService) StopWorkflow(id string) error {
 
 	resultIndex := -1
 

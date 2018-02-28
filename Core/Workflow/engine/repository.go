@@ -79,6 +79,29 @@ func GetCellarWorkflows(senzorname string) ([]CellarWorkflow, error) {
 	return result, nil
 }
 
+func DeleteCellarWorkflows(senzorname string) error {
+	// Get session
+	session, err := mgo.Dial(mongourl)
+	if err != nil {
+		return err
+	}
+	defer session.Close()
+
+	// Error check on every access
+	session.SetSafe(&mgo.Safe{})
+
+	// Get collection
+	collection := session.DB(mongoDatabase).C("Workflows")
+
+	// Delete record
+	err = collection.Remove(bson.M{"tags": bson.M{"$in": []string{senzorname}}})
+	if err != nil && err.Error() != "not found" {
+		return err
+	}
+
+	return nil
+}
+
 func GetCellarWorkflow(id string) (CellarWorkflow, error) {
 	// Get session
 	session, err := mgo.Dial(mongourl)

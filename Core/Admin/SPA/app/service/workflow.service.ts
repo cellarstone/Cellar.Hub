@@ -52,9 +52,9 @@ export class WorkflowService {
     this.url_getAllCellarWorkflows = this.serverUrl + '/engine/workflows';
     this.url_GetCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}';
     this.url_DeleteCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}';
-    this.url_RunCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}';
-    this.url_CheckCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}';
-    this.url_StopCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}';
+    this.url_RunCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}/run';
+    this.url_CheckCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}/check';
+    this.url_StopCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}/stop';
     this.url_CellarWorkflow = this.serverUrl + '/engine/workflow';
     this.url_RunCellarWorkflow = this.serverUrl + '/engine/workflow/{id}/run';
     this.url_RunAllCellarWorkflows = this.serverUrl + '/engine/workflows/run';

@@ -11,11 +11,13 @@ import (
 	"syscall"
 
 	"github.com/cellarstone/Cellar.Hub/Core/Workflow/engine"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/pb"
 	"github.com/go-kit/kit/log"
 	kitprometheus "github.com/go-kit/kit/metrics/prometheus"
 	"github.com/gorilla/handlers"
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"google.golang.org/grpc"
 )
 
 const (
@@ -46,6 +48,34 @@ func main() {
 
 	flag.Parse()
 
+	// -------------------------------------------------
+	// -------------------------------------------------
+	// -------------------------------------------------
+
+	address := "localhost:44413"
+	// Set up a connection to the gRPC server.
+	conn, err := grpc.Dial(address, grpc.WithInsecure())
+	if err != nil {
+		fmt.Printf("did not connect: %v", err)
+	}
+	defer conn.Close()
+	// Creates a new CustomerClient
+	client := pb.NewIoTServiceClient(conn)
+
+	request := &pb.GetSenzorRequest{
+		Id: "5a7be4a28d6078000a79f945",
+	}
+
+	resp, err := client.GetSenzor(context.Background(), request)
+	if err != nil {
+		fmt.Printf("Could not create Customer: %v", err)
+	}
+	fmt.Println(resp)
+
+	// -------------------------------------------------
+	// -------------------------------------------------
+	// -------------------------------------------------
+
 	var logger log.Logger
 	logger = log.NewLogfmtLogger(log.NewSyncWriter(os.Stderr))
 	logger = log.With(logger, "ts", log.DefaultTimestampUTC)
@@ -74,17 +104,23 @@ func main() {
 
 	workflowengineendpoints := engine.Endpoints{
 		GetAllWorkflowsEndpoint:   engine.MakeGetAllWorkflowsEndpoint(bs),
-		GetWorkflowsEndpoint:      engine.MakeGetWorkflowsEndpoint(bs),
-		GetWorkflowEndpoint:       engine.MakeGetWorkflowEndpoint(bs),
 		RunAllWorkflowsEndpoint:   engine.MakeRunAllWorkflowsEndpoint(bs),
-		RunWorkflowEndpoint:       engine.MakeRunWorkflowEndpoint(bs),
 		CheckAllWorkflowsEndpoint: engine.MakeCheckAllWorkflowsEndpoint(bs),
-		CheckWorkflowEndpoint:     engine.MakeCheckWorkflowEndpoint(bs),
-		CloseAllWorkflowsEndpoint: engine.MakeCloseAllWorkflowsEndpoint(bs),
-		CloseWorkflowEndpoint:     engine.MakeCloseWorkflowEndpoint(bs),
-		SaveWorkflowEndpoint:      engine.MakeSaveWorkflowEndpoint(bs),
-		UpdateWorkflowEndpoint:    engine.MakeUpdateWorkflowEndpoint(bs),
-		DeleteWorkflowEndpoint:    engine.MakeDeleteWorkflowEndpoint(bs),
+		StopAllWorkflowsEndpoint:  engine.MakeStopAllWorkflowsEndpoint(bs),
+
+		GetWorkflowsEndpoint:    engine.MakeGetWorkflowsEndpoint(bs),
+		DeleteWorkflowsEndpoint: engine.MakeDeleteWorkflowsEndpoint(bs),
+		RunWorkflowsEndpoint:    engine.MakeRunWorkflowsEndpoint(bs),
+		CheckWorkflowsEndpoint:  engine.MakeCheckWorkflowsEndpoint(bs),
+		StopWorkflowsEndpoint:   engine.MakeStopWorkflowsEndpoint(bs),
+
+		GetWorkflowEndpoint:    engine.MakeGetWorkflowEndpoint(bs),
+		SaveWorkflowEndpoint:   engine.MakeSaveWorkflowEndpoint(bs),
+		UpdateWorkflowEndpoint: engine.MakeUpdateWorkflowEndpoint(bs),
+		DeleteWorkflowEndpoint: engine.MakeDeleteWorkflowEndpoint(bs),
+		RunWorkflowEndpoint:    engine.MakeRunWorkflowEndpoint(bs),
+		CheckWorkflowEndpoint:  engine.MakeCheckWorkflowEndpoint(bs),
+		StopWorkflowEndpoint:   engine.MakeStopWorkflowEndpoint(bs),
 	}
 
 	// SERVER -------------------------------------------

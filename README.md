@@ -1,4 +1,34 @@
 
+PRISTUP K HUBU PRES LOKALNI SIT
+>> zadavani IP adresy do chrome ??? NEEEEEE, jak tedy ?
+
+
+PROBLEM ZE NEMAM PRISTUP PO ZPRISTUPNENI ADMIN PRES NGROK
+url v SPA vedu na nedostupne url adresy
+RESENI >> zpristupneni ALL hub ven - Admin, Websocket, Api, Workflow
+
+
+PROBLEM SE ZADAVANIM IP ADRESY HUBU DO SENZORU
+RESENI >>
+# Steps
+
+1. Run Hub
+ - Connect to the Wifi
+ - Set Account and password
+ THEN
+ - hub will send informations (HW, IP address ... etc) to the cloud and pair this informations with account
+
+2. Run Senzor
+3. Connect into AP mode and fill 
+    - Wifi SSID
+    - Wifi password
+    - Account name
+    - Account password
+
+4. Senzor GET Hub IP from Cloud
+5. Senzor send data into Hub
+
+
 # Run
 
 Run everything with this command.

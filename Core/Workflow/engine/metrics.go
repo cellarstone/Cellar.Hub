@@ -66,6 +66,46 @@ func (mw MetricsMiddleware) GetWorkflows(senzorname string) (data []CellarWorkfl
 	return data, err
 }
 
+func (mw MetricsMiddleware) DeleteWorkflows(senzorname string) (err error) {
+	defer func(begin time.Time) {
+		lvs := []string{"method", "DeleteWorkflows"}
+		mw.requestCount.With(lvs...).Add(1)
+		mw.requestLatency.With(lvs...).Observe(time.Since(begin).Seconds())
+	}(time.Now())
+	err = mw.Service.DeleteWorkflows(senzorname)
+	return err
+}
+
+func (mw MetricsMiddleware) RunWorkflows(senzorname string) (err error) {
+	defer func(begin time.Time) {
+		lvs := []string{"method", "RunWorkflows"}
+		mw.requestCount.With(lvs...).Add(1)
+		mw.requestLatency.With(lvs...).Observe(time.Since(begin).Seconds())
+	}(time.Now())
+	err = mw.Service.RunWorkflows(senzorname)
+	return err
+}
+
+func (mw MetricsMiddleware) CheckWorkflows(senzorname string) (result string, err error) {
+	defer func(begin time.Time) {
+		lvs := []string{"method", "CheckWorkflows"}
+		mw.requestCount.With(lvs...).Add(1)
+		mw.requestLatency.With(lvs...).Observe(time.Since(begin).Seconds())
+	}(time.Now())
+	result, err = mw.Service.CheckWorkflows(senzorname)
+	return result, err
+}
+
+func (mw MetricsMiddleware) StopWorkflows(senzorname string) (err error) {
+	defer func(begin time.Time) {
+		lvs := []string{"method", "StopWorkflows"}
+		mw.requestCount.With(lvs...).Add(1)
+		mw.requestLatency.With(lvs...).Observe(time.Since(begin).Seconds())
+	}(time.Now())
+	err = mw.Service.StopWorkflows(senzorname)
+	return err
+}
+
 func (mw MetricsMiddleware) GetWorkflow(id string) (data CellarWorkflow, err error) {
 	defer func(begin time.Time) {
 		lvs := []string{"method", "GetWorkflow"}
@@ -117,22 +157,22 @@ func (mw MetricsMiddleware) CheckWorkflow(id string) (result string, err error) 
 	return result, err
 }
 
-func (mw MetricsMiddleware) CloseAllWorkflows() (err error) {
+func (mw MetricsMiddleware) StopAllWorkflows() (err error) {
 	defer func(begin time.Time) {
-		lvs := []string{"method", "CloseAllWorkflows"}
+		lvs := []string{"method", "StopAllWorkflows"}
 		mw.requestCount.With(lvs...).Add(1)
 		mw.requestLatency.With(lvs...).Observe(time.Since(begin).Seconds())
 	}(time.Now())
-	err = mw.Service.CloseAllWorkflows()
+	err = mw.Service.StopAllWorkflows()
 	return err
 }
 
-func (mw MetricsMiddleware) CloseWorkflow(id string) (err error) {
+func (mw MetricsMiddleware) StopWorkflow(id string) (err error) {
 	defer func(begin time.Time) {
-		lvs := []string{"method", "CloseWorkflow"}
+		lvs := []string{"method", "StopWorkflow"}
 		mw.requestCount.With(lvs...).Add(1)
 		mw.requestLatency.With(lvs...).Observe(time.Since(begin).Seconds())
 	}(time.Now())
-	err = mw.Service.CloseWorkflow(id)
+	err = mw.Service.StopWorkflow(id)
 	return err
 }
