@@ -91,6 +91,11 @@
             <workflow-test1 *ngIf="selectedWorkflowType == 'test1'" [item]="item$ | async" (onSave)="setWorkflow($event)">
             </workflow-test1> 
 
+            <!-- DEFAULTSENZOR -->
+            <workflow-defaultsenzor *ngIf="selectedWorkflowType == 'defaultsenzor'" [item]="item$ | async" (onSave)="setWorkflow($event)">
+            </workflow-defaultsenzor> 
+
+
         </div>
     </div>
 

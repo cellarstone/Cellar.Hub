@@ -65,6 +65,9 @@ export class SenzorBaseInfoComponent implements OnInit {
 
   saveSenzor() {
 
+    this.item.wifiSSID = "a";
+    this.item.wifiPassword = "a";
+    this.item.mqttUrl = "a";
 
     this.item.type = this.selectedType;
 

@@ -20,6 +20,7 @@ import { LoadCellarSenzorAction, SaveCellarSenzorAction, DeleteCellarSenzorActio
 import * as RouterActions from 'app/state/actions/router.actions';
 import { PublishToMqttModel } from 'app/models/publishToMqtt.model';
 import { PublishToMqttAction } from 'app/state/actions/mqtt.actions';
+import { CellarWorkflow } from '../../../entities/CellarWorkflow';
 
 @Component({
     templateUrl: './senzor-detail.html',
@@ -76,9 +77,23 @@ export class SenzorDetail {
 
     private saveSenzor(item: CellarSenzor) {
         this.store.dispatch(new SaveCellarSenzorAction(item));
+
+
+        let itemResult = new CellarWorkflow();
+        itemResult.workflowtype = item.workflowtype;
+      itemResult.workflowparams = item.workflowparams;
+      itemResult.triggertype = item.triggertype;
+      itemResult.triggerparams = item.triggerparams;
+      itemResult.tags = this.selectedTags;
+
+      this.store.dispatch(new SaveCellarWorkflowAction(itemResult))
+
+
     }
     private deleteSenzor(item: CellarSenzor) {
         this.store.dispatch(new DeleteCellarSenzorAction(item));
+
+        
     }
     private cancelSenzor() {
         this.store.dispatch(new RouterActions.Back());

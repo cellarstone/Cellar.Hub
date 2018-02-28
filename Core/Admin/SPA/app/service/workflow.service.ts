@@ -18,14 +18,18 @@ export class WorkflowService {
   private url_processes: string;
   private url_actualDirectory: string;
   private url_getAllCellarWorkflows: string;
-  private url_getCellarWorkflows: string;
+  private url_GetCellarWorkflows: string;
+  private url_DeleteCellarWorkflows: string;
+  private url_RunCellarWorkflows: string;
+  private url_CheckCellarWorkflows: string;
+  private url_StopCellarWorkflows: string;
   private url_CellarWorkflow: string;
   private url_RunCellarWorkflow: string;
   private url_RunAllCellarWorkflows: string;
   private url_StopCellarWorkflow: string;
   private url_StopAllCellarWorkflows: string;
   private url_CheckCellarWorkflow: string;
-  private url_CheckProcessCellarWorkflow: string;
+  private url_CheckAllCellarWorkflows: string;
 
   private headers: HttpHeaders;
 
@@ -46,14 +50,18 @@ export class WorkflowService {
     // this.url_processes = this.serverUrl + '/api/processes';
     // this.url_actualDirectory = this.serverUrl + '/api/actualdirectory';
     this.url_getAllCellarWorkflows = this.serverUrl + '/engine/workflows';
-    this.url_getCellarWorkflows = this.serverUrl + '/engine/workflows';
+    this.url_GetCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}';
+    this.url_DeleteCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}';
+    this.url_RunCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}';
+    this.url_CheckCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}';
+    this.url_StopCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}';
     this.url_CellarWorkflow = this.serverUrl + '/engine/workflow';
     this.url_RunCellarWorkflow = this.serverUrl + '/engine/workflow/{id}/run';
-    this.url_RunAllCellarWorkflows = this.serverUrl + '/engine/runallworkflows';
+    this.url_RunAllCellarWorkflows = this.serverUrl + '/engine/workflows/run';
     this.url_StopCellarWorkflow = this.serverUrl + '/engine/workflow/{id}/stop';
-    this.url_StopAllCellarWorkflows = this.serverUrl + '/engine/stopallworkflows';
+    this.url_StopAllCellarWorkflows = this.serverUrl + '/engine/workflows/stop';
     this.url_CheckCellarWorkflow = this.serverUrl + '/engine/workflow/{id}/check';
-    // this.url_CheckProcessCellarWorkflow = this.serverUrl + '/api/checkprocessworkflow';
+    this.url_CheckAllCellarWorkflows = this.serverUrl + '/engine/workflows/check';
   }
 
   private setHeaders() {
@@ -88,9 +96,58 @@ export class WorkflowService {
     this.setHeaders();
     let options = { headers: this.headers };
 
-    return this.http.get(this.url_getCellarWorkflows + "/" + senzorName, options)
+    return this.http.get(this.url_GetCellarWorkflows.replace("{senzorname}", senzorName), options)
       .catch(this.handleError);
   }
+
+
+  public DeleteCellarWorkflows(senzorName: string): Observable<CellarDTO> {
+    console.log('WorkflowService DeleteCellarWorkflows()');
+
+    this.setHeaders();
+
+    let options = { headers: this.headers };
+
+    return this.http.delete(this.url_GetCellarWorkflows.replace("{senzorname}", senzorName), options)
+      .catch(this.handleError);
+  }
+
+
+  public RunCellarWorkflows(senzorName: string): Observable<CellarDTO> {
+    console.log('WorkflowService RunCellarWorkflows()');
+
+    this.setHeaders();
+
+    let options = { headers: this.headers };
+
+    return this.http.get(this.url_RunCellarWorkflows.replace("{senzorname}", senzorName), options)
+      .catch(this.handleError);
+  }
+
+
+  public CheckCellarWorkflows(senzorName: string): Observable<CellarDTO> {
+    console.log('WorkflowService CheckCellarWorkflows()');
+
+    this.setHeaders();
+
+    let options = { headers: this.headers };
+
+    return this.http.get(this.url_CheckCellarWorkflows.replace("{senzorname}", senzorName), options)
+      .catch(this.handleError);
+  }
+
+
+  public StopCellarWorkflows(senzorName: string): Observable<CellarDTO> {
+    console.log('WorkflowService StopCellarWorkflows()');
+
+    this.setHeaders();
+
+    let options = { headers: this.headers };
+
+    return this.http.get(this.url_StopCellarWorkflows.replace("{senzorname}", senzorName), options)
+      .catch(this.handleError);
+  }
+
 
   public GetCellarWorkflow(id: string): Observable<CellarDTO> {
     console.log('WorkflowService GetCellarWorkflow()');

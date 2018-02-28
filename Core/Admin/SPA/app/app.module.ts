@@ -150,6 +150,7 @@ import { WorkflowDetail } from './view/workflow/detail/workflow-detail';
 import { WorkflowListComponent } from './components/workflow/list/list.component';
 import { Rand2MqttWorkflowComponent } from './components/workflow/rand2mqtt/rand2mqtt.component';
 import { TestExceptionWorkflowComponent } from './components/workflow/testexception/testexception.component';
+import { DefaultSenzorWorkflowComponent } from './components/workflow/defaultsenzor/defaultsenzor.component';
 import { Test1WorkflowComponent } from './components/workflow/test1/test1.component';
 import { TimeTriggerComponent } from './components/trigger/time/time.component';
 import { MqttTriggerComponent } from './components/trigger/mqtt/mqtt.component';
@@ -298,6 +299,7 @@ import { MqttEffects } from 'app/state/effects/mqtt.effects';
         Rand2MqttWorkflowComponent,
         Test1WorkflowComponent,
         TestExceptionWorkflowComponent,
+        DefaultSenzorWorkflowComponent,
         TimeTriggerComponent,
         MqttTriggerComponent,
         Dht11Panel,

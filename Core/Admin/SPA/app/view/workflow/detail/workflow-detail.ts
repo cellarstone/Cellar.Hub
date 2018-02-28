@@ -38,6 +38,7 @@ export class WorkflowDetail implements OnInit {
     this.workflowTypes.push({ label: 'X to MQTT', value: 'rand2mqtt' });
     this.workflowTypes.push({ label: 'Test 1 workflow', value: 'test1' });
     this.workflowTypes.push({ label: 'Test exception', value: 'testexception' });
+    this.workflowTypes.push({ label: 'Default for senzor', value: 'defaultsenzor' });
 
     this.triggerTypes = [];
     this.triggerTypes.push({ label: 'Select Type', value: null });

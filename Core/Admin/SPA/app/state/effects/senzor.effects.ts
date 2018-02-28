@@ -7,17 +7,20 @@ import { LOAD_CELLAR_SENZOR, LoadCellarSenzorSuccessAction, SAVE_CELLAR_SENZOR, 
 import { CellarSenzor } from 'app/entities/CellarSenzor';
 import { CellarDTO } from 'app/entities/http/CellarDTO';
 import * as RouterActions from 'app/state/actions/router.actions';
+import { WorkflowService } from 'app/service/workflow.service';
+import { CellarWorkflow } from '../../entities/CellarWorkflow';
 
 @Injectable()
 export class SenzorEffects {
 
-  constructor(private actions$: Actions, private iotservice: IoTService) { }
+  constructor(private actions$: Actions, 
+              private iotservice: IoTService,
+              private workflowservice: WorkflowService) { }
 
   @Effect() loadAllSensorsEffect$: Observable<Action> = this.actions$
     .ofType(LOAD_ALL_CELLAR_SENZORS)
     .switchMap(() => this.iotservice.GetAllCellarSenzors())
     .map(items => new LoadAllCellarSenzorsSuccessAction(<CellarSenzor[]>items.data));
-
 
   @Effect() loadSenzorsEffect$: Observable<Action> = this.actions$
     .ofType(LOAD_CELLAR_SENZORS)
@@ -25,20 +28,18 @@ export class SenzorEffects {
     .switchMap((payload) => this.iotservice.GetCellarSenzors(payload))
     .map(items => new LoadCellarSenzorsSuccessAction(<CellarSenzor[]>items.data));
 
-
-
   @Effect() loadSenzorEffect$: Observable<Action> = this.actions$
     .ofType(LOAD_CELLAR_SENZOR)
     .map(toPayload)
     .switchMap((payload) => this.iotservice.GetCellarSenzor(payload))
     .map(item => new LoadCellarSenzorSuccessAction(<CellarSenzor>item.data));
 
-
   @Effect() saveSenzorEffect$: Observable<Action> = this.actions$
     .ofType(SAVE_CELLAR_SENZOR)
     .map(toPayload)
     .switchMap((payload) => {
 
+      //SAVE INTO DB
       let item = <CellarSenzor>payload;
       if (item.id != undefined) {
         return this.iotservice.UpdateCellarSenzor(item)
@@ -54,6 +55,30 @@ export class SenzorEffects {
         return this.iotservice.AddCellarSenzor(item);
       }
 
+    })
+    .switchMap((payload) => {
+
+      //SAVE CORE WORKFLOW
+      let item = <CellarSenzor>payload;
+
+      let coreW = new CellarWorkflow();
+
+      //coreW.
+
+      //this.workflowservice.
+
+
+      return Observable.of(item);
+    })
+    .switchMap((payload) => {
+
+      //RUN CORE WORKFLOW
+      let item = <CellarSenzor>payload;
+
+      this.workflowservice.
+
+
+      return Observable.of(item);
     })
     .map(item => {
       let temp = <CellarSenzor>item;
