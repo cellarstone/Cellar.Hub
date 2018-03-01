@@ -176,3 +176,13 @@ func (mw MetricsMiddleware) StopWorkflow(id string) (err error) {
 	err = mw.Service.StopWorkflow(id)
 	return err
 }
+
+func (mw MetricsMiddleware) CreateAndRunDefaultSenzorWorkflows(senzorid string) (err error) {
+	defer func(begin time.Time) {
+		lvs := []string{"method", "CreateAndRunDefaultSenzorWorkflows"}
+		mw.requestCount.With(lvs...).Add(1)
+		mw.requestLatency.With(lvs...).Observe(time.Since(begin).Seconds())
+	}(time.Now())
+	err = mw.Service.CreateAndRunDefaultSenzorWorkflows(senzorid)
+	return err
+}

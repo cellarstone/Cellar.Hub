@@ -121,6 +121,7 @@ services:
   #     - MQTT_URL=mqtt
   #     - INFLUX_URL=http://influxdb:8086
   #     - WEBSOCKETS_URL=cellar-hub-core-websockets:44406
+  #     - CELLAR_API_URL=cellar-hub-core-api:44413
   #   labels:
   #     - "traefik.enabled=true"
   #     - "traefik.port=44405"

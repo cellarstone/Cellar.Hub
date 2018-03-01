@@ -1,12 +1,16 @@
 package engine
 
 import (
+	"context"
 	"errors"
+	"fmt"
 	"runtime"
 	"runtime/debug"
 
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/pb"
 	"github.com/cellarstone/Cellar.Hub/Core/Workflow/triggers"
 	"github.com/cellarstone/Cellar.Hub/Core/Workflow/workflows"
+	"google.golang.org/grpc"
 )
 
 type Service interface {
@@ -21,6 +25,8 @@ type Service interface {
 	CheckWorkflows(senzorname string) (string, error)
 	StopWorkflows(senzorname string) error
 
+	CreateAndRunDefaultSenzorWorkflows(senzorid string) error
+
 	GetWorkflow(id string) (CellarWorkflow, error)
 	SaveWorkflow(workflowType string, workflowParams interface{}, tags []string, triggerType string, triggerParams interface{}) (CellarWorkflow, error)
 	UpdateWorkflow(workflow CellarWorkflow) (CellarWorkflow, error)
@@ -31,24 +37,26 @@ type Service interface {
 }
 
 type WorkflowEngineService struct {
-	Mongourl          string
-	Mqtturl           string
-	Influxurl         string
-	Websocketsurl     string
-	WorkflowsInMemory []workflows.Workflow
+	Mongourl           string
+	Mqtturl            string
+	Influxurl          string
+	Websocketsurl      string
+	Cellarstoneapisurl string
+	WorkflowsInMemory  []workflows.Workflow
 }
 
-func NewService(mongourl string, mqtturl string, influxurl string, websocketsurl string) *WorkflowEngineService {
+func NewService(mongourl string, mqtturl string, influxurl string, websocketsurl string, cellarstoneapisurl string) *WorkflowEngineService {
 
 	InitRepository()
 	triggers.InitTriggers()
 	workflows.InitWorkflows()
 
 	return &WorkflowEngineService{
-		Mongourl:      mongourl,
-		Mqtturl:       mqtturl,
-		Influxurl:     influxurl,
-		Websocketsurl: websocketsurl,
+		Mongourl:           mongourl,
+		Mqtturl:            mqtturl,
+		Influxurl:          influxurl,
+		Websocketsurl:      websocketsurl,
+		Cellarstoneapisurl: cellarstoneapisurl,
 	}
 }
 
@@ -108,7 +116,7 @@ func (s *WorkflowEngineService) SaveWorkflow(workflowType string, workflowParams
 	// }
 
 	//save into db
-	result, err = AddCellarWorkflow(&CellarWorkflow{
+	result, err = AddCellarWorkflow(CellarWorkflow{
 		WorkflowType:   workflowType,
 		WorkflowParams: workflowParams,
 		Tags:           tags,
@@ -150,6 +158,16 @@ func (s *WorkflowEngineService) RunWorkflow(id string) error {
 		s.WorkflowsInMemory = append(s.WorkflowsInMemory, *result)
 	} else if fromDB.WorkflowType == "testexception" {
 		result := workflows.CreateAndRun_TestExceptionWorkflow(fromDB.WorkflowParams, fromDB.Tags)
+		//Add and Run trigger
+		if fromDB.TriggerType == "time" {
+			result.Trigger_channelClose = triggers.RunNewTimeRepeaterTrigger(result.Ct1_channelIn, fromDB.TriggerParams)
+		} else if fromDB.TriggerType == "mqtt" {
+			result.Trigger_channelClose = triggers.RunNewMqttTrigger(result.Ct1_channelIn, fromDB.TriggerParams)
+		}
+		result.BaseWorkflow.Id = id
+		s.WorkflowsInMemory = append(s.WorkflowsInMemory, *result)
+	} else if fromDB.WorkflowType == "defaultsenzor" {
+		result := workflows.CreateAndRun_DefaultSenzorWorkflow(fromDB.WorkflowParams, fromDB.Tags)
 		//Add and Run trigger
 		if fromDB.TriggerType == "time" {
 			result.Trigger_channelClose = triggers.RunNewTimeRepeaterTrigger(result.Ct1_channelIn, fromDB.TriggerParams)
@@ -265,6 +283,88 @@ func (s *WorkflowEngineService) StopWorkflows(senzorname string) (err error) {
 		}
 	}
 
+	return nil
+}
+
+func (s *WorkflowEngineService) CreateAndRunDefaultSenzorWorkflows(senzorid string) (err error) {
+	conn, err := grpc.Dial(s.Cellarstoneapisurl, grpc.WithInsecure())
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+
+	client := pb.NewIoTServiceClient(conn)
+
+	request := &pb.GetSenzorRequest{
+		Id: senzorid,
+	}
+
+	senzorResponse, err := client.GetSenzor(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	senzor := *senzorResponse.Data
+
+	if senzor.Type == "CellarSenzor Temperature v1.0" {
+
+		//temperature
+		err = s.runSenzorDefaultWorkflow(senzor.Name, "temperature")
+		if err != nil {
+			return err
+		}
+
+		//humidity
+		err = s.runSenzorDefaultWorkflow(senzor.Name, "humidity")
+		if err != nil {
+			return err
+		}
+
+	} else if senzor.Type == "pir" {
+
+		//pir
+		err = s.runSenzorDefaultWorkflow(senzor.Name, "pir")
+		if err != nil {
+			return err
+		}
+
+	} else if senzor.Type == "relay" {
+
+		//pir
+		err = s.runSenzorDefaultWorkflow(senzor.Name, "relay")
+		if err != nil {
+			return err
+		}
+
+	}
+
+	return nil
+}
+
+func (s *WorkflowEngineService) runSenzorDefaultWorkflow(senzorName string, measurement string) error {
+	workflowParams := workflows.Params_DefaultSenzorWorkflow{
+		WebsocketRoom: senzorName + measurement,
+		InfluxTopic:   senzorName + measurement,
+	}
+
+	triggerParams := triggers.Params_MqttTrigger{
+		Topic: senzorName + "/" + measurement,
+	}
+
+	workflow, err := s.SaveWorkflow("defaultsenzor", workflowParams, []string{senzorName}, "mqtt", triggerParams)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(workflow.ID)
+	fmt.Println(workflow.ID.String())
+	fmt.Println(workflow.ID.Hex())
+	fmt.Println(string(workflow.ID))
+
+	err = s.RunWorkflow(workflow.ID.Hex())
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

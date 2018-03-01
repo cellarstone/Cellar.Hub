@@ -143,6 +143,14 @@ func MakeHttpHandler(ctx context.Context, endpoint Endpoints, logger kitlog.Logg
 		options...,
 	)).Methods("GET")
 
+	// engine/senzor/{id}/createandrundefault
+	r.Path("/engine/senzor/{id}/createandrundefault").Handler(httptransport.NewServer(
+		endpoint.CreateAndRunDefaultSenzorEndpoint,
+		decodeCreateAndRunDefaultSenzorWorkflowsRequest,
+		encodeCreateAndRunDefaultSenzorWorkflowsResponse,
+		options...,
+	)).Methods("GET")
+
 	return r
 }
 
@@ -152,34 +160,7 @@ func MakeHttpHandler(ctx context.Context, endpoint Endpoints, logger kitlog.Logg
 
 // decode url path variables into request
 func decodeGetAllWorkflowsRequest(_ context.Context, r *http.Request) (interface{}, error) {
-
-	//PARSING JSON
-	defer r.Body.Close()
-
-	htmlData, err := ioutil.ReadAll(r.Body) //<--- here!
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	m, ok := gjson.Parse(string(htmlData)).Value().(map[string]interface{})
-	if !ok {
-		fmt.Println("Error")
-	}
-
-	jsonBytes, err := json.Marshal(m)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	item := &GetAllWorkflowsRequest{}
-	parseErr := json.Unmarshal(jsonBytes, item)
-	if parseErr != nil {
-		fmt.Println("JSON Error")
-		fmt.Println(parseErr)
-	}
-
-	return *item, nil
+	return &GetAllWorkflowsRequest{}, nil
 }
 
 // encode response from endpoint
@@ -404,7 +385,7 @@ func decodeRunAllWorkflowsRequest(_ context.Context, r *http.Request) (interface
 
 	m, ok := gjson.Parse(string(htmlData)).Value().(map[string]interface{})
 	if !ok {
-		fmt.Println("Error")
+		fmt.Println("Error in parsing json")
 	}
 
 	jsonBytes, err := json.Marshal(m)
@@ -536,7 +517,7 @@ func decodeStopAllWorkflowsRequest(_ context.Context, r *http.Request) (interfac
 
 	m, ok := gjson.Parse(string(htmlData)).Value().(map[string]interface{})
 	if !ok {
-		fmt.Println("Error")
+		fmt.Println("Error in parsing json")
 	}
 
 	jsonBytes, err := json.Marshal(m)
@@ -616,7 +597,7 @@ func decodeSaveWorkflowRequest(_ context.Context, r *http.Request) (interface{},
 
 	m, ok := gjson.Parse(string(htmlData)).Value().(map[string]interface{})
 	if !ok {
-		fmt.Println("Error")
+		fmt.Println("Error in parsing json")
 	}
 
 	jsonBytes, err := json.Marshal(m)
@@ -667,7 +648,7 @@ func decodeUpdateWorkflowRequest(_ context.Context, r *http.Request) (interface{
 
 	m, ok := gjson.Parse(string(htmlData)).Value().(map[string]interface{})
 	if !ok {
-		fmt.Println("Error")
+		fmt.Println("Error parsing json")
 	}
 
 	jsonBytes, err := json.Marshal(m)
@@ -682,8 +663,8 @@ func decodeUpdateWorkflowRequest(_ context.Context, r *http.Request) (interface{
 		fmt.Println(parseErr)
 	}
 
-	fmt.Println(item)
-	fmt.Println(*item)
+	// fmt.Println(item)
+	// fmt.Println(*item)
 
 	return *item, nil
 }
@@ -753,4 +734,35 @@ func encodeError(_ context.Context, err error, w http.ResponseWriter) {
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"error": err.Error(),
 	})
+}
+
+//*************************
+// CREATE AND RUN DEFAULT SENZOR's WORKFLOWS
+//*************************
+
+func decodeCreateAndRunDefaultSenzorWorkflowsRequest(_ context.Context, r *http.Request) (interface{}, error) {
+
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		return nil, errors.New("bad route")
+	}
+
+	item := &CreateAndRunDefaultSenzorWorkflowsRequest{
+		ID: id,
+	}
+
+	return *item, nil
+}
+
+// encode response from endpoint
+func encodeCreateAndRunDefaultSenzorWorkflowsResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
+	if e, ok := response.(errorer); ok && e.error() != nil {
+		// Not a Go kit transport error, but a business-logic error.
+		// Provide those as HTTP errors.
+		encodeError(ctx, e.error(), w)
+		return nil
+	}
+	w.Header().Set("Content-Type", "application/json")
+	return json.NewEncoder(w).Encode(response)
 }

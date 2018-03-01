@@ -19,6 +19,8 @@ type Endpoints struct {
 	CheckWorkflowsEndpoint  endpoint.Endpoint
 	StopWorkflowsEndpoint   endpoint.Endpoint
 
+	CreateAndRunDefaultSenzorEndpoint endpoint.Endpoint
+
 	GetWorkflowEndpoint    endpoint.Endpoint
 	SaveWorkflowEndpoint   endpoint.Endpoint
 	UpdateWorkflowEndpoint endpoint.Endpoint
@@ -454,5 +456,32 @@ func MakeDeleteWorkflowEndpoint(svc Service) endpoint.Endpoint {
 		}
 
 		return DeleteWorkflowResponse{Result: "OK"}, nil
+	}
+}
+
+//*************************
+// CREATE AND RUN DEFAULT SENZOR's WORKFLOWS
+//*************************
+
+type CreateAndRunDefaultSenzorWorkflowsRequest struct {
+	ID string `json:"id"`
+}
+
+type CreateAndRunDefaultSenzorWorkflowsResponse struct {
+	Result string `json:"result"`
+}
+
+func MakeCreateAndRunDefaultSenzorWorkflowsEndpoint(svc Service) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+
+		req := request.(CreateAndRunDefaultSenzorWorkflowsRequest)
+
+		//call service
+		err := svc.CreateAndRunDefaultSenzorWorkflows(req.ID)
+		if err != nil {
+			return nil, err
+		}
+
+		return CreateAndRunDefaultSenzorWorkflowsResponse{Result: "OK"}, nil
 	}
 }

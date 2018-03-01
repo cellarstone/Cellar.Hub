@@ -30,6 +30,7 @@ export class WorkflowService {
   private url_StopAllCellarWorkflows: string;
   private url_CheckCellarWorkflow: string;
   private url_CheckAllCellarWorkflows: string;
+  private url_CreateAndRunDefaultSenzorWorkflows: string;
 
   private headers: HttpHeaders;
 
@@ -47,21 +48,23 @@ export class WorkflowService {
       this.serverUrl = "http://localhost:44405";
     }
 
-    // this.url_processes = this.serverUrl + '/api/processes';
-    // this.url_actualDirectory = this.serverUrl + '/api/actualdirectory';
     this.url_getAllCellarWorkflows = this.serverUrl + '/engine/workflows';
+    this.url_RunAllCellarWorkflows = this.serverUrl + '/engine/workflows/run';
+    this.url_CheckAllCellarWorkflows = this.serverUrl + '/engine/workflows/check';
+    this.url_StopAllCellarWorkflows = this.serverUrl + '/engine/workflows/stop';
+
     this.url_GetCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}';
     this.url_DeleteCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}';
     this.url_RunCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}/run';
     this.url_CheckCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}/check';
     this.url_StopCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}/stop';
+    
     this.url_CellarWorkflow = this.serverUrl + '/engine/workflow';
     this.url_RunCellarWorkflow = this.serverUrl + '/engine/workflow/{id}/run';
-    this.url_RunAllCellarWorkflows = this.serverUrl + '/engine/workflows/run';
-    this.url_StopCellarWorkflow = this.serverUrl + '/engine/workflow/{id}/stop';
-    this.url_StopAllCellarWorkflows = this.serverUrl + '/engine/workflows/stop';
     this.url_CheckCellarWorkflow = this.serverUrl + '/engine/workflow/{id}/check';
-    this.url_CheckAllCellarWorkflows = this.serverUrl + '/engine/workflows/check';
+    this.url_StopCellarWorkflow = this.serverUrl + '/engine/workflow/{id}/stop';
+    
+    this.url_CreateAndRunDefaultSenzorWorkflows = this.serverUrl + '/engine/senzor/{id}/createandrundefault';
   }
 
   private setHeaders() {
@@ -278,6 +281,22 @@ export class WorkflowService {
     let options = { headers: this.headers };
 
     let realAddress = this.url_CheckCellarWorkflow.replace("{id}", id)
+
+    return this.http.get(realAddress, options)
+      .catch(this.handleError);
+  }
+
+
+  //CREATE AND RUN DEFAULT SENZOR WORKFLOWS
+  public CreateAndRunDefaultSenzorWorkflows(senzorid: string): Observable<CellarDTO> {
+    console.log('WorkflowService CreateAndRunDefaultSenzorWorkflows()');
+
+    this.setHeaders();
+    let options = { headers: this.headers };
+
+    let realAddress = this.url_CreateAndRunDefaultSenzorWorkflows.replace("{id}", senzorid)
+
+    console.log(realAddress);
 
     return this.http.get(realAddress, options)
       .catch(this.handleError);

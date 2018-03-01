@@ -152,7 +152,7 @@ func IsExistCellarWorkflow(id string) (bool, error) {
 	return false, nil
 }
 
-func AddCellarWorkflow(wf *CellarWorkflow) (CellarWorkflow, error) {
+func AddCellarWorkflow(wf CellarWorkflow) (CellarWorkflow, error) {
 	session, err := mgo.Dial(mongourl)
 	if err != nil {
 		return CellarWorkflow{}, err
@@ -165,14 +165,14 @@ func AddCellarWorkflow(wf *CellarWorkflow) (CellarWorkflow, error) {
 	wf.ID = bson.NewObjectId()
 
 	//INSERT
-	err = workflowsTable.Insert(wf)
+	err = workflowsTable.Insert(&wf)
 	if err != nil {
 		return CellarWorkflow{}, err
 	}
 
 	//log.Println(wf)
 
-	return *wf, nil
+	return wf, nil
 }
 
 func UpdateCellarWorkflow(wf *CellarWorkflow) (CellarWorkflow, error) {

@@ -27,7 +27,7 @@ import (
 const (
 	defaultHTTPPort = "44403"
 	defaultGRPCPort = "44413"
-	defaultMqttUrl  = "http://localhost:1883"
+	defaultMqttUrl  = "localhost"
 	defaultMongoUrl = "localhost"
 )
 

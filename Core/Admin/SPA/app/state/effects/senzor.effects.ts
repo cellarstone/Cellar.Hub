@@ -56,29 +56,22 @@ export class SenzorEffects {
       }
 
     })
-    .switchMap((payload) => {
+    .map((payload) => {
 
-      //SAVE CORE WORKFLOW
+      //CREATE AND RUN DEFAULT SENZOR WORKFLOWS
       let item = <CellarSenzor>payload;
+      console.log(item);
 
-      let coreW = new CellarWorkflow();
+      this.workflowservice.CreateAndRunDefaultSenzorWorkflows(item.id)
+                                        .subscribe((item2) => {
+                                            console.log("GGGGGG");
+                                            console.log(item2);
+                                        });
 
-      //coreW.
+      console.log("GGGGGG2");
+      console.log(item);
 
-      //this.workflowservice.
-
-
-      return Observable.of(item);
-    })
-    .switchMap((payload) => {
-
-      //RUN CORE WORKFLOW
-      let item = <CellarSenzor>payload;
-
-      this.workflowservice.
-
-
-      return Observable.of(item);
+      return item;
     })
     .map(item => {
       let temp = <CellarSenzor>item;

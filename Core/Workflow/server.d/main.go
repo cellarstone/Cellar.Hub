@@ -11,21 +11,20 @@ import (
 	"syscall"
 
 	"github.com/cellarstone/Cellar.Hub/Core/Workflow/engine"
-	"github.com/cellarstone/Cellar.Hub/Core/Workflow/pb"
 	"github.com/go-kit/kit/log"
 	kitprometheus "github.com/go-kit/kit/metrics/prometheus"
 	"github.com/gorilla/handlers"
 	stdprometheus "github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"google.golang.org/grpc"
 )
 
 const (
-	defaultPort          = "44405"
-	defaultMongoUrl      = "localhost"
-	defaultMqttUrl       = "localhost"
-	defaultInfluxUrl     = "http://localhost:8086"
-	defaultWebsocketsUrl = "localhost:44406"
+	defaultPort              = "44405"
+	defaultMongoUrl          = "localhost"
+	defaultMqttUrl           = "localhost"
+	defaultInfluxUrl         = "http://localhost:8086"
+	defaultWebsocketsUrl     = "localhost:44406"
+	defaultCellarstoneApiUrl = "localhost:44413"
 )
 
 func init() {
@@ -35,11 +34,12 @@ func init() {
 
 func main() {
 	var (
-		addr          = envString("PORT", defaultPort)
-		mongourl      = envString("MONGO_URL", defaultMongoUrl)
-		mqtturl       = envString("MQTT_URL", defaultMqttUrl)
-		influxurl     = envString("INFLUX_URL", defaultInfluxUrl)
-		websocketsurl = envString("WEBSOCKETS_URL", defaultWebsocketsUrl)
+		addr               = envString("PORT", defaultPort)
+		mongourl           = envString("MONGO_URL", defaultMongoUrl)
+		mqtturl            = envString("MQTT_URL", defaultMqttUrl)
+		influxurl          = envString("INFLUX_URL", defaultInfluxUrl)
+		websocketsurl      = envString("WEBSOCKETS_URL", defaultWebsocketsUrl)
+		cellarstoneapisurl = envString("CELLAR_API_URL", defaultCellarstoneApiUrl)
 
 		httpAddr = flag.String("http.addr", ":"+addr, "HTTP listen address")
 
@@ -47,30 +47,6 @@ func main() {
 	)
 
 	flag.Parse()
-
-	// -------------------------------------------------
-	// -------------------------------------------------
-	// -------------------------------------------------
-
-	address := "localhost:44413"
-	// Set up a connection to the gRPC server.
-	conn, err := grpc.Dial(address, grpc.WithInsecure())
-	if err != nil {
-		fmt.Printf("did not connect: %v", err)
-	}
-	defer conn.Close()
-	// Creates a new CustomerClient
-	client := pb.NewIoTServiceClient(conn)
-
-	request := &pb.GetSenzorRequest{
-		Id: "5a7be4a28d6078000a79f945",
-	}
-
-	resp, err := client.GetSenzor(context.Background(), request)
-	if err != nil {
-		fmt.Printf("Could not create Customer: %v", err)
-	}
-	fmt.Println(resp)
 
 	// -------------------------------------------------
 	// -------------------------------------------------
@@ -84,7 +60,7 @@ func main() {
 
 	// WORKFLOW ENGINE --------------------------
 	var bs engine.Service
-	bs = engine.NewService(mongourl, mqtturl, influxurl, websocketsurl)
+	bs = engine.NewService(mongourl, mqtturl, influxurl, websocketsurl, cellarstoneapisurl)
 	bs = engine.NewLoggingMiddleware(log.With(logger, "component", "workflowengine"), bs)
 	bs = engine.NewMetricsMiddleware(
 		kitprometheus.NewCounterFrom(stdprometheus.CounterOpts{
@@ -113,6 +89,8 @@ func main() {
 		RunWorkflowsEndpoint:    engine.MakeRunWorkflowsEndpoint(bs),
 		CheckWorkflowsEndpoint:  engine.MakeCheckWorkflowsEndpoint(bs),
 		StopWorkflowsEndpoint:   engine.MakeStopWorkflowsEndpoint(bs),
+
+		CreateAndRunDefaultSenzorEndpoint: engine.MakeCreateAndRunDefaultSenzorWorkflowsEndpoint(bs),
 
 		GetWorkflowEndpoint:    engine.MakeGetWorkflowEndpoint(bs),
 		SaveWorkflowEndpoint:   engine.MakeSaveWorkflowEndpoint(bs),
