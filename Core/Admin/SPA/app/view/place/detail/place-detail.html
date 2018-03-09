@@ -13,7 +13,7 @@
 
     <div *ngIf="item$ | async" class="ui-g">
 
-        <div class="ui-g-12 ui-md-12">
+        <div *ngIf="(item$ | async).id != undefined" class="ui-g-12 ui-md-12">
 
 
 

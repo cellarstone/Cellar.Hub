@@ -13,21 +13,17 @@
             "cwd": "${file}"
         },
         {
-            "name": "Cdn debug",
-            "type": "coreclr",
+            "name": "File",
+            "type": "go",
             "request": "launch",
-            "preLaunchTask": "buildCdn",
-            // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceRoot}/Cellar.Hub.Cdn/bin/Debug/netcoreapp2.0/Cellar.Hub.Cdn.dll",
+            "mode": "debug",
+            "remotePath": "",
+            "port": 44404,
+            "host": "127.0.0.1",
+            "program": "${workspaceRoot}/Core/File/server.d",
+            "env": {},
             "args": [],
-            "cwd": "${workspaceRoot}/Cellar.Hub.Cdn",
-            // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
-            "console": "internalConsole",
-            "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart",
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "production"
-            }
+            "showLog": true
         },
         {
             "name": "Workflow",
@@ -43,14 +39,27 @@
             "showLog": true
         },
         {
-            "name": "Api",
+            "name": "Iot",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "remotePath": "",
             "port": 44403,
             "host": "127.0.0.1",
-            "program": "${workspaceRoot}/Core/Api/server.d",
+            "program": "${workspaceRoot}/Core/Iot/server.d",
+            "env": {},
+            "args": [],
+            "showLog": true
+        },
+        {
+            "name": "User",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "remotePath": "",
+            "port": 44407,
+            "host": "127.0.0.1",
+            "program": "${workspaceRoot}/Core/User/server.d",
             "env": {},
             "args": [],
             "showLog": true

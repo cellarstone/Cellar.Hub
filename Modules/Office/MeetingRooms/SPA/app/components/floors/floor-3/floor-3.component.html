@@ -1,6 +1,6 @@
 <svg id="Layer_1" data-name="Layer 1" viewBox="0 0 420 239">
   <g id="meeting-rooms">
-    <g id="butan">
+    <g id="butan" [routerLink]="['/room', 'butan', 'home']">
       <path id="status" class="cls-1" d="M237.293 62.454v1.6H206.85V49.1h28.137l2.306 13.352z" />
       <path id="trajectory" class="cls-2" d="M239.991 53.773a4.3 4.3 0 0 0-4.484-3.173" />
       <path id="door" class="cls-2" d="M235.683 54.51l4.308-.737" />
@@ -9,7 +9,7 @@
         BUTAN
       </text>
     </g>
-    <g id="propan" routerLink="/room/:string">
+    <g id="propan" [routerLink]="['/room', 'propan', 'home']">
       <path id="status-2" class="cls-1" d="M237.293 64.445H206.85v5.584h1.55v2.427h-2.039v7.283h2.039v1.8h26.7v-1.82h2.428v-7.26h-2.362V69.98h2.119v-5.535z"
       />
       <path id="trajectory-2" class="cls-2" d="M241.42 69.786a3.807 3.807 0 0 0-3.728-3.884h-.156" />
@@ -19,7 +19,7 @@
         PROPAN
       </text>
     </g>
-    <g id="proxima-centauri">
+    <g id="proxima-centauri" [routerLink]="['/room', 'proxima-centauri', 'home']">
       <path id="status-3" class="cls-1" d="M273.9 143.732h19.47v48.019H273.9z" />
       <path id="trajectory-1" class="cls-2" d="M278.514 170.144a4.721 4.721 0 0 0-4.37-4.369" />
       <path id="door-1" class="cls-2" d="M278.514 170.144h-4.855" />

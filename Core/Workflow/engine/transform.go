@@ -151,6 +151,14 @@ func MakeHttpHandler(ctx context.Context, endpoint Endpoints, logger kitlog.Logg
 		options...,
 	)).Methods("GET")
 
+	// engine/senzor/{id}/stopanddeletedefault
+	r.Path("/engine/senzor/{id}/stopanddeletedefault").Handler(httptransport.NewServer(
+		endpoint.StopAndDeleteDefaultSenzorEndpoint,
+		decodeStopAndDeleteDefaultSenzorWorkflowsRequest,
+		encodeStopAndDeleteDefaultSenzorWorkflowsResponse,
+		options...,
+	)).Methods("GET")
+
 	return r
 }
 
@@ -757,6 +765,37 @@ func decodeCreateAndRunDefaultSenzorWorkflowsRequest(_ context.Context, r *http.
 
 // encode response from endpoint
 func encodeCreateAndRunDefaultSenzorWorkflowsResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
+	if e, ok := response.(errorer); ok && e.error() != nil {
+		// Not a Go kit transport error, but a business-logic error.
+		// Provide those as HTTP errors.
+		encodeError(ctx, e.error(), w)
+		return nil
+	}
+	w.Header().Set("Content-Type", "application/json")
+	return json.NewEncoder(w).Encode(response)
+}
+
+//*************************
+// STOP AND DELETE DEFAULT SENZOR's WORKFLOWS
+//*************************
+
+func decodeStopAndDeleteDefaultSenzorWorkflowsRequest(_ context.Context, r *http.Request) (interface{}, error) {
+
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		return nil, errors.New("bad route")
+	}
+
+	item := &StopAndDeleteDefaultSenzorWorkflowsRequest{
+		ID: id,
+	}
+
+	return *item, nil
+}
+
+// encode response from endpoint
+func encodeStopAndDeleteDefaultSenzorWorkflowsResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
 	if e, ok := response.(errorer); ok && e.error() != nil {
 		// Not a Go kit transport error, but a business-logic error.
 		// Provide those as HTTP errors.

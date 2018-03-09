@@ -227,3 +227,16 @@ func (mw LoggingMiddleware) CreateAndRunDefaultSenzorWorkflows(senzorid string) 
 	err = mw.Service.CreateAndRunDefaultSenzorWorkflows(senzorid)
 	return err
 }
+
+func (mw LoggingMiddleware) StopAndDeleteDefaultSenzorWorkflows(senzorid string) (err error) {
+	defer func(begin time.Time) {
+		mw.logger.Log(
+			"function", "StopAndDeleteDefaultSenzorWorkflows",
+			"senzorid", senzorid,
+			"err", err,
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+	err = mw.Service.StopAndDeleteDefaultSenzorWorkflows(senzorid)
+	return err
+}

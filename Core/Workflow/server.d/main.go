@@ -90,7 +90,8 @@ func main() {
 		CheckWorkflowsEndpoint:  engine.MakeCheckWorkflowsEndpoint(bs),
 		StopWorkflowsEndpoint:   engine.MakeStopWorkflowsEndpoint(bs),
 
-		CreateAndRunDefaultSenzorEndpoint: engine.MakeCreateAndRunDefaultSenzorWorkflowsEndpoint(bs),
+		CreateAndRunDefaultSenzorEndpoint:  engine.MakeCreateAndRunDefaultSenzorWorkflowsEndpoint(bs),
+		StopAndDeleteDefaultSenzorEndpoint: engine.MakeStopAndDeleteDefaultSenzorWorkflowsEndpoint(bs),
 
 		GetWorkflowEndpoint:    engine.MakeGetWorkflowEndpoint(bs),
 		SaveWorkflowEndpoint:   engine.MakeSaveWorkflowEndpoint(bs),

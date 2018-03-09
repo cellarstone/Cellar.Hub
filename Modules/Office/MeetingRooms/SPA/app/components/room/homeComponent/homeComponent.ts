@@ -1,5 +1,9 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+
 import { SharedService } from '../../../services/shared.service';
+import { homeSlideStateTrigger } from '../../../shared/route-animations';
 
 declare var $: any;
 
@@ -8,16 +12,38 @@ declare var $: any;
 @Component({
   selector: 'home-component',
   templateUrl: './homeComponent.html',
-  styleUrls: ['./homeComponent.scss']
+  styleUrls: ['./homeComponent.scss'],
+  animations: [
+    homeSlideStateTrigger
+  ]
 })
-export class HomeComponent implements OnInit {
-  constructor(public sharedService: SharedService) { }
+export class HomeComponent implements OnInit, OnDestroy {
 
+  public room: {name: string};
+  private paramsSubscription: Subscription;
   timelineMovement: number;
   
   myDate = new Date();
 
+//  @HostBinding('@routeFadeState') routeAnimation = true;
+ @HostBinding('@homeSlideState') routeAnimation = true;
+
+  constructor(public sharedService: SharedService, private route: ActivatedRoute) { }
+
+
+
   ngOnInit() {
+    $("body").css("background-color", "#F44336");
+    this.room = {
+      name: this.route.parent.snapshot.params['name']
+    };
+
+    this.paramsSubscription = this.route.parent.params.subscribe(
+      (params: Params) => {
+        this.room.name = params['name'];
+      }
+    );
+
     var sum = 0;
     var r = $('.time-reserved');
     var h = $('.time-stick-hour');
@@ -27,32 +53,36 @@ export class HomeComponent implements OnInit {
     setInterval(() => {
       this.myDate = new Date();
       
-      if(sum !== 33) {
-        r.css('left', (parseFloat(r.css('left')) - 100) + 'px');
-        h.css('left', (parseFloat(h.css('left')) - 100) + 'px'); 
-        m.css('left', (parseFloat(m.css('left')) - 100) + 'px');
-        time.css('left', (parseFloat(time.css('left')) - 100) + 'px');
+      if(sum !== 340) {
+        r.css('left', (parseFloat(r.css('left')) - 10) + 'px');
+        h.css('left', (parseFloat(h.css('left')) - 10) + 'px'); 
+        m.css('left', (parseFloat(m.css('left')) - 10) + 'px');
+        time.css('left', (parseFloat(time.css('left')) - 10) + 'px');
         sum++;
         // console.log(sum)
       } else {
-        r.css('left', (parseFloat(r.css('left')) + 3300) + 'px');
-        h.css('left', (parseFloat(h.css('left')) + 3300) + 'px'); 
-        m.css('left', (parseFloat(m.css('left')) + 3300) + 'px');
-        time.css('left', (parseFloat(time.css('left')) + 3300) + 'px');
+        r.css('left', (parseFloat(r.css('left')) + 3400) + 'px');
+        h.css('left', (parseFloat(h.css('left')) + 3400) + 'px'); 
+        m.css('left', (parseFloat(m.css('left')) + 3400) + 'px');
+        time.css('left', (parseFloat(time.css('left')) + 3400) + 'px');
         sum = 0;
       }
       
     }, 1000);
 
-    if (this.sharedService.state == "Reserved") {
-      this.onReserved();
-    } else if (this.sharedService.state == "Available") {
-      this.onAvailable();
-    } else if (this.sharedService.state == "Maintenance") {
-      this.onMaintenance();
-    } else {
-      this.onAvailable();
-    }
+    // if (this.sharedService.state == "Reserved") {
+    //   this.onReserved();
+    // } else if (this.sharedService.state == "Available") {
+    //   this.onAvailable();
+    // } else if (this.sharedService.state == "Maintenance") {
+    //   this.onMaintenance();
+    // } else {
+    //   this.onAvailable();
+    // }
+  }
+
+  ngOnDestroy() {
+    this.paramsSubscription.unsubscribe();
   }
 
   onReserved() {

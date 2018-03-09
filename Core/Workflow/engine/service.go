@@ -3,7 +3,6 @@ package engine
 import (
 	"context"
 	"errors"
-	"fmt"
 	"runtime"
 	"runtime/debug"
 
@@ -26,6 +25,7 @@ type Service interface {
 	StopWorkflows(senzorname string) error
 
 	CreateAndRunDefaultSenzorWorkflows(senzorid string) error
+	StopAndDeleteDefaultSenzorWorkflows(senzorid string) error
 
 	GetWorkflow(id string) (CellarWorkflow, error)
 	SaveWorkflow(workflowType string, workflowParams interface{}, tags []string, triggerType string, triggerParams interface{}) (CellarWorkflow, error)
@@ -286,6 +286,65 @@ func (s *WorkflowEngineService) StopWorkflows(senzorname string) (err error) {
 	return nil
 }
 
+func (s *WorkflowEngineService) StopAndDeleteDefaultSenzorWorkflows(senzorid string) (err error) {
+
+	// gRPC -----------------------------------
+	conn, err := grpc.Dial(s.Cellarstoneapisurl, grpc.WithInsecure())
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+
+	client := pb.NewIoTServiceClient(conn)
+
+	request := &pb.GetSenzorRequest{
+		Id: senzorid,
+	}
+
+	senzorResponse, err := client.GetSenzor(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	senzor := *senzorResponse.Data
+
+	// WORKFLOWS ---------------------------------
+	workflows, err := GetCellarWorkflows(senzor.Name)
+	if err != nil {
+		return err
+	}
+
+	//have any other workflows then "defaultsenzor" ?
+	haveOtherWorkflows := false
+	for _, item := range workflows {
+		if item.WorkflowType != "defaultsenzor" {
+			haveOtherWorkflows = true
+		}
+	}
+
+	if haveOtherWorkflows {
+		return errors.New("senzor have active workflows, please resolve this between delete senzor")
+	}
+
+	// Stop all default workflows ------------------
+	for _, item := range workflows {
+		err := s.StopWorkflow(item.ID.Hex())
+		if err != nil {
+			return err
+		}
+	}
+
+	// Remove all default workflows ------------------
+	for _, item := range workflows {
+		err := s.DeleteWorkflow(item.ID.Hex())
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (s *WorkflowEngineService) CreateAndRunDefaultSenzorWorkflows(senzorid string) (err error) {
 	conn, err := grpc.Dial(s.Cellarstoneapisurl, grpc.WithInsecure())
 	if err != nil {
@@ -320,7 +379,7 @@ func (s *WorkflowEngineService) CreateAndRunDefaultSenzorWorkflows(senzorid stri
 			return err
 		}
 
-	} else if senzor.Type == "pir" {
+	} else if senzor.Type == "CellarSenzor Motion v1.0" {
 
 		//pir
 		err = s.runSenzorDefaultWorkflow(senzor.Name, "pir")
@@ -328,7 +387,7 @@ func (s *WorkflowEngineService) CreateAndRunDefaultSenzorWorkflows(senzorid stri
 			return err
 		}
 
-	} else if senzor.Type == "relay" {
+	} else if senzor.Type == "CellarSenzor Power v1.0" {
 
 		//pir
 		err = s.runSenzorDefaultWorkflow(senzor.Name, "relay")
@@ -356,10 +415,10 @@ func (s *WorkflowEngineService) runSenzorDefaultWorkflow(senzorName string, meas
 		return err
 	}
 
-	fmt.Println(workflow.ID)
-	fmt.Println(workflow.ID.String())
-	fmt.Println(workflow.ID.Hex())
-	fmt.Println(string(workflow.ID))
+	// fmt.Println(workflow.ID)
+	// fmt.Println(workflow.ID.String())
+	// fmt.Println(workflow.ID.Hex())
+	// fmt.Println(string(workflow.ID))
 
 	err = s.RunWorkflow(workflow.ID.Hex())
 	if err != nil {
@@ -428,7 +487,9 @@ func (s *WorkflowEngineService) StopWorkflow(id string) error {
 		}
 	}
 
-	s.WorkflowsInMemory = append(s.WorkflowsInMemory[:resultIndex], s.WorkflowsInMemory[resultIndex+1:]...)
+	if resultIndex != -1 {
+		s.WorkflowsInMemory = append(s.WorkflowsInMemory[:resultIndex], s.WorkflowsInMemory[resultIndex+1:]...)
+	}
 
 	return nil
 }

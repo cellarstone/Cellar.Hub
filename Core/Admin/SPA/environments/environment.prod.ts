@@ -1,4 +1,5 @@
 export const environment = {
     production: true,
-    https: false
+    https: false,
+    callbackUrl: "http://admin.cellarstone.hub/callback"
 };

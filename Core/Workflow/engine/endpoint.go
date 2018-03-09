@@ -2,7 +2,6 @@ package engine
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/go-kit/kit/endpoint"
 )
@@ -19,7 +18,8 @@ type Endpoints struct {
 	CheckWorkflowsEndpoint  endpoint.Endpoint
 	StopWorkflowsEndpoint   endpoint.Endpoint
 
-	CreateAndRunDefaultSenzorEndpoint endpoint.Endpoint
+	CreateAndRunDefaultSenzorEndpoint  endpoint.Endpoint
+	StopAndDeleteDefaultSenzorEndpoint endpoint.Endpoint
 
 	GetWorkflowEndpoint    endpoint.Endpoint
 	SaveWorkflowEndpoint   endpoint.Endpoint
@@ -387,7 +387,7 @@ func MakeSaveWorkflowEndpoint(svc Service) endpoint.Endpoint {
 		inttt := 4
 		inttt = inttt
 
-		fmt.Println(inttt)
+		//fmt.Println(inttt)
 
 		req := request.(SaveWorkflowRequest)
 
@@ -483,5 +483,32 @@ func MakeCreateAndRunDefaultSenzorWorkflowsEndpoint(svc Service) endpoint.Endpoi
 		}
 
 		return CreateAndRunDefaultSenzorWorkflowsResponse{Result: "OK"}, nil
+	}
+}
+
+//*************************
+// STOP AND DELETE DEFAULT SENZOR's WORKFLOWS
+//*************************
+
+type StopAndDeleteDefaultSenzorWorkflowsRequest struct {
+	ID string `json:"id"`
+}
+
+type StopAndDeleteDefaultSenzorWorkflowsResponse struct {
+	Result string `json:"result"`
+}
+
+func MakeStopAndDeleteDefaultSenzorWorkflowsEndpoint(svc Service) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+
+		req := request.(StopAndDeleteDefaultSenzorWorkflowsRequest)
+
+		//call service
+		err := svc.StopAndDeleteDefaultSenzorWorkflows(req.ID)
+		if err != nil {
+			return nil, err
+		}
+
+		return StopAndDeleteDefaultSenzorWorkflowsResponse{Result: "OK"}, nil
 	}
 }

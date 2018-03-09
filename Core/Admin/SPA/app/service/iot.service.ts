@@ -51,10 +51,10 @@ export class IoTService {
 
     constructor(private http: HttpClient) {
         if (this.isProduction == true && this.isHttps == true) {
-            this.serverUrl = "https://api.cellarstone.hub";
+            this.serverUrl = "https://iot.cellarstone.hub";
         }
         else if (this.isProduction == true && this.isHttps == false) {
-            this.serverUrl = "http://api.cellarstone.hub";
+            this.serverUrl = "http://iot.cellarstone.hub";
         }
         else if (this.isProduction == false && this.isHttps == true) {
             this.serverUrl = "https://localhost:44403";

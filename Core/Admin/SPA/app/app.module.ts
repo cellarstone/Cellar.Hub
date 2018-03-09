@@ -175,7 +175,10 @@ import { MqttEffects } from 'app/state/effects/mqtt.effects';
 
 
 
-
+//Auth0
+import { AuthService } from './auth/auth.service';
+import { CallbackComponent } from './callback/callback.component';
+import { WelcomeComponent } from './view/welcome/welcome.component';
 
 
 
@@ -305,7 +308,9 @@ import { MqttEffects } from 'app/state/effects/mqtt.effects';
         Dht11Panel,
         PirPanel,
         RelayPanel,
-        SenzorWorkflowList
+        SenzorWorkflowList,
+        CallbackComponent,
+        WelcomeComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -314,7 +319,8 @@ import { MqttEffects } from 'app/state/effects/mqtt.effects';
         CdnService,
         SharedService,
         WorkflowService,
-        MqttService
+        MqttService,
+        AuthService
     ],
     bootstrap: [AppComponent]
 })

@@ -39,108 +39,53 @@ services:
     ports:
     - "44401:44401"
 
-  # cellar-hub-core-admin:
-  #   image: cellar.hub.core.admin
-  #   build:
-  #     context: ./Core/Admin
-  #     dockerfile: Dockerfile
-  #   labels:
-  #     - "traefik.enabled=true"
-  #     - "traefik.port=44402"
-  #     - "traefik.backend=core-admin"
-  #     - "traefik.frontend.rule=Host:admin.cellarstone.hub"
-  #   links:
-  #     - fluentd
-  #   logging:
-  #     driver: "fluentd"
-  #     options:
-  #       fluentd-address: localhost:24224
-  #       tag: docker.cellar.hub.core.admin
-  #       mode: non-blocking
-
-  # cellar-hub-core-api:
-  #   image: cellar.hub.core.api
-  #   environment:
-  #     - PORT=44403
-  #     - MQTT_URL=mqtt
-  #     - MONGO_URL=mongodb
-  #   build:
-  #     context: ./Core/Api
-  #     dockerfile: Dockerfile
-  #   labels:
-  #     - "traefik.enabled=true"
-  #     - "traefik.port=44403"
-  #     - "traefik.backend=core-api"
-  #     - "traefik.frontend.rule=Host:api.cellarstone.hub"
-  #   links:
-  #     - fluentd
-  #     - mongodb
-  #   logging:
-  #     driver: "fluentd"
-  #     options:
-  #       fluentd-address: localhost:24224
-  #       tag: docker.cellar.hub.core.api
-  #       mode: non-blocking
-  #   ports:
-  #   - "44403:44403"
-
-  cellar-hub-core-cdn:
-    image: cellar.hub.core.cdn
-    environment:
-      - PORT=44404
-      - DIRECTORY=/app/data
+  cellar-hub-core-admin:
+    image: cellar.hub.core.admin
     build:
-      context: ./Core/Cdn
+      context: ./Core/Admin
       dockerfile: Dockerfile
     labels:
       - "traefik.enabled=true"
-      - "traefik.port=44404"
-      - "traefik.backend=core-cdn"
-      - "traefik.frontend.rule=Host:cdn.cellarstone.hub"
+      - "traefik.port=44402"
+      - "traefik.backend=core-admin"
+      - "traefik.frontend.rule=Host:admin.cellarstone.hub"
     links:
       - fluentd
     logging:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
-        tag: docker.cellar.hub.core.cdn
+        tag: docker.cellar.hub.core.admin
+        mode: non-blocking
+    ports:
+    - "44402:44402"
+
+  cellar-hub-core-file:
+    image: cellar.hub.core.file
+    environment:
+      - PORT=44404
+      - DIRECTORY=/app/data
+    build:
+      context: ./Core/File
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.enabled=true"
+      - "traefik.port=44404"
+      - "traefik.backend=core-file"
+      - "traefik.frontend.rule=Host:file.cellarstone.hub"
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.core.file
         mode: non-blocking
     volumes:
-     - /data/cellarstone.hub/core/cdn:/app/data
+     - /data/cellarstone.hub/core/file:/app/data
     ports:
     - "44404:44404"
 
-  # cellar-hub-core-workflow:
-  #   image: cellar.hub.core.workflow
-  #   build:
-  #     context: ./Core/Workflow
-  #     dockerfile: Dockerfile
-  #   environment:
-  #     - PORT=44405
-  #     - MONGO_URL=mongodb
-  #     - MQTT_URL=mqtt
-  #     - INFLUX_URL=http://influxdb:8086
-  #     - WEBSOCKETS_URL=cellar-hub-core-websockets:44406
-  #     - CELLAR_API_URL=cellar-hub-core-api:44413
-  #   labels:
-  #     - "traefik.enabled=true"
-  #     - "traefik.port=44405"
-  #     - "traefik.backend=core-workflow"
-  #     - "traefik.frontend.rule=Host:workflow.cellarstone.hub"
-  #   links:
-  #     - mongodb
-  #     - mqtt
-  #     - influxdb
-  #     - cellar-hub-core-websockets
-  #     - fluentd
-  #   logging:
-  #     driver: "fluentd"
-  #     options:
-  #       fluentd-address: localhost:24224
-  #       tag: docker.cellar.hub.core.workflow
-  #       mode: non-blocking
-  #   ports:
-  #   - "44405:44405"
 
   cellar-hub-core-websockets:
     image: cellar.hub.core.websockets
@@ -164,6 +109,88 @@ services:
     - "44406:44406"
 
 
+  cellar-hub-core-iot:
+    image: cellar.hub.core.iot
+    environment:
+      - PORT=44403
+      - MQTT_URL=mqtt
+      - MONGO_URL=mongodb
+    build:
+      context: ./Core/Iot
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.enabled=true"
+      - "traefik.port=44403"
+      - "traefik.backend=core-iot"
+      - "traefik.frontend.rule=Host:iot.cellarstone.hub"
+    links:
+      - fluentd
+      - mongodb
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.core.iot
+        mode: non-blocking
+    ports:
+    - "44403:44403"
+
+  cellar-hub-core-user:
+    image: cellar.hub.core.user
+    environment:
+      - PORT=44407
+      - MONGO_URL=mongodb
+    build:
+      context: ./Core/User
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.enabled=true"
+      - "traefik.port=44407"
+      - "traefik.backend=core-user"
+      - "traefik.frontend.rule=Host:user.cellarstone.hub"
+    links:
+      - fluentd
+      - mongodb
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.core.user
+        mode: non-blocking
+    ports:
+    - "44407:44407"
+
+  cellar-hub-core-workflow:
+    image: cellar.hub.core.workflow
+    build:
+      context: ./Core/Workflow
+      dockerfile: Dockerfile
+    environment:
+      - PORT=44405
+      - MONGO_URL=mongodb
+      - MQTT_URL=mqtt
+      - INFLUX_URL=http://influxdb:8086
+      - WEBSOCKETS_URL=cellar-hub-core-websockets:44406
+      - CELLAR_API_URL=cellar-hub-core-api:44413
+    labels:
+      - "traefik.enabled=true"
+      - "traefik.port=44405"
+      - "traefik.backend=core-workflow"
+      - "traefik.frontend.rule=Host:workflow.cellarstone.hub"
+    links:
+      - mongodb
+      - mqtt
+      - influxdb
+      - cellar-hub-core-websockets
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.core.workflow
+        mode: non-blocking
+    ports:
+    - "44405:44405"
 
 # CORE - Third party ***************************
 
@@ -181,13 +208,9 @@ services:
      - /data/cellarstone.hub/core/mongodb:/data/db 
 
   mqtt:
-    image: cellar.hub.mqtt
-    build: 
-      context: ./Core/Mqtt
-      dockerfile: Dockerfile
+    image: toke/mosquitto
     ports:
     - "1883:1883"
-    - "9001:9001"
 
   fluentd:
     image: cellar.hub.fluentd
@@ -296,59 +319,59 @@ services:
 
 # MODULES ***************************
 
-  # cellar-hub-module-office-api:
-  #   image: cellar.hub.module.office.api
-  #   build:
-  #     context: ./Modules/Office/Api
-  #     dockerfile: Dockerfile
-  #   labels:
-  #     - "traefik.enabled=true"
-  #     - "traefik.port=44513"
-  #     - "traefik.backend=office-api"
-  #     - "traefik.frontend.rule=Host:office-api.cellarstone.hub"
-  #   links:
-  #     - fluentd
-  #   logging:
-  #     driver: "fluentd"
-  #     options:
-  #       fluentd-address: localhost:24224
-  #       tag: docker.cellar.hub.module.office.api
-  #       mode: non-blocking
+  cellar-hub-module-office-api:
+    image: cellar.hub.module.office.api
+    build:
+      context: ./Modules/Office/Api
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.enabled=true"
+      - "traefik.port=44513"
+      - "traefik.backend=office-api"
+      - "traefik.frontend.rule=Host:office-api.cellarstone.hub"
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.module.office.api
+        mode: non-blocking
 
-  # cellar-hub-module-office-meetingrooms:
-  #   image: cellar.hub.module.office.meetingrooms
-  #   build:
-  #     context: ./Modules/Office/MeetingRooms
-  #     dockerfile: Dockerfile
-  #   labels:
-  #     - "traefik.enabled=true"
-  #     - "traefik.port=44511"
-  #     - "traefik.backend=office-meetingrooms"
-  #     - "traefik.frontend.rule=Host:meetingrooms.cellarstone.hub"
-  #   links:
-  #     - fluentd
-  #   logging:
-  #     driver: "fluentd"
-  #     options:
-  #       fluentd-address: localhost:24224
-  #       tag: docker.cellar.hub.module.office.meetingrooms
-  #       mode: non-blocking
+  cellar-hub-module-office-meetingrooms:
+    image: cellar.hub.module.office.meetingrooms
+    build:
+      context: ./Modules/Office/MeetingRooms
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.enabled=true"
+      - "traefik.port=44511"
+      - "traefik.backend=office-meetingrooms"
+      - "traefik.frontend.rule=Host:meetingrooms.cellarstone.hub"
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.module.office.meetingrooms
+        mode: non-blocking
 
-  # cellar-hub-module-office-reception:
-  #   image: cellar.hub.module.office.reception
-  #   build:
-  #     context: ./Modules/Office/Reception
-  #     dockerfile: Dockerfile
-  #   labels:
-  #     - "traefik.enabled=true"
-  #     - "traefik.port=44512"
-  #     - "traefik.backend=office-reception"
-  #     - "traefik.frontend.rule=Host:reception.cellarstone.hub"
-  #   links:
-  #     - fluentd
-  #   logging:
-  #     driver: "fluentd"
-  #     options:
-  #       fluentd-address: localhost:24224
-  #       tag: docker.cellar.hub.module.office.reception
-  #       mode: non-blocking
+  cellar-hub-module-office-reception:
+    image: cellar.hub.module.office.reception
+    build:
+      context: ./Modules/Office/Reception
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.enabled=true"
+      - "traefik.port=44512"
+      - "traefik.backend=office-reception"
+      - "traefik.frontend.rule=Host:reception.cellarstone.hub"
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.module.office.reception
+        mode: non-blocking

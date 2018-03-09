@@ -1,8 +1,4 @@
 
-PRISTUP K HUBU PRES LOKALNI SIT
->> zadavani IP adresy do chrome ??? NEEEEEE, jak tedy ?
-
-
 PROBLEM ZE NEMAM PRISTUP PO ZPRISTUPNENI ADMIN PRES NGROK
 url v SPA vedu na nedostupne url adresy
 RESENI >> zpristupneni ALL hub ven - Admin, Websocket, Api, Workflow
@@ -10,6 +6,9 @@ RESENI >> zpristupneni ALL hub ven - Admin, Websocket, Api, Workflow
 
 PROBLEM SE ZADAVANIM IP ADRESY HUBU DO SENZORU
 RESENI >>
+
+
+
 # Steps
 
 1. Run Hub
@@ -110,10 +109,11 @@ Port | Application
 80 | Traefik proxy
 44401 | Core - Web
 44402 | Core - Admin
-44403 | Core - Api
-44404 | Core - Cdn
-44405 | Core - Workflow
-44406 | Core - Websocket
+44403 | Core - Iot Microservice
+44404 | Core - File Server
+44405 | Core - Workflow Microservice
+44406 | Core - Websocket Server
+44407 | Core - User Microservice
 27017 | Core - mongodb
 1883 | Core - mqtt
 24224 | Core - fluentd

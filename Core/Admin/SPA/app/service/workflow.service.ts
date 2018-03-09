@@ -31,6 +31,7 @@ export class WorkflowService {
   private url_CheckCellarWorkflow: string;
   private url_CheckAllCellarWorkflows: string;
   private url_CreateAndRunDefaultSenzorWorkflows: string;
+  private url_StopAndDeleteDefaultSenzorWorkflows: string;
 
   private headers: HttpHeaders;
 
@@ -65,6 +66,7 @@ export class WorkflowService {
     this.url_StopCellarWorkflow = this.serverUrl + '/engine/workflow/{id}/stop';
     
     this.url_CreateAndRunDefaultSenzorWorkflows = this.serverUrl + '/engine/senzor/{id}/createandrundefault';
+    this.url_StopAndDeleteDefaultSenzorWorkflows = this.serverUrl + '/engine/senzor/{id}/stopanddeletedefault';
   }
 
   private setHeaders() {
@@ -295,6 +297,22 @@ export class WorkflowService {
     let options = { headers: this.headers };
 
     let realAddress = this.url_CreateAndRunDefaultSenzorWorkflows.replace("{id}", senzorid)
+
+    console.log(realAddress);
+
+    return this.http.get(realAddress, options)
+      .catch(this.handleError);
+  }
+
+
+  //STOP AND DELETE DEFAULT SENZOR WORKFLOWS
+  public StopAndDeleteDefaultSenzorWorkflows(senzorid: string): Observable<CellarDTO> {
+    console.log('WorkflowService StopAndDeleteDefaultSenzorWorkflows()');
+
+    this.setHeaders();
+    let options = { headers: this.headers };
+
+    let realAddress = this.url_StopAndDeleteDefaultSenzorWorkflows.replace("{id}", senzorid)
 
     console.log(realAddress);
 

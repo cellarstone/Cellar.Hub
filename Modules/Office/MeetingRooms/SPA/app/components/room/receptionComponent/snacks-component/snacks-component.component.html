@@ -1,142 +1,64 @@
 <div class="snacks">
+
+    <div class="alert-modal">
+        <div class="alert-content">
+            <h4 class="alert-h4">Item already in cart!</h4>
+            <button class="alert-close" (click)="closeAlertModal()">Close</button>
+        </div>
+    </div>
+
+    <div class="shopping-alert-modal">
+        <div class="shopping-alert-content">
+            <h4 class="alert-h4">Items successfully ordered!</h4>
+            <button class="alert-close" (click)="closeShoppingAlertModal()">Close</button>
+        </div>
+    </div>
+
     <div class="snack-menu">
-        <div style="margin-top: 10px;" *ngIf="showSnackMenu">
-            <div class="categories" *ngFor="let snackItem of snackMenuItems" (click)="selectItem(snackItem)">
-                <div class="color-box">
+        <div [@snacksMenu]="showSnackMenu" *ngIf="showSnackMenu" class="categories">
+            <div class="snack-category" *ngFor="let snackItem of snackMenuItems" (click)="selectItem(snackItem)">
+                <div class="color-box" [ngStyle]="{'background-color':snackItem.color}">
                     <img class="snack-category-icons" src="{{ snackItem.svg }}" alt="snack">
+                    <div class="snack-items">{{ snackItem.name | capitalize}}</div>
                 </div>
-                <p>{{ snackItem.name }}</p>
             </div>
         </div>
-        <div class="subcategories" *ngIf="!showSnackMenu">
-            <p class="snack-item" *ngFor="let subItem of selectedSnackMenuItem.childItems" (click)="selectItem(subItem)">
-                {{ subItem.name }}
-            </p>
-            <div id="button-back" (click)="subcategoryBack()">
-                <div class="arrow-left"></div>Back
+        <div [@snacksSubcategoriesMenu]="!showSnackMenu" class="subcategories" *ngIf="!showSnackMenu">
+            <div class="snack-subcategories">
+                <div id="button-back" (click)="subcategoryBack()">
+                    <div class="arrow-left"></div>Back
+                </div>
+                <div class="hr"></div>
+                <div class="snack-container">
+                    <div class="snack-item" *ngFor="let subItem of selectedSnackMenuItem.childItems; let i = index" (click)="selectItem(subItem)">
+                        <img class="snack-category-svg" src="{{ subItem.svg }}" [ngStyle]="{'background-color': subItem.color}" alt="">
+                        <span *ngIf="subItem.childItems.length === 0" style="margin-right: 1rem"> {{ i + 1 }}</span>
+                        <span>{{ subItem.name | capitalize}}</span>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 
     <div class="snack-order">
-        <div class="shopping-cart">
-            <div class="option">
-                <div class="circle circle-plus">
+        <div  class="shopping-cart">
+
+            <div @shoppingCartItems class="option" *ngFor="let item of selectedOrder">
+                <button class="circle circle-minus" (mousedown)="decreaseItem(item)">
                     <div class="minus"></div>
-                </div>
+                </button>
                 <div class="circle amount">
-                    12x
+                    {{ item.amount }}
                 </div>
-                <div class="circle circle-minus">
+                <button class="circle circle-plus" (mousedown)="increaseItem(item)">
                     <div class="minus"></div>
                     <div class="plus"></div>
-                </div>
+                </button>
                 <div class="item">
-                    <div>
-                        Apple
-                    </div>
+                    {{ item.name | capitalize }}
                 </div>
-                <div class="circle trash">
-                    <img src="../../../assets/icons/trash-can.svg" alt="icon">
-                </div>
-            </div>
-            <div class="option">
-                <div class="circle circle-plus">
-                    <div class="minus"></div>
-                </div>
-                <div class="circle amount">
-                    12x
-                </div>
-                <div class="circle circle-minus">
-                    <div class="minus"></div>
-                    <div class="plus"></div>
-                </div>
-                <div class="item">
-                    <div>
-                        Apple
-                    </div>
-                </div>
-                <div class="circle trash">
-                    <img src="../../../assets/icons/trash-can.svg" alt="icon">
-                </div>
-            </div>
-            <div class="option">
-                <div class="circle circle-plus">
-                    <div class="minus"></div>
-                </div>
-                <div class="circle amount">
-                    12x
-                </div>
-                <div class="circle circle-minus">
-                    <div class="minus"></div>
-                    <div class="plus"></div>
-                </div>
-                <div class="item">
-                    <div>
-                        Apple
-                    </div>
-                </div>
-                <div class="circle trash">
-                    <img src="../../../assets/icons/trash-can.svg" alt="icon">
-                </div>
-            </div>
-            <div class="option">
-                <div class="circle circle-plus">
-                    <div class="minus"></div>
-                </div>
-                <div class="circle amount">
-                    12x
-                </div>
-                <div class="circle circle-minus">
-                    <div class="minus"></div>
-                    <div class="plus"></div>
-                </div>
-                <div class="item">
-                    <div>
-                        Apple
-                    </div>
-                </div>
-                <div class="circle trash">
-                    <img src="../../../assets/icons/trash-can.svg" alt="icon">
-                </div>
-            </div>
-            <div class="option">
-                <div class="circle circle-plus">
-                    <div class="minus"></div>
-                </div>
-                <div class="circle amount">
-                    12x
-                </div>
-                <div class="circle circle-minus">
-                    <div class="minus"></div>
-                    <div class="plus"></div>
-                </div>
-                <div class="item">
-                    <div>
-                        Apple
-                    </div>
-                </div>
-                <div class="circle trash">
-                    <img src="../../../assets/icons/trash-can.svg" alt="icon">
-                </div>
-            </div>
-            <div class="option">
-                <div class="circle circle-plus">
-                    <div class="minus"></div>
-                </div>
-                <div class="circle amount">
-                    12x
-                </div>
-                <div class="circle circle-minus">
-                    <div class="minus"></div>
-                    <div class="plus"></div>
-                </div>
-                <div class="item">
-                    <div>
-                        Apple
-                    </div>
-                </div>
-                <div class="circle trash">
+                <div class="circle trash" (click)="removeItem(item)">
                     <img src="../../../assets/icons/trash-can.svg" alt="icon">
                 </div>
             </div>
@@ -144,7 +66,7 @@
 
         <div class="order">
             <div class="order-border"></div>
-            <div class="order-button">order</div>
+            <button class="order-button" (click)="sendOrder()">Order</button>
         </div>
     </div>
 </div>

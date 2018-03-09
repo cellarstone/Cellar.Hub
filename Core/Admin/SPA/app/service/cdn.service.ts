@@ -26,10 +26,10 @@ export class CdnService {
 
     constructor(private http: HttpClient) {
         if (this.isProduction == true && this.isHttps == true) {
-            this.serverUrl = "https://cdn.cellarstone.hub";
+            this.serverUrl = "https://file.cellarstone.hub";
         }
         else if (this.isProduction == true && this.isHttps == false) {
-            this.serverUrl = "http://cdn.cellarstone.hub";
+            this.serverUrl = "http://file.cellarstone.hub";
         }
         else if (this.isProduction == false && this.isHttps == true) {
             this.serverUrl = "https://localhost:44404";

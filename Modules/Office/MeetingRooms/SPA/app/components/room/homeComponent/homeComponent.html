@@ -1,10 +1,11 @@
 <div class="homeBody">
     <div class="changeStatus">
-        <span class="buttons" id="reserved" (click)="onReserved()">Reserved</span>
-        <span class="buttons" id="available" (click)="onAvailable()">Available</span>
-        <span class="buttons" id="maintenance" (click)="onMaintenance()">Maintenance</span>
+        <!-- <a [routerLink]="['/room', 'propan']">Load Propan </a> -->
+        <span class="buttons" (click)="onReserved()">Reserved</span>
+        <span class="buttons" (click)="onAvailable()">Available</span>
+        <!-- <span class="buttons" (click)="onMaintenance()">Maintenance</span> -->
     </div>
-    <div class="room">Jupiter</div>
+    <div class="room">{{ room.name }}</div>
     <div class="status">Reserved</div>
     <div class="presenter">
         <span>by</span>

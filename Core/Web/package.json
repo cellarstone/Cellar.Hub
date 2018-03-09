@@ -8,6 +8,7 @@
   },
   "private": true,
   "dependencies": {
+    
     "@angular/animations": "^5.0.2",
     "@angular/common": "^5.0.2",
     "@angular/compiler": "^5.0.2",
@@ -41,7 +42,6 @@
     "@types/highcharts": "^5.0.12",
     "@types/jasmine": "2.5.38",
     "@types/node": "~6.0.60",
-    "@types/greensock":"1.15.32",
     "codelyzer": "~2.0.0",
     "jasmine-core": "~2.5.2",
     "jasmine-spec-reporter": "~3.2.0",

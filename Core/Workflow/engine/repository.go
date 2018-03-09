@@ -1,21 +1,11 @@
 package engine
 
 import (
-	"fmt"
 	"os"
 
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
-
-type CellarWorkflow struct {
-	ID             bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	WorkflowType   string        `json:"workflowtype" bson:"workflowtype"`
-	WorkflowParams interface{}   `json:"workflowparams" bson:"workflowparams"`
-	Tags           []string      `json:"tags" bson:"tags"`
-	TriggerType    string        `json:"triggertype" bson:"triggertype"`
-	TriggerParams  interface{}   `json:"triggerparams" bson:"triggerparams"`
-}
 
 const (
 	defaultmongourl = "localhost"
@@ -33,7 +23,7 @@ func InitRepository() {
 
 func GetAllCellarWorkflows() ([]CellarWorkflow, error) {
 
-	fmt.Println(mongourl)
+	//fmt.Println(mongourl)
 
 	session, err := mgo.Dial(mongourl)
 	if err != nil {

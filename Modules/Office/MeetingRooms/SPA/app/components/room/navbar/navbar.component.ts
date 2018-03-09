@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterOutlet } from '@angular/router';
 import { SharedService } from '../../../services/shared.service';
-import { DatePipe } from '@angular/common';
+
+import * as moment from 'moment';
 
 declare var $:any;
 
@@ -16,33 +17,34 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     public sharedService: SharedService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { 
   }
   myDate = new Date();
+  currentTime: string = '';
 
   ngOnInit() {
-    setInterval(() => {         //replaced function() by ()=>
+    setInterval(() => {
       this.myDate = new Date();
-      // console.log(this.myDate); // just testing if it is working
     }, 1000);
-    console.log(this.router.url)
+    // console.log(this.router.url)
+    
   }
-  
 
-  onHome(){
+  public onHome(){
     this.sharedService.activeTab = "Home";
-    this.router.navigate(['/room/:id/home']);
+    // this.router.navigate(['/room/:id/home']);
   }
 
-  onCalendar(){
+  public onCalendar(){
     this.sharedService.activeTab = "Calendar";
-    this.router.navigate(['/room/:id/calendar'])
+    // this.router.navigate(['/room/:id/calendar'])
   }
 
-  onReception(){
+  public onReception(){
     this.sharedService.activeTab = "Reception";
-    this.router.navigate(['/room/:id/reception'])
+    // this.router.navigate(['/room/:id/reception'])
   }
 
 }

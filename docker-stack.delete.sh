@@ -43,23 +43,27 @@ docker service rm chronograf
 
 
 # HUB CORE - WEB --------------------------------------------------
-
 docker service rm cellar-hub-core-web
 
 # HUB CORE - ADMIN --------------------------------------------------
 docker service rm cellar-hub-core-admin
 
-# HUB CORE - API --------------------------------------------------
-docker service rm cellar-hub-core-api
+# HUB CORE - FILE --------------------------------------------------
+docker service rm cellar-hub-core-file
 
-# HUB CORE - CDN --------------------------------------------------
-docker service rm cellar-hub-core-cdn
+# HUB CORE - WEBSOCKETS --------------------------------------------------
+docker service rm cellar-hub-core-websockets
+
+
+# HUB CORE - IOT --------------------------------------------------
+docker service rm cellar-hub-core-iot
+
+# HUB CORE - USER --------------------------------------------------
+docker service rm cellar-hub-core-user
 
 # HUB CORE - WORKFLOW --------------------------------------------------
 docker service rm cellar-hub-core-workflow
 
-# HUB CORE - WEBSOCKETS --------------------------------------------------
-docker service rm cellar-hub-core-websockets
 
 
 # HUB MODULE - OFFICE API --------------------------------------------------

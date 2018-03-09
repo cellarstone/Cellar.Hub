@@ -1,4 +1,5 @@
 import {Component,AfterViewInit,ElementRef,Renderer,ViewChild} from '@angular/core';
+import { AuthService } from './auth/auth.service';
 
 enum MenuOrientation {
     STATIC,
@@ -51,9 +52,30 @@ export class AppComponent implements AfterViewInit {
 
     @ViewChild('layoutMenuScroller') layoutMenuScrollerViewChild: ElementRef;
 
-    constructor(public renderer: Renderer) {}
+    constructor(public renderer: Renderer,
+        public auth: AuthService) {
+            auth.handleAuthentication();
+
+            if(!this.auth.isAuthenticated()){
+                //this.auth.login()
+                console.log("IS NOT AUTHENTICATED 1")
+            } else {
+                console.log("IS AUTHENTICATED 1")
+            }
+
+        }
+
+    login(){
+        this.auth.login()
+    }
 
     ngAfterViewInit() {
+        if(!this.auth.isAuthenticated()){
+            //this.auth.login()
+            console.log("IS NOT AUTHENTICATED 2")
+        } else {
+            console.log("IS AUTHENTICATED 2")
+
         this.layoutContainer = <HTMLDivElement> this.layourContainerViewChild.nativeElement;
         this.layoutMenuScroller = <HTMLDivElement> this.layoutMenuScrollerViewChild.nativeElement;
 
@@ -75,6 +97,7 @@ export class AppComponent implements AfterViewInit {
         setTimeout(() => {
             jQuery(this.layoutMenuScroller).nanoScroller({flash:true});
         }, 10);
+        }
     }
 
     onMenuButtonClick(event) {

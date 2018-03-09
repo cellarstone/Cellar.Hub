@@ -5,5 +5,6 @@
 
 export const environment = {
     production: false,
-    https: false
+    https: false,
+    callbackUrl: "http://admin.cellarstone.hub:44402/callback"
 };

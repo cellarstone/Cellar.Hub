@@ -1,4 +1,7 @@
-<div #layoutWrapper class="layout-wrapper" [ngClass]="{'menu-layout-static': !isOverlay(),
+<div *ngIf="!auth.isAuthenticated()">
+    <button (click)="login()">LOGIN</button>
+</div>
+<div *ngIf="auth.isAuthenticated()" #layoutWrapper class="layout-wrapper" [ngClass]="{'menu-layout-static': !isOverlay(),
 'menu-layout-overlay': isOverlay(),
 'layout-menu-overlay-active': overlayMenuActive,
 'menu-layout-horizontal': isHorizontal(),
