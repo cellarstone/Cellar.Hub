@@ -53,7 +53,7 @@
           </div>
         </ng-template>
       </p-column>
-      <p-column field="tags" header="Tags"></p-column>
+      <p-column field="tags" header="Tags" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
     </p-dataTable>
 
   </div>

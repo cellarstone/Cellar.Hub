@@ -63,52 +63,52 @@ export class SenzorListComponent implements OnInit {
   onFilter(event) {
 
 
-    this.rawItems = this.items;
+    // this.rawItems = this.items;
 
 
-    if (event && event.filters) {
-      var tempColl = new Array<CellarSenzor>();
-      var tempColl2 = new Array<CellarSenzor>();
-
-
-
-      if (event.filters["state.name"]) {
-        let value = event.filters["state.name"].value;
-
-
-        if (tempColl.length == 0) {
-          for (let entry of this.rawItems) {
-
-            if (entry.state.toLowerCase().includes(value.toLowerCase())) {
-              tempColl.push(entry);
-            }
-
-          }
-        }
-        else {
-          for (let entry of tempColl) {
-
-            if (entry.state.toLowerCase().includes(value.toLowerCase())) {
-              tempColl2.push(entry);
-            }
-
-          }
-        }
-      }
+    // if (event && event.filters) {
+    //   var tempColl = new Array<CellarSenzor>();
+    //   var tempColl2 = new Array<CellarSenzor>();
 
 
 
-      if (tempColl2.length != 0) {
-        this.items = tempColl2;
-      }
-      else if (tempColl2.length == 0) {
-        this.items = tempColl;
-      }
-      else if (tempColl2.length == 0) {
-        this.items = this.rawItems;
-      }
+    //   if (event.filters["state.name"]) {
+    //     let value = event.filters["state.name"].value;
 
-    }
+
+    //     if (tempColl.length == 0) {
+    //       for (let entry of this.rawItems) {
+
+    //         if (entry.state.toLowerCase().includes(value.toLowerCase())) {
+    //           tempColl.push(entry);
+    //         }
+
+    //       }
+    //     }
+    //     else {
+    //       for (let entry of tempColl) {
+
+    //         if (entry.state.toLowerCase().includes(value.toLowerCase())) {
+    //           tempColl2.push(entry);
+    //         }
+
+    //       }
+    //     }
+    //   }
+
+
+
+    //   if (tempColl2.length != 0) {
+    //     this.items = tempColl2;
+    //   }
+    //   else if (tempColl2.length == 0) {
+    //     this.items = tempColl;
+    //   }
+    //   else if (tempColl2.length == 0) {
+    //     this.items = this.rawItems;
+    //   }
+
+    // }
   }
 
   //Vybrani existujiciho produktu z kolekce

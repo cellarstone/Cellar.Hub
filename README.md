@@ -5,7 +5,7 @@ RESENI >> zpristupneni ALL hub ven - Admin, Websocket, Api, Workflow
 
 
 PROBLEM SE ZADAVANIM IP ADRESY HUBU DO SENZORU
-RESENI >>
+RESENI >> cloudDNS ?? vezmu si jeho IP adresu z cloudu ? protoze mi hub kazdou minutu hlasi svoji IP adresu ve vnitrni siti
 
 
 
@@ -26,6 +26,17 @@ RESENI >>
 
 4. Senzor GET Hub IP from Cloud
 5. Senzor send data into Hub
+
+
+
+
+# Setup Unify DNS
+
+ssh Cellarstone@192.168.1.1
+
+write password
+
+sudo vi /etc/hosts
 
 
 # Run
