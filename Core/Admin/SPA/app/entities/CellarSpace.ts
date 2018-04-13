@@ -15,6 +15,8 @@ export class CellarSpace {
     public id: string;
     public name: string;
 
+    public officeemailaddress: string;
+
     //NEW
     //APPROVED
     //FORBIDDEN

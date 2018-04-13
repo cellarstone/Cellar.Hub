@@ -1,0 +1,114 @@
+
+<h2 mat-dialog-title>{{subject}}</h2>
+
+
+<mat-dialog-content [formGroup]="form">
+
+  <div class="example-container">
+
+
+    <mat-form-field>
+        <mat-chip-list #chipList>
+            <mat-chip *ngFor="let attendee of form.get('attendeeMails').value; let i = index;" [selectable]="selectable"
+                [removable]="removable" (remove)="remove(i)">
+                {{attendee}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="Attendees"
+                   [matChipInputFor]="chipList"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="addOnBlur"
+                   (matChipInputTokenEnd)="add($event)" />
+        </mat-chip-list>
+    </mat-form-field>
+
+    
+     
+    <!-- <mat-form-field>
+
+        <mat-chip-list #chipList>
+            <mat-chip *ngFor="let attendee of tempAttendees">{{attendee}}</mat-chip>
+        </mat-chip-list>
+        <input placeholder="Attendees"
+           [matChipInputFor]="chipList"
+           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+           [matChipInputAddOnBlur]="addOnBlur"
+           (matChipInputTokenEnd)="add($event)" />
+
+    </mat-form-field> -->
+
+    <!--<mat-form-field>
+
+         <input type="time" matInput
+                placeholder="Start"
+               formControlName="start">  
+
+    </mat-form-field>-->
+
+    <div>
+
+        <w-mat-timepicker color="primary" [(userTime)]="startTime"></w-mat-timepicker>
+        
+    </div>
+
+    <div>
+
+        <w-mat-timepicker color="primary" [(userTime)]="endTime"></w-mat-timepicker>
+        
+    </div>
+
+<!-- 
+    <mat-form-field>
+ 
+        <input type="time" matInput
+                placeholder="End"
+               formControlName="end">
+
+    </mat-form-field> -->
+
+    <mat-form-field>
+
+        <input matInput
+                placeholder="Location"
+               formControlName="location" disabled>
+
+    </mat-form-field>
+
+    <mat-form-field>
+
+        <input matInput
+                placeholder="Subject"
+               formControlName="subject">
+
+    </mat-form-field>
+
+    <mat-form-field>
+
+        <textarea style="height:100px" matInput placeholder="Text"
+            formControlName="text">
+
+        </textarea>
+
+    </mat-form-field>
+
+
+     
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+
+    <button class="mat-raised-button"
+            (click)="close()">
+        Close
+    </button>
+
+    <button class="mat-raised-button mat-primary"
+            (click)="save()">
+        Save
+    </button>
+
+</mat-dialog-actions>
+
+

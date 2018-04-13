@@ -44,9 +44,12 @@ export class PlaceBaseInfoComponent implements OnInit {
 
   ngOnInit() {
 
+    if(this.item != undefined){
+
+    
     this.lat = Number(this.item.latitude);
     this.lng = Number(this.item.longtitude);
-
+  }
   }
 
 
@@ -136,15 +139,13 @@ export class PlaceBaseInfoComponent implements OnInit {
     if (aaa === "new") {
       this.item.state = "1";
 
-
-
       jQuery("#new").removeClass();
       jQuery("#approved").removeClass();
       jQuery("#forbidden").removeClass();
 
       jQuery("#new").addClass("btn btn-warning");
-      jQuery("#approved").addClass("btn");
-      jQuery("#forbidden").addClass("btn");
+      jQuery("#approved").addClass("btn btn-default");
+      jQuery("#forbidden").addClass("btn btn-default");
     }
     else if (aaa === "approved") {
       this.item.state = "2";
@@ -153,9 +154,9 @@ export class PlaceBaseInfoComponent implements OnInit {
       jQuery("#approved").removeClass();
       jQuery("#forbidden").removeClass();
 
-      jQuery("#new").addClass("btn");
+      jQuery("#new").addClass("btn btn-default");
       jQuery("#approved").addClass("btn btn-success");
-      jQuery("#forbidden").addClass("btn");
+      jQuery("#forbidden").addClass("btn btn-default");
     }
     else if (aaa === "forbidden") {
       this.item.state = "3";
@@ -164,8 +165,8 @@ export class PlaceBaseInfoComponent implements OnInit {
       jQuery("#approved").removeClass();
       jQuery("#forbidden").removeClass();
 
-      jQuery("#new").addClass("btn");
-      jQuery("#approved").addClass("btn");
+      jQuery("#new").addClass("btn btn-default");
+      jQuery("#approved").addClass("btn btn-default");
       jQuery("#forbidden").addClass("btn btn-danger");
     }
 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterOutlet } from '@angular/router';
 import { trigger, state, animate, transition, group, query, style } from '@angular/animations';
 
-import { DataService } from './services/data.service';
+import { ApiService } from './services/api.service';
 import { SharedService } from './services/shared.service';
 
 @Component({
@@ -33,12 +33,13 @@ import { SharedService } from './services/shared.service';
   ]
 })
 export class AppComponent {
-  constructor(private service: DataService,
+  constructor(private service: ApiService,
     private sharedService: SharedService,
     private route: ActivatedRoute,
     private router: Router){
 
       this.sharedService.activeTab = "Home"
+
   }
 
   getAnimationData(outlet: RouterOutlet) {

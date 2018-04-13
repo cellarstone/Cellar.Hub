@@ -7,6 +7,21 @@ import (
 	pb "github.com/cellarstone/Cellar.Hub/Core/Iot/pb"
 )
 
+func MakeGrpcHandler(ctx context.Context, endpoint Endpoints) pb.IoTServiceServer {
+	return &grpcServer{
+		getallspaces: grpctransport.NewServer(
+			endpoint.GetAllSpacesEndpoint,
+			decodeGetAllSpacesRequestGRPC,
+			encodeGetAllSpacesResponseGRPC,
+		),
+		getsenzor: grpctransport.NewServer(
+			endpoint.GetSenzorEndpoint,
+			decodeGetSenzorRequestGRPC,
+			encodeGetSenzorResponseGRPC,
+		),
+	}
+}
+
 type grpcServer struct {
 	getallspaces grpctransport.Handler
 	getsenzor    grpctransport.Handler
@@ -35,21 +50,6 @@ func (s *grpcServer) GetSenzor(ctx context.Context, r *pb.GetSenzorRequest) (*pb
 	return resp.(*pb.GetSenzorResponse), nil
 }
 
-func MakeGrpcHandler(ctx context.Context, endpoint Endpoints) pb.IoTServiceServer {
-	return &grpcServer{
-		getallspaces: grpctransport.NewServer(
-			endpoint.GetAllSpacesEndpoint,
-			decodeGetAllSpacesRequestGRPC,
-			encodeGetAllSpacesResponseGRPC,
-		),
-		getsenzor: grpctransport.NewServer(
-			endpoint.GetSenzorEndpoint,
-			decodeGetSenzorRequestGRPC,
-			encodeGetSenzorResponseGRPC,
-		),
-	}
-}
-
 // func encodeGetAllSpacesRequestGRPC(_ context.Context, r interface{}) (interface{}, error) {
 // 	return &pb.GetAllSpacesRequest{}, nil
 // }
@@ -66,12 +66,14 @@ func encodeGetAllSpacesResponseGRPC(_ context.Context, r interface{}) (interface
 
 	for _, item := range resp.Data {
 		data = append(data, &pb.CellarSpace{
-			Id:    string(item.ID),
+			Id:    item.ID.Hex(),
 			Name:  item.Name,
 			Path:  item.Path,
 			State: item.State,
 			Image: item.Image,
 		})
+
+		//fmt.Println(item.ID.Hex())
 	}
 
 	return &pb.GetAllSpacesResponse{

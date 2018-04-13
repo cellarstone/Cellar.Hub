@@ -1,0 +1,86 @@
+@import './SPA/assets/sass/custom/base/variables';
+@import './SPA/assets/sass/custom/modules';
+
+.ui-steps .ui-steps-item {
+  width: 25%;
+}
+
+.ui-steps {
+  border-top: none !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.float {
+  display: block;
+
+  &__1 {
+    float: left;
+    text-align: right;
+    width: 30%;
+  }
+
+  &__2 {
+    padding-left: 18px;
+    float: right;
+    width: 65%;
+
+    .wrapper {
+      clear: both;
+      margin-bottom: 16px;  
+    }
+  }
+}
+
+.tags-section, .trigger-section, .workflow-section {
+  // margin-bottom: 16px !important;
+  font-size: 18px;
+}
+
+.tag {
+  color: $color-white-default;
+  background-color: #63c9f1;
+  padding: 1.75px 7px;
+  margin-left: 1.75px;
+  font-size: 18px;
+}
+
+.ui-fluid {
+  margin-top: 15px;
+}
+
+
+.workflow-setup {
+  display: flex;
+  position: relative;
+  width: 100%;
+  // background-color: lightgreen;
+  &__text {
+      display: flex;
+      font-weight: 300;
+      flex-grow: 1;
+      background-color: #2d353c;
+      color: white;
+      font-weight: 300;
+      font-size: 24px !important;
+      justify-content: center;
+      align-items: center;
+      height: 65px;
+      margin: 0;
+      border: none;
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+
+      @media (max-width: 1200px){
+        font-size: 20px;
+      }
+
+  }
+
+
+  @media (max-width: 1025px) {
+    width: 100%;
+  }
+}

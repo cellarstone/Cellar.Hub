@@ -1,0 +1,117 @@
+<div class="container">
+
+  <!-- <div class="booking-modal">
+    <div class="booking-modal__content">
+      <div class="u-center">
+        <h1 class="heading-primary booking-modal__h4">Something else...</h1>
+        <div class="ok-button service-modal__ok-button">SEND</div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="calendar">
+
+    <div class="current-month">
+      <div class="month-home" (click)="monthHome()">Today</div>
+      <div class="arrow-left" (click)="previousMonth()"></div>
+      <div class="month-year">{{ today.locale('en').format('MMMM YYYY') }}</div>
+      <div class="arrow-right" (click)="nextMonth()"></div>
+    </div>
+
+    <div class="days-of-week">
+      <div class="calendar-days">MON</div>
+      <div class="calendar-days">TUE</div>
+      <div class="calendar-days">WED</div>
+      <div class="calendar-days">THU</div>
+      <div class="calendar-days">FRI</div>
+      <div class="calendar-days">SAT</div>
+      <div class="calendar-days">SUN</div>
+    </div>
+    <div id="hr"></div>
+    <div class="days" [@calendarSlideRight]="calendarDaysSlideRight" [@calendarSlideLeft]="calendarDaysSlideLeft" [@calendarToday]="calendarTodayAnimation">
+      <div *ngFor="let day of daysArr">
+        <div [ngClass]="{'current-week-body': thisWeekCheck(day), 'current-week-start': thisWeekCheckFirst(day), 'current-week-end': thisWeekCheckLast(day)}">
+          <span class="meeting-counter" [ngClass]="{'inactive':!day}"> </span>
+          <div class="day-box" [ngClass]="{'today': todayCheck(day), 'inactive': !thisMonthCheck(day), 'bigger-font': thisWeekCheck(day)}"
+            (click)="selectDate(day)" [ngStyle]="{'border': day === selectedDate ? '1px solid var(--color-navy-dark-2)' : '1px solid transparent', 'color': day.isoWeekday() === 6 || day.isoWeekday() === 7 ? '#F44336' : 'var(--color-grey-dark-3)'}">
+            {{day?.date()}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="booking">
+    <div class="selected-date">
+      <div class="date">{{selectedDate.locale('en').format('D')}}</div>
+      <div class="inverse">
+        <div class="month">{{selectedDate.locale('en').format('MMMM')}}</div>
+        <div class="year">{{selectedDate.locale('en').format('YYYY')}}</div>
+      </div>
+
+    </div>
+    <div class="separator"></div>
+
+    <div class="details">
+      <div class="reservations" *ngFor="let meeting of bookedMeetings">
+
+
+
+        <div class="reservation" [ngStyle]="{'color': meeting.status === 'available' ? '#4CAF50' : 'var(--color-grey-dark-1)'}">
+
+          <!-- <div [@showEditButtons]="showEditButtons" *ngIf="showEditButtons">
+            <span *ngIf="meeting.status === 'reserved'">
+              <img src="../../assets/icons/pen.svg" alt="" class="edit">
+            </span>
+          </div> -->
+
+          <div [@showEditButtons]="showEditButtons" *ngIf="showEditButtons">
+            <span *ngIf="meeting.status === 'available'">
+              <img src="../../assets/icons/plus.svg" alt="" class="add" (click)="openDialog(meeting)">
+            </span>
+          </div>
+
+          <div class="reservation__duration" [ngStyle]="{'color': meeting.status === 'available' ? '#4CAF50' : '#F44336'}">
+            {{ meeting.from }} - {{ meeting.to }}
+          </div>
+          <div class="reservation__by">
+            {{ meeting.by }}
+          </div>
+
+          <div [@showEditButtons]="showEditButtons" *ngIf="showEditButtons" (click)="deleteMeeting(meeting)">
+            <span *ngIf="meeting.status === 'reserved'">
+              <img src="../../assets/icons/Minus.svg" alt="" class="remove">
+            </span>
+          </div>
+
+        </div>
+
+
+
+
+      </div>
+    </div>
+
+    <!-- <div class="edit-modal" *ngIf="editModalIsShown" @showEditModal>
+      <div class="edit-modal__content">
+        <div>
+          <form (submit)="onReceptionPinSubmit()" class="align-center">
+            <div class="close-button" (click)="editModalIsShown = false"></div>
+            <label for="pin" class="pin__h1 heading-primary">Enter your PIN</label>
+            <input [(ngModel)]="pinNumber" type="password" name="pin" class="pin__input" placeholder="****" maxlength="4">
+            <div class="pin__highlight highlight-1"></div>
+            <button type="submit" class="pin__confirm-button ok-button">Confirm</button>
+          </form>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="edit-section">
+      <div class="separator"></div>
+      <button class="edit-button" (click)="onEditButton()">EDIT</button>
+    </div>
+
+  </div>
+</div>

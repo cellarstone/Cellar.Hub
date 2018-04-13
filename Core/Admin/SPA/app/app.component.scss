@@ -1,9 +1,35 @@
+@import './SPA/assets/sass/custom/base/variables';
+@import './SPA/assets/sass/custom/modules';
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
-
-
-body .ui-widget-header
-{
-    background-color: #d8d8d8 !important;
+body .ui-widget-header {
+  background-color: #d8d8d8 !important;
 }
 
+.layout-main {
+    padding: 0;
+    position: relative;
+    
+}
+
+.layout-main-content {
+  padding-top: 0 !important;
+  position: relative;
+}
+
+.layout-menu-container {
+  position: absolute;
+  background-color: #2a3136;
+}
+
+a:hover {
+    background-color: white;
+}
+
+.body {
+    position: relative;
+    // opacity: 0.5;
+    min-height: 100vh;
+    width: 100%;
+      // margin: auto;
+      overflow: hidden;
+}

@@ -7,6 +7,7 @@ import { LOAD_ALL_CELLAR_PLACES_SUCCESS, LoadAllCellarPlacesSuccessAction } from
 import { query } from '@angular/core/src/animation/dsl';
 import { LoadCellarSpacesSuccessAction, LOAD_CELLAR_SPACES_SUCCESS, LOAD_ALL_CELLAR_SPACES_SUCCESS, LoadAllCellarSpacesSuccessAction } from 'app/state/actions/space.actions';
 import { LoadRunningProcessesSuccessAction, LOAD_RUNNING_PROCESSES_SUCCESS, SetCLICommandAction, SET_CLI_COMMAND, GET_ACTUAL_DIRECTORY_SUCCESS, GetActualDirectoryActionSuccessAction, LOAD_ALL_CELLAR_WORKFLOWS_SUCCESS, LoadAllCellarWorkflowsSuccessAction, LOAD_CELLAR_WORKFLOWS_SUCCESS, LoadCellarWorkflowsSuccessAction, RunAllCellarWorkflowsSuccessAction, RUN_ALL_CELLAR_WORKFLOWS_SUCCESS, STOP_ALL_CELLAR_WORKFLOWS_SUCCESS, StopAllCellarWorkflowsSuccessAction, RUN_CELLAR_WORKFLOW_SUCCESS } from 'app/state/actions/workflow.actions';
+import { LOAD_ALL_CELLAR_MEETING_ROOMS_SUCCESS, LoadAllCellarMeetingRoomsSuccessAction } from 'app/state/actions/office.actions';
 
 export function storeData(state: StoreData, action: Action): StoreData {
     switch (action.type) {
@@ -31,6 +32,9 @@ export function storeData(state: StoreData, action: Action): StoreData {
 
         case LOAD_ALL_CELLAR_WORKFLOWS_SUCCESS:
             return mapWorkflowsToState(state, <LoadAllCellarWorkflowsSuccessAction>action);
+
+        case LOAD_ALL_CELLAR_MEETING_ROOMS_SUCCESS:
+            return mapMeetingRoomsToState(state, <LoadAllCellarMeetingRoomsSuccessAction>action);
 
 
         case SET_CLI_COMMAND:
@@ -86,6 +90,14 @@ function mapWorkflowsToState(state: StoreData, action: any): StoreData {
     return {
         ...state,
         workflows: action.payload
+    };
+}
+
+
+function mapMeetingRoomsToState(state: StoreData, action: any): StoreData {
+    return {
+        ...state,
+        meetingrooms: action.payload
     };
 }
 

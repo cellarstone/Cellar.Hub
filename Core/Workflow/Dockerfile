@@ -7,8 +7,9 @@ ADD . $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Workflow
 
 # Cellar workflow test app - get packages & build
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Workflow/server.d
-RUN go-wrapper download
-RUN go-wrapper install
+RUN go get ./...
+# RUN go-wrapper download
+# RUN go-wrapper install
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o cellarworkflowengine  
 
 

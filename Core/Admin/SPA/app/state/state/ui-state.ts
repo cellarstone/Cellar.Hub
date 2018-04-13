@@ -2,6 +2,7 @@ import { CellarSenzor } from "app/entities/CellarSenzor";
 import { CellarPlace } from "app/entities/CellarPlace";
 import { CellarSpace } from "app/entities/CellarSpace";
 import { CellarWorkflow } from "app/entities/CellarWorkflow";
+import { CellarMeetingRoom } from "../../entities/CellarMeetingRoom";
 
 
 export interface UiState {
@@ -9,6 +10,8 @@ export interface UiState {
     selectedSpace: CellarSpace;
     selectedPlace: CellarPlace;
     selectedWorkflow: CellarWorkflow;
+
+    selectedMeetingRoom: CellarMeetingRoom;
 
     actualStatus: string;
 
@@ -21,6 +24,7 @@ export const INITIAL_UI_STATE: UiState = {
     selectedSpace: null,
     selectedPlace: null,
     selectedWorkflow: null,
+    selectedMeetingRoom: null,
     actualStatus: "",
     error: ""
 };

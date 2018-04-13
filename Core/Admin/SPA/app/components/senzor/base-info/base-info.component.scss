@@ -1,9 +1,5 @@
-
-
-
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
-
-
+@import './SPA/assets/sass/custom/base/variables';
+@import './SPA/assets/sass/custom/modules';
 
 .nonvalid
 {
@@ -32,13 +28,9 @@
 }
 
 
-
-
-
-
 .newState
 {
-    background-color: #F0B518;
+    background-color: #2196f3;
     height: 30px;
     width: 50%;
     margin: 0 auto;
@@ -46,7 +38,7 @@
 
 .approvedState
 {
-    background-color: #48A746;
+    background-color: #459e45; 
     height: 30px;
     width: 50%;
     margin: 0 auto;
@@ -54,11 +46,12 @@
 
 .forbiddenState
 {
-    background-color: #DD5826;
+    background-color: #af241f;
     height: 30px;
     width: 50%;
     margin: 0 auto;
 }
+
 
 .ui-widget-header
 {
@@ -82,59 +75,49 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    outline: none;
     user-select: none;
     border: 1px solid transparent;
-    padding: .5rem 1rem;
-    font-size: 1rem;
+    padding: 8px 16px;
+    font-size: 16px;
     border-radius: .25rem;
     -webkit-transition: all .2s ease-in-out;
     -o-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
+    
 }
 
-
+.btn-default {
+    font-size: 16px;
+    background-color: transparent;
+    border-bottom: 2px solid transparent !important;
+    border-top: 2px solid transparent !important;
+    transition: border-top .25s ease-in-out, border-bottom .25s ease-in-out;
+}
 
 .btn-success
 {
-    color: #fff;
-    background-color: #5cb85c;
-    border-color: #5cb85c;
-}
-
-.btn-success:hover
-{
-    color: #fff;
-    background-color: #449d44;
-    border-color: #419641;
+    color: #459e45;
+    background-color: transparent;
+    border-bottom: 2px solid #459e45 !important;
+    border-top: 2px solid #459e45 !important;
+    
 }
 
 .btn-warning
-{
-    color: #fff;
-    background-color: #f0ad4e;
-    border-color: #f0ad4e;
+{   
+    color: #2196f3;
+    background-color: transparent;
+    border-bottom: 2px solid #2196f3 !important;
+    border-top: 2px solid #2196f3 !important;
 }
-
-.btn-warning:hover
-{
-    color: #fff;
-    background-color: #ec971f;
-    border-color: #eb9316;
-}
-
 
 .btn-danger
 {
-    color: #fff;
-    background-color: #d9534f;
-    border-color: #d9534f;
-}
-
-.btn-danger:hover
-{
-    color: #fff;
-    background-color: #c9302c;
-    border-color: #c12e2a;
+    color: #af241f;
+    background-color: transparent;
+    border-bottom: 2px solid #af241f !important;
+    border-top: 2px solid #af241f !important;
 }
 //Button group
 .btn-group
@@ -145,6 +128,10 @@
     display: -ms-inline-flexbox;
     display: inline-flex;
     vertical-align: middle;
+}
+
+.buttons-status {
+    margin-bottom: 10px;
 }
 
 .btn-group
@@ -187,5 +174,44 @@
     {
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
+    }
+}
+
+.button-block {
+    margin-top: 15px;
+    &__status-of-buttons {
+        padding: 8px 10px 0 0;
+        font-size: 16px;
+    }
+}
+
+
+.main-header {
+    position: relative;
+
+    &__title {
+        display: flex;
+        flex-grow: 1;
+        background-color: #22282d;
+        color: white;
+        letter-spacing: 1px;
+        font-weight: 300;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+        margin: 0;
+        border-radius: 5px;
+    }
+
+    &__button--add {
+        position: absolute;
+        border-color: transparent !important;
+        background-color: transparent !important;
+        font-size: 20px;
+        width: 50px;
+        height: 50px;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        margin: 0;
     }
 }

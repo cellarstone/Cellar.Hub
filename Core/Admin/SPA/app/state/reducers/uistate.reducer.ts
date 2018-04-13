@@ -6,6 +6,7 @@ import { LOAD_CELLAR_SENZOR_SUCCESS, LoadCellarSenzorSuccessAction, LoadCellarSe
 import { LoadCellarPlaceSuccessAction, LOAD_CELLAR_PLACE_SUCCESS, LoadCellarPlaceAction, LOAD_CELLAR_PLACE, DeleteCellarPlaceFailureAction, DELETE_CELLAR_PLACE_FAILURE } from 'app/state/actions/place.actions';
 import { LoadCellarSpaceAction, LoadCellarSpaceSuccessAction, LOAD_CELLAR_SPACE, LOAD_CELLAR_SPACE_SUCCESS, DELETE_CELLAR_SPACE_FAILURE, DeleteCellarSpaceFailureAction } from 'app/state/actions/space.actions';
 import { LoadCellarWorkflowAction, LoadCellarWorkflowSuccessAction, LOAD_CELLAR_WORKFLOW, LOAD_CELLAR_WORKFLOW_SUCCESS, CHECK_CELLAR_WORKFLOW_SUCCESS, CheckCellarWorkflowSuccessAction, RUN_CELLAR_WORKFLOW_SUCCESS, RunCellarWorkflowSuccessAction, StopCellarWorkflowSuccessAction, STOP_CELLAR_WORKFLOW_SUCCESS } from 'app/state/actions/workflow.actions';
+import { LOAD_CELLAR_MEETING_ROOM, LoadCellarMeetingRoomAction, LOAD_CELLAR_MEETING_ROOM_SUCCESS, LoadCellarMeetingRoomSuccessAction, CleanSelectedCellarMeetingRoomAction, CLEAN_SELECTED_CELLAR_MEETING_ROOM } from '../actions/office.actions';
 
 
 export function uiState(state: UiState = INITIAL_UI_STATE, action: any): UiState {
@@ -16,6 +17,10 @@ export function uiState(state: UiState = INITIAL_UI_STATE, action: any): UiState
 
         case LOAD_CELLAR_PLACE_SUCCESS:
             return mapPlaceToState(state, <LoadCellarPlaceSuccessAction>action);
+
+        case DELETE_CELLAR_PLACE_FAILURE:
+            return mapErrorToState(state, <DeleteCellarPlaceFailureAction>action);
+
 
         case LOAD_CELLAR_SENZOR:
             return mapSenzorToState2(state, <LoadCellarSenzorAction>action);
@@ -32,8 +37,13 @@ export function uiState(state: UiState = INITIAL_UI_STATE, action: any): UiState
         case DELETE_CELLAR_SPACE_FAILURE:
             return mapErrorToState(state, <DeleteCellarSpaceFailureAction>action);
 
-        case DELETE_CELLAR_PLACE_FAILURE:
-            return mapErrorToState(state, <DeleteCellarPlaceFailureAction>action);
+
+        case LOAD_CELLAR_MEETING_ROOM_SUCCESS:
+            return mapMeetingRoomToState(state, <LoadCellarMeetingRoomSuccessAction>action);
+
+        case CLEAN_SELECTED_CELLAR_MEETING_ROOM:
+            return unmapMeetingRoomToState(state, <CleanSelectedCellarMeetingRoomAction>action);
+
 
         case LOAD_CELLAR_WORKFLOW:
             return mapWorkflowToState2(state, <LoadCellarWorkflowAction>action);
@@ -100,6 +110,21 @@ function mapSpaceToState(state: UiState, action: LoadCellarSpaceSuccessAction): 
     return {
         ...state,
         selectedSpace: action.payload
+    };
+}
+
+
+function mapMeetingRoomToState(state: UiState, action: LoadCellarMeetingRoomSuccessAction): UiState {
+    return {
+        ...state,
+        selectedMeetingRoom: action.payload
+    };
+}
+
+function unmapMeetingRoomToState(state: UiState, action: CleanSelectedCellarMeetingRoomAction): UiState {
+    return {
+        ...state,
+        selectedMeetingRoom: null
     };
 }
 

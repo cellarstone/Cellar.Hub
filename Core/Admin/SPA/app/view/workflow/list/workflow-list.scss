@@ -1,0 +1,42 @@
+.list-of-workflows {
+  display: flex;
+  position: relative;
+  width: 100%;
+  // background-color: lightgreen;
+  margin: 15px 0 0 0;
+  &__text {
+      display: flex;
+      font-weight: 300;
+      font-size: 20px;
+      flex-grow: 1;
+      background-color: #2d353c;
+      color: white;
+      font-weight: 300;
+      justify-content: center;
+      align-items: center;
+      height: 50px;
+      margin: 0;
+      border: none;
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+
+      @media (max-width: 1200px){
+        font-size: 20px;
+      }
+
+  }
+
+  &__button--add {
+      position: absolute;
+      height: 50px;
+      font-size: 16px;
+      margin: none;
+      border-radius: 0 !important;
+      border-top-left-radius: 5px !important;
+
+  }
+
+  @media (max-width: 1025px) {
+    width: 100%;
+  }
+}

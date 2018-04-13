@@ -1,0 +1,41 @@
+@import './SPA/assets/sass/custom/base/variables';
+@import './SPA/assets/sass/custom/modules';
+
+.svg-wrapper {
+  position: relative;
+  margin-top: 50px;
+  margin-bottom: 50px;
+
+  #workflow-svg {
+    position: relative;
+    transform: scale(1.2);
+  }
+}
+
+.tag {
+  color: $color-white-default;
+  background-color: #63c9f1;
+  padding: 1.75px 7px;
+  margin-left: 1.75px;
+  font-size: 18px;
+}
+
+.flex {
+  display: flex;
+
+  p {
+    font-size: 16px;
+    margin: 0;
+    padding: 2px 0;
+  }
+
+  &__1 {
+    width: 200px;
+  }
+
+  &__2 {
+    // min-width: 300px;
+    margin-left: 15px;
+    color: $color-black-1;
+  }
+}

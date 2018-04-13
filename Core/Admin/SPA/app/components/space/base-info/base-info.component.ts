@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { CellarSpace } from 'app/entities/CellarSpace';
 import { Message } from 'primeng/primeng';
-import { CdnService } from 'app/service/cdn.service';
+import { FileService } from 'app/service/file.service';
 
 
 
@@ -38,7 +38,7 @@ export class SpaceBaseInfoComponent implements OnInit {
 
 
 
-  constructor(public cdnservice: CdnService) { }
+  constructor(public fileservice: FileService) { }
 
   ngOnInit() {
   }
@@ -151,8 +151,8 @@ export class SpaceBaseInfoComponent implements OnInit {
       jQuery("#forbidden").removeClass();
 
       jQuery("#new").addClass("btn btn-warning");
-      jQuery("#approved").addClass("btn");
-      jQuery("#forbidden").addClass("btn");
+      jQuery("#approved").addClass("btn btn-default");
+      jQuery("#forbidden").addClass("btn btn-default");
     }
     else if (aaa === "approved") {
       this.item.state = "2";
@@ -161,9 +161,9 @@ export class SpaceBaseInfoComponent implements OnInit {
       jQuery("#approved").removeClass();
       jQuery("#forbidden").removeClass();
 
-      jQuery("#new").addClass("btn");
+      jQuery("#new").addClass("btn btn-default");
       jQuery("#approved").addClass("btn btn-success");
-      jQuery("#forbidden").addClass("btn");
+      jQuery("#forbidden").addClass("btn btn-default");
     }
     else if (aaa === "forbidden") {
       this.item.state = "3";
@@ -172,8 +172,8 @@ export class SpaceBaseInfoComponent implements OnInit {
       jQuery("#approved").removeClass();
       jQuery("#forbidden").removeClass();
 
-      jQuery("#new").addClass("btn");
-      jQuery("#approved").addClass("btn");
+      jQuery("#new").addClass("btn btn-default");
+      jQuery("#approved").addClass("btn btn-default");
       jQuery("#forbidden").addClass("btn btn-danger");
     }
 
@@ -192,7 +192,7 @@ export class SpaceBaseInfoComponent implements OnInit {
       let fileToUpload = fileInput.target.files[0];
       console.log(fileToUpload.name);
 
-      this.cdnservice.upload(fileToUpload)
+      this.fileservice.upload(fileToUpload)
         .subscribe(art => {
           let response = art;
 

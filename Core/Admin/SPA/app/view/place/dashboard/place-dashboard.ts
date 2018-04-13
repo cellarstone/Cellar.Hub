@@ -12,9 +12,28 @@ import * as RouterActions from 'app/state/actions/router.actions';
 import { LoadCellarPlacesAction } from 'app/state/actions/place.actions';
 import { Observable } from 'rxjs/Observable';
 
+import {trigger, transition, style, animate, query, stagger} from '@angular/animations';
+
 @Component({
     templateUrl: './place-dashboard.html',
-    styleUrls: ['./place-dashboard.scss']
+    styleUrls: ['./place-dashboard.scss'],
+    animations: [
+        trigger('listAnimation', [
+            transition('* => *', [ // each time the binding value changes
+            //   query(':leave', [
+            //     stagger(100, [
+            //       animate('0.5s', style({ opacity: 0 }))
+            //     ])
+            //   ], {optional: true}),
+              query(':enter', [
+                style({ opacity: 0 }),
+                stagger(100, [
+                  animate('0.5s', style({ opacity: 1 }))
+                ])
+              ], {optional: true})
+            ])
+          ])
+    ]
 })
 export class PlaceDashboard implements OnInit {
 

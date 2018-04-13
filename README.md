@@ -74,7 +74,7 @@ Linux : `docker stack deploy -c docker-stack.yml cellarhub --with-registry-auth`
     ```Shell
     192.168.1.19   web.cellarstone.hub
     192.168.1.19   admin.cellarstone.hub
-    192.168.1.19   api.cellarstone.hub
+    192.168.1.19   iot.cellarstone.hub
     192.168.1.19   cdn.cellarstone.hub
     192.168.1.19   workflow.cellarstone.hub
     192.168.1.19   websockets.cellarstone.hub
@@ -104,12 +104,13 @@ Application | Url
 --- | ---
 Hub Web | http://web.cellarstone.hub
 Hub Admin | http://admin.cellarstone.hub
-Hub Api | http://api.cellarstone.hub/metrics
-Hub Cdn | http://cdn.cellarstone.hub
+Hub Iot | http://iot.cellarstone.hub/metrics
+File server | http://file.cellarstone.hub
+Websocket server | http://websockets.cellarstone.hub
 Workflow Manager | http://workflow.cellarstone.hub
-Websockets | http://websockets.cellarstone.hub
 Office - meeting rooms | http://meetingrooms.cellarstone.hub
 Office - reception | http://reception.cellarstone.hub
+Office - welcome | http://welcome.cellarstone.hub
 Office - api | http://officeapi.cellarstone.hub
 
 
@@ -137,10 +138,13 @@ Port | Application
 8888 | Core - chronograf
 8094 | Core - telegraf
 9092 | Core - kapacitor
+16686 | Core - Jaeger
 19999 | Core - sysmon (netdata)
 44511 | Office Module - Meeting rooms Web App
 44512 | Office Module - Reception Web App
 44513 | Office Module - Api
+44514 | Office Module - Cafe Web App
+44515 | Office Module - Welcome
 
 
 

@@ -77,25 +77,16 @@ export class Test1WorkflowComponent implements OnInit {
 
   saveWorkflow() {
 
-
     // this.item.parameters[0] = this.workflowName;
-    
-
     // console.log(this.item);
-
     if (this.validations.length == 0) {
-
-
       //SAVE PARAMETERS
       let temp = new Test1Parameters();
       temp.websocketroom = this.websocketroom;
       temp.mqtttopic = this.mqtttopic;
       temp.influxtopic = this.influxtopic;
       this.item.workflowparams = temp;
-
       this.item.workflowtype = "test1";
-
-
       //emit output  
       this.onSave.emit(this.item);
 

@@ -1,0 +1,17 @@
+.form-section {
+    
+  &__label{
+      
+  }
+
+  &__input {
+    margin-top: 5px !important;
+      transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out !important;
+  }
+
+  &__input:focus {
+      
+      border-color: #9acffa !important;
+      box-shadow: 0 0 0 0.2rem rgba(33,150,243,.25) !important;
+  }
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CellarWorkflow } from 'app/entities/CellarWorkflow';
 import { Message, SelectItem } from 'primeng/primeng';
+import { MultiStepWizardService } from '../../../view/workflow/wizard/wizard.service';
 
 declare var jQuery: any;
 
@@ -30,7 +31,7 @@ export class MqttTriggerComponent implements OnInit {
   mqtttopic: string;
 
 
-  constructor() {
+  constructor(public wizardService: MultiStepWizardService) {
   }
 
   ngOnInit() {
@@ -66,19 +67,13 @@ export class MqttTriggerComponent implements OnInit {
     //console.log(this.item)
 
     if(this.item.id != ''){
-    let asdf = <MqttTriggerParameters>this.item.triggerparams;
-    this.mqtttopic = asdf.topic;
+      let asdf = <MqttTriggerParameters>this.item.triggerparams;
+      this.mqtttopic = asdf.topic;
     }
-
-    //console.log(this.workflowName);
-   
+    //console.log(this.workflowName); 
   }
 
-
-
-
   saveTrigger() {
-
 
     if (this.validations.length == 0) {
 
@@ -88,13 +83,14 @@ export class MqttTriggerComponent implements OnInit {
       this.item.triggerparams = temp;
       this.item.triggertype = "mqtt";
 
-
       //emit output  
       this.onSave.emit(this.item);
+      // this.wizardService.mqttTopic = this.mqtttopic;
 
     }
-  }
 
+    
+  }
 
   // deleteWorkflow() {
   //   this.onDelete.emit(this.item);
@@ -104,11 +100,6 @@ export class MqttTriggerComponent implements OnInit {
   //   // go in router history back
   //   this.onCancel.emit();
   // }
-
-
-
-
-
 
   // generateUUID() {
   //   var d = new Date().getTime();

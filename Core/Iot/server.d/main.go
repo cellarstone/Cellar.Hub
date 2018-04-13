@@ -10,9 +10,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	// iot "../iot"
-	// mqtt "../mqtt"
-
+	cellargraphql "github.com/cellarstone/Cellar.Hub/Core/Iot/graphql"
 	"github.com/cellarstone/Cellar.Hub/Core/Iot/pb"
 	iot "github.com/cellarstone/Cellar.Hub/Core/Iot/service"
 	"github.com/go-kit/kit/log"
@@ -54,17 +52,41 @@ func main() {
 	fieldKeys := []string{"method"}
 
 	//-----------------------------------------
+	// GraphQL server
+	//-----------------------------------------
+
+	// init service
+	cellargraphql.MyService = iot.NewService(mongourl, mqtturl)
+	queries := cellargraphql.GetRootQueries()
+	mutations := cellargraphql.GetRootMutations()
+
+	//-----------------------------------------
 	// gRPC server
 	//-----------------------------------------
 
-	// init lorem service
+	// init service
 	var bs0 iot.Service
 	bs0 = iot.NewService(mongourl, mqtturl)
+	bs0 = iot.NewMetricsMiddleware(
+		kitprometheus.NewCounterFrom(stdprometheus.CounterOpts{
+			Namespace: "iot",
+			Subsystem: "iotService",
+			Name:      "grpc_request_count",
+			Help:      "Number of requests received.",
+		}, fieldKeys),
+		kitprometheus.NewSummaryFrom(stdprometheus.SummaryOpts{
+			Namespace: "iot",
+			Subsystem: "iotService",
+			Name:      "grpc_request_latency_microseconds",
+			Help:      "Total duration of requests in microseconds.",
+		}, fieldKeys),
+		bs0,
+	)
 
 	// creating Endpoints struct
 	endpoints1 := iot.Endpoints{
 		GetAllSpacesEndpoint: iot.MakeGetAllSpacesEndpoint(bs0),
-		GetSenzorEndpoint:    iot.MakeGetSenzorEndpoint(bs0),
+		GetSenzorEndpoint:    iot.MakeGetAllSpacesEndpoint(bs0),
 	}
 
 	//execute grpc server
@@ -92,13 +114,13 @@ func main() {
 		kitprometheus.NewCounterFrom(stdprometheus.CounterOpts{
 			Namespace: "iot",
 			Subsystem: "iotService",
-			Name:      "request_count",
+			Name:      "http_request_count",
 			Help:      "Number of requests received.",
 		}, fieldKeys),
 		kitprometheus.NewSummaryFrom(stdprometheus.SummaryOpts{
 			Namespace: "iot",
 			Subsystem: "iotService",
-			Name:      "request_latency_microseconds",
+			Name:      "http_request_latency_microseconds",
 			Help:      "Total duration of requests in microseconds.",
 		}, fieldKeys),
 		bs1,
@@ -128,7 +150,9 @@ func main() {
 		PublishToMqttEndpoint: iot.MakePublishToMqttEndpoint(bs1),
 	}
 
-	// SERVER -------------------------------------------
+	//-----------------------------------------
+	// SERVER ---------------------------------
+	//-----------------------------------------
 	httpLogger := log.With(logger, "component", "http")
 
 	headersOk := handlers.AllowedHeaders([]string{"Content-Type", "Accept", "Access-Control-Allow-Methods", "Access-Control-Allow-Origin"})
@@ -137,6 +161,7 @@ func main() {
 
 	http.Handle("/iot/", handlers.CORS(headersOk, originsOk, methodsOk)(iot.MakeHttpHandler(ctx, iotendpoints, httpLogger)))
 	// http.Handle("/mqtt/", handlers.CORS(headersOk, originsOk, methodsOk)(mqtt.MakeHttpHandler(ctx, mqttendpoints, httpLogger)))
+	http.Handle("/graphql", handlers.CORS(headersOk, originsOk, methodsOk)(iot.MakeGraphqlHandler(queries, mutations)))
 	http.Handle("/metrics", promhttp.Handler())
 
 	logger.Log("API IS RUNNING")

@@ -13,6 +13,8 @@ node_modules/
 wwwroot/
 output/
 *.zip
+vendor/
+*.lock
 
 
 

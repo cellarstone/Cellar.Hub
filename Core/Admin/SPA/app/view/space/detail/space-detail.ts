@@ -12,7 +12,6 @@ import { CellarSenzor } from '../../../entities/CellarSenzor';
 
 
 import { IoTService } from '../../../service/iot.service';
-import { CdnService } from '../../../service/cdn.service';
 
 //http + rxjs
 import { Subject } from 'rxjs/Subject';
@@ -27,6 +26,8 @@ import { ApplicationState } from 'app/state/state/application.state';
 import * as RouterActions from 'app/state/actions/router.actions';
 import { LoadCellarSpaceAction, SaveCellarSpaceAction, DeleteCellarSpaceAction } from 'app/state/actions/space.actions';
 import { DeleteCellarSenzorAction, SaveCellarSenzorAction } from 'app/state/actions/senzor.actions';
+import { CellarMeetingRoom } from '../../../entities/CellarMeetingRoom';
+import { LoadCellarMeetingRoomAction, CleanSelectedCellarMeetingRoomAction, SaveCellarMeetingRoomAction, DeleteCellarMeetingRoomAction } from 'app/state/actions/office.actions';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class SpaceDetail {
     item_subspaces$: Observable<CellarSpace[]>;
     item_senzors$: Observable<CellarSenzor[]>;
 
+    item_meetingRoom$: Observable<CellarMeetingRoom>;
 
     private sub: any;
 
@@ -54,7 +56,7 @@ export class SpaceDetail {
     addsubspaceDisplay: boolean = false;
     addedsubspace: CellarSpace;
 
-
+    itemID: string;
 
 
     colorMap: any;
@@ -92,20 +94,24 @@ export class SpaceDetail {
         this.item_subspaces$ = this.store.select(mapSpacesFromState);
         this.item_senzors$ = this.store.select(mapSenzorsFromState);
         this.error$ = this.store.select(mapErrorFromState);
+        this.item_meetingRoom$ = this.store.select(mapMeetingRoomFromState);
     }
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
 
             let id = params['id']; // (+) converts string 'id' to a number
-
+            this.itemID = id;
             this.store.dispatch(new LoadCellarSpaceAction(id));
+            this.store.dispatch(new LoadCellarMeetingRoomAction(id));
 
         });
 
     }
     ngOnDestroy() {
         console.log("destroy");
+
+        this.store.dispatch(new CleanSelectedCellarMeetingRoomAction());
 
         this.sub.unsubscribe();
     }
@@ -131,7 +137,20 @@ export class SpaceDetail {
 
 
 
+    saveMeetingRoomSetting(email: string){
+        let result = new CellarMeetingRoom();
+        result.id = this.itemID;
+        result.email = email;
+        this.store.dispatch(new SaveCellarMeetingRoomAction(result));
+        console.log("save email: " + email);
+    }
 
+    
+    deleteMeetingRoomSetting(){
+        this.store.dispatch(new DeleteCellarMeetingRoomAction(this.itemID));
+        this.store.dispatch(new CleanSelectedCellarMeetingRoomAction());
+        console.log("delete email for id : " + this.itemID);
+    }
 
 
 
@@ -165,13 +184,19 @@ export class SpaceDetail {
         });
     }
 
+    private cancelSubspace() {
+        this.addsubspaceDisplay = false;
+    }
 
     private addSenzor() {
         this.addsenzorDisplay = false;
         this.addedsenzor.type = this.selectedSenzorType;
 
         this.store.dispatch(new SaveCellarSenzorAction(this.addedsenzor));
+    }
 
+    private cancelSenzor() {
+        this.addsenzorDisplay = false;
     }
 
     private selectSenzor(id: string) {
@@ -250,6 +275,15 @@ function mapSenzorsFromState(state: ApplicationState): CellarSenzor[] {
     }
 
     return state.storeData.senzors;
+}
+
+
+function mapMeetingRoomFromState(state: ApplicationState): CellarMeetingRoom {
+    if (state.uiState == undefined) {
+        return undefined;
+    }
+
+    return state.uiState.selectedMeetingRoom;
 }
 
 function mapErrorFromState(state: ApplicationState): string {

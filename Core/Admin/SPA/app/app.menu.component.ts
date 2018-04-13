@@ -43,8 +43,7 @@ export class AppMenuComponent implements OnInit {
                     // {label: 'CLI', icon: 'fa fa-fw fa-terminal', routerLink: ['/workflow/cli']},
                     {label: 'Seznam', icon: 'fa fa-fw fa-list', routerLink: ['/workflows']},
                 ]
-            },
-            {label: 'Dokumentace', icon: 'fa fa-fw fa-book', routerLink: ['/documentation']}
+            }
         ];
     }
 

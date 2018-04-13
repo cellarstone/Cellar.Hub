@@ -1,0 +1,15 @@
+<div class="homeBody" *ngIf="item">
+    <div class="room">{{ item.name }}</div>
+    <div class="status">{{ sharedService.state }}</div>
+    <div class="presenter">
+        <div>{{ item.subject }}</div>
+    </div>
+    
+    
+    
+</div>
+
+<div *ngIf="meetings.length > 0" style="height:500px">
+    <app-timeline [meetings]="meetings"></app-timeline>
+</div>
+

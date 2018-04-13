@@ -36,18 +36,18 @@ export class WorkflowService {
   private headers: HttpHeaders;
 
   constructor(private http: HttpClient) {
-    if (this.isProduction == true && this.isHttps == true) {
-      this.serverUrl = "https://workflow.cellarstone.hub";
-    }
-    else if (this.isProduction == true && this.isHttps == false) {
+    // if (this.isProduction == true && this.isHttps == true) {
+    //   this.serverUrl = "https://workflow.cellarstone.hub";
+    // }
+    // else if (this.isProduction == true && this.isHttps == false) {
       this.serverUrl = "http://workflow.cellarstone.hub";
-    }
-    else if (this.isProduction == false && this.isHttps == true) {
-      this.serverUrl = "https://localhost:44405";
-    }
-    else if (this.isProduction == false && this.isHttps == false) {
-      this.serverUrl = "http://localhost:44405";
-    }
+    // }
+    // else if (this.isProduction == false && this.isHttps == true) {
+    //   this.serverUrl = "https://localhost:44405";
+    // }
+    // else if (this.isProduction == false && this.isHttps == false) {
+    //   this.serverUrl = "http://localhost:44405";
+    // }
 
     this.url_getAllCellarWorkflows = this.serverUrl + '/engine/workflows';
     this.url_RunAllCellarWorkflows = this.serverUrl + '/engine/workflows/run';

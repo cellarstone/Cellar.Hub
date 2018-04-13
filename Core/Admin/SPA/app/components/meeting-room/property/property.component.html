@@ -1,0 +1,13 @@
+<div class="ui-g card card-w-title border-light border-radius">
+  <div class="ui-g-12">
+    <p-checkbox [(ngModel)]="isMeetingRoomValues" label="is Meeting Room" binary="true" (onChange)="checkboxChanged()"></p-checkbox>
+  </div>
+  <div class="ui-g-12" *ngIf="isMeetingRoomValues">
+    <form>
+      <input id="email" name="email" type="email" [(ngModel)]="meetingRoomEmail" required (focusout)="myFunction($event)"/>
+      <div *ngIf="isInvalid" class="alert alert-danger">
+            Email is invalid.
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,4 +1,22 @@
-﻿<h1>Senzor Detail</h1>
+﻿<div class="main-block ui-g border-light">
+    <div class="ui-g-12">
+        <h1 class="main-block__title">Sensor details</h1>
+        <div class="main-block__breadcrumb">
+            <a [routerLink]="['/']">Home </a>
+            <a [routerLink]="['/places/dashboard']">
+                <i class="fa fa-chevron-right"></i> Place
+            </a>
+            <a [routerLink]="['/spaces']">
+                <i class="fa fa-chevron-right"></i> Space
+            </a>
+            <a [routerLink]="['/senzors']">
+                <i class="fa fa-chevron-right"></i> Sensor
+            </a>
+        </div>
+    </div>
+</div>
+
+
 <div id="senzor-detail">
 
 
@@ -10,12 +28,8 @@
         <!--*********************************************************************************************-->
         <!--*********************************************************************************************-->
 
-        <div class="ui-g-12">
-            <div class="card">
-
-                <app-senzor-base-info [item]="item$ | async" (onSave)="saveSenzor($event)" (onDelete)="deleteSenzor($event)" (onCancel)="cancelSenzor()"></app-senzor-base-info>
-
-            </div>
+        <div class="ui-g-6">
+            <app-senzor-base-info [item]="item$ | async" (onSave)="saveSenzor($event)" (onDelete)="deleteSenzor($event)" (onCancel)="cancelSenzor()"></app-senzor-base-info>
         </div>
 
 
@@ -25,12 +39,16 @@
         <!--*********************************************************************************************-->
         <!--*********************************************************************************************-->
 
-        <div class="ui-g-12">
-            <div class="card">
+        <div class="ui-g-6 ">
+            <!-- <div class="ui-g-12"> -->
+
+            <div class="card card-w-title border-light border-radius">
 
                 <senzor-workflow-list [senzorName]="(item$ | async).name"></senzor-workflow-list>
 
+
             </div>
+
         </div>
 
         <!--*********************************************************************************************-->
@@ -53,23 +71,23 @@
         <!--DHT11-->
         <!--*********************************************************************************************-->
 
-        <div class="ui-g-12" *ngIf="(item$ | async).type == 'CellarSenzor Temperature v1.0'">
-            <div class="card">
-                <dht11-panel [senzorName]="(item$ | async).name"></dht11-panel>
+        <div class="ui-g-12">
+            <div *ngIf="(item$ | async).type == 'CellarSenzor Temperature v1.0'">
+                <div class="card border-light border-radius">
+                    <dht11-panel [senzorName]="(item$ | async).name"></dht11-panel>
+                </div>
+            </div>
+
+            <!--*********************************************************************************************-->
+            <!--PIR-->
+            <!--*********************************************************************************************-->
+
+            <div class="ui-g-12" *ngIf="(item$ | async).type == 'CellarSenzor Motion v1.0'">
+                <div class="card border-light border-radius">
+                    <pir-panel [senzorName]="(item$ | async).name"></pir-panel>
+                </div>
             </div>
         </div>
-
-        <!--*********************************************************************************************-->
-        <!--PIR-->
-        <!--*********************************************************************************************-->
-
-        <div class="ui-g-12" *ngIf="(item$ | async).type == 'CellarSenzor Motion v1.0'">
-            <div class="card">
-                <pir-panel [senzorName]="(item$ | async).name"></pir-panel>
-            </div>
-        </div>
-
-
     </div>
 
 
