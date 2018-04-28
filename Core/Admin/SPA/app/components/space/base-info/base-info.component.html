@@ -43,7 +43,7 @@
 
 
       <div>
-        <img src="{{item.image}}" alt="..." class="information-space__thumbnail">
+        <img [ngClass]="colorMap[item.state]" src="{{item.image}}" alt="..." class="information-space__thumbnail">
       </div>
       <div class="no-margin information-space__name--modified">
         <div class="information-space__name--space">
