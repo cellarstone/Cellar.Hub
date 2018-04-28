@@ -2,15 +2,15 @@
     <div class="ui-g-5 ui-sm-12">
         <div class="card card-w-title no-padding">
 
-            <div class="ui-g places ">
-                <button class="places__button--add" pButton icon="fa-plus" type="button" (click)="newPlace()">+</button>
-                <h1 class="places__text">Places</h1>
+            <div class="ui-g title ">
+                <button class="title__button--add" pButton icon="fa-plus" type="button" (click)="newPlace()"></button>
+                <h1 class="title__text title__text--purple">Places</h1>
             </div>
 
-            <div class="ui-g items">
+            <div class="ui-g loop-card" id="style-1">
                 <div *ngFor="let item of (items$ | async)" class="ui-g-12 item">
                     <div class="ui-g-12 no-padding" (click)="selectItem(item.id)" [ngClass]="colorMap[item.state]">
-                        <div class="items__item">
+                        <div class="loop-card__item">
                             <div class="item-card">
                                 <h3 class="item-card__name">{{item.name}}</h3>
                                 <span class="item-card__location">
