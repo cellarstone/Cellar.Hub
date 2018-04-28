@@ -5,8 +5,10 @@ ADD . $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Websockets
 
 # Cellar websockets - get packages & build
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Websockets
-RUN go-wrapper download
-RUN go-wrapper install
+RUN go get ./...
+
+# RUN go-wrapper download
+# RUN go-wrapper install
 #RUN go build -o cellarwebsockets  
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o cellarwebsockets
 
@@ -35,5 +37,4 @@ RUN chmod +x /app/cellarwebsockets
 RUN ls -l  
 
 ENTRYPOINT /app/cellarwebsockets
-
 

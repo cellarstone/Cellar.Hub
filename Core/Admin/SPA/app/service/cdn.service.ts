@@ -25,18 +25,18 @@ export class CdnService {
 
 
     constructor(private http: HttpClient) {
-        if (this.isProduction == true && this.isHttps == true) {
-            this.serverUrl = "https://file.cellarstone.hub";
-        }
-        else if (this.isProduction == true && this.isHttps == false) {
+        // if (this.isProduction == true && this.isHttps == true) {
+        //     this.serverUrl = "https://file.cellarstone.hub";
+        // }
+        // else if (this.isProduction == true && this.isHttps == false) {
             this.serverUrl = "http://file.cellarstone.hub";
-        }
-        else if (this.isProduction == false && this.isHttps == true) {
-            this.serverUrl = "https://localhost:44404";
-        }
-        else if (this.isProduction == false && this.isHttps == false) {
-            this.serverUrl = "http://localhost:44404";
-        }
+        // }
+        // else if (this.isProduction == false && this.isHttps == true) {
+        //     this.serverUrl = "https://localhost:44404";
+        // }
+        // else if (this.isProduction == false && this.isHttps == false) {
+        //     this.serverUrl = "http://localhost:44404";
+        // }
 
         this.url_upload = this.serverUrl + '/upload';
         this.url_uploadFullSmall = this.serverUrl + '/Data/UploadFullSmall';

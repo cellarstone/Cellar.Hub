@@ -1,25 +1,171 @@
-﻿.myerror{
+﻿@import './SPA/assets/sass/custom/base/variables';
+@import './SPA/assets/sass/custom/modules';
+
+.myerror{
     width: 100%;
     background-color: red;
 }
 
+.border {
+    border-bottom: 1px solid $color-border-grey;
+    border-right: 1px solid $color-border-grey;
+    border-left: 1px solid $color-border-grey;
+}
+
+.space {
+    // position: relative;
+    font-family: $font-roboto;
+    // z-index: 1000;
+    &__text {
+        display: flex;
+        flex-grow: 1;
+        background-color: $color-blue-main;
+        color: white;
+        letter-spacing: 1px;
+        font-weight: 300;
+        font-size: 35px;
+        justify-content: start;
+        align-items: center;
+        height: 100px;
+        padding-left: 45px;  
+        margin: 0 !important;
+    }
+}
 
 .newStatePanel
 {
-    border-left: 4px solid #F0B518;
+    border-left: 7px solid #2196f3 !important;
 }
 
 .approvedStatePanel
 {
-  border-left: 4px solid #48A746;
+  border-left: 7px solid #459e45 !important;
 }
 
 .forbiddenStatePanel
 {
-  border-left: 4px solid #DD5826;
+  border-left: 7px solid #af241f !important;
 }
 
-
-.mycard{
-    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+.text-center {
+    text-align: center !important;
 }
+
+.text-right {
+    text-align: right !important;
+}
+
+.space-detail {
+
+    &__title {
+        margin: 0;
+        padding: 0 0 10px 12px;
+        color: #fff;
+    }
+}
+
+.sensors {
+    position: relative;
+    font-family: $font-roboto;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    &__text {
+        display: flex;
+        flex-grow: 1;
+        color: $color-text-dark;
+        letter-spacing: 1px;
+        font-weight: 300;
+        font-size: 26px;
+        justify-content: start;
+        align-items: center;
+        height: 80px;
+        margin: 0 !important;
+    }
+  
+    &__button-add {
+        color: $color-blue-new;
+        font-size: 20px;
+        padding:5px 0 5px 30px;
+        background-color: transparent;
+        outline: none;
+        border: none;
+        
+      }
+  }
+
+.subspaces {
+    position: relative;
+    font-family: $font-roboto;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    &__text {
+        display: flex;
+        flex-grow: 1;
+        color: $color-text-dark;
+        letter-spacing: 1px;
+        font-weight: 300;
+        font-size: 26px;
+        justify-content: start;
+        align-items: center;
+        height: 80px;
+        margin: 0 !important;
+    }
+  
+    &__button-add {
+        color: $color-blue-new;
+        font-size: 20px;
+        padding:5px 0 5px 30px;
+        background-color: transparent;
+        outline: none;
+        border: none;
+        
+      }
+  }
+.sensors-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    align-items: center;
+    
+      font-size: 16px;
+    //   margin-bottom: 3px;  
+        border-bottom: 1px solid $color-border-grey;
+        border-right: 1px solid $color-border-grey;
+
+        @media only screen and (max-width: 475px){
+            font-size: 14px;
+        }
+
+    &__img {
+      height: 70px;
+      padding-left: 15px;
+    }
+
+    &__img > img {
+        padding-top: 10px;
+        height: 50px;
+        object-fit: cover;
+        object-position: center right;
+    }
+  
+    &__name {
+
+        padding-left: 25px;
+        flex: 1;
+        
+        @media only screen and (max-width: 475px) {
+            padding-left: 5px;
+        }
+    }
+
+    &__type {
+        flex: 1;
+    }
+  }
+  
+

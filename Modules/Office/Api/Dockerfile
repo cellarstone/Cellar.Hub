@@ -5,8 +5,9 @@ ADD . $GOPATH/src/github.com/cellarstone/Cellar.Hub/Modules/Office/Api
 
 # Cellar websockets - get packages & build
 WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Modules/Office/Api
-RUN go-wrapper download
-RUN go-wrapper install
+RUN go get ./...
+# RUN go-wrapper download
+# RUN go-wrapper install
 #RUN go build -o moduleofficeapi  
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o moduleofficeapi
 

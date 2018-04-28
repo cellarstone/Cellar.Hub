@@ -37,10 +37,23 @@ export class SpaceBaseInfoComponent implements OnInit {
   isPathValid: boolean = true;
 
 
+  deleteModal: boolean = false;
+
+  allowEdit: boolean = false;
+
+  imgUpload: string = '';
+
 
   constructor(public cdnservice: CdnService) { }
 
   ngOnInit() {
+
+    if(this.item.image !== '') {
+      return this.imgUpload = 'Change photo';
+    } else {
+      return this.imgUpload = 'Upload photo';
+    }
+
   }
 
 
@@ -151,8 +164,8 @@ export class SpaceBaseInfoComponent implements OnInit {
       jQuery("#forbidden").removeClass();
 
       jQuery("#new").addClass("btn btn-warning");
-      jQuery("#approved").addClass("btn");
-      jQuery("#forbidden").addClass("btn");
+      jQuery("#approved").addClass("btn btn-default");
+      jQuery("#forbidden").addClass("btn btn-default");
     }
     else if (aaa === "approved") {
       this.item.state = "2";
@@ -161,9 +174,9 @@ export class SpaceBaseInfoComponent implements OnInit {
       jQuery("#approved").removeClass();
       jQuery("#forbidden").removeClass();
 
-      jQuery("#new").addClass("btn");
+      jQuery("#new").addClass("btn btn-default");
       jQuery("#approved").addClass("btn btn-success");
-      jQuery("#forbidden").addClass("btn");
+      jQuery("#forbidden").addClass("btn btn-default");
     }
     else if (aaa === "forbidden") {
       this.item.state = "3";
@@ -172,8 +185,8 @@ export class SpaceBaseInfoComponent implements OnInit {
       jQuery("#approved").removeClass();
       jQuery("#forbidden").removeClass();
 
-      jQuery("#new").addClass("btn");
-      jQuery("#approved").addClass("btn");
+      jQuery("#new").addClass("btn btn-default");
+      jQuery("#approved").addClass("btn btn-default");
       jQuery("#forbidden").addClass("btn btn-danger");
     }
 

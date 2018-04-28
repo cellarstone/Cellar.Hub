@@ -50,18 +50,18 @@ export class IoTService {
 
 
     constructor(private http: HttpClient) {
-        if (this.isProduction == true && this.isHttps == true) {
-            this.serverUrl = "https://iot.cellarstone.hub";
-        }
-        else if (this.isProduction == true && this.isHttps == false) {
+        // if (this.isProduction == true && this.isHttps == true) {
+        //     this.serverUrl = "https://iot.cellarstone.hub";
+        // }
+        // else if (this.isProduction == true && this.isHttps == false) {
             this.serverUrl = "http://iot.cellarstone.hub";
-        }
-        else if (this.isProduction == false && this.isHttps == true) {
-            this.serverUrl = "https://localhost:44403";
-        }
-        else if (this.isProduction == false && this.isHttps == false) {
-            this.serverUrl = "http://localhost:44403";
-        }
+        // }
+        // else if (this.isProduction == false && this.isHttps == true) {
+        //     this.serverUrl = "https://localhost:44403";
+        // }
+        // else if (this.isProduction == false && this.isHttps == false) {
+        //     this.serverUrl = "http://localhost:44403";
+        // }
 
         this.url_getAllCellarPlaces = this.serverUrl + '/iot/getallplaces';
         this.url_getCellarPlace = this.serverUrl + '/iot/getplace';

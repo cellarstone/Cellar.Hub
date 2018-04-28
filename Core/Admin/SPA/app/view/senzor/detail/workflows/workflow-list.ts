@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as RouterActions from 'app/state/actions/router.actions';
 import { LoadAllCellarWorkflowsAction, LoadCellarWorkflowsAction } from 'app/state/actions/workflow.actions';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'senzor-workflow-list',
@@ -19,7 +20,7 @@ export class SenzorWorkflowList implements OnInit {
 
     items$: Observable<CellarWorkflow[]>;
 
-    constructor(private store: Store<ApplicationState>) {
+    constructor(private store: Store<ApplicationState>, private router: Router) {
         this.items$ = this.store.select(mapWorkflowsFromState);
     }
 
@@ -27,10 +28,14 @@ export class SenzorWorkflowList implements OnInit {
         this.store.dispatch(new LoadCellarWorkflowsAction(this.senzorName))
     }
 
+    // newWorkflow() {
+    //     this.store.dispatch(new RouterActions.Go({
+    //         path: ['workflow/' + 0]
+    //     }));
+    // }
+
     newWorkflow() {
-        this.store.dispatch(new RouterActions.Go({
-            path: ['workflow/' + 0]
-        }));
+        this.router.navigate(['workflow', 0, 'new']);
     }
 
     selectWorkflow(item: CellarWorkflow) {

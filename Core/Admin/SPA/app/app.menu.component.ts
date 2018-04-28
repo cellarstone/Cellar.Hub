@@ -9,7 +9,10 @@ import {AppComponent} from './app.component';
     selector: 'app-menu',
     template: `
         <ul app-submenu [item]="model" root="true" class="layout-menu clearfix" [reset]="reset" visible="true"></ul>
-    `
+    `,
+    styles:[`
+        
+    `]
 })
 export class AppMenuComponent implements OnInit {
 
@@ -43,8 +46,7 @@ export class AppMenuComponent implements OnInit {
                     // {label: 'CLI', icon: 'fa fa-fw fa-terminal', routerLink: ['/workflow/cli']},
                     {label: 'Seznam', icon: 'fa fa-fw fa-list', routerLink: ['/workflows']},
                 ]
-            },
-            {label: 'Dokumentace', icon: 'fa fa-fw fa-book', routerLink: ['/documentation']}
+            }
         ];
     }
 
@@ -61,7 +63,7 @@ export class AppMenuComponent implements OnInit {
     selector: '[app-submenu]',
     template: `
         <ng-template ngFor let-child let-i="index" [ngForOf]="(root ? item : item.items)">
-            <li [ngClass]="{'active-menuitem': isActive(i)}" [class]="child.badgeStyleClass" *ngIf="child.visible === false ? false : true">
+            <li>
                 <a [href]="child.url||'#'" (click)="itemClick($event,child,i)" *ngIf="!child.routerLink" [attr.tabindex]="!visible ? '-1' : null"  [attr.target]="child.target">
                     <i [ngClass]="child.icon"></i>
                     <span>{{child.label}}</span>
@@ -70,7 +72,7 @@ export class AppMenuComponent implements OnInit {
                 </a>
 
                 <a (click)="itemClick($event,child,i)" *ngIf="child.routerLink" [attr.target]="child.target"
-                    [routerLink]="child.routerLink" routerLinkActive="active-menuitem-routerlink" [routerLinkActiveOptions]="{exact: true}">
+                    [routerLink]="child.routerLink" routerLinkActive="dim" [routerLinkActiveOptions]="{exact: true}">
                     <i [ngClass]="child.icon"></i>
                     <span>{{child.label}}</span>
                     <span class="menuitem-badge" *ngIf="child.badge">{{child.badge}}</span>
@@ -80,6 +82,21 @@ export class AppMenuComponent implements OnInit {
             </li>
         </ng-template>
     `,
+    styles: [`
+        
+        li a {
+            font-size: 18px;
+            font-weight: 300 !important;
+            letter-spacing: 1px;
+            font-family: Roboto !important;
+            background-color: transparent !important;
+            padding: 15px 30px !important;
+        }   
+        
+        .dim {
+            
+        }
+    `],
     animations: [
         trigger('children', [
             state('hidden', style({

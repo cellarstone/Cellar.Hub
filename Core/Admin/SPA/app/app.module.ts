@@ -181,6 +181,12 @@ import { CallbackComponent } from './callback/callback.component';
 import { WelcomeComponent } from './view/welcome/welcome.component';
 
 
+// Wizard multi-step component
+import { MultiStepWizardComponent } from './view/workflow/wizard/multi-step-wizard.component';
+
+// Wizard service 
+import { MultiStepWizardService } from './view/workflow/wizard/wizard.service';
+
 
 
 
@@ -276,7 +282,7 @@ import { WelcomeComponent } from './view/welcome/welcome.component';
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyCzctD36QgFcCo-CwKjSBY68CDI80BSoTc'
         })
-    ],
+    ]   ,
     declarations: [
         AppComponent,
         AppMenuComponent,
@@ -310,7 +316,10 @@ import { WelcomeComponent } from './view/welcome/welcome.component';
         RelayPanel,
         SenzorWorkflowList,
         CallbackComponent,
-        WelcomeComponent
+        WelcomeComponent,
+        MultiStepWizardComponent
+
+        
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
@@ -320,7 +329,8 @@ import { WelcomeComponent } from './view/welcome/welcome.component';
         SharedService,
         WorkflowService,
         MqttService,
-        AuthService
+        AuthService,
+        MultiStepWizardService
     ],
     bootstrap: [AppComponent]
 })

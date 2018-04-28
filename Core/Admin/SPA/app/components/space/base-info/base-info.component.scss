@@ -1,22 +1,14 @@
-
-
-
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
-
-
-
-
+@import './SPA/assets/sass/custom/base/variables';
+@import './SPA/assets/sass/custom/modules';
 
 .nonvalid
 {
     background-color: #FFCDD2;
 }
 
-
-
 .newState
 {
-    background-color: #F0B518;
+    background-color: $color-blue-new;
     height: 30px;
     width: 50%;
     margin: 0 auto;
@@ -24,7 +16,7 @@
 
 .approvedState
 {
-    background-color: #48A746;
+    background-color: $color-green-approved; 
     height: 30px;
     width: 50%;
     margin: 0 auto;
@@ -32,27 +24,18 @@
 
 .forbiddenState
 {
-    background-color: #DD5826;
+    background-color: $color-red-forbidden;
     height: 30px;
     width: 50%;
     margin: 0 auto;
 }
 
-.ui-widget-header
-{
-    background-color: #81858a !important;
-}
 
-
-.ui-datatable table
-{
-    table-layout: auto !important;
-}
 //Bootstrap button
 .btn
 {
     display: inline-block;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 1.25;
     text-align: center;
     white-space: nowrap;
@@ -62,57 +45,45 @@
     -ms-user-select: none;
     user-select: none;
     border: 1px solid transparent;
-    padding: .5rem 1rem;
-    font-size: 1rem;
-    border-radius: .25rem;
+    outline: none;
+    padding: 8px 16px 8px 0;
+    font-size: 16px;
     -webkit-transition: all .2s ease-in-out;
     -o-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
 }
 
-
+.btn-default {
+    
+    background-color: transparent;
+    // border-top: 2px solid transparent !important;
+    // border-bottom: 2px solid transparent !important;
+    transition: border-top .25s ease-in-out, border-bottom .25s ease-in-out;
+}
 
 .btn-success
 {
-    color: #fff;
-    background-color: #5cb85c;
-    border-color: #5cb85c;
-}
-
-.btn-success:hover
-{
-    color: #fff;
-    background-color: #449d44;
-    border-color: #419641;
+    color: #459e45;
+    background-color: transparent;
+    // border-bottom: 2px solid #459e45 !important;
+    // border-top: 2px solid #459e45 !important;
+    
 }
 
 .btn-warning
-{
-    color: #fff;
-    background-color: #f0ad4e;
-    border-color: #f0ad4e;
+{   
+    color: #2196f3;
+    background-color: transparent;
+    // border-bottom: 2px solid #2196f3 !important;
+    // border-top: 2px solid #2196f3 !important;
 }
-
-.btn-warning:hover
-{
-    color: #fff;
-    background-color: #ec971f;
-    border-color: #eb9316;
-}
-
 
 .btn-danger
 {
-    color: #fff;
-    background-color: #d9534f;
-    border-color: #d9534f;
-}
-
-.btn-danger:hover
-{
-    color: #fff;
-    background-color: #c9302c;
-    border-color: #c12e2a;
+    color: #af241f;
+    background-color: transparent;
+    // border-bottom: 2px solid #af241f !important;
+    // border-top: 2px solid #af241f !important;
 }
 //Button group
 .btn-group
@@ -124,6 +95,32 @@
     display: inline-flex;
     vertical-align: middle;
 }
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+  }
+  
+  .btn-upload {
+    border: 1px solid gray !important;
+    color: gray;
+    background-color: white;
+    padding: 8px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .upload-btn-wrapper input[type=file] {
+    // font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 8px;
+    height: 35px;
+    width: 135px;
+    opacity: 0;
+  }
 
 .btn-group
 {
@@ -177,14 +174,29 @@
     -webkit-transition: all 0.2s ease-in-out;
     -o-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
-    max-width: 100%;
-    height: auto;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.button-block {
+    margin-top: 15px;
+    &__status-of-buttons {
+        padding: 8px 10px 0 0;
+        font-size: 16px;
+    }
 }
 
 
+.buttons .btn {
+    @media (max-width: 770px) {
+        font-size: 12px !important;
+    }
+}
 
 
-.text-center
-{
-    text-align: center !important;
+.status-of-buttons {
+    padding: 4px 10px 0 0;
+    font-size: 20px;
 }

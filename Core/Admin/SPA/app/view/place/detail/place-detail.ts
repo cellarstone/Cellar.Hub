@@ -40,6 +40,8 @@ export class PlaceDetail {
     addsubspaceDisplay: boolean = false;
     addedsubspace: CellarSpace;
 
+    urlCheck: any;
+    place: string = '';
 
     constructor(
         private route: ActivatedRoute,
@@ -52,12 +54,26 @@ export class PlaceDetail {
 
 
     ngOnInit() {
+        
         this.sub = this.route.params.subscribe(params => {
 
             let id = params['id']; // (+) converts string 'id' to a number
             this.store.dispatch(new LoadCellarPlaceAction(id));
 
         });
+
+        this.urlCheck = {
+            newPlace0: this.route.snapshot.params['id']
+        }
+
+        if (this.urlCheck.newPlace0 === '0') {
+            return this.place = 'New place';
+        } else {
+            return this.place = 'Place overview';
+        }
+        
+        
+
     }
     ngOnDestroy() {
         console.log("destroy");

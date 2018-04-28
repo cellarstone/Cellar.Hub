@@ -102,7 +102,7 @@ export class SpaceDetail {
             this.store.dispatch(new LoadCellarSpaceAction(id));
 
         });
-
+        console.log(this.item$);
     }
     ngOnDestroy() {
         console.log("destroy");
@@ -165,13 +165,19 @@ export class SpaceDetail {
         });
     }
 
+    private cancelSubspace() {
+        this.addsubspaceDisplay = false;
+    }
 
     private addSenzor() {
         this.addsenzorDisplay = false;
         this.addedsenzor.type = this.selectedSenzorType;
 
         this.store.dispatch(new SaveCellarSenzorAction(this.addedsenzor));
+    }
 
+    private cancelSenzor() {
+        this.addsenzorDisplay = false;
     }
 
     private selectSenzor(id: string) {
@@ -214,6 +220,8 @@ export class SpaceDetail {
         this.store.dispatch(new RouterActions.Go({
             path: ['space/' + id]
         }));
+
+        console.log(id);
     }
 
 

@@ -35,6 +35,9 @@ export class SenzorBaseInfoComponent implements OnInit {
   typesImages: Map<string, string> = new Map<string, string>();
   selectedTypeImage: string = "";
 
+  private deleteModal: boolean = false;
+  private allowEdit: boolean = false;
+
   constructor() {
     this.types = [];
     this.types.push({ label: 'Select Type', value: null });
@@ -187,8 +190,8 @@ export class SenzorBaseInfoComponent implements OnInit {
       jQuery("#forbidden").removeClass();
 
       jQuery("#new").addClass("btn btn-warning");
-      jQuery("#approved").addClass("btn");
-      jQuery("#forbidden").addClass("btn");
+      jQuery("#approved").addClass("btn btn-default");
+      jQuery("#forbidden").addClass("btn btn-default");
     }
     else if (aaa === "approved") {
       this.item.state = "2";
@@ -197,9 +200,9 @@ export class SenzorBaseInfoComponent implements OnInit {
       jQuery("#approved").removeClass();
       jQuery("#forbidden").removeClass();
 
-      jQuery("#new").addClass("btn");
+      jQuery("#new").addClass("btn btn-default");
       jQuery("#approved").addClass("btn btn-success");
-      jQuery("#forbidden").addClass("btn");
+      jQuery("#forbidden").addClass("btn btn-default");
     }
     else if (aaa === "forbidden") {
       this.item.state = "3";
@@ -208,8 +211,8 @@ export class SenzorBaseInfoComponent implements OnInit {
       jQuery("#approved").removeClass();
       jQuery("#forbidden").removeClass();
 
-      jQuery("#new").addClass("btn");
-      jQuery("#approved").addClass("btn");
+      jQuery("#new").addClass("btn btn-default");
+      jQuery("#approved").addClass("btn btn-default");
       jQuery("#forbidden").addClass("btn btn-danger");
     }
 

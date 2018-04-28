@@ -1,0 +1,37 @@
+.list-header{
+  display: flex;
+  width: 100%;
+  font-family: $font-roboto;
+  margin: 15px 0 0 0;
+  position: relative;
+  font-weight: 300;
+  &__text {
+      display: flex;
+      font-size: 20px;
+      flex-grow: 1;
+      font-weight: 300;
+      color: $color-white-default;
+      background-color: $color-grey-list;
+      justify-content: center;
+      align-items: center;
+      height: 50px;
+      margin: 0;
+
+      @media (max-width: 1200px){
+        font-size: 20px;
+      }
+
+  }
+
+  &__button--add {
+      border: none;
+      color: $color-white-default;
+      background-color: $color-black-1;
+      position: absolute;
+      padding: 16px 20px;
+      // margin: 0;
+      font-size: 16px;
+      // right: 0;
+  }
+
+}

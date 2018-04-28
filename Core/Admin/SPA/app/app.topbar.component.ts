@@ -7,8 +7,9 @@ import {AppComponent} from './app.component';
         <div class="topbar clearfix">
             <div class="topbar-left">            
                 <div class="logo">
-                    <img src="assets/svg/alza_cz.svg" alt="Logo">
+                    <img src="assets/svg/cellarstone-logo-modern.svg" alt="Logo">
                 </div>
+                
             </div>
             
             <div class="topbar-right">
@@ -44,7 +45,20 @@ import {AppComponent} from './app.component';
                 </ul>
             </div>
         </div>
-    `
+    `,
+    styles: [`
+        .topbar {
+            position: relative;
+            width: 100%;
+            background-color: #fff !important;
+        }
+
+
+        .topbar-left {
+            background-color: #fff !important;
+            
+        }
+    `]
 })
 export class AppTopBar {
 
