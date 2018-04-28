@@ -39,16 +39,17 @@ export class SpaceBaseInfoComponent implements OnInit {
 
 
   deleteModal: boolean = false;
-
   allowEdit: boolean = false;
-
   imgUpload: string = 'Change photo';
-
   pathCheck: any;
+  colorMap: any;
 
-  constructor(public fileservice: FileService, private route: ActivatedRoute) { }
+  constructor(public fileservice: FileService, private route: ActivatedRoute) { 
+    this.colorMap = { 1: 'newStatePanel', 2: 'approvedStatePanel', 3: 'forbiddenStatePanel' };
+  }
 
   ngOnInit() {
+    console.log(this.item);
 
     this.pathCheck = {
       newSpace0: this.route.snapshot.params['id']
