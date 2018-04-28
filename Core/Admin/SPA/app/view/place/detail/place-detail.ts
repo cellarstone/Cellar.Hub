@@ -114,7 +114,8 @@ export class PlaceDetail {
         this.addedsubspace = new CellarSpace();
         this.item$.subscribe((value) => {
             if (value) {
-                this.addedsubspace.path = "/"+value.name.toLowerCase();
+                var nameTemp = value.name.replace(/ /g, "-");
+                this.addedsubspace.path = "/"+nameTemp.toLowerCase();
             }
         });
 
