@@ -24,7 +24,7 @@ export class AppMenuComponent implements OnInit {
     
     ngOnInit() {
         this.model = [
-            {label: 'Přehled', icon: 'fa fa-fw fa-dashboard', routerLink: ['/']},
+            // {label: 'Přehled', icon: 'fa fa-fw fa-dashboard', routerLink: ['/']},
             {label: 'Místa', icon: 'fa fa-fw fa-map-marker', routerLink: ['/places/dashboard']},
             {
                 label: 'Prostory', icon: 'fa fa-fw fa-cube',

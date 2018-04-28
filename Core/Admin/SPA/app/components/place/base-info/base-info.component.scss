@@ -9,18 +9,14 @@ agm-map {
     background-color: #FFCDD2;
 }
 
-.text-center
-{
-    text-align: center !important;
-}
 
 //image thumbnail
 .img-thumbnail
 {
-    padding: 0.25rem;
+    // padding: 0.25rem;
     background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 0.25rem;
+    // border: 1px solid #ddd;
+    border-radius: 2px;
     -webkit-transition: all 0.2s ease-in-out;
     -o-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
