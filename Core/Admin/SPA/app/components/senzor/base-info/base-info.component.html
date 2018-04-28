@@ -47,9 +47,9 @@
     <!--BASE INDORMATIONS-->
     <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6 form-group no-padding" *ngIf="allowEdit">
 
-      <h1 class="no-margin main-header__title">{{ item.name }}</h1>
+      <!-- <h1 class="main-header__title no-margin ">{{ item.name }}</h1> -->
 
-      <div class="ui-g-12 button-block no-padding-left">
+      <div class="ui-g-12 no-padding">
         <!--STATE-->
         <div class="btn-group" role="group">
           <button type="button" id="new" class="btn" [class.btn-default]="item.state != '1'" [class.btn-warning]="item.state === '1'"
@@ -61,48 +61,55 @@
         </div>
       </div>
       <!--MAIN IMAGE-->
-      <div class="ui-g-4 no-padding-left">
+
+      <div class="ui-g-8 ui-sm-12 no-padding">
+        <div class="ui-g form-group">
+          <div class="ui-g-12 ui-md-12 form-section no-padding-left">
+            <label for="name" class="form-section__label">Name</label>
+            <div class="ui-fluid">
+              <input id="name" class="form-section__input" type="text" pInputText [(ngModel)]="item.name" [ngClass]="{'nonvalid': !isNameValid }"
+              />
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-12 no-padding-left">
+            <label for="path" class="form-section__label">Path</label>
+            <div class="ui-fluid">
+              <input id="path" class="form-section__input" type="text" pInputText [(ngModel)]="item.path" [ngClass]="{'nonvalid': !isPathValid }"
+              />
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-md-12 no-padding-left">
+            <label for="type" class="form-section__label">Type</label>
+            <div class="ui-fluid">
+              <p-dropdown id="type" class="form-section__input" [options]="types" [(ngModel)]="selectedType" (ngModelChange)="onTypeChange($event)"></p-dropdown>
+            </div>
+          </div>
+        </div>
+
+        <div class='ui-g-12 margin-b-large no-padding-left' style="display: flex; justify-content: space-between">
+            <div>
+              <button *ngIf="pathCheck.newSenzor0 !== '0'" type="button" pButton icon="fa-arrow-left" label="Cancel" (click)="allowEdit = false" class="ui-button-warning button-function"></button>
+              <!-- <button type="button" pButton icon="fa-arrow-left" (click)="cancelPlace()" class="ui-button-warning button-function"></button> -->
+              <button type="button" pButton label="Save" icon="fa-check" (click)="saveSenzor()" class="ui-button-success button-function"></button>
+            </div>
+    
+            <div>
+              <button *ngIf="item.id" type="button" icon="fa-trash" pButton label="Delete" (click)="deleteModal = true" class="ui-button-danger button-function"></button>
+            </div>
+          </div>
+
+      </div>
+
+      <div class="ui-g-4 ui-sm-12 no-padding">
         <div *ngIf="selectedTypeImage != ''" class="thumbnail">
           <img src="{{selectedTypeImage}}" class="img-thumbnail no-padding" alt="...">
         </div>
       </div>
-      <div class="ui-g-8">
-        <div class="ui-g form-group">
-          <div class="ui-g-12 ui-md-12 form-section">
-            <label for="name" class="form-section__label">Name</label>
-            <div class="ui-fluid">
-              <input id="name" class="form-section__input border-radius" type="text" pInputText [(ngModel)]="item.name" [ngClass]="{'nonvalid': !isNameValid }"
-              />
-            </div>
-          </div>
-          <div class="ui-g-12 ui-md-12">
-            <label for="path" class="form-section__label">Path</label>
-            <div class="ui-fluid">
-              <input id="path" class="form-section__input border-radius" type="text" pInputText [(ngModel)]="item.path" [ngClass]="{'nonvalid': !isPathValid }"
-              />
-            </div>
-          </div>
-          <div class="ui-g-12 ui-md-12">
-            <label for="type" class="form-section__label">Type</label>
-            <div class="ui-fluid">
-              <p-dropdown id="type" class="form-section__input border-radius" [options]="types" [(ngModel)]="selectedType" (ngModelChange)="onTypeChange($event)"></p-dropdown>
-            </div>
-          </div>
-        </div>
-      </div>
 
 
-      <div class='ui-g-12 margin-b-large no-padding-left' style="display: flex; justify-content: space-between">
-        <div>
-          <button type="button" pButton icon="fa-arrow-left" label="Cancel" (click)="allowEdit = false" class="ui-button-warning button-function"></button>
-          <!-- <button type="button" pButton icon="fa-arrow-left" (click)="cancelPlace()" class="ui-button-warning button-function"></button> -->
-          <button type="button" pButton label="Save" icon="fa-check" (click)="saveSenzor()" class="ui-button-success button-function"></button>
-        </div>
 
-        <div>
-          <button *ngIf="item.id" type="button" icon="fa-trash" pButton label="Delete" (click)="deleteModal = true" class="ui-button-danger button-function"></button>
-        </div>
-      </div>
+      
     </div>
     <div class="divider"></div>
   </div>

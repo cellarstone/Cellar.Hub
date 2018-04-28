@@ -2,6 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { CellarSpace } from 'app/entities/CellarSpace';
 import { Message } from 'primeng/primeng';
 import { CdnService } from 'app/service/cdn.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -41,18 +42,24 @@ export class SpaceBaseInfoComponent implements OnInit {
 
   allowEdit: boolean = false;
 
-  imgUpload: string = '';
+  imgUpload: string = 'Change photo';
 
+  pathCheck: any;
 
-  constructor(public cdnservice: CdnService) { }
+  constructor(public cdnservice: CdnService, private route: ActivatedRoute) { }
 
   ngOnInit() {
 
-    if(this.item.image !== '') {
-      return this.imgUpload = 'Change photo';
-    } else {
-      return this.imgUpload = 'Upload photo';
+    this.pathCheck = {
+      newSpace0: this.route.snapshot.params['id']
     }
+
+    console.log(this.item);
+
+    if (this.pathCheck.newSpace0 === '0') {
+      return this.allowEdit = true, this.item.name = 'New Place', this.imgUpload = 'Upload photo';
+    }
+
 
   }
 
@@ -120,11 +127,11 @@ export class SpaceBaseInfoComponent implements OnInit {
   }
 
 
-  deleteSpace(){
+  deleteSpace() {
     this.onDelete.emit(this.item);
   }
 
-  cancelSpace(){
+  cancelSpace() {
     this.onCancel.emit();
   }
 
@@ -246,12 +253,12 @@ export class SpaceBaseInfoComponent implements OnInit {
             console.error(response.exceptionText);
           }
         },
-        error => {
-          console.error(error);
-        },
-        () => {
-          console.log('addMainPictureChangeEvent() completed');
-        });
+          error => {
+            console.error(error);
+          },
+          () => {
+            console.log('addMainPictureChangeEvent() completed');
+          });
 
     }
   }

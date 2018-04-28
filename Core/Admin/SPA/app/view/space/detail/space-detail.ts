@@ -54,7 +54,8 @@ export class SpaceDetail {
     addsubspaceDisplay: boolean = false;
     addedsubspace: CellarSpace;
 
-
+    space: string = 'Space Overview';
+    pathCheck: any;
 
 
     colorMap: any;
@@ -102,7 +103,17 @@ export class SpaceDetail {
             this.store.dispatch(new LoadCellarSpaceAction(id));
 
         });
-        console.log(this.item$);
+
+        this.pathCheck = {
+            newPlace0: this.route.snapshot.params['id']
+          }
+      
+      
+          if (this.pathCheck.newPlace0 === '0') {
+           return this.space = 'New Space';
+          } else {
+              return this.space = 'Space Overview';
+          }
     }
     ngOnDestroy() {
         console.log("destroy");

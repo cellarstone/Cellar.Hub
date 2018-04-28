@@ -146,7 +146,6 @@ export class WorkflowDetail implements OnInit {
     TweenMax.to('#bulb', .2, { fill: '#f9ba48', ease: Power4.easeInOut });
   }
 
-
   leftLine() {
     let leftLineTL = new TimelineMax();
 
@@ -189,9 +188,6 @@ export class WorkflowDetail implements OnInit {
       .add('reset')
       .set('#bulb', { fill: '#ededed'}, 'reset')
       .set('#flash > .cls-5b', {fill: 'transparent'}, 'reset')
-      
-      
-      // .to('#flash > .cls-5b', .2, { fill: '#f9ba48', ease: Power4.easeInOut })
 
       .add('startLines')
       .add(this.leftLine(), 'startLines')
@@ -208,12 +204,6 @@ export class WorkflowDetail implements OnInit {
       ;
     return bulb;
   }
-
-  
-
-
-
-
 
   //*********************************/
   /* WORKFLOW */

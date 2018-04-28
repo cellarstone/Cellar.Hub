@@ -1,21 +1,23 @@
 ﻿<div id="senzor-detail">
 
 
-    <div class="ui-g" *ngIf="item$ | async">
+    <div *ngIf="item$ | async">
         <div class="ui-g-12 ui-sm-12 ui-lg-12">
 
 
             <div class="ui-g title">
-                <h3 class="title__text title__text--red">Sensor Overview</h3>
+                <h3 class="title__text title__text--red">{{ sensor }}</h3>
             </div>
 
             <div class="card card-w-title border padding-around">
                 <app-senzor-base-info [item]="item$ | async" (onSave)="saveSenzor($event)" (onDelete)="deleteSenzor($event)" (onCancel)="cancelSenzor()"></app-senzor-base-info>
 
+                <div *ngIf="sensor === 'Sensor Overview'">
+                    <senzor-workflow-list [senzorName]="(item$ | async).name"></senzor-workflow-list>
 
-                <senzor-workflow-list [senzorName]="(item$ | async).name"></senzor-workflow-list>
+                    <div class="divider margin-b-large"></div>
+                </div>
 
-                <div class="divider"></div>
 
                 <div *ngIf="(item$ | async).type == 'CellarSenzor Power v1.0'">
 
@@ -40,7 +42,7 @@
 
                     </div>
                 </div>
-                
+
 
 
             </div>

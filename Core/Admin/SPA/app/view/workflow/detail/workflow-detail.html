@@ -36,11 +36,11 @@
         </div>
 
         <div class="card card-w-title border">
-            <div class="ui-g margin-b-medium">
+            <div class="ui-g">
 
 
 
-                <div class="ui-g-12 ui-lg-5">
+                <div class="ui-g-12 ui-lg-4 ui-md-5">
                     <div class="ui-g">
                         <!-- ANIMATION WORKFLOW GOES HERE -->
                         <div class="svg-wrapper ui-g-12 margin-auto">
@@ -122,12 +122,7 @@
 
                         </div>
 
-
-
-
                         <!-- END WORKFLOW ANIMATION  -->
-
-
 
 
                         <!-- DEBUG PURPOSE -->
@@ -137,7 +132,7 @@
                                     {{ this.actualStatus$ | async }}
                                 </div> -->
 
-                        <div class="ui-g-7 margin-auto" *ngIf="(item$ | async).id != ''">
+                        <div class="ui-g-12 margin-auto no-padding" *ngIf="(item$ | async).id != ''">
                             <div class="ui-g-4">
                                 <button type="button" pButton icon="fa-play" label="Run" (click)="runWorkflow()" class="ui-button-success button-function"></button>
                             </div>
@@ -153,7 +148,7 @@
                     </div>
                 </div>
 
-                <div class="ui-g-12 ui-lg-7">
+                <div class="ui-g-12 ui-lg-8 ui-md-7">
                     <div class="ui-g loop-title">
                         <h3 class="loop-title__text">Workflow information</h3>
                         <button class="loop-title__button-add" *ngIf="allowEdit === false" type="button" icon="fa-edit" label="Edit" (click)="editWorkflow()">Edit Workflow</button>
@@ -168,7 +163,7 @@
                         </div>
 
 
-                        <div class="ui-g-12 no-padding-left" *ngIf="allowEdit === false">
+                        <div class="ui-g-12 no-padding-left margin-b-large" *ngIf="allowEdit === false">
 
                             <span *ngFor="let tag of selectedTags">
                                 <span [ngClass]="'tag'">
@@ -191,8 +186,8 @@
                         </div>
 
 
-                        <div class="ui-g-12 no-padding-left" *ngIf="allowEdit === false">
-                            <div class="flex margin-b-medium">
+                        <div class="ui-g-12 no-padding-left margin-b-large" *ngIf="allowEdit === false">
+                            <div class="flex">
                                 <div class="flex__1">
                                     <p>Trigger type</p>
                                 </div>
@@ -243,7 +238,7 @@
                         </div>
 
                         <div class="ui-g-12 no-padding-left" *ngIf="allowEdit === false">
-                            <div class="flex margin-b-medium">
+                            <div class="flex">
                                 <div class="flex__1">
                                     <p>Workflow type</p>
                                 </div>

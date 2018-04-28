@@ -15,7 +15,7 @@
     font-size: 16px;
   }
 
-  @media only screen and (max-width: 475px) {
+  @media only screen and (max-width: 635px) {
       flex-direction: column;
       align-items: flex-start;
       font-size: 22px;
@@ -29,7 +29,7 @@
   
 
     &__name {
-          font-size: 22px;
+          font-size: 26px;
 
         &--modified {
             color: $color-text-dark;
@@ -82,7 +82,8 @@
 
     &__thumbnail {
         height: 80px;
-
+    object-fit: cover;
+    object-position: center center;
     }
 }
 
@@ -103,7 +104,7 @@
       font-size: 18px;
     }
   
-    @media only screen and (max-width: 475px) {
+    @media only screen and (max-width: 635px) {
         margin-top: 0;
         flex-direction: row;
         align-items: flex-start;
@@ -177,6 +178,10 @@
   
       &__thumbnail {
           height: 80px;
+          width: 120px;
+          object-fit: cover;
+          object-position: center center;
+
         @media only screen and (max-width: 475px){
             height: 70px;
         }

@@ -64,14 +64,14 @@ export class AppMenuComponent implements OnInit {
     template: `
         <ng-template ngFor let-child let-i="index" [ngForOf]="(root ? item : item.items)">
             <li>
-                <a [href]="child.url||'#'" (click)="itemClick($event,child,i)" *ngIf="!child.routerLink" [attr.tabindex]="!visible ? '-1' : null"  [attr.target]="child.target">
+                <a class="parent" [href]="child.url||'#'" (click)="itemClick($event,child,i)" *ngIf="!child.routerLink" [attr.tabindex]="!visible ? '-1' : null"  [attr.target]="child.target">
                     <i [ngClass]="child.icon"></i>
                     <span>{{child.label}}</span>
                     <span class="menuitem-badge" *ngIf="child.badge">{{child.badge}}</span>
                     <i class="fa fa-fw fa-angle-down" *ngIf="child.items"></i>
                 </a>
 
-                <a (click)="itemClick($event,child,i)" *ngIf="child.routerLink" [attr.target]="child.target"
+                <a class="child" (click)="itemClick($event,child,i)" *ngIf="child.routerLink" [attr.target]="child.target"
                     [routerLink]="child.routerLink" routerLinkActive="dim" [routerLinkActiveOptions]="{exact: true}">
                     <i [ngClass]="child.icon"></i>
                     <span>{{child.label}}</span>
@@ -83,17 +83,27 @@ export class AppMenuComponent implements OnInit {
         </ng-template>
     `,
     styles: [`
+    :block {
+        display: block;
+        margin-top: 15px !important;
+    }
         
         li a {
             font-size: 18px;
             font-weight: 300 !important;
             letter-spacing: 1px;
+            color: #707070;
             font-family: Roboto !important;
             background-color: transparent !important;
             padding: 15px 30px !important;
         }   
-        
-        .dim {
+
+        li a i {
+            color: #707070;
+        }
+
+        li ul {
+            background-color:#D9D9D9;
             
         }
     `],

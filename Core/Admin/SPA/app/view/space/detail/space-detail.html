@@ -5,7 +5,7 @@
     <div class="ui-g-12 ui-sm-12 ui-lg-12">
 
         <div class="ui-g title ">
-            <h3 class="title__text title__text--blue">Space Overview</h3>
+            <h3 class="title__text title__text--blue">{{ space }}</h3>
         </div>
 
         <div class="card card-w-title no-padding border padding-around">
@@ -51,6 +51,7 @@
                 </div>
 
 
+
                 <div class="ui-g section-loop" *ngIf="item_subspaces$ | async">
                     <div *ngFor="let itemsb of (item_subspaces$ | async)" class="ui-g-12 ui-lg-2 ui-md-4 ui-sm-12 no-padding margin-b-large">
                         <div>
@@ -65,7 +66,7 @@
 
                     </div>
                 </div>
-                <!-- <div class="divider"></div> -->
+                <div class="divider"></div>
             </div>
 
 
@@ -84,9 +85,9 @@
                     <div *ngIf="addsenzorDisplay" class="ui-g">
                         <!--STATE + BASE INDORMATIONS-->
                         <!--BASE INDORMATIONS-->
-                        <div class="form-group ui-g-8 ui-lg-8 ui-md-12 sensor-form no-padding-left">
+                        <div class="form-group ui-g-6 ui-lg6 ui-md-12 sensor-form no-padding-left">
 
-                            <h3 class="no-margin margin-b-medium">New sensor informations</h3>
+                            <h3 class="no-margin margin-b-large">New sensor informations</h3>
 
                             <div class="ui-g-12 ui-sm-12 ui-md-12 form-section no-padding-left">
                                 <label for="name2" class="form-section__label">Name</label>
@@ -139,14 +140,14 @@
                     <div class="divider"></div>
                     <div class="ui-g">
                         <div *ngFor="let itemsb of (item_senzors$ | async)" class="ui-g-12 no-padding">
-                            <div class="sensors-section" (click)="selectSenzor(itemsb.id)" [ngClass]="colorMap[itemsb.state]">
-                                <div class="sensors-section__img">
+                            <div class="loop-list" (click)="selectSenzor(itemsb.id)" [ngClass]="colorMap[itemsb.state]">
+                                <div class="loop-list__img">
                                     <img src="{{getSenzorTypeImage(itemsb.type)}}" />
                                 </div>
-                                <div class="sensors-section__name">
+                                <div class="loop-list__name">
                                     {{itemsb.name}}
                                 </div>
-                                <div class="sensors-section__type">
+                                <div class="loop-list__type">
                                     {{itemsb.type}}
                                 </div>
                             </div>

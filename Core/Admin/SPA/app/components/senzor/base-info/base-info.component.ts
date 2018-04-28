@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CellarSenzor } from 'app/entities/CellarSenzor';
 
 import { Message, SelectItem } from 'primeng/primeng';
+import { ActivatedRoute } from '@angular/router';
 
 declare var jQuery: any;
 
@@ -38,7 +39,9 @@ export class SenzorBaseInfoComponent implements OnInit {
   private deleteModal: boolean = false;
   private allowEdit: boolean = false;
 
-  constructor() {
+  private pathCheck: any;
+
+  constructor(private route: ActivatedRoute) {
     this.types = [];
     this.types.push({ label: 'Select Type', value: null });
     this.types.push({ label: 'CellarSenzor Temperature v1.0', value: 'CellarSenzor Temperature v1.0' });
@@ -61,8 +64,19 @@ export class SenzorBaseInfoComponent implements OnInit {
 
   }
   ngOnInit(): void {
+
+    this.pathCheck = {
+      newSenzor0: this.route.snapshot.params['id']
+    }
+
+    if (this.pathCheck.newSenzor0 === '0') {
+      this.allowEdit = true;
+    }
+
     this.selectedType = this.item.type;
     this.onTypeChange(this.selectedType);
+
+    
   }
 
 

@@ -1,10 +1,9 @@
 ﻿@import './SPA/assets/sass/custom/base/variables';
 @import './SPA/assets/sass/custom/modules';
 
-.ui-widget-header
-{
-    background-color: #81858a !important;
-}
+.ui-widget-header {
+    background-color: $color-black-1 !important;
+  }
 
 
 .ui-datatable table

@@ -6,29 +6,6 @@
     background-color: #FFCDD2;
 }
 
-.newState
-{
-    background-color: $color-blue-new;
-    height: 30px;
-    width: 50%;
-    margin: 0 auto;
-}
-
-.approvedState
-{
-    background-color: $color-green-approved; 
-    height: 30px;
-    width: 50%;
-    margin: 0 auto;
-}
-
-.forbiddenState
-{
-    background-color: $color-red-forbidden;
-    height: 30px;
-    width: 50%;
-    margin: 0 auto;
-}
 
 
 //Bootstrap button
@@ -103,17 +80,16 @@
   }
   
   .btn-upload {
-    border: 1px solid gray !important;
-    color: gray;
+    border: 1px solid $color-grey-basic !important;
+    color: $color-grey-basic;
     background-color: white;
     padding: 8px 20px;
-    border-radius: 5px;
+    border-radius: 2px;
     font-size: 14px;
     font-weight: bold;
   }
   
   .upload-btn-wrapper input[type=file] {
-    // font-size: 100px;
     position: absolute;
     left: 0;
     top: 8px;
@@ -167,10 +143,9 @@
 //image thumbnail
 .img-thumbnail
 {
-    padding: 0.25rem;
     background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 0.25rem;
+    // border: 1px solid #ddd;
+    border-radius: 2px;
     -webkit-transition: all 0.2s ease-in-out;
     -o-transition: all 0.2s ease-in-out;
     transition: all 0.2s ease-in-out;
@@ -178,25 +153,4 @@
     height: 300px;
     object-fit: cover;
     object-position: center center;
-}
-
-.button-block {
-    margin-top: 15px;
-    &__status-of-buttons {
-        padding: 8px 10px 0 0;
-        font-size: 16px;
-    }
-}
-
-
-.buttons .btn {
-    @media (max-width: 770px) {
-        font-size: 12px !important;
-    }
-}
-
-
-.status-of-buttons {
-    padding: 4px 10px 0 0;
-    font-size: 20px;
 }
