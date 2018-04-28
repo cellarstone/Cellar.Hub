@@ -15,18 +15,19 @@
 
   &__img {
     height: 70px;
+    
     padding-left: 15px;
   }
 
   &__img > img {
-      padding-top: 10px;
-      height: 50px;
+      padding-top: 5px;
+      width: 55px;
+      height: 55px;
       object-fit: cover;
-      object-position: center right;
+      object-position: center center;
   }
 
   &__name {
-
       padding-left: 25px;
       flex: 1;
       
