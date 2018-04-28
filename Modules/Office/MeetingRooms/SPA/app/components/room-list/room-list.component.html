@@ -1,14 +1,7 @@
-<div *ngIf="isAuthenticated && (user$ | async)">
-  <div>{{(user$ | async).displayName}}</div>
-  <div>{{(user$ | async).userPrincipalName}}</div>
-  <button (click)="logout()">Logout</button>
-</div>
 
-<hr>
+<div *ngIf="items$ | async">
 
-<div *ngIf="items">
-
-<div *ngFor="let item of items" (click)="selectRoom(item)">
+<div *ngFor="let item of (items$ | async)" (click)="selectRoom(item)">
   {{item.name}} - {{item.email}}
 </div>
 

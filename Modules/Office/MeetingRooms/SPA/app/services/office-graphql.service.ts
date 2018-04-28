@@ -4,14 +4,12 @@ import gql from 'graphql-tag';
 import { map, filter, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import { CellarMeetingRoom } from 'app/entities/CellarMeetingRoom';
-import { MeetingRoomVM } from 'app/models/MeetingRoomVM';
+import { MeetingRoomDTO } from 'app/dto/MeetingRoomDTO';
 
 //QUERIES object ----------------------------------
 
 export type Query = {
-  cellarmeetingroom: CellarMeetingRoom[];
-  meetingroommodel: MeetingRoomVM[];
+  meetingroommodel: MeetingRoomDTO[];
 }
 
 
@@ -30,37 +28,7 @@ export class OfficeGraphqlService {
   // --------------- QUERIES ----------------
   //-----------------------------------------
 
-  getMeetingRoom(id: String): Observable<CellarMeetingRoom[]> {
-    return this.apollo.use(this.serviceGraphqlName).watchQuery<Query>({
-      query: gql`
-        query GetMeetingRoom($id: String) {
-          cellarmeetingroom(id: $id){
-            id,
-            email
-          }
-        }
-      `,
-      variables: {
-        id: id,
-      },
-      fetchPolicy: 'network-only'
-    })
-      .valueChanges
-      .map(({ data }) => {
-          let result = <CellarMeetingRoom[]>data.cellarmeetingroom;
-          return result;
-      })
-      .catch(data => {
-        console.log(data);
-        let aa = new CellarMeetingRoom();
-        let bb = new Array<CellarMeetingRoom>();
-        bb.push(aa);
-        return Observable.of(bb);
-      });
-  }
-
-
-  getMeetingRoomModel(id: String): Observable<MeetingRoomVM[]> {
+  getMeetingRoomModel(id: String): Observable<MeetingRoomDTO[]> {
     return this.apollo.use(this.serviceGraphqlName).watchQuery<Query>({
       query: gql`
           query GetMeetingRoomModel($id: String) {
@@ -79,87 +47,18 @@ export class OfficeGraphqlService {
     })
       .valueChanges
       .map(({ data }) => {
-        console.log("GRAPHQL map")
-        console.log(data);
-          let result = <MeetingRoomVM[]>data.meetingroommodel;
+        // console.log("GRAPHQL map")
+        // console.log(data);
+          let result = <MeetingRoomDTO[]>data.meetingroommodel;
           return result;
       })
       .catch(data => {
         console.log(data);
-        let aa = new MeetingRoomVM();
-        let bb = new Array<MeetingRoomVM>();
+        let aa = new MeetingRoomDTO();
+        let bb = new Array<MeetingRoomDTO>();
         bb.push(aa);
         return Observable.of(bb);
       });
-  }
-
-  //-----------------------------------------
-  // ------------- MUTATIONS ----------------
-  //-----------------------------------------
-
-
-  addMeetingRoom(item: CellarMeetingRoom) {
-    return this.apollo.use(this.serviceGraphqlName).mutate({
-      mutation: gql`
-      mutation CreateMeetingRoom($id: String!, 
-                                $email: String!) {
-                        createCellarMeetingRoom(id: $id, 
-                                                email: $email) {
-                                      id
-                                      email
-                        }
-      }
-    `,
-      variables: {
-        id: item.id,
-        email: item.email
-      }
-    })
-    .catch(data => {
-      console.log(data);
-      return Observable.of(null);
-    });
-  }
-
-
-  deleteMeetingRoom(id: string) {
-    return this.apollo.use(this.serviceGraphqlName).mutate({
-      mutation: gql`
-      mutation DeleteMeetingRoom($id: String!) {
-        deleteCellarMeetingRoom(id: $id)
-      }
-    `,
-      variables: {
-        id: id
-      }
-    })
-    .catch(data => {
-      console.log(data);
-      return Observable.of(null);
-    });
-  }
-
-  updateMeetingRoom(item: CellarMeetingRoom) {
-    return this.apollo.use(this.serviceGraphqlName).mutate({
-      mutation: gql`
-      mutation UpdateMeetingRoom($id: String!, 
-                                $email: String!) {
-          updateCellarMeetingRoom(id: $id,
-                                 email: $email) {
-                        id
-                        email
-          }
-        }
-    `,
-      variables: {
-        id: item.id,
-        email: item.email
-      }
-    })
-    .catch(data => {
-      console.log(data);
-      return Observable.of(null);
-    });
   }
 
     /**********************************************/

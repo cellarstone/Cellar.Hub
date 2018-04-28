@@ -1,0 +1,35 @@
+
+<h2 mat-dialog-title>{{subject}}</h2>
+
+
+<mat-dialog-content>
+
+    <div class="example-container" *ngIf="inputData.status | async">
+
+      <div *ngIf="(inputData.status | async) == 'Testing...'">
+          {{countdown | async}}
+      </div>
+         
+      </div>
+  <div class="example-container">
+
+
+
+
+    {{inputData.status | async}}
+
+     
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions *ngIf="inputData.status | async">
+
+    <button *ngIf="(inputData.status | async) == 'Created' || (inputData.status | async) == 'Deleted'  || (inputData.status | async) == 'Failed'" class="mat-raised-button"
+            (click)="close()">
+        Close
+    </button>
+
+</mat-dialog-actions>
+
+

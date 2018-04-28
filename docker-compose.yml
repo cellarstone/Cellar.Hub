@@ -359,6 +359,8 @@ services:
         fluentd-address: localhost:24224
         tag: docker.cellar.hub.module.office.api
         mode: non-blocking
+    ports:
+    - "44513:44513"
 
   # cellar-hub-module-office-meetingrooms:
   #   image: cellar.hub.module.office.meetingrooms

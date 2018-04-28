@@ -4,15 +4,15 @@ import gql from 'graphql-tag';
 import { map, filter, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import { MeetingVM } from '../models/MeetingVM';
-import { GetInfoVM } from '../models/GetInfoVM';
-import { CreateMeetingVM } from '../models/CreateMeetingVM';
-import { DeleteMeetingVM } from '../models/DeleteMeetingVM';
+import { MeetingDTO } from '../dto/MeetingDTO';
+import { GetInfoInput } from '../dto/GetInfoInput';
+import { CreateMeetingInput } from '../dto/CreateMeetingInput';
+import { DeleteMeetingInput } from '../dto/DeleteMeetingInput';
 
 //QUERIES object ----------------------------------
 
 export type Query = {
-  info: MeetingVM[];
+  info: MeetingDTO[];
 }
 
 
@@ -31,7 +31,7 @@ export class K2ExchangeGraphqlService {
   // --------------- QUERIES ----------------
   //-----------------------------------------
 
-  getInfo(input: GetInfoVM): Observable<MeetingVM[]> {
+  getInfo(input: GetInfoInput): Observable<MeetingDTO[]> {
     return this.apollo.use(this.serviceGraphqlName).watchQuery<Query>({
       query: gql`
       query GetInfoMethod($in: GetInfoInput!) {
@@ -61,14 +61,13 @@ export class K2ExchangeGraphqlService {
     })
       .valueChanges
       .map(({ data }) => {
-          console.log(data);
-          let result = <MeetingVM[]>data.info;
+          let result = <MeetingDTO[]>data.info;
           return result;
       })
       .catch(data => {
         console.log(data);
-        let aa = new MeetingVM();
-        let bb = new Array<MeetingVM>();
+        let aa = new MeetingDTO();
+        let bb = new Array<MeetingDTO>();
         bb.push(aa);
         return Observable.of(bb);
       });
@@ -79,7 +78,7 @@ export class K2ExchangeGraphqlService {
   //-----------------------------------------
 
 
-  createMeeting(item: CreateMeetingVM) {
+  createMeeting(item: CreateMeetingInput) {
     return this.apollo.use(this.serviceGraphqlName).mutate({
       mutation: gql`
       mutation CreateMeetingMethod($in: CreateMeetingInput!) {
@@ -99,7 +98,7 @@ export class K2ExchangeGraphqlService {
     })
   }
 
-  deleteMeeting(item: DeleteMeetingVM) {
+  deleteMeeting(item: DeleteMeetingInput) {
     return this.apollo.use(this.serviceGraphqlName).mutate({
       mutation: gql`
       mutation DeleteMeetingMethod($in: DeleteMeetingInput!) {

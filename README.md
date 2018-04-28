@@ -1,4 +1,27 @@
 
+# Vyresit
+
+- ukazovat jen jmeno? Pokud ano, tak schuzky zalozene timto systemem budou mit vzdy jmeno "KonzoleToExchange"
+- ukazovat nazev schuzky? 
+
+- Nemuzu mazat schuzky zalozene jinym subjektem nez "KonzoleToExchange" - Otazka polozena Jan Rezab
+
+- Kazdou ??minutu?? nastavovat :
+    - Home = aktualizovat timeline
+    - Calendar = aktualizovat schuzky pro ??vybrany?? den? Dnesni den??
+    - Obecne = vracet na uvodni obrazovku ???? 
+
+DOMLUVA
+Kazdou minutu po neaktivite vracet na HOME
+
+UKOL
+- zkusit dat organizator na jmeno
+
+
+
+
+# Others problems
+
 PROBLEM ZE NEMAM PRISTUP PO ZPRISTUPNENI ADMIN PRES NGROK
 url v SPA vedu na nedostupne url adresy
 RESENI >> zpristupneni ALL hub ven - Admin, Websocket, Api, Workflow

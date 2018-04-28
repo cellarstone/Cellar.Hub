@@ -1,10 +1,8 @@
-import * as moment from 'moment';
-
-export class CreateMeetingVM {
+export class CreateMeetingInput {
 
     public attendeeMails: string[] = [];
-    public start: moment.Moment;
-    public end: moment.Moment;
+    public start: string = "";
+    public end: string = "";
     public location: string = "";
     public subject: string = "";
     public text: string = "";

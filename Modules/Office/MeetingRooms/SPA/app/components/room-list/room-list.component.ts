@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from 'app/services/api.service';
-
-import { CellarSpace } from '../../entities/CellarSpace';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { OfficeGraphqlService } from 'app/services/office-graphql.service';
-import { CellarMeetingRoom } from '../../entities/CellarMeetingRoom';
-import { MeetingRoomVM } from 'app/models/MeetingRoomVM';
-import { SharedService } from '../../services/shared.service';
-import { MeetingVM } from 'app/models/MeetingVM';
+import { MeetingRoomDTO } from 'app/dto/MeetingRoomDTO';
+import { Store } from '@ngrx/store';
+import { ApplicationState } from 'app/state/state/application.state';
+import { LoadAllMeetingRoomsAction, SelectMeetingRoomAction } from 'app/state/actions/application.actions';
 
 @Component({
   selector: 'app-room-list',
@@ -17,32 +14,20 @@ import { MeetingVM } from 'app/models/MeetingVM';
 })
 export class RoomListComponent implements OnInit {
 
-  items = new Array<MeetingRoomVM>()
+  items$: Observable<MeetingRoomDTO[]>;
 
-  
-
-  constructor(private officeService: OfficeGraphqlService,
-    private sharedService: SharedService,
-              private router: Router) { }
-
-  ngOnInit() {
-    this.sharedService.selectedRoomStore.next(new MeetingRoomVM());
-    this.sharedService.actualMeetingsStore.next(new Array<MeetingVM>());
-    this.officeService.getMeetingRoomModel("").subscribe((values) => {
-      //Convert BSON ID to string
-      let result = new Array<MeetingRoomVM>();
-      for (let index = 0; index < values.length; index++) {
-          const item = values[index];
-          let aaa = new MeetingRoomVM().New(item);
-          result.push(aaa);
-      }
-      this.items = result;
-    })
-
+  constructor(private store: Store<ApplicationState>,
+              private router: Router) {
+    this.items$ = this.store.select(state => state.storeData.meetingRooms);
   }
 
-  selectRoom(item: MeetingRoomVM){
-      this.router.navigate(['/space/' + item.id + '/home']);
+  ngOnInit() {
+    this.store.dispatch(new LoadAllMeetingRoomsAction());
+  }
+
+  selectRoom(item: MeetingRoomDTO){
+    // this.store.dispatch(new SelectMeetingRoomAction(item));
+    this.router.navigate(['/space/' + item.id, {outlets:{roomDetail:'home'}}]);
   }
 
 }
