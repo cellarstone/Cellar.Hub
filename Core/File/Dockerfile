@@ -36,4 +36,3 @@ RUN ls -l
 
 ENTRYPOINT /app/cellarhubfile
 
-

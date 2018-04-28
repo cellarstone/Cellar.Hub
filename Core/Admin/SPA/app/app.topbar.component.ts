@@ -7,7 +7,7 @@ import {AppComponent} from './app.component';
         <div class="topbar clearfix">
             <div class="topbar-left">            
                 <div class="logo">
-                    <img src="assets/svg/cellarstone-logo.svg" alt="Logo">
+                    <img src="assets/svg/cellarstone-logo-modern.svg" alt="Logo">
                 </div>
                 
             </div>
@@ -50,19 +50,12 @@ import {AppComponent} from './app.component';
         .topbar {
             position: relative;
             width: 100%;
-            background-color: #22282d !important;
+            background-color: #fff !important;
         }
 
-        .search-input {
-            display: inline-block;
-        }
-
-        .topbar-right #menu-button i {
-            color: white;
-        }
 
         .topbar-left {
-            background-color: #22282d !important;
+            background-color: #fff !important;
             
         }
     `]

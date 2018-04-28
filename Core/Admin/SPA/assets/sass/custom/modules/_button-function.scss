@@ -2,4 +2,16 @@
   padding: 5px;
   width: 100px;
   border-radius: 3px;
+  font-size: 16px;
+  font-family: $font-roboto;
+}
+
+
+.button-check {
+  background-color: transparent;
+  color: $color-green-approved;
+  font-size: 24px;
+  padding-left: 0;
+  border: none;
+  outline: none;
 }

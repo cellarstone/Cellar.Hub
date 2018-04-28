@@ -17,7 +17,6 @@ declare let TweenMax: any;
 declare let TimelineMax: any;
 declare let Power4: any;
 declare let Power0: any;
-declare let Power1: any;
 
 
 @Component({
@@ -49,12 +48,12 @@ export class WorkflowDetail implements OnInit {
   workflowType: any;
   workflowParams: any;
 
-
   selectedTags: string[];
 
   private sub: any;
   private id: string;
 
+  private deleteModal: boolean = false;
   private allowEdit: boolean = false;
 
   objectKeys = Object.keys;
@@ -98,11 +97,6 @@ export class WorkflowDetail implements OnInit {
   }
   ngOnInit() {
 
-    setTimeout(() => {
-      this.setAnimation();
-    }, 100);
-
-
     this.sub = this.route.params.subscribe(params => {
 
       let id = params['id']; // (+) converts string 'id' to a number
@@ -113,6 +107,7 @@ export class WorkflowDetail implements OnInit {
       }
 
     });
+
 
     this.breadcrumbItems = [];
     this.breadcrumbItems.push({ label: 'Home', routerLink: ['/'] });
@@ -135,28 +130,9 @@ export class WorkflowDetail implements OnInit {
     this.displayStep = 0;
 
 
-    this.leftLine();
-
   }
   ngOnDestroy() {
     this.sub.unsubscribe();
-  }
-
-  setAnimation() {
-    let lineLeft = $('#line-left');
-    let lineRight = $('#line-right');
-    let lineMiddle = $('#line-middle');
-    let flash = $('#flash');
-
-    let clearStage = new TimelineMax();
-    clearStage
-      // .set(lineLeft, { autoAlpha: .15 })
-      // .set(lineMiddle, { autoAlpha: .15 })
-      // .set(lineRight, { autoAlpha: .15 })
-      .set(flash, { autoAlpha: 0 })
-      .set('#bulb', { autoAlpha: 0.33, fill: '#ffbe76' })
-      ;
-    return clearStage;
   }
 
   bulbRed() {
@@ -164,35 +140,70 @@ export class WorkflowDetail implements OnInit {
   }
 
   bulbGreen() {
-    TweenMax.to('#bulb', .2, { fill: '#7bd37b', ease: Power4.easeInOut });
+    TweenMax.to('#bulb', .2, { fill: '#88E188', ease: Power4.easeInOut });
   }
 
   bulbYellow() {
-    TweenMax.to('#bulb', .2, { fill: '#ffbe76', ease: Power4.easeInOut });
+    TweenMax.to('#bulb', .2, { fill: '#f9ba48', ease: Power4.easeInOut });
+  }
+
+  leftLine() {
+    let leftLineTL = new TimelineMax();
+
+    let leftLine = document.getElementById("line-left");
+    TweenMax.set(leftLine, { stroke: '#add8e6', strokeDasharray: 429.47, strokeDashoffset: 429.47 });
+
+    leftLineTL
+      .to(leftLine, 2, { strokeDashoffset: 0, ease:Power0.easeNone })
+    ;
+    return leftLineTL;
+  }
+
+  middleLine() {
+    let middleLineTL = new TimelineMax();
+
+    let middleLine = document.getElementById("line-middle");
+    TweenMax.set(middleLine, { stroke: '#add8e6', strokeDasharray: 259.47, strokeDashoffset: 259.47 });
+
+    middleLineTL
+      .to(middleLine, 1.5, { strokeDashoffset: 0, ease:Power0.easeNone })
+    ;
+    return middleLineTL;
+  }
+
+  rightLine() {
+    let rightLineTL = new TimelineMax();
+
+    let rightLine = document.getElementById("line-right");
+    TweenMax.set(rightLine, { stroke: '#add8e6', strokeDasharray: 429.17, strokeDashoffset: 429.17 });
+
+    rightLineTL
+      .to(rightLine, 3, { strokeDashoffset: 0, ease:Power0.easeNone })
+    ;
+    return rightLineTL;
   }
 
   bulbFlash() {
     let bulb = new TimelineMax();
     bulb
-      .to('#bulb', 1, { autoAlpha: .5, ease: Power1.easeInOut })
-      .to('#bulb', .2, { fill: '#7bd37b', repeat: 7, yoyo: true, ease: Power4.easeInOut })
-      .to('#bulb', .5, { autoAlpha: 1, ease: Power4.easeInOut })
-      .to('#flash', .2, { autoAlpha: 1, ease: Power4.easeInOut })
+      .add('reset')
+      .set('#bulb', { fill: '#ededed'}, 'reset')
+      .set('#flash > .cls-5b', {fill: 'transparent'}, 'reset')
+
+      .add('startLines')
+      .add(this.leftLine(), 'startLines')
+      .add(this.middleLine(), 'startLines')
+      .add(this.rightLine(), 'startLines')
+      // .call(this.bulbYellow)
+      .add('startBulb')
+      .to('#bulb', .5, { fill: '#f9ba48', ease:Power4.easeOut}, 'startBulb')
+      .to('#bulb', .1, { fill: '#ededed', repeat: 7, yoyo: true, ease: Power4.easeInOut })
+      
+      .to('#flash > .cls-5b', .2, { fill: '#f9ba48', ease: Power4.easeInOut })
+      // .add('red')
+      // .call(this.bulbRed(), 'red');
       ;
     return bulb;
-  }
-
-  leftLine() {
-
-    let leftLine = document.getElementById("line-left");
-    TweenMax.set(leftLine, { strokeDasharray: 434, strokeDashoffset: 434 });
-
-    let leftLineAnimation = new TimelineMax();
-    leftLineAnimation
-      .set(leftLine, {stroke: '#F8876E'})
-      .to(leftLine, 2, { strokeDasharray: 0, ease: Power0.easeNone });
-
-    return leftLineAnimation;
   }
 
   //*********************************/
@@ -266,8 +277,18 @@ export class WorkflowDetail implements OnInit {
   private checkWorkflow() {
     this.store.dispatch(new CheckCellarWorkflowAction(this.id));
 
-    this.leftLine();
+
+
+
+
+
+    // CALLING WORKFLOW ANIMATION HERE 
     this.bulbFlash();
+
+
+
+
+
   }
 
   private stopWorkflow() {

@@ -1,0 +1,13 @@
+<<<<<<< HEAD
+.mypicture{
+    width: 200px;
+    height: 200px;
+=======
+@import './SPA/assets/sass/custom/base/variables';
+@import './SPA/assets/sass/custom/modules';
+
+.mypicture{
+    width: 200px;
+    height: 200px;
+>>>>>>> feature/AdminRedesign
+}

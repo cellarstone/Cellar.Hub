@@ -1,0 +1,373 @@
+<<<<<<< HEAD
+﻿<div class="main-block ui-g border-light">
+    <div class="ui-g-12">
+        <h1 class="main-block__title">Space details</h1>
+        <div class="main-block__breadcrumb">
+            <a [routerLink]="['/']">Home </a>
+            <a [routerLink]="['/places/dashboard']">
+                <i class="fa fa-chevron-right"></i> Place
+            </a>
+            <a [routerLink]="['/spaces']">
+                <i class="fa fa-chevron-right"></i> Space
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="myerror" *ngIf="error$ | async">
+    {{error$ | async}}</div>
+<div class="ui-g space-detail" *ngIf="item$ | async">
+    <!-- <h1 class="space-detail__title">Space Details</h1> -->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!-- BASE info-->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <div class="ui-g-6 ui-sm-12 ui-lg-6 no-padding">
+
+        <div class="ui-g-12 ui-sm-12 ui-lg-12">
+            <app-space-base-info [item]="item$ | async" (onSave)="saveSpace($event)" (onDelete)="deleteSpace($event)" (onCancel)="cancelSpace()"></app-space-base-info>
+        </div>
+        <div class="ui-g-12 ui-sm-12 ui-lg-12" *ngIf="item_meetingRoom$ | async">
+            <app-meeting-room-property [meetingRoomEmail]="(item_meetingRoom$ | async).email" (onSave)="saveMeetingRoomSetting($event)" (onDelete)="deleteMeetingRoomSetting()"></app-meeting-room-property>
+        </div>
+
+        <div *ngIf="(item$ | async).id != undefined" class="ui-g-12 ui-sm-12 ui-lg-12 subspaces-block">
+            <div class="card card-w-title ui-g border-light border-radius">
+                <div class="ui-g subspaces">
+                    <h3 class="subspaces__text">Subspaces</h3>
+                    <button type="button" class="subspaces__button--add" pButton icon="fa-plus" (click)="showaddSubspace()"></button>
+                </div>
+                <!-- Sub-Space ADD DETAIL -->
+                <div *ngIf="addsubspaceDisplay" class="ui-g-12">
+                    <!--STATE + BASE INDORMATIONS-->
+
+                    <!--BASE INDORMATIONS-->
+                    <div class="ui-g form-group subspace-form">
+                        <div class="ui-g-12 text-center">
+                            <h1>New subspace informations</h1>
+                        </div>
+                        <div class="ui-g-6 ui-sm-12 ui-md-6 form-section">
+                            <label for="name3" class="form-section__label">Name</label>
+                            <div class="ui-fluid">
+                                <input id="name3" class="form-section__input border-radius" type="text" pInputText [(ngModel)]="addedsubspace.name" [ngClass]="{'nonvalid': !isNameValid }"
+                                />
+                            </div>
+                        </div>
+                        <div class="ui-g-6 ui-sm-12 ui-md-6 form-section">
+                            <label for="path3" class="form-section__label">Path</label>
+                            <div class="ui-fluid">
+                                <input id="path3" class="form-section__input border-radius" type="text" pInputText [(ngModel)]="addedsubspace.path" [ngClass]="{'nonvalid': !isPathValid }"
+                                    disabled />
+                            </div>
+                        </div>
+                        <div class="ui-g-12 text-center">
+                            <!-- <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="onBack()" class="ui-button-warning"></button> -->
+                            <button type="button" pButton label="CANCEL" (click)="cancelSubspace()" class="ui-button-warning button-function"></button>
+                            <button type="button" pButton label="SAVE" (click)="addSubspace()" class="ui-button-success button-function"></button>
+                        </div>
+                    </div>
+                </div>
+                <!--VAZBA SPACE - SUBSPACE-->
+                <div class="ui-g-12 no-padding">
+                    <div *ngFor="let itemsb of (item_subspaces$ | async)" class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-4">
+                        <div class="border-radius border-light subspaces-section" (click)="selectSubspace(itemsb.id)" [ngClass]="colorMap[itemsb.state]">
+                            <div class="subspaces-section__img">
+                                <img src="{{itemsb.image}}" style="height: 100px; max-width: 100%;" />
+                            </div>
+                            <h4 class=subspaces-section__name>
+                                <span class="overview-box-name">{{itemsb.name}}</span>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!--Senzors-->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+
+    <!-- && (item_senzors$ | async) -->
+    <div *ngIf="(item$ | async).id != undefined" class="ui-g-6 ui-sm-12 ui-lg-6">
+
+        <div class="card card-w-title ui-g border-light border-radius">
+            <div class="ui-g sensors">
+                <button type="button" class="sensors__button--add" pButton icon="fa-plus" (click)="showaddSenzor()"></button>
+                <h3 class="sensors__text">Sensors</h3>
+            </div>
+            <div *ngIf="addsenzorDisplay">
+                <!--STATE + BASE INDORMATIONS-->
+                <!--BASE INDORMATIONS-->
+                <div class="form-group ui-g-12 sensor-form">
+                    <div class="ui-g-12">
+                        <h1 class="text-center">New sensor informations</h1>
+                    </div>
+                    <div class="ui-g-6 ui-sm-12 ui-md-6 form-section">
+                        <label for="name2" class="form-section__label">Name</label>
+                        <div class="ui-fluid">
+                            <input id="name2" class="form-section__input border-radius" type="text" pInputText [(ngModel)]="addedsenzor.name" [ngClass]="{'nonvalid': !isNameValid }"
+                            />
+                        </div>
+                    </div>
+                    <div class="ui-g-6 ui-sm-12 ui-md-6 form-section">
+                        <label for="path2" class="form-section__label">Path</label>
+                        <div class="ui-fluid">
+                            <input id="path2" class="form-section__input border-radius" type="text" pInputText [(ngModel)]="addedsenzor.path" [ngClass]="{'nonvalid': !isPathValid }"
+                                disabled />
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-6 form-section">
+                        <label for="mqtturl" class="form-section__label">MQTT IP</label>
+                        <div class="ui-fluid">
+                            <input id="mqtturl" class="form-section__input border-radius" type="text" pInputText [(ngModel)]="addedsenzor.mqttUrl" [ngClass]="{'nonvalid': !isMqttValid }"
+                            />
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-sm-12 ui-md-12 form-section">
+                        <label for="type" class="form-section__label">Type</label>
+                        <div class="ui-fluid">
+                            <p-dropdown id="type" class="border-radius" [options]="senzorTypes" [(ngModel)]="selectedSenzorType"></p-dropdown>
+                        </div>
+                    </div>
+
+                    <div class="ui-g-6 ui-sm-12 ui-md-6 form-section">
+                        <label for="wifissid" class="form-section__label">Wifi SSID</label>
+                        <div class="ui-fluid">
+                            <input id="wifissid" class="form-section__input border-radius" type="text" pInputText [(ngModel)]="addedsenzor.wifiSSID"
+                                [ngClass]="{'nonvalid': !isWifiSSIDValid }" />
+                        </div>
+                    </div>
+                    <div class="ui-g-6 ui-sm-12 ui-md-6 form-section">
+                        <label for="wifipassword" class="form-section__label">Wifi Password</label>
+                        <div class="ui-fluid">
+                            <input id="wifipassword" class="form-section__input border-radius" type="password" pInputText [(ngModel)]="addedsenzor.wifiPassword"
+                                [ngClass]="{'nonvalid': !isWifiPasswordValid }" />
+                        </div>
+                    </div>
+                    <div class="ui-g-12 text-center">
+                        <button type="button" pButton label="CANCEL" (click)="cancelSenzor()" class="ui-button-warning button-function"></button>
+                        <button type="button" pButton label="SAVE" (click)="addSenzor()" class="ui-button-success button-function"></button>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 no-padding">
+                <div *ngFor="let itemsb of (item_senzors$ | async)" class="ui-g-12 ui-sm-6 ui-md-6 ui-lg-4">
+                    <div class="border-radius border-light sensors-section" (click)="selectSenzor(itemsb.id)" [ngClass]="colorMap[itemsb.state]">
+                        <div class="sensors-section__img">
+                            <img src="{{getSenzorTypeImage(itemsb.type)}}" class="text-center" style="max-height: 100px; max-width: 100%;" />
+                        </div>
+                        <h4 class="sensors-section__name">
+                            <span class="overview-box-name text-center">{{itemsb.name}}</span>
+                        </h4>
+                    </div>
+                </div>
+
+            </div>
+            <!-- SENZOR ADD DETAIL -->
+            <!--VAZBA SPACE - SENZOR-->
+        </div>
+    </div>
+
+
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!--SubSpaces-->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!-- && (item_subspaces$ | async) -->
+=======
+﻿<div class="myerror" *ngIf="error$ | async">
+    {{error$ | async}}</div>
+<div class="space-detail" *ngIf="item$ | async">
+
+    <div class="ui-g-12 ui-sm-12 ui-lg-12">
+
+        <div class="ui-g title ">
+            <h3 class="title__text title__text--blue">{{ space }}</h3>
+        </div>
+
+        <div class="card card-w-title no-padding border padding-around">
+            <app-space-base-info [item]="item$ | async" (onSave)="saveSpace($event)" (onDelete)="deleteSpace($event)" (onCancel)="cancelSpace()"></app-space-base-info>
+
+
+            <div *ngIf="(item$ | async).id != undefined">
+
+                <div class="ui-g loop-title">
+                    <h3 class="loop-title__text">Subspaces</h3>
+                    <button type="button" class="loop-title__button-add" icon="fa-plus" (click)="showaddSubspace()">Add Subspace</button>
+                </div>
+
+                
+                <!-- Sub-Space ADD DETAIL -->
+                <div *ngIf="addsubspaceDisplay" class="ui-g margin-b-large">
+
+                    <!--BASE INDORMATIONS-->
+                    <div class="ui-g-6 ui-lg-6 ui-md-12 no-padding form-group subspace-form">
+
+                        <h3 class="margin-b-medium">New subspace informations</h3>
+
+                        <div class="ui-g-12 no-padding-left form-section">
+                            <label for="name3" class="form-section__label">Name</label>
+                            <div class="ui-fluid">
+                                <input id="name3" class="form-section__input " type="text" pInputText [(ngModel)]="addedsubspace.name" [ngClass]="{'nonvalid': !isNameValid }"
+                                />
+                            </div>
+                        </div>
+                        <div class="ui-g-12 no-padding-left form-section">
+                            <label for="path3" class="form-section__label">Path</label>
+                            <div class="ui-fluid">
+                                <input id="path3" class="form-section__input " type="text" pInputText [(ngModel)]="addedsubspace.path" [ngClass]="{'nonvalid': !isPathValid }"
+                                    disabled />
+                            </div>
+                        </div>
+                        <div class="ui-g-12 no-padding-left">
+                            <!-- <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="onBack()" class="ui-button-warning"></button> -->
+                            <button type="button" icon="fa-arrow-left" pButton label="Cancel" (click)="cancelSubspace()" class="ui-button-warning button-function"></button>
+                            <button type="button" icon="fa-check" pButton label="Save" (click)="addSubspace()" class="ui-button-success button-function"></button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="ui-g section-loop" *ngIf="item_subspaces$ | async">
+                    <div *ngFor="let itemsb of (item_subspaces$ | async)" class="ui-g-12 ui-lg-2 ui-md-4 ui-sm-12 no-padding margin-b-large">
+                        <div>
+                            <div (click)="selectSubspace(itemsb.id)">
+                                <div class="section-loop__img">
+                                    <img [ngClass]="colorMap[itemsb.state]" src="{{ itemsb.image }}" alt="..." />
+                                </div>
+                            </div>
+                            <div class="section-loop__name">{{itemsb.name}}</div>
+                            <div class="section-loop__subspaces">Subspaces 7</div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="divider"></div>
+            </div>
+
+
+
+
+
+
+            <div *ngIf="item$ | async">
+                <div *ngIf="(item$ | async).id != undefined" >
+                    <div class="ui-g loop-title">
+                        <h3 class="loop-title__text">Sensors</h3>
+                        <button type="button" class="loop-title__button-add" icon="fa-plus" (click)="showaddSenzor()">Add Sensor</button>
+                    </div>
+                    
+                    
+                    <div *ngIf="addsenzorDisplay" class="ui-g">
+                        <!--STATE + BASE INDORMATIONS-->
+                        <!--BASE INDORMATIONS-->
+                        <div class="form-group ui-g-6 ui-lg6 ui-md-12 sensor-form no-padding-left">
+
+                            <h3 class="no-margin margin-b-large">New sensor informations</h3>
+
+                            <div class="ui-g-12 ui-sm-12 ui-md-12 form-section no-padding-left">
+                                <label for="name2" class="form-section__label">Name</label>
+                                <div class="ui-fluid">
+                                    <input id="name2" class="form-section__input " type="text" pInputText [(ngModel)]="addedsenzor.name" [ngClass]="{'nonvalid': !isNameValid }"
+                                    />
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-sm-12 ui-md-6 form-section no-padding-left">
+                                <label for="path2" class="form-section__label">Path</label>
+                                <div class="ui-fluid">
+                                    <input id="path2" class="form-section__input " type="text" pInputText [(ngModel)]="addedsenzor.path" [ngClass]="{'nonvalid': !isPathValid }"
+                                        disabled />
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-6 form-section">
+                                <label for="mqtturl" class="form-section__label">MQTT IP</label>
+                                <div class="ui-fluid">
+                                    <input id="mqtturl" class="form-section__input " type="text" pInputText [(ngModel)]="addedsenzor.mqttUrl" [ngClass]="{'nonvalid': !isMqttValid }"
+                                    />
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-sm-12 ui-md-12 form-section no-padding-left">
+                                <label for="type" class="form-section__label">Type</label>
+                                <div class="ui-fluid">
+                                    <p-dropdown id="type" class="" [options]="senzorTypes" [(ngModel)]="selectedSenzorType"></p-dropdown>
+                                </div>
+                            </div>
+
+                            <div class="ui-g-12 ui-sm-12 ui-md-6 form-section no-padding-left">
+                                <label for="wifissid" class="form-section__label">Wifi SSID</label>
+                                <div class="ui-fluid">
+                                    <input id="wifissid" class="form-section__input " type="text" pInputText [(ngModel)]="addedsenzor.wifiSSID" [ngClass]="{'nonvalid': !isWifiSSIDValid }"
+                                    />
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-sm-12 ui-md-6 form-section">
+                                <label for="wifipassword" class="form-section__label">Wifi Password</label>
+                                <div class="ui-fluid">
+                                    <input id="wifipassword" class="form-section__input " type="password" pInputText [(ngModel)]="addedsenzor.wifiPassword" [ngClass]="{'nonvalid': !isWifiPasswordValid }"
+                                    />
+                                </div>
+                            </div>
+                            <div class="ui-g-12 no-padding-left margin-b-large">
+                                <button type="button" pButton label="CANCEL" (click)="cancelSenzor()" class="ui-button-warning button-function"></button>
+                                <button type="button" pButton label="SAVE" (click)="addSenzor()" class="ui-button-success button-function"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="ui-g">
+                        <div *ngFor="let itemsb of (item_senzors$ | async)" class="ui-g-12 no-padding">
+                            <div class="loop-list" (click)="selectSenzor(itemsb.id)" [ngClass]="colorMap[itemsb.state]">
+                                <div class="loop-list__img">
+                                    <img src="{{getSenzorTypeImage(itemsb.type)}}" />
+                                </div>
+                                <div class="loop-list__name">
+                                    {{itemsb.name}}
+                                </div>
+                                <div class="loop-list__type">
+                                    {{itemsb.type}}
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- SENZOR ADD DETAIL -->
+                    <!--VAZBA SPACE - SENZOR-->
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+
+
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!--Senzors-->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+
+    <!-- && (item_senzors$ | async) -->
+
+
+
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!--SubSpaces-->
+    <!--*********************************************************************************************-->
+    <!--*********************************************************************************************-->
+    <!-- && (item_subspaces$ | async) -->
+>>>>>>> feature/AdminRedesign
+</div>

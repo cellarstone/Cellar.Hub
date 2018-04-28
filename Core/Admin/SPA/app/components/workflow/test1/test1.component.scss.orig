@@ -1,0 +1,6 @@
+<<<<<<< HEAD
+@import './SPA/assets/sass/custom/base/variables';
+=======
+@import './SPA/assets/sass/custom/base/variables';
+>>>>>>> feature/AdminRedesign
+@import './SPA/assets/sass/custom/modules';

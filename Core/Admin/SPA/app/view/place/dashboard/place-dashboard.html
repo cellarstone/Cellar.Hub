@@ -1,43 +1,31 @@
-<div class="main-block ui-g border-light">
-    <div class="ui-g-12">
-        <h1 class="main-block__title">Places</h1>
-        <div class="main-block__breadcrumb">
-            <a [routerLink]="['/']">Home </a>
-            <a [routerLink]="['/places/dashboard']">
-                <i class="fa fa-chevron-right"></i> Places
-            </a>
-        </div>
-    </div>
-</div>
-
-<div class="ui-g">
+<div>
     <div class="ui-g-5 ui-sm-12">
-        <div class="card card-w-title border-light">
+        <div class="card card-w-title no-padding">
+
             <div class="ui-g places ">
                 <button class="places__button--add" pButton icon="fa-plus" type="button" (click)="newPlace()">+</button>
-                <h2 class="places__text">Places</h2>
+                <h1 class="places__text">Places</h1>
             </div>
+
             <div class="ui-g items">
-
-
                 <div *ngFor="let item of (items$ | async)" class="ui-g-12 item">
-                    <div class="ui-g-12 custom-card border-light border-radius margin-b-medium" (click)="selectItem(item.id)" [ngClass]="colorMap[item.state]">
+                    <div class="ui-g-12 no-padding" (click)="selectItem(item.id)" [ngClass]="colorMap[item.state]">
                         <div class="items__item">
                             <div class="item-card">
                                 <h3 class="item-card__name">{{item.name}}</h3>
                                 <span class="item-card__location">
-                                    <h4>{{item.country}}</h4>
-                                    <h4>{{item.city}}</h4>
+                                    <h4 style="margin-bottom: 3px;">{{item.country}}, {{item.city}}</h4>
+                                    
                                     <h4>{{item.street}}</h4>
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-        </div>
 
+
+        </div>
     </div>
 
     <div class="ui-g-7 ui-sm-12 map">

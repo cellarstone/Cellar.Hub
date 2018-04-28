@@ -1,0 +1,35 @@
+.newState
+{
+    background-color: $color-blue-new;
+    height: 30px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.approvedState
+{
+    background-color: $color-green-approved;
+    height: 30px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.forbiddenState
+{
+    background-color: $color-red-forbidden;
+    height: 30px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.newStatePanel{
+    border-left: 7px solid $color-blue-new !important;
+  }
+  
+  .approvedStatePanel{
+    border-left: 7px solid $color-green-approved !important;
+  }
+  
+  .forbiddenStatePanel{
+    border-left: 7px solid $color-red-forbidden !important;
+  }

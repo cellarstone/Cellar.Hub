@@ -1,0 +1,21 @@
+<<<<<<< HEAD
+<div class="ui-g workflows">
+    <button type="button" class="workflows__button--add" pButton icon="fa-plus" (click)="newWorkflow()"></button>
+    <h3 class="workflows__text">Workflows</h3>
+</div>
+
+<div *ngIf="items$ | async">
+  <app-workflow-list [items]="items$ | async" (onSelect)="selectWorkflow($event)"></app-workflow-list>
+</div>
+
+=======
+<div class="ui-g loop-title">
+    <h3 class="loop-title__text">Workflows</h3>
+    <button type="button" class="loop-title__button-add" icon="fa-plus" (click)="newWorkflow()">Add Workflow</button>
+</div>
+
+<div *ngIf="items$ | async">
+  <app-workflow-list [items]="items$ | async" (onSelect)="selectWorkflow($event)"></app-workflow-list>
+</div>
+
+>>>>>>> feature/AdminRedesign

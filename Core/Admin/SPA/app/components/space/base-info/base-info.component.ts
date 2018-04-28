@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { CellarSpace } from 'app/entities/CellarSpace';
 import { Message } from 'primeng/primeng';
+import { ActivatedRoute } from '@angular/router';
 import { FileService } from 'app/service/file.service';
 
 
@@ -37,10 +38,29 @@ export class SpaceBaseInfoComponent implements OnInit {
   isPathValid: boolean = true;
 
 
+  deleteModal: boolean = false;
 
-  constructor(public fileservice: FileService) { }
+  allowEdit: boolean = false;
+
+  imgUpload: string = 'Change photo';
+
+  pathCheck: any;
+
+  constructor(public fileservice: FileService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+
+    this.pathCheck = {
+      newSpace0: this.route.snapshot.params['id']
+    }
+
+    console.log(this.item);
+
+    if (this.pathCheck.newSpace0 === '0') {
+      return this.allowEdit = true, this.item.name = 'New Place', this.imgUpload = 'Upload photo';
+    }
+
+
   }
 
 
@@ -107,11 +127,11 @@ export class SpaceBaseInfoComponent implements OnInit {
   }
 
 
-  deleteSpace(){
+  deleteSpace() {
     this.onDelete.emit(this.item);
   }
 
-  cancelSpace(){
+  cancelSpace() {
     this.onCancel.emit();
   }
 
@@ -233,12 +253,12 @@ export class SpaceBaseInfoComponent implements OnInit {
             console.error(response.exceptionText);
           }
         },
-        error => {
-          console.error(error);
-        },
-        () => {
-          console.log('addMainPictureChangeEvent() completed');
-        });
+          error => {
+            console.error(error);
+          },
+          () => {
+            console.log('addMainPictureChangeEvent() completed');
+          });
 
     }
   }

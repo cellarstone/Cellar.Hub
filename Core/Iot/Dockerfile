@@ -33,4 +33,3 @@ RUN ls -l
 
 ENTRYPOINT /app/cellarhubiot
 
-

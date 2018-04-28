@@ -1,7 +1,7 @@
-<div class="ui-g list-of-senzors">
-        <button type="button" class="list-of-senzors__button--add" pButton icon="fa-plus" label="Add Senzor" (click)="newSenzor()"></button>
-        <h5 class="list-of-senzors__text">List of sensors</h5>
-    </div>
+<div class="ui-g list-header">
+    <button type="button" class="list-header__button--add" icon="fa-plus" (click)="newSenzor()">Add Sensor</button>
+    <h3 class="list-header__text">List of Sensors</h3>
+</div>
 
 <div>
     <app-senzor-list [items]="items$ | async" (onSelect)="selectSenzor($event)"></app-senzor-list>

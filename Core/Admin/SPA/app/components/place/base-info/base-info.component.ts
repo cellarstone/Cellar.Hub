@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CellarPlace } from 'app/entities/CellarPlace';
 import { Message } from 'primeng/primeng';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { ActivatedRoute } from '@angular/router';
 
 
 //others
@@ -13,7 +14,7 @@ declare var jQuery: any;
   styleUrls: ['./base-info.component.scss']
 })
 export class PlaceBaseInfoComponent implements OnInit {
-  
+
   @Input()
   item: CellarPlace;
 
@@ -39,17 +40,32 @@ export class PlaceBaseInfoComponent implements OnInit {
   isStateValid: boolean = true;
   isMainPictureValid: boolean = true;
 
+  private allowEdit: boolean = false;
+  private deleteModal: boolean = false;
 
-  constructor() { }
+  private urlCheck: any;
+
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
 
-    if(this.item != undefined){
+    if (this.item != undefined) {
 
-    
-    this.lat = Number(this.item.latitude);
-    this.lng = Number(this.item.longtitude);
-  }
+
+      this.lat = Number(this.item.latitude);
+      this.lng = Number(this.item.longtitude);
+
+    }
+
+    this.urlCheck = {
+      newPlace0: this.route.snapshot.params['id']
+    }
+
+    if(this.urlCheck.newPlace0 === '0') {
+      return this.allowEdit = true;
+    } else {
+      return this.allowEdit = false;
+    }
   }
 
 
@@ -112,18 +128,18 @@ export class PlaceBaseInfoComponent implements OnInit {
       this.lat = Number(this.item.latitude);
       this.lng = Number(this.item.longtitude);
 
-      
+
       this.onSave.emit(this.item);
 
     }
   }
 
 
-  cancelPlace(){
+  cancelPlace() {
     this.onCancel.emit();
   }
 
-  deletePlace(){
+  deletePlace() {
     this.onDelete.emit(this.item);
   }
 

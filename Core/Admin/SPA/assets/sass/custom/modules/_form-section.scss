@@ -1,4 +1,18 @@
 .form-section {
+  position: relative;
+  font-family: $font-roboto;
+
+  &__title {
+      display: flex;
+      margin-top: 15px;
+      letter-spacing: 1px;
+      font-weight: 300;
+      font-size: 26px;
+      justify-content: start;
+      align-items: center;
+      height: 80px;
+      margin: 0 !important;
+  }
     
   &__label{
       
