@@ -35,9 +35,9 @@ export class SenzorListComponent implements OnInit {
 
     this.states = [];
     this.states.push({ label: 'All States', value: null });
-    this.states.push({ label: 'New', value: 'NEW' });
-    this.states.push({ label: 'Approved', value: 'APPROVED' });
-    this.states.push({ label: 'Frobidden', value: 'FORBIDDEN' });
+    this.states.push({ label: 'New', value: '1' });
+    this.states.push({ label: 'Approved', value: '2' });
+    this.states.push({ label: 'Frobidden', value: '3' });
 
   }
 
@@ -67,46 +67,46 @@ export class SenzorListComponent implements OnInit {
 
 
     if (event && event.filters) {
-      var tempColl = new Array<CellarSenzor>();
-      var tempColl2 = new Array<CellarSenzor>();
+      // var tempColl = new Array<CellarSenzor>();
+      // var tempColl2 = new Array<CellarSenzor>();
 
 
 
-      if (event.filters["state.name"]) {
-        let value = event.filters["state.name"].value;
+      // if (event.filters["state.name"]) {
+      //   let value = event.filters["state.name"].value;
 
 
-        if (tempColl.length == 0) {
-          for (let entry of this.rawItems) {
+      //   if (tempColl.length == 0) {
+      //     for (let entry of this.rawItems) {
 
-            if (entry.state.toLowerCase().includes(value.toLowerCase())) {
-              tempColl.push(entry);
-            }
+      //       if (entry.state.toLowerCase().includes(value.toLowerCase())) {
+      //         tempColl.push(entry);
+      //       }
 
-          }
-        }
-        else {
-          for (let entry of tempColl) {
+      //     }
+      //   }
+      //   else {
+      //     for (let entry of tempColl) {
 
-            if (entry.state.toLowerCase().includes(value.toLowerCase())) {
-              tempColl2.push(entry);
-            }
+      //       if (entry.state.toLowerCase().includes(value.toLowerCase())) {
+      //         tempColl2.push(entry);
+      //       }
 
-          }
-        }
-      }
+      //     }
+      //   }
+      // }
 
 
 
-      if (tempColl2.length != 0) {
-        this.items = tempColl2;
-      }
-      else if (tempColl2.length == 0) {
-        this.items = tempColl;
-      }
-      else if (tempColl2.length == 0) {
-        this.items = this.rawItems;
-      }
+      // if (tempColl2.length != 0) {
+      //   this.items = tempColl2;
+      // }
+      // else if (tempColl2.length == 0) {
+      //   this.items = tempColl;
+      // }
+      // else if (tempColl2.length == 0) {
+      //   this.items = this.rawItems;
+      // }
 
     }
   }
