@@ -19,7 +19,7 @@
 
     <div *ngIf="items">
 
-        <p-dataTable #dt [value]="items" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,25,50,100]" selectionMode="single"
+        <p-dataTable #dt [value]="items" [rows]="itemsPerPage" [paginator]="true" [rowsPerPageOptions]="[10,25,50,100]" selectionMode="single"
             [(selection)]="selectedItem" (onRowSelect)="onRowSelect($event)" (onFilter)="onFilter($event)" [responsive]="true"
             dataKey="id">
             <!-- <p-header>List of Senzors</p-header> -->
