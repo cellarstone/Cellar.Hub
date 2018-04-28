@@ -153,7 +153,7 @@ export class AppModule {
     
     apollo.create({
       link: httpLink.create({
-        uri: 'http://3097dd97.ngrok.io/api/graphql'
+        uri: 'http://13649ba8.ngrok.io/api/graphql'
       }),
       cache: new InMemoryCache()
     }, "k2exchange");
