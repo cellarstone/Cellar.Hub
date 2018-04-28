@@ -1,6 +1,6 @@
 .newState
 {
-    background-color: $color-blue-new;
+    background-color: $color-yellow-main;
     height: 30px;
     width: 50%;
     margin: 0 auto;
@@ -23,7 +23,7 @@
 }
 
 .newStatePanel{
-    border-left: 7px solid $color-blue-new !important;
+    border-left: 7px solid $color-yellow-main !important;
   }
   
   .approvedStatePanel{
