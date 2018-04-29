@@ -14,9 +14,6 @@
 DOMLUVA
 Kazdou minutu po neaktivite vracet na HOME
 
-UKOL
-- zkusit dat organizator na jmeno
-
 
 
 
