@@ -28,12 +28,12 @@ import {AppComponent} from './app.component';
                         </a>
 
                         <ul class="poseidon-menu fadeInDown">
-                           <li role="menuitem">
+                           <!-- <li role="menuitem">
                                 <a href="#">
                                     <i class="fa fa-fw fa-user"></i>
                                     <span>Profile</span>
                                 </a>
-                            </li> 
+                            </li>  -->
                             <li role="menuitem">
                                 <a (click)="app.auth.logout()">
                                     <i class="fa fa-fw fa-sign-out"></i>
