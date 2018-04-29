@@ -98,14 +98,14 @@
 
         <div class='ui-g-12 margin-b-large no-padding-left' style="display: flex; justify-content: space-between">
           <div>
-            <button *ngIf="pathCheck.newSenzor0 !== '0'" type="button" pButton icon="fa-arrow-left" label="Cancel" (click)="allowEdit = false"
-              class="ui-button-warning button-function"></button>
-            <!-- <button type="button" pButton icon="fa-arrow-left" (click)="cancelPlace()" class="ui-button-warning button-function"></button> -->
-            <button type="button" pButton label="Save" icon="fa-check" (click)="saveSenzor()" class="ui-button-success button-function"></button>
+            <button *ngIf="pathCheck.newSenzor0 !== '0'" type="button" label="Cancel" (click)="allowEdit = false"
+              class="button-function button-function--yellow"><i class="fa fa-arrow-left"></i> Cancel</button>
+            <!-- <button type="button" icon="fa-arrow-left" (click)="cancelPlace()" class="ui-button-warning button-function"></button> -->
+            <button type="button" label="Save" (click)="saveSenzor()" class="button-function button-function--green"><i class="fa fa-check"></i> Save</button>
           </div>
 
           <div>
-            <button *ngIf="item.id" type="button" icon="fa-trash" pButton label="Delete" (click)="deleteModal = true" class="ui-button-danger button-function"></button>
+            <button *ngIf="item.id" type="button" label="Delete" (click)="deleteModal = true" class="button-function button-function--red"><i class="fa fa-trash"></i> Delete</button>
           </div>
         </div>
 
