@@ -41,9 +41,11 @@ export class AddMeetingDialogComponent implements OnInit {
     this.inputStartTime = moment(data.start);
     this.inputEndTime = moment(data.end);
 
-    this.startTime = { hour: this.inputStartTime.format("HH"), minute: this.inputStartTime.format("m"), meriden: 'PM', format: 24 };
-    this.endTime = { hour: this.inputEndTime.format("HH"), minute: this.inputEndTime.format("m"), meriden: 'PM', format: 24 };
+    this.startTime = { hour: this.inputStartTime.format("H"), minute: this.inputStartTime.format("m"), meriden: 'PM', format: 24 };
+    this.endTime = { hour: this.inputEndTime.format("H"), minute: this.inputEndTime.format("m"), meriden: 'PM', format: 24 };
 
+    console.log(this.startTime);
+    console.log(this.endTime);
 
     this.form = fb.group({
       attendeeMails: new FormArray([]),

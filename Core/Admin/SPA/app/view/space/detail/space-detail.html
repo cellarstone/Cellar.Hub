@@ -12,11 +12,12 @@
             <app-space-base-info [item]="item$ | async" (onSave)="saveSpace($event)" (onDelete)="deleteSpace($event)" (onCancel)="cancelSpace()"></app-space-base-info>
 
             
-            <div class="ui-g-12 ui-sm-12 ui-lg-12" *ngIf="item_meetingRoom$ | async">
+            <div *ngIf="item_meetingRoom$ | async">
                 <app-meeting-room-property [meetingRoomEmail]="(item_meetingRoom$ | async).email" (onSave)="saveMeetingRoomSetting($event)" (onDelete)="deleteMeetingRoomSetting()"></app-meeting-room-property>
             </div>
 
 
+            <!-- SPACES -->
             <div *ngIf="(item$ | async).id != undefined">
 
                 <div class="ui-g loop-title">
@@ -75,11 +76,8 @@
             </div>
 
 
-
-
-
-
-            <div *ngIf="item$ | async">
+            <!-- SENZORS -->
+            <div *ngIf="(item$ | async).id != undefined">
                 <div *ngIf="(item$ | async).id != undefined" >
                     <div class="ui-g loop-title">
                         <h3 class="loop-title__text">Sensors</h3>
