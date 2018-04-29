@@ -1,6 +1,6 @@
 .button-function {
-  padding: 10px 16px;
-  width: 100px;
+  padding: 12px 16px;
+  width: 125px;
   border-radius: 3px;
   font-size: 16px;
   font-family: $font-roboto;
@@ -21,6 +21,11 @@
   &--yellow {
     background-color: $color-yellow-main;
     color: $color-black-default;
+  }
+
+  &--blue {
+    background-color: $color-blue-main;
+    color: $color-white-default;
   }
 }
 

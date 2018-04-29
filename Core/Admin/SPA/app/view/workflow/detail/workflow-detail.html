@@ -2,13 +2,6 @@
 
     <div class="ui-g-12">
 
-        <!-- <div class="ui-g-12">
-            <div class="ui-g card card-w-title border-radius border-light no-margin-b">
-                <h1 style="display: block !important; font-size: 30px;" class="no-margin">Workflow details</h1>
-            </div>
-        </div> -->
-
-
         <div class="modal-delete" *ngIf="deleteModal === true">
             <div class="content">
                 <div class="content__head">
@@ -25,8 +18,10 @@
                 </div>
 
                 <div class="content__footer">
-                    <button type="button" pButton icon="fa-angle-left" label="BACK" (click)="deleteModal = false" class="ui-button-info"></button>
-                    <button type="button" pButton icon="fa-trash" label="DELETE" (click)="deleteWorkflow()" class="ui-button-danger"></button>
+                    <button type="button" icon="fa-angle-left" label="Back" (click)="deleteModal = false" class="button-function button-function--yellow">
+                        <i class="fa fa-arrow-left"></i> Cancel</button>
+                    <button type="button" icon="fa-trash" label="Delete" (click)="deleteSenzor()" class="button-function button-function--red">
+                        <i class="fa fa-trash"></i> Delete</button>
                 </div>
             </div>
         </div>
@@ -132,16 +127,13 @@
                                     {{ this.actualStatus$ | async }}
                                 </div> -->
 
-                        <div class="ui-g-12 margin-auto no-padding" *ngIf="(item$ | async).id != ''">
-                            <div class="ui-g-4">
-                                <button type="button" pButton icon="fa-play" label="Run" (click)="runWorkflow()" class="ui-button-success button-function"></button>
-                            </div>
-                            <div class="ui-g-4">
-                                <button type="button" pButton icon="fa-stop" label="Stop" (click)="stopWorkflow()" class="ui-button-danger button-function"></button>
-                            </div>
-                            <div class="ui-g-4">
-                                <button type="button" pButton icon="fa-retweet" label="Check" (click)="checkWorkflow()" class="ui-button-info button-function"></button>
-                            </div>
+                        <div class="ui-g-12 text-center" *ngIf="(item$ | async).id != ''">
+                            <button type="button" label="Run" (click)="runWorkflow()" class="button-function button-function--green">
+                                <i class="fa fa-play"></i> Run</button>
+                            <button type="button" label="Stop" (click)="stopWorkflow()" class="button-function button-function--red">
+                                <i class="fa fa-stop"></i> Stop</button>
+                            <button type="button" label="Check" (click)="checkWorkflow()" class="button-function button-function--blue">
+                                <i class="fa fa-retweet"></i> Check</button>
                         </div>
 
 

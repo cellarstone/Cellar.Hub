@@ -1,6 +1,9 @@
 @import './SPA/assets/sass/custom/base/variables';
 @import './SPA/assets/sass/custom/modules';
 
+.text-center {
+  text-align: center;
+}
 
 .svg-wrapper {
   position: relative;

@@ -165,9 +165,9 @@
                     </div>
     
                     <div class="ui-g-12 text-center">
-                        <button *ngIf="displayStep !== 0" type="button" pButton (click)="displayPrevious()" class="orange-btn" label="Back" style="width:100px"></button>
-                        <button *ngIf="displayStep < 3" type="button" pButton (click)="displayNext()" label="Next" style="width:100px" class="green-btn"></button>
-                        <button *ngIf="displayStep === 3" type="button" pButton (click)="saveWorkflow()" label="Confirm" style="width:100px" class="green-btn"></button>
+                        <button *ngIf="displayStep !== 0" type="button" (click)="displayPrevious()" class="button-function button-function--yellow" label="Back"><i class="fa fa-arrow-left"></i> Back</button>
+                        <button *ngIf="displayStep < 3" type="button" (click)="displayNext()" label="Next" class="button-function button-function--green">Next <i class="fa fa-arrow-right"></i></button>
+                        <button *ngIf="displayStep === 3" type="button" (click)="saveWorkflow()" label="Confirm" class="button-function button-function--green"><i class="fa fa-check"></i> Confirm</button>
                     </div>
     
                 </form>
