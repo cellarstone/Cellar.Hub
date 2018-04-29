@@ -29,8 +29,10 @@
         </div>
 
         <div class="content__footer">
-          <button type="button" icon="fa-angle-left" label="Back" (click)="deleteModal = false" class="button-function button-function--yellow"><i class="fa fa-arrow-left"></i> Cancel</button>
-          <button type="button" icon="fa-trash" label="Delete" (click)="deletePlace()" class="button-function button-function--red"><i class="fa fa-trash"></i> Delete</button>
+          <button type="button" icon="fa-angle-left" label="Back" (click)="deleteModal = false" class="button-function button-function--yellow">
+            <i class="fa fa-arrow-left"></i> Cancel</button>
+          <button type="button" icon="fa-trash" label="Delete" (click)="deletePlace()" class="button-function button-function--red">
+            <i class="fa fa-trash"></i> Delete</button>
         </div>
       </div>
     </div>
@@ -40,11 +42,22 @@
 
     <!--STATE + BASE INDORMATIONS-->
     <!--BASE INDORMATIONS-->
+    <!--MAP-->
+    <div class="ui-g-5 ui-lg-4 ui-md-12 ui-sm-12 no-padding" [ngClass]="colorMap[item.state]" [ngClass]="{'nonvalid': !isMainPictureValid }">
+      <agm-map class="map-mini" [latitude]="lat" [longitude]="lng">
+        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+      </agm-map>
+    </div>
+    <div  *ngIf="!allowEdit" class="ui-g-12 no-padding information">
+      
+      <div class="information__flex">
+        <h3 class="no-margin information__name">{{ item.name }}</h3>
+        <div class="information__address">{{ item.street + ', ' + item.city + ' - ' + item.country }} </div>
+        <button *ngIf="item.id" type="button" label="Edit" class="information__button-edit" (click)="allowEdit = !allowEdit">Edit Place</button>
+      </div>
 
-    <div [ngClass]="colorMap[item.state]"  *ngIf="!allowEdit" class="ui-g-12 no-padding information">
-      <h3 class="no-margin information__name">{{ item.name }}</h3>
-      <div class="information__address">{{ item.street + ', ' + item.city + ' - ' + item.country }} </div>
-      <button *ngIf="item.id" type="button" label="Edit" class="information__button-edit" (click)="allowEdit = !allowEdit">Edit Place</button>
+
+
     </div>
 
 
@@ -143,13 +156,16 @@
 
       <div class="ui-g-12 no-padding-left margin-b-large" style="display: flex; justify-content: space-between">
         <div>
-          <button type="button" label="Cancel" (click)="allowEdit = false" class="button-function button-function--yellow"><i class="fa fa-arrow-left"></i> Cancel</button>
+          <button type="button" label="Cancel" (click)="allowEdit = false" class="button-function button-function--yellow">
+            <i class="fa fa-arrow-left"></i> Cancel</button>
           <!-- <button type="button" pButton icon="fa-arrow-left" (click)="cancelPlace()" class="ui-button-warning button-function"></button> -->
-          <button type="button" label="Save"(click)="savePlace()" class="button-function button-function--green"><i class="fa fa-check"></i> Save</button>
+          <button type="button" label="Save" (click)="savePlace()" class="button-function button-function--green">
+            <i class="fa fa-check"></i> Save</button>
         </div>
 
         <div>
-          <button *ngIf="item.id" type="button" label="Delete" (click)="deleteModal = true" class="button-function button-function--red"><i class="fa fa-trash"></i> Delete</button>
+          <button *ngIf="item.id" type="button" label="Delete" (click)="deleteModal = true" class="button-function button-function--red">
+            <i class="fa fa-trash"></i> Delete</button>
         </div>
 
       </div>

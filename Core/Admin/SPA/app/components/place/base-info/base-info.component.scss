@@ -1,8 +1,13 @@
 @import './SPA/assets/sass/custom/base/variables';
 @import './SPA/assets/sass/custom/modules';
 
-agm-map {
+.map-big {
     height: 400px;
+  }
+
+  .map-mini {
+      width: 100%;
+      height: 200px;
   }
 .nonvalid
 {
