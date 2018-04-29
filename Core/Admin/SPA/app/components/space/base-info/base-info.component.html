@@ -42,7 +42,12 @@
     <div *ngIf="!allowEdit" class="ui-g-12 no-padding-left information-space">
 
       <div>
-        <img [ngClass]="colorMap[item.state]" src="{{item.image}}" alt="..." class="information-space__thumbnail">
+        <img *ngIf="item.image !== ''; else imageDefault" [ngClass]="colorMap[item.state]" src="{{item.image}}" alt="..." class="information-space__thumbnail">
+        <ng-template #imageDefault>
+          <div class="default-image">
+            Please upload a photo.
+          </div>
+        </ng-template>
       </div>
       <div class="no-margin information-space__name--modified">
         <div class="information-space__name--space">

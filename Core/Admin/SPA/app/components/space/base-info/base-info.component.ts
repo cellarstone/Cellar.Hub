@@ -49,14 +49,22 @@ export class SpaceBaseInfoComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.item);
+
 
     this.pathCheck = {
       newSpace0: this.route.snapshot.params['id']
     }
 
     if (this.pathCheck.newSpace0 === '0') {
-      return this.allowEdit = true, this.item.name = 'New Place', this.imgUpload = 'Upload photo';
+      this.allowEdit = true; 
+      this.item.name = 'New Place'; 
+      this.imgUpload = 'Upload photo';
+    }
+
+    if(this.item.image === '') {
+      this.imgUpload = 'Upload a photo';
+    } else {
+      this.imgUpload = 'Change photo';
     }
 
 
