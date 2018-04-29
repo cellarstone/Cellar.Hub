@@ -7,9 +7,8 @@
   font-family: $font-roboto;
   color: $color-text-dark;
   font-weight: 300;
-
   font-size: 22px;
-
+    height: 50px;
 
   @media only screen and (max-width: 900px) {
     font-size: 16px;
@@ -29,6 +28,7 @@
   
 
     &__name {
+        padding-left: 15px;
           font-size: 26px;
 
         &--modified {
@@ -67,23 +67,26 @@
 
         @media only screen and (max-width: 900px) {
             font-size: 16px;
-          }
-
+        }
         background-color: transparent;
         outline: none;
         border: none;
 
         &--margin {
             margin-top: 50px;
-        }
-        
-        
+        } 
     }
 
     &__thumbnail {
         height: 80px;
-    object-fit: cover;
+        width: 80px;
+    object-fit: contain;
     object-position: center center;
+
+    @media only screen and (max-width: 635px) {
+        height: 70px;
+        width: 70px;
+      }
     }
 }
 
@@ -98,6 +101,7 @@
     color: $color-text-dark;
     font-weight: 300;
     font-size: 22px;
+
   
   
     @media only screen and (max-width: 900px) {
@@ -109,14 +113,11 @@
         flex-direction: row;
         align-items: flex-start;
         font-size: 22px;
-        
-        
       
         &__button-edit {
             padding-left: 0;
             margin-top: 10px;
             font-size: 18px;
-
         }
     }
     
@@ -133,10 +134,9 @@
               justify-content: space-between;
               padding: 5px 0 5px 15px;
   
-              @media only screen and (max-width: 475px) {
-                  padding: 0px;
-                  padding-left: 5px;
-                //   font-size: 18px;
+              @media only screen and (max-width: 635px) {
+                  padding: 5px;
+                  font-size: 18px;
               }
           }
   
@@ -164,15 +164,11 @@
           border: none;
   
           &--margin {
-              margin-top: 60px;
-
-              @media screen and (max-width: 475px) {
-                  margin-top: 53px;
-              }
+              margin-top: 57px;
           }
           
-          @media only screen and (max-width: 475px) {
-              font-size: 16px;
+          @media only screen and (max-width: 635px) {
+              font-size: 18px;
           }
       }
   

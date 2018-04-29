@@ -40,6 +40,7 @@ export class SenzorBaseInfoComponent implements OnInit {
   private allowEdit: boolean = false;
 
   private pathCheck: any;
+  colorMap: any;
 
   constructor(private route: ActivatedRoute) {
     this.types = [];
@@ -62,6 +63,8 @@ export class SenzorBaseInfoComponent implements OnInit {
     this.typesImages.set("CellarSenzor Power v1.0", "assets/images/senzortypes/relay.jpeg");
     // this.typesImages.set("CellarSenzor Camera v1.0", "assets/images/senzortypes/camera.jpeg");
 
+    this.colorMap = { 1: 'newStatePanel', 2: 'approvedStatePanel', 3: 'forbiddenStatePanel' };
+
   }
   ngOnInit(): void {
 
@@ -75,7 +78,7 @@ export class SenzorBaseInfoComponent implements OnInit {
 
     this.selectedType = this.item.type;
     this.onTypeChange(this.selectedType);
-
+    console.log(this.item);
     
   }
 

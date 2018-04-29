@@ -38,10 +38,19 @@
       </div>
     </div>
 
-    <div *ngIf="!allowEdit" class="ui-g-12 no-padding information">
-      <h3 class="no-margin information__name main-header__title">{{ item.name }}</h3>
-      <div class="information__address">{{ item.type }} </div>
-      <button *ngIf="item.id" type="button" label="Edit" class="information__button-edit" (click)="allowEdit = !allowEdit">Edit Sensor</button>
+    <div *ngIf="!allowEdit" class="ui-g-12 no-padding-left information-space">
+      <div>
+        <img class="information__thumbnail" [ngClass]="colorMap[item.state]" src="{{ selectedTypeImage }}" alt="sensor_img">
+      </div>
+      <div class="no-margin information-space__name--modified">
+        <div class="information-space__name--space">
+          {{ item.name }}
+        </div>
+        <div class="information-space__name--url">
+          {{ item.type }}
+        </div>
+      </div>
+      <button *ngIf="item.id" type="button" label="Edit" class="information-space__button-edit information-space__button-edit--margin" (click)="allowEdit = !allowEdit">Edit Sensor</button>
     </div>
 
     <!--BASE INDORMATIONS-->
@@ -88,16 +97,17 @@
         </div>
 
         <div class='ui-g-12 margin-b-large no-padding-left' style="display: flex; justify-content: space-between">
-            <div>
-              <button *ngIf="pathCheck.newSenzor0 !== '0'" type="button" pButton icon="fa-arrow-left" label="Cancel" (click)="allowEdit = false" class="ui-button-warning button-function"></button>
-              <!-- <button type="button" pButton icon="fa-arrow-left" (click)="cancelPlace()" class="ui-button-warning button-function"></button> -->
-              <button type="button" pButton label="Save" icon="fa-check" (click)="saveSenzor()" class="ui-button-success button-function"></button>
-            </div>
-    
-            <div>
-              <button *ngIf="item.id" type="button" icon="fa-trash" pButton label="Delete" (click)="deleteModal = true" class="ui-button-danger button-function"></button>
-            </div>
+          <div>
+            <button *ngIf="pathCheck.newSenzor0 !== '0'" type="button" pButton icon="fa-arrow-left" label="Cancel" (click)="allowEdit = false"
+              class="ui-button-warning button-function"></button>
+            <!-- <button type="button" pButton icon="fa-arrow-left" (click)="cancelPlace()" class="ui-button-warning button-function"></button> -->
+            <button type="button" pButton label="Save" icon="fa-check" (click)="saveSenzor()" class="ui-button-success button-function"></button>
           </div>
+
+          <div>
+            <button *ngIf="item.id" type="button" icon="fa-trash" pButton label="Delete" (click)="deleteModal = true" class="ui-button-danger button-function"></button>
+          </div>
+        </div>
 
       </div>
 
@@ -109,7 +119,7 @@
 
 
 
-      
+
     </div>
     <div class="divider"></div>
   </div>

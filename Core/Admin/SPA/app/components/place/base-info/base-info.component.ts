@@ -44,10 +44,14 @@ export class PlaceBaseInfoComponent implements OnInit {
   private deleteModal: boolean = false;
 
   private urlCheck: any;
+  colorMap: any;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) { 
+    this.colorMap = { 1: 'newStatePanel', 2: 'approvedStatePanel', 3: 'forbiddenStatePanel' };
+  }
 
   ngOnInit() {
+    console.log(this.item);
 
     if (this.item != undefined) {
 
@@ -66,6 +70,8 @@ export class PlaceBaseInfoComponent implements OnInit {
     } else {
       return this.allowEdit = false;
     }
+
+    
   }
 
 

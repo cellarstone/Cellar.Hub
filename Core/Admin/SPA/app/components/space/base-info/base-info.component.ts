@@ -55,8 +55,6 @@ export class SpaceBaseInfoComponent implements OnInit {
       newSpace0: this.route.snapshot.params['id']
     }
 
-    console.log(this.item);
-
     if (this.pathCheck.newSpace0 === '0') {
       return this.allowEdit = true, this.item.name = 'New Place', this.imgUpload = 'Upload photo';
     }

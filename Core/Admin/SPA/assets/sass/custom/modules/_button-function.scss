@@ -1,9 +1,26 @@
 .button-function {
-  padding: 5px;
+  padding: 6px 15px;
   width: 100px;
   border-radius: 3px;
   font-size: 16px;
   font-family: $font-roboto;
+  outline: none;
+  border: none;
+
+  &--red {
+    background-color: $color-red-forbidden;
+    color: $color-white-default;
+  }
+
+  &--green {
+    background-color: $color-green-approved;
+    color: $color-white-default;
+  }
+
+  &--orange {
+    background-color: $color-yellow-main;
+    color: $color-black-default;
+  }
 }
 
 
