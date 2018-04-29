@@ -24,7 +24,7 @@ import {AppComponent} from './app.component';
                     <li #profile class="profile-item" [ngClass]="{'active-top-menu':app.activeTopbarItem === profile}">
                         <a href="#" (click)="app.onTopbarItemClick($event,profile)">
                             <img class="profile-image" src="assets/layout/images/avatar-new.png">
-                            <span class="topbar-item-name">Jane Williams</span>
+                            <span class="topbar-item-name">John Doe</span>
                         </a>
 
                         <ul class="poseidon-menu fadeInDown">
