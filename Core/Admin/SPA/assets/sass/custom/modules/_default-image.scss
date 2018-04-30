@@ -10,6 +10,13 @@
   align-items: center;
   justify-content: center;
 
+  &--detail {
+    font-size: 32px;
+    width: 100%;
+    height: 300px;
+    margin-bottom: 10px;
+  }
+
   &--loop {
     height: 150px;
     width: 220px;
