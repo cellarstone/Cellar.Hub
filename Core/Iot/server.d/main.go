@@ -86,7 +86,7 @@ func main() {
 	// creating Endpoints struct
 	endpoints1 := iot.Endpoints{
 		GetAllSpacesEndpoint: iot.MakeGetAllSpacesEndpoint(bs0),
-		GetSenzorEndpoint:    iot.MakeGetAllSpacesEndpoint(bs0),
+		GetSenzorEndpoint:    iot.MakeGetSenzorEndpoint(bs0),
 	}
 
 	//execute grpc server
