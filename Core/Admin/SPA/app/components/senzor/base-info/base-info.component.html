@@ -61,11 +61,11 @@
       <div class="ui-g-12 no-padding">
         <!--STATE-->
         <div class="btn-group" role="group">
-          <button type="button" id="new" class="btn" [class.btn-default]="item.state != '1'" [class.btn-warning]="item.state === '1'"
+            <button type="button" class="btn-warning" [class.btn-warning--active]="item.state == '1'"
             (click)="selectState($event)">New</button>
-          <button type="button" id="approved" class="btn" [class.btn-default]="item.state != '2'" [class.btn-success]="item.state == '2'"
+          <button type="button" class="btn-success" [class.btn-success--active]="item.state == '2'"
             (click)="selectState($event)">Approved</button>
-          <button type="button" id="forbidden" class="btn" [class.btn-default]="item.state != '3'" [class.btn-danger]="item.state === '3'"
+          <button type="button" class="btn-danger" [class.btn-danger--active]="item.state === '3'"
             (click)="selectState($event)">Forbidden</button>
         </div>
       </div>

@@ -4,6 +4,11 @@
     height: 30px;
     width: 50%;
     margin: 0 auto;
+
+    transition: background-color .25s ease-in-out;
+    &:hover {
+        background-color: $color-yellow-main-darker;
+    }
 }
 
 .approvedState
@@ -12,6 +17,11 @@
     height: 30px;
     width: 50%;
     margin: 0 auto;
+
+    transition: background-color .25s ease-in-out;
+    &:hover {
+        background-color: $color-green-approved-darker;
+    }
 }
 
 .forbiddenState
@@ -20,6 +30,11 @@
     height: 30px;
     width: 50%;
     margin: 0 auto;
+
+    transition: background-color .25s ease-in-out;
+    &:hover {
+        background-color: $color-red-forbidden-darker;
+    }
 }
 
 .newStatePanel{

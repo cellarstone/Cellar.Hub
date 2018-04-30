@@ -10,22 +10,41 @@
   &--red {
     background-color: $color-red-forbidden;
     color: $color-white-default;
+    transition: background-color .25s ease-in-out;
+    &:hover {
+      background-color: $color-red-forbidden-darker;
+    }
 
   }
 
   &--green {
     background-color: $color-green-approved;
     color: $color-white-default;
+
+    transition: background-color .25s ease-in-out;
+    &:hover {
+      background-color: $color-green-approved-darker;
+    }
   }
 
   &--yellow {
     background-color: $color-yellow-main;
     color: $color-black-default;
+
+    transition: background-color .25s ease-in-out;
+    &:hover {
+      background-color: $color-yellow-main-darker;
+    }
   }
 
   &--blue {
     background-color: $color-blue-main;
     color: $color-white-default;
+
+    transition: background-color .25s ease-in-out;
+    &:hover {
+      background-color: $color-blue-main-darker;
+    }
   }
 }
 

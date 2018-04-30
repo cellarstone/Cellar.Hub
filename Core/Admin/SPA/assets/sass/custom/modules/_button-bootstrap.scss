@@ -12,7 +12,7 @@
     user-select: none;
     border: 1px solid transparent;
     outline: none;
-    padding: 8px 16px;
+    padding: 12px 18px;
     font-size: 16px;
     -webkit-transition: all .2s ease-in-out;
     -o-transition: all .2s ease-in-out;
@@ -20,25 +20,80 @@
 }
 
 .btn-default {
-    
     background-color: transparent;
-    transition: border-top .25s ease-in-out, border-bottom .25s ease-in-out;
+    transition: background-color .25s ease-in-out;
 }
 
 .btn-success
 {
+    font-weight: 300;
+    padding: 12px 18px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: $color-black-default;
+
+    transition: background-color .25s ease-in-out;
+    &:hover {
+        background-color: $color-green-approved-darker;
+        color: $color-white-default;
+    }
+}
+
+.btn-success--active {
+    font-weight: 300;
+    padding: 12px 18px;
+    border: none;
+    outline: none;
     background-color: $color-green-approved;
-    color: $color-white-default; 
+    color: $color-white-default;
 }
 
 .btn-warning
 {   
+    font-weight: 300;
+    padding: 12px 18px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: $color-black-default;
+
+    &:hover {
+        background-color: $color-yellow-main-darker;
+        color: $color-black-default;
+    }
+}
+
+.btn-warning--active {
+    font-weight: 300;
+    padding: 12px 18px;
+    border: none;
+    outline: none;
     background-color: $color-yellow-main;
     color: $color-black-default;
 }
 
 .btn-danger
 {
+    font-weight: 300;
+    padding: 12px 18px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: $color-black-default;
+
+    transition: background-color .25s ease-in-out;
+    &:hover {
+        background-color: $color-red-forbidden-darker;
+        color: $color-white-default;
+    }
+}
+
+.btn-danger--active {
+    font-weight: 300;
+    padding: 12px 18px;
+    border: none;
+    outline: none;
     background-color: $color-red-forbidden;
     color: $color-white-default;
 }
