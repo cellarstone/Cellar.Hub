@@ -170,38 +170,12 @@ export class SpaceBaseInfoComponent implements OnInit {
 
     if (aaa === "new") {
       this.item.state = "1";
-
-
-
-      jQuery("#new").removeClass();
-      jQuery("#approved").removeClass();
-      jQuery("#forbidden").removeClass();
-
-      jQuery("#new").addClass("btn btn-warning");
-      jQuery("#approved").addClass("btn btn-default");
-      jQuery("#forbidden").addClass("btn btn-default");
     }
     else if (aaa === "approved") {
       this.item.state = "2";
-
-      jQuery("#new").removeClass();
-      jQuery("#approved").removeClass();
-      jQuery("#forbidden").removeClass();
-
-      jQuery("#new").addClass("btn btn-default");
-      jQuery("#approved").addClass("btn btn-success");
-      jQuery("#forbidden").addClass("btn btn-default");
     }
     else if (aaa === "forbidden") {
       this.item.state = "3";
-
-      jQuery("#new").removeClass();
-      jQuery("#approved").removeClass();
-      jQuery("#forbidden").removeClass();
-
-      jQuery("#new").addClass("btn btn-default");
-      jQuery("#approved").addClass("btn btn-default");
-      jQuery("#forbidden").addClass("btn btn-danger");
     }
 
 
