@@ -5,7 +5,7 @@ import { Actions, Effect, toPayload } from "@ngrx/effects";
 import { WorkflowService } from 'app/service/workflow.service';
 import { CellarDTO } from 'app/entities/http/CellarDTO';
 import * as RouterActions from 'app/state/actions/router.actions';
-import { LoadRunningProcessesSuccessAction, LOAD_RUNNING_PROCESSES, GET_ACTUAL_DIRECTORY, GetActualDirectoryActionSuccessAction, LOAD_ALL_CELLAR_WORKFLOWS, LoadAllCellarWorkflowsSuccessAction, LOAD_CELLAR_WORKFLOW, LoadCellarWorkflowSuccessAction, SAVE_CELLAR_WORKFLOW, DELETE_CELLAR_WORKFLOW, RUN_CELLAR_WORKFLOW, STOP_CELLAR_WORKFLOW, CheckCellarWorkflowSuccessAction, LOAD_CELLAR_WORKFLOWS, LoadCellarWorkflowsSuccessAction, RUN_ALL_CELLAR_WORKFLOWS, RunAllCellarWorkflowsSuccessAction, STOP_ALL_CELLAR_WORKFLOWS, StopAllCellarWorkflowsSuccessAction, CHECK_CELLAR_WORKFLOW, RunCellarWorkflowSuccessAction, StopCellarWorkflowSuccessAction } from 'app/state/actions/workflow.actions';
+import { LOAD_ALL_CELLAR_WORKFLOWS, LoadAllCellarWorkflowsSuccessAction, LOAD_CELLAR_WORKFLOW, LoadCellarWorkflowSuccessAction, SAVE_CELLAR_WORKFLOW, DELETE_CELLAR_WORKFLOW, RUN_CELLAR_WORKFLOW, STOP_CELLAR_WORKFLOW, CheckCellarWorkflowSuccessAction, LOAD_CELLAR_WORKFLOWS, LoadCellarWorkflowsSuccessAction, RUN_ALL_CELLAR_WORKFLOWS, RunAllCellarWorkflowsSuccessAction, STOP_ALL_CELLAR_WORKFLOWS, StopAllCellarWorkflowsSuccessAction, CHECK_CELLAR_WORKFLOW, RunCellarWorkflowSuccessAction, StopCellarWorkflowSuccessAction } from 'app/state/actions/workflow.actions';
 import { CellarWorkflow } from 'app/entities/CellarWorkflow';
 
 @Injectable()
@@ -216,19 +216,6 @@ export class WorkflowEffects {
     /*********************************************************************************/
     /*                                  CLI                                          */
     /*********************************************************************************/
-
-
-    @Effect() runningProcessesEffect$: Observable<Action> = this.actions$
-        .ofType(LOAD_RUNNING_PROCESSES)
-        .switchMap(() => this.workflowservice.GetRunningProcesses())
-        .map(items => new LoadRunningProcessesSuccessAction(<string[]>items.data));
-
-    @Effect() actualDirectoryEffect$: Observable<Action> = this.actions$
-        .ofType(GET_ACTUAL_DIRECTORY)
-        .switchMap(() => this.workflowservice.GetActualDirectory())
-        .map(items => new GetActualDirectoryActionSuccessAction(<string[]>items.data));
-
-
 
     //RUN ALL WORKFLOWS
     @Effect() runAllWorkflowEffect$: Observable<Action> = this.actions$
