@@ -38,24 +38,25 @@
     </div>
 
 
-
-
     <!--STATE + BASE INDORMATIONS-->
     <!--BASE INDORMATIONS-->
     <!--MAP-->
-    <div class="ui-g-6 ui-lg-4 ui-md-12 ui-sm-12 no-padding" *ngIf="!allowEdit" [ngClass]="colorMap[item.state]" [ngClass]="{'nonvalid': !isMainPictureValid }">
-      <agm-map class="map-mini" [latitude]="lat" [longitude]="lng">
-        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-      </agm-map>
-    </div>
+    <div class="ui-g-12 no-padding information">
+      <div class="no-padding map-wrapper" *ngIf="!allowEdit" [ngClass]="colorMap[item.state]"
+        [ngClass]="{'nonvalid': !isMainPictureValid }">
+        <agm-map class="map-mini" [latitude]="lat" [longitude]="lng">
+          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        </agm-map>
+      </div>
 
-    <div *ngIf="!allowEdit" class="ui-g-12 no-padding information">
-      <div class="information__flex">
+      <div class="information__flex" *ngIf="!allowEdit">
         <h3 class="no-margin information__name">{{ item.name }}</h3>
         <div class="information__address">{{ item.street + ', ' + item.city + ' - ' + item.country }} </div>
-        <button *ngIf="item.id" type="button" label="Edit" class="information__button-edit" (click)="allowEdit = !allowEdit">Edit Place</button>
+
       </div>
+      <button *ngIf="item.id" type="button" label="Edit" class="information__button-edit" (click)="allowEdit = !allowEdit">Edit Place</button>
     </div>
+
 
     <!-- EDIT  -->
     <div *ngIf="allowEdit">
@@ -138,10 +139,10 @@
       </div>
 
       <div class="ui-g-6 ui-lg-6 ui-md-12 ui-sm-12 no-padding" *ngIf="!allowEdit" [ngClass]="colorMap[item.state]" [ngClass]="{'nonvalid': !isMainPictureValid }">
-          <agm-map class="map-mini" [latitude]="lat" [longitude]="lng">
-            <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-          </agm-map>
-        </div>
+        <agm-map class="map-mini" [latitude]="lat" [longitude]="lng">
+          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        </agm-map>
+      </div>
 
       <!--MAP-->
       <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-6" [ngClass]="{'nonvalid': !isMainPictureValid }">

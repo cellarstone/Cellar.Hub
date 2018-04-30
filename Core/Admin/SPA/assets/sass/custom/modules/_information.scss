@@ -1,14 +1,15 @@
 .information {
   margin-bottom: 15px;
   display: flex;
+  position: relative;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   font-family: $font-roboto;
   color: $color-text-dark;
   font-weight: 300;
   font-size: 22px;
-    height: 50px;
+    height: 180px;
 
   @media only screen and (max-width: 900px) {
     font-size: 16px;
@@ -27,18 +28,18 @@
   }
 
   &__flex {
-    padding-top: 15px;
+    padding-left: 15px;
       flex-grow: 1;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
+      height: 70px;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
   }
   
 
     &__name {
-        
-          font-size: 26px;
+        font-size: 26px;
 
         &--modified {
             color: $color-text-dark;
@@ -87,8 +88,8 @@
     }
 
     &__thumbnail {
-        height: 80px;
-        width: 80px;
+        height: 180px;
+        width: 180px;
     object-fit: contain;
     object-position: center center;
 
@@ -105,12 +106,12 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     font-family: $font-roboto;
     color: $color-text-dark;
     font-weight: 300;
     font-size: 22px;
-
+    height: 180px;
   
   
     @media only screen and (max-width: 900px) {
@@ -135,13 +136,14 @@
             font-size: 22px;
   
           &--modified {
+            padding-left: 15px;
               color: $color-text-dark;
-              font-size: 22px;
               flex-grow: 1;
               display: flex;
               flex-direction: column;
               justify-content: space-between;
-              padding: 5px 0 5px 15px;
+              width: 70px;
+              align-items: flex-start;
   
               @media only screen and (max-width: 635px) {
                   padding: 5px;
@@ -182,13 +184,13 @@
       }
   
       &__thumbnail {
-          height: 80px;
-          width: 120px;
+          height: 180px;
+          width: 250px;
           object-fit: cover;
           object-position: center center;
 
         @media only screen and (max-width: 475px){
-            height: 70px;
+            
         }
       }
   }
