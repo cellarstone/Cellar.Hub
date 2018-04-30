@@ -16,24 +16,7 @@ import {trigger, transition, style, animate, query, stagger} from '@angular/anim
 
 @Component({
     templateUrl: './place-dashboard.html',
-    styleUrls: ['./place-dashboard.scss'],
-    animations: [
-        trigger('listAnimation', [
-            transition('* => *', [ // each time the binding value changes
-            //   query(':leave', [
-            //     stagger(100, [
-            //       animate('0.5s', style({ opacity: 0 }))
-            //     ])
-            //   ], {optional: true}),
-              query(':enter', [
-                style({ opacity: 0 }),
-                stagger(100, [
-                  animate('0.5s', style({ opacity: 1 }))
-                ])
-              ], {optional: true})
-            ])
-          ])
-    ]
+    styleUrls: ['./place-dashboard.scss']
 })
 export class PlaceDashboard implements OnInit {
 
@@ -46,7 +29,6 @@ export class PlaceDashboard implements OnInit {
 
     constructor(private store: Store<ApplicationState>) {
         this.colorMap = { 1: 'newStatePanel', 2: 'approvedStatePanel', 3: 'forbiddenStatePanel' };
-        
         this.items$ = this.store.select(mapPlacesFromState);
     }
 

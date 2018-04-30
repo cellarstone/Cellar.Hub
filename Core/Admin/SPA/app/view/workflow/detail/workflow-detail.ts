@@ -34,8 +34,6 @@ export class WorkflowDetail implements OnInit {
 
   displayStep: number;
 
-  breadcrumbItems: MenuItem[];
-
   workflowTypes: SelectItem[];
   selectedWorkflowType: string;
 
@@ -107,12 +105,6 @@ export class WorkflowDetail implements OnInit {
       }
 
     });
-
-
-    this.breadcrumbItems = [];
-    this.breadcrumbItems.push({ label: 'Home', routerLink: ['/'] });
-    this.breadcrumbItems.push({ label: 'Workflows', routerLink: ['/workflows'] });
-    this.breadcrumbItems.push({ label: '__workflow.name__' });
 
     this.stepsItems = [{
       label: 'Tags',

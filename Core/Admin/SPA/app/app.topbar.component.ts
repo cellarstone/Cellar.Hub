@@ -9,7 +9,6 @@ import {AppComponent} from './app.component';
                 <div class="logo">
                     <img src="assets/svg/cellarstone-logo-modern.svg" alt="Logo">
                 </div>
-                
             </div>
             
             <div class="topbar-right">
@@ -20,7 +19,7 @@ import {AppComponent} from './app.component';
                 <a id="topbar-menu-button" href="#" (click)="app.onTopbarMenuButtonClick($event)">
                     <i class="fa fa-bars"></i>
                 </a>
-                <ul class="topbar-items fadeInDown animated" [ngClass]="{'topbar-items-visible': app.topbarMenuActive}">
+                <ul class="topbar-items fadeInDown" [ngClass]="{'topbar-items-visible': app.topbarMenuActive}">
                     <li #profile class="profile-item" [ngClass]="{'active-top-menu':app.activeTopbarItem === profile}">
                         <a href="#" (click)="app.onTopbarItemClick($event,profile)">
                             <img class="profile-image" src="assets/layout/images/avatar-new.png">
