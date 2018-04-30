@@ -6,31 +6,6 @@
     background-color: #FFCDD2;
 }
 
-.upload-btn-wrapper {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-  }
-  
-  .btn-upload {
-    border: 1px solid $color-grey-basic !important;
-    color: $color-grey-basic;
-    background-color: white;
-    padding: 8px 20px;
-    border-radius: 2px;
-    font-size: 14px;
-    font-weight: bold;
-  }
-  
-  .upload-btn-wrapper input[type=file] {
-    position: absolute;
-    left: 0;
-    top: 8px;
-    height: 35px;
-    width: 135px;
-    opacity: 0;
-  }
-
   .img-thumbnail
 {
     background-color: #fff;
