@@ -16,7 +16,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class IoTService {
-    private serverUrl: string = environment.fileServerUrl;
+    private serverUrl: string = environment.iotUrl;
 
     private url_getAllCellarPlaces = this.serverUrl + '/iot/getallplaces';
     private url_getCellarPlace = this.serverUrl + '/iot/getplace';
