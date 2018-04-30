@@ -74,6 +74,7 @@ export class SenzorEffects {
       return item;
     })
     .map(item => {
+      console.log("GGGGGG3");
       let temp = <CellarSenzor>item;
 
       return new RouterActions.Go({

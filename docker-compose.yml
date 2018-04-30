@@ -137,30 +137,30 @@ services:
     - "44403:44403"
     - "44413:44413"
 
-  cellar-hub-core-user:
-    image: cellar.hub.core.user
-    environment:
-      - PORT=44407
-      - MONGO_URL=mongodb
-    build:
-      context: ./Core/User
-      dockerfile: Dockerfile
-    labels:
-      - "traefik.enabled=true"
-      - "traefik.port=44407"
-      - "traefik.backend=core-user"
-      - "traefik.frontend.rule=Host:user.cellarstone.hub"
-    links:
-      - fluentd
-      - mongodb
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: docker.cellar.hub.core.user
-        mode: non-blocking
-    ports:
-    - "44407:44407"
+  # cellar-hub-core-user:
+  #   image: cellar.hub.core.user
+  #   environment:
+  #     - PORT=44407
+  #     - MONGO_URL=mongodb
+  #   build:
+  #     context: ./Core/User
+  #     dockerfile: Dockerfile
+  #   labels:
+  #     - "traefik.enabled=true"
+  #     - "traefik.port=44407"
+  #     - "traefik.backend=core-user"
+  #     - "traefik.frontend.rule=Host:user.cellarstone.hub"
+  #   links:
+  #     - fluentd
+  #     - mongodb
+  #   logging:
+  #     driver: "fluentd"
+  #     options:
+  #       fluentd-address: localhost:24224
+  #       tag: docker.cellar.hub.core.user
+  #       mode: non-blocking
+  #   ports:
+  #   - "44407:44407"
 
   cellar-hub-core-workflow:
     image: cellar.hub.core.workflow
@@ -173,7 +173,7 @@ services:
       - MQTT_URL=mqtt
       - INFLUX_URL=http://influxdb:8086
       - WEBSOCKETS_URL=cellar-hub-core-websockets:44406
-      - CELLAR_API_URL=cellar-hub-core-api:44413
+      - CELLAR_API_URL=cellar-hub-core-iot:44413
     labels:
       - "traefik.enabled=true"
       - "traefik.port=44405"
@@ -252,7 +252,7 @@ services:
       - '9090:9090'
     links:
       - pushgateway
-      - cellar-hub-core-iot
+      # - cellar-hub-core-iot
     
   #prometheus pushgateway
   pushgateway:

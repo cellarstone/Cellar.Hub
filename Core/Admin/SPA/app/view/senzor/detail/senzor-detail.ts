@@ -33,10 +33,10 @@ export class SenzorDetail {
 
     private sub: any;
 
-    senzorName = "";
+    //senzorName = "";
 
-    sensor: string = 'Sensor Overview';
-    pathCheck: any;
+    id = "";
+    //sensor: string = 'Sensor Overview';
 
 
 
@@ -52,7 +52,7 @@ export class SenzorDetail {
                 console.log(data);
 
                 if (data != null && data.id != null) {
-                    this.senzorName = data.name;
+                    //this.senzorName = data.name;
                 }
 
                 return Observable.of(data);
@@ -66,17 +66,19 @@ export class SenzorDetail {
         this.sub = this.route.params.subscribe(params => {
 
             let id = params['id']; // (+) converts string 'id' to a number
+            this.id = id;
+
             this.store.dispatch(new LoadCellarSenzorAction(id));
 
         });
 
-        this.pathCheck = {
-            newSenzor0: this.route.snapshot.params['id']
-        }
+        // this.pathCheck = {
+        //     newSenzor0: this.route.snapshot.params['id']
+        // }
 
-        if (this.pathCheck.newSenzor0 === '0') {
-            this.sensor = 'New Sensor';
-        }
+        // if (this.pathCheck.newSenzor0 === '0') {
+        //     this.sensor = 'New Sensor';
+        // }
 
     }
     ngOnDestroy() {
