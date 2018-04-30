@@ -195,7 +195,7 @@ import { MultiStepWizardComponent } from './view/workflow/wizard/multi-step-wiza
 
 // Wizard service 
 import { MultiStepWizardService } from './view/workflow/wizard/wizard.service';
-import { KeysPipe } from 'app/service/keys.pipe';
+// import { KeysPipe } from 'app/service/keys.pipe';
 import { PropertyComponent } from './components/meeting-room/property/property.component';
 import { OfficeEffects } from './state/effects/office.effects';
 
@@ -335,7 +335,7 @@ import { OfficeEffects } from './state/effects/office.effects';
         CallbackComponent,
         WelcomeComponent,
         MultiStepWizardComponent,
-        KeysPipe,
+        // KeysPipe,
         PropertyComponent
     ],
     providers: [

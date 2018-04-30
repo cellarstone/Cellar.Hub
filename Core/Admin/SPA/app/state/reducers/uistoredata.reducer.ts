@@ -6,7 +6,7 @@ import { LOAD_CELLAR_SENZOR_SUCCESS, LoadCellarSenzorSuccessAction, LOAD_ALL_CEL
 import { LOAD_ALL_CELLAR_PLACES_SUCCESS, LoadAllCellarPlacesSuccessAction } from 'app/state/actions/place.actions';
 import { query } from '@angular/core/src/animation/dsl';
 import { LoadCellarSpacesSuccessAction, LOAD_CELLAR_SPACES_SUCCESS, LOAD_ALL_CELLAR_SPACES_SUCCESS, LoadAllCellarSpacesSuccessAction } from 'app/state/actions/space.actions';
-import { LoadRunningProcessesSuccessAction, LOAD_RUNNING_PROCESSES_SUCCESS, SetCLICommandAction, SET_CLI_COMMAND, GET_ACTUAL_DIRECTORY_SUCCESS, GetActualDirectoryActionSuccessAction, LOAD_ALL_CELLAR_WORKFLOWS_SUCCESS, LoadAllCellarWorkflowsSuccessAction, LOAD_CELLAR_WORKFLOWS_SUCCESS, LoadCellarWorkflowsSuccessAction, RunAllCellarWorkflowsSuccessAction, RUN_ALL_CELLAR_WORKFLOWS_SUCCESS, STOP_ALL_CELLAR_WORKFLOWS_SUCCESS, StopAllCellarWorkflowsSuccessAction, RUN_CELLAR_WORKFLOW_SUCCESS } from 'app/state/actions/workflow.actions';
+import { SetCLICommandAction, SET_CLI_COMMAND, LOAD_ALL_CELLAR_WORKFLOWS_SUCCESS, LoadAllCellarWorkflowsSuccessAction, LOAD_CELLAR_WORKFLOWS_SUCCESS, LoadCellarWorkflowsSuccessAction, RunAllCellarWorkflowsSuccessAction, RUN_ALL_CELLAR_WORKFLOWS_SUCCESS, STOP_ALL_CELLAR_WORKFLOWS_SUCCESS, StopAllCellarWorkflowsSuccessAction, RUN_CELLAR_WORKFLOW_SUCCESS } from 'app/state/actions/workflow.actions';
 import { LOAD_ALL_CELLAR_MEETING_ROOMS_SUCCESS, LoadAllCellarMeetingRoomsSuccessAction } from 'app/state/actions/office.actions';
 
 export function storeData(state: StoreData, action: Action): StoreData {
@@ -39,12 +39,6 @@ export function storeData(state: StoreData, action: Action): StoreData {
 
         case SET_CLI_COMMAND:
             return mapCliCommandToState(state, <SetCLICommandAction>action);
-
-        case LOAD_RUNNING_PROCESSES_SUCCESS:
-            return mapCliResultToState(state, <LoadRunningProcessesSuccessAction>action);
-
-        case GET_ACTUAL_DIRECTORY_SUCCESS:
-            return mapCliResultToState(state, <GetActualDirectoryActionSuccessAction>action);
 
         case RUN_ALL_CELLAR_WORKFLOWS_SUCCESS:
             return mapCliResultToState(state, <RunAllCellarWorkflowsSuccessAction>action);

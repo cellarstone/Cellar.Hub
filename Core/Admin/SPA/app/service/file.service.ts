@@ -10,13 +10,10 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class FileService {
-    isProduction = environment.production;
-    isHttps = environment.https;
-
-    private serverUrl: string = '';
+    private serverUrl: string = environment.fileServerUrl;
     
-    private url_upload: string;
-    private url_uploadFullSmall: string;
+    private url_upload= this.serverUrl + '/upload';
+    private url_uploadFullSmall= this.serverUrl + '/Data/UploadFullSmall';
 
 
 
@@ -24,31 +21,10 @@ export class FileService {
 
 
 
-    constructor(private http: HttpClient) {
-        // if (this.isProduction == true && this.isHttps == true) {
-        //     this.serverUrl = "https://file.cellarstone.hub";
-        // }
-        // else if (this.isProduction == true && this.isHttps == false) {
-            this.serverUrl = "http://file.cellarstone.hub";
-        // }
-        // else if (this.isProduction == false && this.isHttps == true) {
-        //     this.serverUrl = "https://localhost:44404";
-        // }
-        // else if (this.isProduction == false && this.isHttps == false) {
-        //     this.serverUrl = "http://localhost:44404";
-        // }
-
-        this.url_upload = this.serverUrl + '/upload';
-        this.url_uploadFullSmall = this.serverUrl + '/Data/UploadFullSmall';
-    }
-
-
+    constructor(private http: HttpClient) {}
 
 
     private setHeaders() {
-
-        console.log('setHeaders started');
-
         let headerJson = {
             // 'Content-Type':'application/json',
             'Accept':'application/json',
@@ -57,22 +33,6 @@ export class FileService {
             }
             
         this.headers = new HttpHeaders(headerJson );
-
-
-        // this.headers = new HttpHeaders();
-        // // this.headers.append('Content-Type', 'multipart/form-data');
-        // this.headers.append('Accept', 'application/json');
-
-        // this.headers.append('Access-Control-Allow-Methods', '*');
-        // this.headers.append('Access-Control-Allow-Origin', '*');
-
-        // let token = this._securityService.GetToken();
-        // if (token !== '')
-        // {
-        //     let tokenValue = 'Bearer ' + token;
-        //     console.log('tokenValue:' + tokenValue);
-        //     this.headers.append('Authorization', tokenValue);
-        // }
     }
 
 

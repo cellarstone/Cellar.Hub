@@ -16,76 +16,36 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class IoTService {
-    isProduction = environment.production;
-    isHttps = environment.https;
+    private serverUrl: string = environment.fileServerUrl;
 
-    private serverUrl: string = '';
+    private url_getAllCellarPlaces = this.serverUrl + '/iot/getallplaces';
+    private url_getCellarPlace = this.serverUrl + '/iot/getplace';
+    private url_addCellarPlace = this.serverUrl + '/iot/addplace';
+    private url_removeCellarPlace = this.serverUrl + '/iot/removeplace';
+    private url_updateCellarPlace = this.serverUrl + '/iot/updateplace';
 
-    private url_getAllCellarPlaces: string;
-    private url_getCellarPlace: string;
-    private url_addCellarPlace: string;
-    private url_removeCellarPlace: string;
-    private url_updateCellarPlace: string;
+    private url_getAllCellarSpaces = this.serverUrl + '/iot/getallspaces';
+    private url_getCellarSpaces = this.serverUrl + '/iot/getspaces';
+    private url_removeCellarSpaces = this.serverUrl + '/iot/removespaces';
+    private url_getCellarSpace = this.serverUrl + '/iot/getspace';
+    private url_addCellarSpace = this.serverUrl + '/iot/addspace';
+    private url_removeCellarSpace = this.serverUrl + '/iot/removespace';
+    private url_updateCellarSpace = this.serverUrl + '/iot/updatespace';
 
-    private url_getRootCellarSpaces: string;
-    private url_getAllCellarSpaces: string;
-    private url_getCellarSpaces: string;
-    private url_removeCellarSpaces: string;
-    private url_getCellarSpace: string;
-    private url_addCellarSpace: string;
-    private url_removeCellarSpace: string;
-    private url_updateCellarSpace: string;
-
-    private url_getAllCellarSenzors: string;
-    private url_getCellarSenzors: string;
-    private url_removeCellarSenzors: string;
-    private url_getCellarSenzor: string;
-    private url_addCellarSenzor: string;
-    private url_removeCellarSenzor: string;
-    private url_updateCellarSenzor: string;
+    private url_getAllCellarSenzors = this.serverUrl + '/iot/getallsenzors';
+    private url_getCellarSenzors = this.serverUrl + '/iot/getsenzors';
+    private url_removeCellarSenzors = this.serverUrl + '/iot/removesenzors';
+    private url_getCellarSenzor = this.serverUrl + '/iot/getsenzor';
+    private url_addCellarSenzor = this.serverUrl + '/iot/addsenzor';
+    private url_removeCellarSenzor = this.serverUrl + '/iot/removesenzor';
+    private url_updateCellarSenzor = this.serverUrl + '/iot/updatesenzor';
 
 
     private headers: HttpHeaders;
 
 
 
-    constructor(private http: HttpClient) {
-        // if (this.isProduction == true && this.isHttps == true) {
-        //     this.serverUrl = "https://iot.cellarstone.hub";
-        // }
-        // else if (this.isProduction == true && this.isHttps == false) {
-            this.serverUrl = "http://iot.cellarstone.hub";
-        // }
-        // else if (this.isProduction == false && this.isHttps == true) {
-        //     this.serverUrl = "https://localhost:44403";
-        // }
-        // else if (this.isProduction == false && this.isHttps == false) {
-        //     this.serverUrl = "http://localhost:44403";
-        // }
-
-        this.url_getAllCellarPlaces = this.serverUrl + '/iot/getallplaces';
-        this.url_getCellarPlace = this.serverUrl + '/iot/getplace';
-        this.url_addCellarPlace = this.serverUrl + '/iot/addplace';
-        this.url_removeCellarPlace = this.serverUrl + '/iot/removeplace';
-        this.url_updateCellarPlace = this.serverUrl + '/iot/updateplace';
-
-        this.url_getAllCellarSpaces = this.serverUrl + '/iot/getallspaces';
-        this.url_getCellarSpaces = this.serverUrl + '/iot/getspaces';
-        this.url_removeCellarSpaces = this.serverUrl + '/iot/removespaces';
-        this.url_getCellarSpace = this.serverUrl + '/iot/getspace';
-        this.url_addCellarSpace = this.serverUrl + '/iot/addspace';
-        this.url_removeCellarSpace = this.serverUrl + '/iot/removespace';
-        this.url_updateCellarSpace = this.serverUrl + '/iot/updatespace';
-
-        this.url_getAllCellarSenzors = this.serverUrl + '/iot/getallsenzors';
-        this.url_getCellarSenzors = this.serverUrl + '/iot/getsenzors';
-        this.url_removeCellarSenzors = this.serverUrl + '/iot/removesenzors';
-        this.url_getCellarSenzor = this.serverUrl + '/iot/getsenzor';
-        this.url_addCellarSenzor = this.serverUrl + '/iot/addsenzor';
-        this.url_removeCellarSenzor = this.serverUrl + '/iot/removesenzor';
-        this.url_updateCellarSenzor = this.serverUrl + '/iot/updatesenzor';
-
-    }
+    constructor(private http: HttpClient) {}
 
 
 
@@ -100,21 +60,6 @@ export class IoTService {
         }
 
         this.headers = new HttpHeaders(headerJson);
-
-        // this.headers = new HttpHeaders();
-        // this.headers.append('Content-Type', 'application/json');
-        // this.headers.append('Accept', 'application/json');
-
-        // this.headers.append('Access-Control-Allow-Methods', '*');
-        // this.headers.append('Access-Control-Allow-Origin', '*');
-
-        // let token = this._securityService.GetToken();
-        // if (token !== '')
-        // {
-        //     let tokenValue = 'Bearer ' + token;
-        //     console.log('tokenValue:' + tokenValue);
-        //     this.headers.append('Authorization', tokenValue);
-        // }
     }
 
 
