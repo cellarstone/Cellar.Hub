@@ -33,8 +33,10 @@
         </div>
 
         <div class="content__footer">
-            <button type="button" icon="fa-angle-left" label="Back" (click)="deleteModal = false" class="button-function button-function--yellow"><i class="fa fa-arrow-left"></i> Cancel</button>
-            <button type="button" icon="fa-trash" label="Delete" (click)="deleteSpace()" class="button-function button-function--red"><i class="fa fa-trash"></i> Delete</button>
+          <button type="button" icon="fa-angle-left" label="Back" (click)="deleteModal = false" class="button-function button-function--yellow">
+            <i class="fa fa-arrow-left"></i> Cancel</button>
+          <button type="button" icon="fa-trash" label="Delete" (click)="deleteSpace()" class="button-function button-function--red">
+            <i class="fa fa-trash"></i> Delete</button>
         </div>
       </div>
     </div>
@@ -44,7 +46,7 @@
       <div>
         <img *ngIf="item.image !== ''; else imageDefault" [ngClass]="colorMap[item.state]" src="{{item.image}}" alt="..." class="information-space__thumbnail">
         <ng-template #imageDefault>
-          <div class="default-image">
+          <div class="default-image" [ngClass]="colorMap[item.state]">
             Please upload a photo.
           </div>
         </ng-template>
@@ -97,11 +99,11 @@
 
         <div class="ui-g-12 ui-lg-12 no-padding-left">
           <div [ngClass]="{'nonvalid': !isMainPictureValid }">
-              <ng-template #imageDefault>
-                  <div class="default-image default-image--detail">
-                    Please upload a photo.
-                  </div>
-                </ng-template>
+            <ng-template #imageDefault>
+              <div class="default-image default-image--detail">
+                Please upload a photo.
+              </div>
+            </ng-template>
             <div *ngIf="item.image; else imageDefault" class="thumbnail">
               <img src="{{item.image}}" class="img-thumbnail no-padding" alt="...">
             </div>
@@ -114,25 +116,28 @@
         </div>
 
         <div class='ui-g-12 no-padding-left' style="display: flex; justify-content: space-between">
-            <div>
-              <button *ngIf="pathCheck.newSpace0 !== '0'" type="button" label="Cancel" (click)="allowEdit = false" class="button-function button-function--yellow"><i class="fa fa-arrow-left"></i> Cancel</button>
-              <!-- <button type="button" pButton icon="fa-arrow-left" (click)="cancelPlace()" class="button-function"></button> -->
-              <button type="button" label="Save" (click)="saveSpace()" class="button-function button-function--green"><i class="fa fa-check"></i> Save</button>
-            </div>
-            <div>
-              <button *ngIf="item.id" type="button" label="Delete" (click)="deleteModal = true" class="button-function button-function--red"><i class="fa fa-trash"></i> Delete</button>
-            </div>
+          <div>
+            <button *ngIf="pathCheck.newSpace0 !== '0'" type="button" label="Cancel" (click)="allowEdit = false" class="button-function button-function--yellow">
+              <i class="fa fa-arrow-left"></i> Cancel</button>
+            <!-- <button type="button" pButton icon="fa-arrow-left" (click)="cancelPlace()" class="button-function"></button> -->
+            <button type="button" label="Save" (click)="saveSpace()" class="button-function button-function--green">
+              <i class="fa fa-check"></i> Save</button>
           </div>
+          <div>
+            <button *ngIf="item.id" type="button" label="Delete" (click)="deleteModal = true" class="button-function button-function--red">
+              <i class="fa fa-trash"></i> Delete</button>
+          </div>
+        </div>
 
       </div>
 
-      
+
 
     </div>
 
 
 
-    
+
 
     <div class="divider"></div>
 
