@@ -3,8 +3,7 @@
   "version": "1.1.0",
   "license": "MIT",
   "scripts": {
-    "myappbuild": "node --max_old_space_size=8192 node_modules/.bin/ng build --prod",
-    "myserverbuild": "tsc server.ts"
+    "myappbuild": "node --max_old_space_size=8192 node_modules/.bin/ng build --prod"
   },
   "private": true,
   "dependencies": {
@@ -35,8 +34,7 @@
     "@types/node": "~6.0.60",
     "@types/greensock": "1.15.32",
     "codelyzer": "~3.2.0",
-    "ts-node": "~2.0.0",
-    "tslint": "~4.5.0",
-    "typescript": "^2.5.0"
+    "tslint": "5.9.1",
+    "typescript": "2.8.1"
   }
 }
