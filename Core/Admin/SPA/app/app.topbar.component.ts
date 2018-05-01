@@ -17,7 +17,7 @@ import {AppComponent} from './app.component';
                 </a>
 
                 <a id="topbar-menu-button" href="#" (click)="app.onTopbarMenuButtonClick($event)">
-                    <i class="fa fa-bars"></i>
+                    <i class="fa fa-user"></i>
                 </a>
                 <ul class="topbar-items fadeInDown" [ngClass]="{'topbar-items-visible': app.topbarMenuActive}">
                     <li #profile class="profile-item" [ngClass]="{'active-top-menu':app.activeTopbarItem === profile}">
