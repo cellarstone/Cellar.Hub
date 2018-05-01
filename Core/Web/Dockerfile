@@ -1,7 +1,7 @@
 # -------------------------------------------------
 # Stage 1
 # -------------------------------------------------
-FROM node:8-onbuild AS builder
+FROM node:9-onbuild AS builder
 
 # ANGULAR CLI ----
 # USER root
@@ -20,13 +20,13 @@ RUN ls -l
 
 # BUILD APP and SERVER
 RUN npm run-script myappbuild
-RUN npm run-script myserverbuild
+# RUN npm run-script myserverbuild
 
 
 # -------------------------------------------------
 # Stage 2 
 # -------------------------------------------------
-FROM node:8-alpine
+FROM node:9-alpine
 
 COPY --from=builder /usr/src/app/wwwroot /usr/src/app/wwwroot
 # COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
