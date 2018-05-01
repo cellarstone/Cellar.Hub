@@ -42,14 +42,14 @@
     <!--BASE INDORMATIONS-->
     <!--MAP-->
     <div class="ui-g-12 no-padding information">
-      <div class="no-padding map-wrapper" *ngIf="!allowEdit" [ngClass]="colorMap[item.state]"
+      <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 no-padding map-wrapper" *ngIf="!allowEdit" [ngClass]="colorMap[item.state]"
         [ngClass]="{'nonvalid': !isMainPictureValid }">
         <agm-map class="map-mini" [latitude]="lat" [longitude]="lng">
           <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
         </agm-map>
       </div>
 
-      <div class="information__flex" *ngIf="!allowEdit">
+      <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-2 information__flex" *ngIf="!allowEdit">
         <h3 class="no-margin information__name">{{ item.name }}</h3>
         <div class="information__address">{{ item.street + ', ' + item.city + ' - ' + item.country }} </div>
 
