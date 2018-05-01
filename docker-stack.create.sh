@@ -294,6 +294,7 @@ if [ "$IS_GRAFANA_EXIST" != "" ]; then
     echo $IS_GRAFANA_EXIST
 
     docker service update --image grafana/grafana \
+                      --user "104" \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -302,7 +303,7 @@ if [ "$IS_GRAFANA_EXIST" != "" ]; then
                       --restart-delay 5s \
                       --restart-max-attempts 3 \
                       --restart-window 120s \
-                      pushgateway
+                      grafana
 
 else
 	echo "DOESN'T EXIST!"
@@ -318,6 +319,7 @@ else
                       --restart-max-attempts 3 \
                       --restart-window 120s \
                       --network cellarstone-net \
+                      --user "104" \
                       --mount type=bind,source=/data/cellarstone.hub/core/grafana,target=/var/lib/grafana \
                       --publish 3000:3000 \
                       grafana/grafana
