@@ -36,8 +36,8 @@ export class SenzorBaseInfoComponent implements OnInit {
   typesImages: Map<string, string> = new Map<string, string>();
   selectedTypeImage: string = "";
 
-  private deleteModal: boolean = false;
-  private allowEdit: boolean = false;
+  deleteModal: boolean = false;
+  allowEdit: boolean = false;
 
   private pathCheck: any;
   colorMap: any;

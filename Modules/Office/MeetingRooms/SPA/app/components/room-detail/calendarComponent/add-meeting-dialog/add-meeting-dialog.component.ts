@@ -24,12 +24,12 @@ export class AddMeetingDialogComponent implements OnInit {
   separatorKeysCodes = [ENTER, COMMA];
 
   //tempAttendees: string[];
-  private inputStartTime: moment.Moment;
-  private startTime = { hour: "", minute: "", meriden: 'PM', format: 24 };
-  private inputEndTime: moment.Moment;
-  private endTime = { hour: "", minute: "", meriden: 'PM', format: 24 };
+  inputStartTime: moment.Moment;
+  startTime = { hour: "", minute: "", meriden: 'PM', format: 24 };
+  inputEndTime: moment.Moment;
+  endTime = { hour: "", minute: "", meriden: 'PM', format: 24 };
 
-  private originalInputData: CreateMeetingVM;
+  originalInputData: CreateMeetingVM;
 
   constructor(
     private fb: FormBuilder,
