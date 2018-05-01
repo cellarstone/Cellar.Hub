@@ -931,6 +931,10 @@ else
     echo $IS_HUBMODULE_OFFICEAPI_EXIST
 
     docker service create --name cellar-hub-module-office-api \
+                      --env PORT=44513 \
+                      --env MONGO_URL=mongodb \
+                      --env MQTT_URL=mqtt \
+                      --env CELLAR_IOT_URL=cellar-hub-core-iot:44413 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
