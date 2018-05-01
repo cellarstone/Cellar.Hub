@@ -75,6 +75,12 @@ docker service rm cellar-hub-module-office-meetingrooms
 # HUB MODULE - OFFICE RECEPTION --------------------------------------------------
 docker service rm cellar-hub-module-office-reception
 
+# HUB MODULE - OFFICE CAFE --------------------------------------------------
+docker service rm cellar-hub-module-office-cafe
+
+# HUB MODULE - OFFICE WELCOME --------------------------------------------------
+docker service rm cellar-hub-module-office-welcome
+
 
 # HUB PROXY --------------------------------------------------
 docker service rm cellar-hub-proxy
