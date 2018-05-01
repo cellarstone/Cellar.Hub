@@ -17,7 +17,7 @@ server.use(bodyParser.urlencoded({ extended: false }));
 server.use(express.static("wwwroot"));
 
 server.get('/*', function (req, res) {
-    res.sendFile(path.join("wwwroot", 'index.html'));
+    res.sendFile('index.html' , { root : 'wwwroot'});
 });
 
 // catch 404 and forward to error handler

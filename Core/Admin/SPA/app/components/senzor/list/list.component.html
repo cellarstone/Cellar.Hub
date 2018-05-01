@@ -19,12 +19,12 @@
 
     <div *ngIf="items">
 
-        <p-dataTable #dt [value]="items" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,25,50,100]" selectionMode="single"
+        <p-dataTable #dt [value]="items" [rows]="itemsPerPage" [paginator]="true" [rowsPerPageOptions]="[10,25,50,100]" selectionMode="single"
             [(selection)]="selectedItem" (onRowSelect)="onRowSelect($event)" (onFilter)="onFilter($event)" [responsive]="true"
             dataKey="id">
-            <p-header>List of Senzors</p-header>
+            <!-- <p-header>List of Senzors</p-header> -->
             <!--<p-column field="id" header="Id" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>-->
-            <!-- <p-column field="state" header="State" [filter]="true" [style]="{'overflow':'visible'}" [sortable]="true">
+            <p-column field="state" header="State" [filter]="true" [style]="{'overflow':'visible'}" [sortable]="true">
                 <ng-template pTemplate="filter" let-col>
                     <p-dropdown [options]="states" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)"
                         styleClass="ui-column-filter"></p-dropdown>
@@ -36,7 +36,7 @@
                         <div *ngIf="asdf.state == '3'" class="forbiddenState"></div>
                     </div>
                 </ng-template>
-            </p-column> -->
+            </p-column>
             <p-column field="name" header="Name" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
             <p-column field="type" header="Type" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>
             <p-column field="path" header="Path" [filter]="true" filterPlaceholder="Search" filterMatchMode="contains" [sortable]="true"></p-column>

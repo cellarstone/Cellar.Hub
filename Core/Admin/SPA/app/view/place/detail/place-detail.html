@@ -1,124 +1,79 @@
-﻿<h1>Place Detail</h1>
+﻿<div class="place-detail">
 
-<div id="placeDetail" *ngIf="item$ | async">
+    <div class="ui-g-12 ui-sm-12 ui-md-12 ui-lg-12" *ngIf="item$ | async">
 
+        <div class="ui-g title">
+            <h1 class="title__text title__text--purple">{{ place }}</h1>
+        </div>
 
-    <app-place-base-info [item]="item$ | async" (onSave)="savePlace($event)" (onDelete)="deletePlace($event)" (onCancel)="cancelPlace()"></app-place-base-info>
+        <div class="card card-w-title border padding-around">
+            <app-place-base-info [item]="item$ | async" (onSave)="savePlace($event)" (onDelete)="deletePlace($event)" (onCancel)="cancelPlace()"></app-place-base-info>
 
-    <!--*********************************************************************************************-->
-    <!--*********************************************************************************************-->
-    <!--SPACES-->
-    <!--*********************************************************************************************-->
-    <!--*********************************************************************************************-->
+            <!--*********************************************************************************************-->
+            <!--*********************************************************************************************-->
+            <!--SPACES-->
+            <!--*********************************************************************************************-->
+            <!--*********************************************************************************************-->
+            <div *ngIf="item$ | async">
+                <div *ngIf="(item$ | async).id != undefined">
 
-    <div *ngIf="item$ | async" class="ui-g">
+                    <div class="ui-g loop-title" *ngIf="!addsubspaceDisplay">
 
-        <div *ngIf="(item$ | async).id != undefined" class="ui-g-12 ui-md-12">
-
-
-
-            <div class="card card-w-title">
-                <h1>SPACES</h1>
-
-
-
-
-                <button type="button" pButton icon="fa-plus" label="Add" (click)="showaddSubspace()"></button>
-                <br />
-                <!-- Sub-Space ADD DETAIL -->
-                <div *ngIf="addsubspaceDisplay">
-
-                    <div class="ui-g">
-
-                        <!--STATE + BASE INDORMATIONS-->
-                        <div class="ui-g-12">
-
-
-                            <div class="ui-g">
-
-                                <!--BASE INDORMATIONS-->
-                                <div class="card card-w-title" style="width: 100%;">
-                                    <h1>Base Informations</h1>
-
-                                    <div class="ui-g-12 ui-md-8">
-
-                                        <div class="ui-g form-group">
-                                            <div class="ui-g-12 ui-md-12">
-                                                <label for="name3">Name</label>
-                                                <div class="ui-fluid">
-                                                    <input id="name3" type="text" pInputText [(ngModel)]="addedsubspace.name" [ngClass]="{'nonvalid': !isNameValid }" />
-                                                </div>
-                                            </div>
-                                            <div class="ui-g-12 ui-md-12">
-                                                <label for="path3">Path</label>
-                                                <div class="ui-fluid">
-                                                    <input id="path3" type="text" pInputText [(ngModel)]="addedsubspace.path" [ngClass]="{'nonvalid': !isPathValid }" disabled
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-
-                                    <div class="ui-g-12 ui-md-12">
-                                        <div class="card card-w-title">
-
-                                            <!-- <button type="button" pButton icon="fa-arrow-left" label="CANCEL" (click)="onBack()" class="ui-button-warning"></button> -->
-
-                                            <button type="button" pButton icon="fa-check" label="SAVE" (click)="addSubspace()" class="ui-button-success"></button>
-
-                                        </div>
-                                    </div>
+                        <h3 class="loop-title__text">Spaces</h3>
+                        <button type="button" label="Add" class="loop-title__button-add" (click)="showaddSubspace()">Add Space</button>
+                    </div>
 
 
 
-
-
-
-
-
+                    <!-- Sub-Space ADD DETAIL -->
+                    <div *ngIf="addsubspaceDisplay" class="ui-g">
+                        <div class="ui-g-6 no-padding form-group">
+                            <div class="ui-g-12 ui-md-12 no-padding-left form-section">
+                                <div class="form-section__title">New space</div>
+                                <label for="name3" class="form-section__label">Name</label>
+                                <div class="ui-fluid">
+                                    <input id="name3" class="form-section__input border-radius" type="text" pInputText [(ngModel)]="addedsubspace.name" [ngClass]="{'nonvalid': !isNameValid }"
+                                    />
                                 </div>
-
                             </div>
-
+                            <div class="ui-g-12 ui-md-12 no-padding-left form-section">
+                                <label for="path3" class="form-section__label">Path</label>
+                                <div class="ui-fluid margin-b-medium">
+                                    <input id="path3" class="form-section__input border-radius" type="text" pInputText [(ngModel)]="addedsubspace.path" [ngClass]="{'nonvalid': !isPathValid }"
+                                        disabled />
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-12 margin-b-large no-padding-left form-section">
+                                <div class="ui-g">
+                                    <button type="button" pButton icon="fa-arrow-left" label="Cancel" (click)="addsubspaceDisplay = false" class="ui-button-warning button-function"></button>
+                                    <button type="button" pButton label="Add" icon="fa-plus" (click)="addSubspace()" class="ui-button-success button-function"></button>
+                                </div>
+                            </div>
                         </div>
-
-                    </div>
-
-                </div>
-
-
-
-
-                <!--VAZBA SPACE - SUBSPACE-->
-
-                <div class="ui-g" *ngIf="item_spaces$ | async">
-
-                    <div *ngFor="let itemsb of (item_spaces$ | async)" class="ui-g-12 ui-md-6 ui-lg-3">
-                        <div class="mycard" (click)="selectSpace(itemsb.id)" [ngClass]="colorMap[itemsb.state]">
-                            <div class="ui-g">
-                                <img src="{{itemsb.image}}" style="height: 100px; max-width: 100%;" />
-                            </div>
-                            <div class="ui-g">
-                                <span class="overview-box-name">{{itemsb.name}}</span>
-                            </div>
+                        <div class="ui-g-12 no-padding margin-b-large">
+                            <div class="divider"></div>
                         </div>
                     </div>
 
+                    <!--VAZBA SPACE - SUBSPACE-->
+                    <div class="ui-g section-loop" *ngIf="item_spaces$ | async">
+                        <div *ngFor="let itemsb of (item_spaces$ | async)" class="ui-g-12 ui-lg-2 ui-md-4 ui-sm-12 no-padding margin-b-large">
+                            <div>
+                                <div (click)="selectSpace(itemsb.id)">
+                                    <div class="section-loop__img">
+                                        <img [ngClass]="colorMap[itemsb.state]" src="{{ itemsb.image }}" alt="..." />
+                                    </div>
+                                </div>
+                                <div class="section-loop__name">{{itemsb.name}}</div>
+                                <div class="section-loop__subspaces">Subspaces: 7</div>
+                            </div>
 
-
-
-
+                        </div>
+                    </div>
                 </div>
             </div>
-
-
-
-
         </div>
 
     </div>
-
 
 </div>

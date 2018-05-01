@@ -48,7 +48,7 @@ function mapSpacesFromState(state: ApplicationState): CellarSpace[]{
         return undefined;
     }
 
-    console.log(state.storeData.spaces);
+    // console.log(state.storeData.spaces);
 
     return state.storeData.spaces;
 } 

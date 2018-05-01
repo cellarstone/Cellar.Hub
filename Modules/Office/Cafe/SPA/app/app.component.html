@@ -1,0 +1,26 @@
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #sidenav mode="side">
+ 
+    <mat-nav-list>
+      <mat-list-item>
+        <a [routerLink]="[ '/home' ]">Home</a>
+      </mat-list-item>
+      <mat-list-item>
+        <a [routerLink]="[ '/about' ]">About</a>
+      </mat-list-item>
+      <mat-list-item>
+        <a [routerLink]="[ '/contact' ]">Contact</a>
+      </mat-list-item>
+    </mat-nav-list>
+ 
+  </mat-sidenav>
+ 
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <i class="fa fa-bars" aria-hidden="true" (click)="sidenav.toggle()"></i>
+    </mat-toolbar>
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+ </mat-sidenav-container>

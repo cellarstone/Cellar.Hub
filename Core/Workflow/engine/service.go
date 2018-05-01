@@ -6,7 +6,7 @@ import (
 	"runtime"
 	"runtime/debug"
 
-	"github.com/cellarstone/Cellar.Hub/Core/Workflow/pb"
+	"github.com/cellarstone/Cellar.Hub/Core/Workflow/pb/externall"
 	"github.com/cellarstone/Cellar.Hub/Core/Workflow/triggers"
 	"github.com/cellarstone/Cellar.Hub/Core/Workflow/workflows"
 	"google.golang.org/grpc"
@@ -323,7 +323,7 @@ func (s *WorkflowEngineService) StopAndDeleteDefaultSenzorWorkflows(senzorid str
 	}
 
 	if haveOtherWorkflows {
-		return errors.New("senzor have active workflows, please resolve this between delete senzor")
+		return errors.New("senzor have active workflows, please resolve this before delete senzor")
 	}
 
 	// Stop all default workflows ------------------
@@ -346,6 +346,8 @@ func (s *WorkflowEngineService) StopAndDeleteDefaultSenzorWorkflows(senzorid str
 }
 
 func (s *WorkflowEngineService) CreateAndRunDefaultSenzorWorkflows(senzorid string) (err error) {
+
+	// gRPC -----------------------------------
 	conn, err := grpc.Dial(s.Cellarstoneapisurl, grpc.WithInsecure())
 	if err != nil {
 		return err

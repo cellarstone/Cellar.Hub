@@ -31,6 +31,7 @@
         "../node_modules/fullcalendar/dist/fullcalendar.js",
         "../node_modules/quill/dist/quill.js",
         "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/gsap/src/minified/TweenMax.min.js",
         "../SPA/assets/MorphSVGPlugin.js",
         "../SPA/assets/CustomBounce.js",
         "../SPA/assets/CustomEase.js",
@@ -46,7 +47,6 @@
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
       }
-
     }
   ],
   "lint": [

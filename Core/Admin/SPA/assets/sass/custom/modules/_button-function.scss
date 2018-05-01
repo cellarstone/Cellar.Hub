@@ -1,0 +1,59 @@
+.button-function {
+  padding: 12px 16px;
+  width: 125px;
+  border-radius: 3px;
+  font-size: 16px;
+  font-family: $font-roboto;
+  outline: none;
+  border: none;
+
+  &--red {
+    background-color: $color-red-forbidden;
+    color: $color-white-default;
+    transition: background-color .25s ease-in-out;
+    &:hover {
+      background-color: $color-red-forbidden-darker;
+    }
+
+  }
+
+  &--green {
+    background-color: $color-green-approved;
+    color: $color-white-default;
+
+    transition: background-color .25s ease-in-out;
+    &:hover {
+      background-color: $color-green-approved-darker;
+    }
+  }
+
+  &--yellow {
+    background-color: $color-yellow-main;
+    color: $color-black-default;
+
+    transition: background-color .25s ease-in-out;
+    &:hover {
+      background-color: $color-yellow-main-darker;
+    }
+  }
+
+  &--blue {
+    background-color: $color-blue-main;
+    color: $color-white-default;
+
+    transition: background-color .25s ease-in-out;
+    &:hover {
+      background-color: $color-blue-main-darker;
+    }
+  }
+}
+
+
+.button-check {
+  background-color: transparent;
+  color: $color-green-approved;
+  font-size: 24px;
+  padding-left: 0;
+  border: none;
+  outline: none;
+}

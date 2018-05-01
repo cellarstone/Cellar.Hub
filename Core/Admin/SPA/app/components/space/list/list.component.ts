@@ -34,9 +34,9 @@ export class SpaceListComponent implements OnInit {
 
     this.states = [];
     this.states.push({ label: 'All States', value: null });
-    this.states.push({ label: 'New', value: 'NEW' });
-    this.states.push({ label: 'Approved', value: 'APPROVED' });
-    this.states.push({ label: 'Frobidden', value: 'FORBIDDEN' });
+    this.states.push({ label: 'New', value: '1' });
+    this.states.push({ label: 'Approved', value: '2' });
+    this.states.push({ label: 'Frobidden', value: '3' });
 
   }
 

@@ -1,0 +1,42 @@
+.loop-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+  align-items: center;
+  
+  font-size: 16px;
+  border-bottom: 1px solid $color-border-grey;
+  border-right: 1px solid $color-border-grey;
+
+  @media only screen and (max-width: 475px){
+      font-size: 14px;
+  }
+
+  &__img {
+    height: 70px;
+    
+    padding-left: 15px;
+  }
+
+  &__img > img {
+      padding-top: 5px;
+      width: 55px;
+      height: 55px;
+      object-fit: cover;
+      object-position: center center;
+  }
+
+  &__name {
+      padding-left: 25px;
+      flex: 1;
+      
+      @media only screen and (max-width: 475px) {
+          padding-left: 5px;
+      }
+  }
+
+  &__type {
+      flex: 1;
+  }
+}

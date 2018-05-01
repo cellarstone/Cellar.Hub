@@ -1,0 +1,196 @@
+.information {
+  margin-bottom: 15px;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-family: $font-roboto;
+  color: $color-text-dark;
+  font-weight: 300;
+  font-size: 22px;
+    height: 180px;
+
+  @media only screen and (max-width: 900px) {
+    font-size: 16px;
+  }
+
+  @media only screen and (max-width: 635px) {
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: 22px;
+
+      &__button-edit {
+          padding-left: 0;
+          margin-top: 10px;
+          font-size: 20px;
+      }
+  }
+
+  &__flex {
+    padding-left: 15px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      height: 70px;
+      justify-content: space-between;
+      align-items: flex-start;
+  }
+  
+
+    &__name {
+        font-size: 26px;
+
+        &--modified {
+            color: $color-text-dark;
+            font-size: inherit;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 5px 0 5px 15px;
+
+        }
+
+        &--space { 
+            padding-bottom: 10px;
+        }
+
+        &--url { 
+            padding-top: 10px;
+        }
+
+    }
+
+    &__address {
+          font-size: 22px;
+
+          @media only screen and (max-width: 900px) {
+            font-size: 16px;
+          }
+
+    }
+
+    &__button-edit {
+        color: $color-blue-new;
+        font-size: 20px;
+
+        @media only screen and (max-width: 900px) {
+            font-size: 16px;
+        }
+        background-color: transparent;
+        outline: none;
+        border: none;
+
+        &--margin {
+            margin-top: 50px;
+        } 
+    }
+
+    &__thumbnail {
+        height: 180px;
+        width: 180px;
+    object-fit: contain;
+    object-position: center center;
+
+    @media only screen and (max-width: 635px) {
+        height: 70px;
+        width: 70px;
+      }
+    }
+}
+
+
+.information-space {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: $font-roboto;
+    color: $color-text-dark;
+    font-weight: 300;
+    font-size: 22px;
+    height: 180px;
+  
+  
+    @media only screen and (max-width: 900px) {
+      font-size: 18px;
+    }
+  
+    @media only screen and (max-width: 635px) {
+        margin-top: 0;
+        flex-direction: row;
+        align-items: flex-start;
+        font-size: 22px;
+      
+        &__button-edit {
+            padding-left: 0;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+    }
+    
+  
+      &__name {
+            font-size: 22px;
+  
+          &--modified {
+            padding-left: 15px;
+              color: $color-text-dark;
+              flex-grow: 1;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              width: 70px;
+              align-items: flex-start;
+  
+              @media only screen and (max-width: 635px) {
+                  padding: 5px;
+                  font-size: 18px;
+              }
+          }
+  
+          &--space { 
+              padding-bottom: 10px;
+          }
+  
+          &--url { 
+              padding-top: 10px;
+          }
+  
+      }
+  
+      &__address {
+            font-size: inherit;
+  
+      }
+  
+      &__button-edit {
+          color: $color-blue-new;
+          font-size: 20px;
+  
+          background-color: transparent;
+          outline: none;
+          border: none;
+  
+          &--margin {
+              margin-top: 57px;
+          }
+          
+          @media only screen and (max-width: 635px) {
+              font-size: 18px;
+          }
+      }
+  
+      &__thumbnail {
+          height: 180px;
+          width: 250px;
+          object-fit: cover;
+          object-position: center center;
+
+        @media only screen and (max-width: 475px){
+            
+        }
+      }
+  }

@@ -1,0 +1,181 @@
+<!-- ////////////////// -->
+<!-- WIZARD APP TESTING -->
+
+<div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+            <div class="card card-w-title border-radius border-light no-margin-b">
+    
+                <div class="ui-g workflow-setup">
+                    <h3 class="workflow-setup__text">New Workflow Setup</h3>
+                </div>
+                <p-steps [model]="stepsItems" [(activeIndex)]='displayStep' [readonly]="true"></p-steps>
+    
+                <form class="ui-g form-group">
+                    <!-- ////////// TAGS ////////// -->
+                    <div class="ui-g-7 margin-auto" *ngIf="displayStep === 0 && item$ | async">
+    
+                        <h1 class="text-center">Please select your tags</h1>
+    
+                        <div class="ui-g-12 float-none margin-auto">
+                            <label for="tags">Tags: </label>
+                            <div class="margin-b-large">
+                                <p-chips id="tags" [(ngModel)]="selectedTags" [ngModelOptions]="{standalone: true}"></p-chips>
+                            </div>
+                        </div>
+    
+                        <!-- <div class="ui-g-12 text-center">
+    
+                            <button type="button" pButton (click)="displayTrigger()" label="Next" style="width:100px"></button>
+                        </div> -->
+                    </div>
+    
+                    <!-- ////////// TRIGGER ////////// -->
+                    <div class="ui-g-7 ui-lg-7 ui-md-12 ui-sm-12 margin-auto" *ngIf="displayStep === 1 && item$ | async">
+    
+                        <h1 class="text-center">Please select your trigger</h1>
+    
+                        <div class="ui-g-3 ui-md-3 ui-sm-12">
+    
+                            <label for="triggerType">Trigger type: </label>
+                            <div class="border-radius margin-b-large">
+                                <p-dropdown id="triggertype" name="triggerType" [options]="triggerTypes" [autoWidth]="false" [(ngModel)]="selectedTriggerType"
+                                    [ngModelOptions]="{standalone: true}">
+                                </p-dropdown>
+                            </div>
+                        </div>
+    
+                        <div class="ui-g-9 ui-md-9 ui-sm-12">
+                            <trigger-time *ngIf="selectedTriggerType == 'time'" [item]="item$ | async" (onSave)="setTrigger($event)">
+                            </trigger-time>
+                            <trigger-mqtt *ngIf="selectedTriggerType == 'mqtt'" [item]="item$ | async" (onSave)="setTrigger($event)">
+                            </trigger-mqtt>
+                        </div>
+                        <!-- <div class="ui-g-12 text-center">
+                            <button type="button" pButton (click)="displayPrevious()" class="orange-btn" label="Back" style="width:100px"></button>
+                            <button type="button" pButton (click)="displayTrigger()" label="Next" style="width:100px"></button>
+                        </div> -->
+                    </div>
+    
+                    <!-- ////////// WORKFLOW ////////// -->
+                    <div class="ui-g-7 ui-lg-7 ui-md-12 ui-sm-12 margin-auto" *ngIf="displayStep === 2 && item$ | async">
+    
+                        <h1 class="text-center">Please select your workflow</h1>
+    
+                        <div class="ui-g-3 ui-md-3 ui-sm-12">
+                            <label for="workflowType">Workflow type: </label>
+                            <div class="border-radius margin-b-large">
+                                <p-dropdown id="workflowtype" name="workflowType" [options]="workflowTypes" [autoWidth]="false" [(ngModel)]="selectedWorkflowType"
+                                    [ngModelOptions]="{standalone: true}">
+                                </p-dropdown>
+                            </div>
+                        </div>
+    
+                        <div class="ui-g-9 ui-md-9 ui-sm-12">
+                            <!-- RAND2MQTT -->
+                            <workflow-rand2mqtt *ngIf="selectedWorkflowType == 'rand2mqtt'" [item]="item$ | async" (onSave)="setWorkflow($event)">
+                            </workflow-rand2mqtt>
+    
+                            <!-- TESTEXCEPTION -->
+                            <workflow-testexception *ngIf="selectedWorkflowType == 'testexception'" [item]="item$ | async" (onSave)="setWorkflow($event)">
+                            </workflow-testexception>
+    
+                            <!-- TEST1 -->
+                            <workflow-test1 *ngIf="selectedWorkflowType == 'test1'" [item]="item$ | async" (onSave)="setWorkflow($event)">
+                            </workflow-test1>
+    
+                            <!-- DEFAULTSENZOR -->
+                            <workflow-defaultsenzor *ngIf="selectedWorkflowType == 'defaultsenzor'" [item]="item$ | async" (onSave)="setWorkflow($event)">
+                            </workflow-defaultsenzor>
+    
+                        </div>
+                    </div>
+    
+                    <!-- CONFIRMATION -->
+                    <div class="ui-g-12 ui-lg-9 ui-md-12 ui-sm-12 margin-auto" *ngIf="displayStep === 3 && item$ | async">
+    
+                        <h1 class="text-center">Confirm Workflow?</h1>
+    
+                        <div class="ui-g-12 ui-md-12">
+    
+                            <div class="tags-section">
+                                <div class="float">
+                                    <div class="float__1">
+                                        <strong>Tags:</strong>
+                                    </div>
+    
+                                    <div class="float__2">
+                                        <span>
+                                            <span *ngFor="let tag of selectedTags">
+                                                <span [ngClass]="'tag'">
+                                                    {{tag}}
+                                                </span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="trigger-section">
+                                <div class="float">
+                                    <div class="float__1">
+                                        <strong>Trigger type: </strong>
+                                    </div>
+                                    <div class="float__2">
+                                        {{ triggerType }}
+                                    </div>
+                                </div>
+    
+                                <div class="float">
+                                    <div class="float__1">
+                                        <strong>Trigger parameters: </strong>
+                                    </div>
+                                    <div class="float__2 wrapper">
+                                        <div *ngFor="let key of objectKeys(triggerParams)">
+                                            <span>{{ triggerParams[key] + ' - ' + key }}</span>
+                                        </div>
+                                        <!-- {{ triggerParamValue }} {{ triggerParam }} -->
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="workflow-section">
+                                <div class="float">
+                                    <div class="float__1">
+                                        <strong>Workflow type: </strong>
+                                    </div>
+                                    <div class="float__2">
+                                        {{ workflowType }}
+                                    </div>
+                                </div>
+                                <div class="float">
+                                    <div class="float__1">
+                                        <strong>
+                                            Workflow parameters:
+                                        </strong>
+                                    </div>
+    
+                                    <div class="float__2 wrapper">
+                                        <div *ngFor="let key of objectKeys(workflowParams)">
+                                            <span>{{key + ' - ' + workflowParams[key]}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="ui-g-12 text-center">
+                        <button *ngIf="displayStep !== 0" type="button" (click)="displayPrevious()" class="button-function button-function--yellow" label="Back"><i class="fa fa-arrow-left"></i> Back</button>
+                        <button *ngIf="displayStep < 3" type="button" (click)="displayNext()" label="Next" class="button-function button-function--green">Next <i class="fa fa-arrow-right"></i></button>
+                        <button *ngIf="displayStep === 3" type="button" (click)="saveWorkflow()" label="Confirm" class="button-function button-function--green"><i class="fa fa-check"></i> Confirm</button>
+                    </div>
+    
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <!-- WIZARD APP TESTING -->
+    <!-- ////////////////// -->

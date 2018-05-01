@@ -12,6 +12,8 @@ import * as RouterActions from 'app/state/actions/router.actions';
 import { LoadCellarPlacesAction } from 'app/state/actions/place.actions';
 import { Observable } from 'rxjs/Observable';
 
+import {trigger, transition, style, animate, query, stagger} from '@angular/animations';
+
 @Component({
     templateUrl: './place-dashboard.html',
     styleUrls: ['./place-dashboard.scss']
@@ -27,7 +29,6 @@ export class PlaceDashboard implements OnInit {
 
     constructor(private store: Store<ApplicationState>) {
         this.colorMap = { 1: 'newStatePanel', 2: 'approvedStatePanel', 3: 'forbiddenStatePanel' };
-        
         this.items$ = this.store.select(mapPlacesFromState);
     }
 

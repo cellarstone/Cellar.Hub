@@ -1,25 +1,29 @@
-﻿.myerror{
+@import './SPA/assets/sass/custom/base/variables';
+@import './SPA/assets/sass/custom/modules';
+
+.myerror{
     width: 100%;
     background-color: red;
 }
 
 
-.newStatePanel
-{
-    border-left: 4px solid #F0B518;
+.space {
+    // position: relative;
+    font-family: $font-roboto;
+    // z-index: 1000;
+    &__text {
+        display: flex;
+        flex-grow: 1;
+        background-color: $color-blue-main;
+        color: white;
+        letter-spacing: 1px;
+        font-weight: 300;
+        font-size: 35px;
+        justify-content: start;
+        align-items: center;
+        height: 100px;
+        padding-left: 45px;  
+        margin: 0 !important;
+    }
 }
 
-.approvedStatePanel
-{
-  border-left: 4px solid #48A746;
-}
-
-.forbiddenStatePanel
-{
-  border-left: 4px solid #DD5826;
-}
-
-
-.mycard{
-    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
-}

@@ -1,0 +1,71 @@
+<div class="booking">
+  <div class="selected-date">
+    <div class="date">{{selectedDate.format('D')}}</div>
+    <div class="inverse">
+      <div class="month">{{selectedDate.format('MMMM')}}</div>
+      <div class="year">{{selectedDate.format('YYYY')}}</div>
+    </div>
+
+  </div>
+  <div class="separator"></div>
+
+  <div class="details">
+    <div class="reservations" *ngFor="let meeting of bookedMeetings">
+
+
+
+      <div class="reservation" [ngStyle]="{'color': meeting.status === 'available' ? '#4CAF50' : 'var(--color-grey-dark-1)'}">
+
+        <!-- <div [@showEditButtons]="showEditButtons" *ngIf="showEditButtons">
+          <span *ngIf="meeting.status === 'reserved'">
+            <img src="../../assets/icons/pen.svg" alt="" class="edit">
+          </span>
+        </div> -->
+
+        <div [@showEditButtons]="showEditButtons" *ngIf="showEditButtons">
+          <span *ngIf="meeting.status === 'available'">
+            <img src="../../assets/icons/plus.svg" alt="" class="add" (click)="createMeeting(meeting)">
+          </span>
+        </div>
+
+        <div class="reservation__duration" [ngStyle]="{'color': meeting.status === 'available' ? '#4CAF50' : '#F44336'}">
+          {{ meeting.start.format('HH:mm') }} - {{ meeting.end.format('HH:mm') }}
+        </div>
+        <div class="reservation__by">
+          {{ meeting.by }}
+        </div>
+
+        <div [@showEditButtons]="showEditButtons" *ngIf="showEditButtons" (click)="deleteMeeting(meeting)">
+          <span *ngIf="meeting.status === 'reserved'">
+            <img src="../../assets/icons/Minus.svg" alt="" class="remove">
+          </span>
+        </div>
+
+      </div>
+
+
+
+
+    </div>
+  </div>
+
+  <!-- <div class="edit-modal" *ngIf="editModalIsShown" @showEditModal>
+    <div class="edit-modal__content">
+      <div>
+        <form (submit)="onReceptionPinSubmit()" class="align-center">
+          <div class="close-button" (click)="editModalIsShown = false"></div>
+          <label for="pin" class="pin__h1 heading-primary">Enter your PIN</label>
+          <input [(ngModel)]="pinNumber" type="password" name="pin" class="pin__input" placeholder="****" maxlength="4">
+          <div class="pin__highlight highlight-1"></div>
+          <button type="submit" class="pin__confirm-button ok-button">Confirm</button>
+        </form>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="edit-section">
+    <div class="separator"></div>
+    <button class="edit-button" (click)="onEditButton()">EDIT</button>
+  </div>
+
+</div>

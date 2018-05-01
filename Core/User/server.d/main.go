@@ -88,17 +88,17 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	bs1 = service.NewLoggingMiddleware(log.With(logger, "component", "iot"), bs1)
+	bs1 = service.NewLoggingMiddleware(log.With(logger, "component", "user"), bs1)
 	bs1 = service.NewMetricsMiddleware(
 		kitprometheus.NewCounterFrom(stdprometheus.CounterOpts{
-			Namespace: "iot",
-			Subsystem: "iotService",
+			Namespace: "user",
+			Subsystem: "userService",
 			Name:      "request_count",
 			Help:      "Number of requests received.",
 		}, fieldKeys),
 		kitprometheus.NewSummaryFrom(stdprometheus.SummaryOpts{
-			Namespace: "iot",
-			Subsystem: "iotService",
+			Namespace: "user",
+			Subsystem: "userService",
 			Name:      "request_latency_microseconds",
 			Help:      "Total duration of requests in microseconds.",
 		}, fieldKeys),

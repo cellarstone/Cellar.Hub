@@ -1,4 +1,4 @@
-﻿//angular
+//angular
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -33,7 +33,11 @@ export class SenzorDetail {
 
     private sub: any;
 
-    senzorName = "";
+    //senzorName = "";
+
+    id = "";
+    //sensor: string = 'Sensor Overview';
+
 
 
     constructor(
@@ -48,7 +52,7 @@ export class SenzorDetail {
                 console.log(data);
 
                 if (data != null && data.id != null) {
-                    this.senzorName = data.name;
+                    //this.senzorName = data.name;
                 }
 
                 return Observable.of(data);
@@ -58,12 +62,23 @@ export class SenzorDetail {
 
 
     ngOnInit() {
+
         this.sub = this.route.params.subscribe(params => {
 
             let id = params['id']; // (+) converts string 'id' to a number
+            this.id = id;
+
             this.store.dispatch(new LoadCellarSenzorAction(id));
 
         });
+
+        // this.pathCheck = {
+        //     newSenzor0: this.route.snapshot.params['id']
+        // }
+
+        // if (this.pathCheck.newSenzor0 === '0') {
+        //     this.sensor = 'New Sensor';
+        // }
 
     }
     ngOnDestroy() {
@@ -71,7 +86,7 @@ export class SenzorDetail {
 
         this.sub.unsubscribe();
     }
-   
+
 
     //*********************************/
     /* SENZOR */
@@ -83,7 +98,7 @@ export class SenzorDetail {
     private deleteSenzor(item: CellarSenzor) {
         this.store.dispatch(new DeleteCellarSenzorAction(item));
 
-        
+
     }
     private cancelSenzor() {
         this.store.dispatch(new RouterActions.Back());

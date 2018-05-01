@@ -7,7 +7,7 @@ import {AppComponent} from './app.component';
         <div class="topbar clearfix">
             <div class="topbar-left">            
                 <div class="logo">
-                    <img src="assets/svg/alza_cz.svg" alt="Logo">
+                    <img src="assets/svg/cellarstone-logo-modern.svg" alt="Logo">
                 </div>
             </div>
             
@@ -19,20 +19,20 @@ import {AppComponent} from './app.component';
                 <a id="topbar-menu-button" href="#" (click)="app.onTopbarMenuButtonClick($event)">
                     <i class="fa fa-bars"></i>
                 </a>
-                <ul class="topbar-items fadeInDown animated" [ngClass]="{'topbar-items-visible': app.topbarMenuActive}">
+                <ul class="topbar-items fadeInDown" [ngClass]="{'topbar-items-visible': app.topbarMenuActive}">
                     <li #profile class="profile-item" [ngClass]="{'active-top-menu':app.activeTopbarItem === profile}">
                         <a href="#" (click)="app.onTopbarItemClick($event,profile)">
-                            <img class="profile-image" src="assets/layout/images/avatar.png">
-                            <span class="topbar-item-name">Jane Williams</span>
+                            <img class="profile-image" src="assets/layout/images/avatar-new.png">
+                            <span class="topbar-item-name">John Doe</span>
                         </a>
 
                         <ul class="poseidon-menu fadeInDown">
-                            <li role="menuitem">
+                           <!-- <li role="menuitem">
                                 <a href="#">
                                     <i class="fa fa-fw fa-user"></i>
                                     <span>Profile</span>
                                 </a>
-                            </li>
+                            </li>  -->
                             <li role="menuitem">
                                 <a (click)="app.auth.logout()">
                                     <i class="fa fa-fw fa-sign-out"></i>
@@ -44,7 +44,20 @@ import {AppComponent} from './app.component';
                 </ul>
             </div>
         </div>
-    `
+    `,
+    styles: [`
+        .topbar {
+            position: relative;
+            width: 100%;
+            background-color: #fff !important;
+        }
+
+
+        .topbar-left {
+            background-color: #fff !important;
+            
+        }
+    `]
 })
 export class AppTopBar {
 

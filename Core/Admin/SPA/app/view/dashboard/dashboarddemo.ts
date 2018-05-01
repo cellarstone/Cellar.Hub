@@ -2,12 +2,12 @@ import {Component,OnInit} from '@angular/core';
 import {SelectItem} from 'primeng/primeng';
 
 @Component({
-    templateUrl: './dashboard.html'
+    templateUrl: './dashboard.html',
+    styleUrls: ['./dashboarddemo.scss']
 })
 export class DashboardDemo implements OnInit {
     
     cities: SelectItem[];
-    
     
     chartData: any;
     
