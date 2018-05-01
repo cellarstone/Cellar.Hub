@@ -3,8 +3,7 @@
   "version": "1.1.0",
   "angular-cli": {},
   "scripts": {
-    "myappbuild": "node --max_old_space_size=8192 node_modules/.bin/ng build --prod",
-    "myserverbuild": "tsc server.ts"
+    "myappbuild": "node --max_old_space_size=8192 node_modules/.bin/ng build --prod"
   },
   "private": true,
   "dependencies": {
