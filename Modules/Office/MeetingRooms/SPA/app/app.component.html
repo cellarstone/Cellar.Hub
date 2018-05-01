@@ -1,2 +1,4 @@
 <!-- <button (click)="callSomeWebApi()">CLICK ON ME FUCKER</button> -->
-<router-outlet></router-outlet>
+<div [@routeState]="getAnimationData(rOutlet)">
+    <router-outlet #rOutlet="outlet"></router-outlet>
+</div>

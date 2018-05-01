@@ -74,6 +74,58 @@ func (mw LoggingMiddleware) GetWorkflows(senzorname string) (data []CellarWorkfl
 	return data, err
 }
 
+func (mw LoggingMiddleware) DeleteWorkflows(senzorname string) (err error) {
+	defer func(begin time.Time) {
+		mw.logger.Log(
+			"function", "DeleteWorkflows",
+			"senzorname", senzorname,
+			"err", err,
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+	err = mw.Service.DeleteWorkflows(senzorname)
+	return err
+}
+
+func (mw LoggingMiddleware) RunWorkflows(senzorname string) (err error) {
+	defer func(begin time.Time) {
+		mw.logger.Log(
+			"function", "RunWorkflows",
+			"senzorname", senzorname,
+			"err", err,
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+	err = mw.Service.RunWorkflows(senzorname)
+	return err
+}
+
+func (mw LoggingMiddleware) CheckWorkflows(senzorname string) (result string, err error) {
+	defer func(begin time.Time) {
+		mw.logger.Log(
+			"function", "CheckWorkflows",
+			"senzorname", senzorname,
+			"err", err,
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+	result, err = mw.Service.CheckWorkflows(senzorname)
+	return result, err
+}
+
+func (mw LoggingMiddleware) StopWorkflows(senzorname string) (err error) {
+	defer func(begin time.Time) {
+		mw.logger.Log(
+			"function", "StopWorkflows",
+			"senzorname", senzorname,
+			"err", err,
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+	err = mw.Service.StopWorkflows(senzorname)
+	return err
+}
+
 func (mw LoggingMiddleware) GetWorkflow(id string) (data CellarWorkflow, err error) {
 	defer func(begin time.Time) {
 		mw.logger.Log(
@@ -138,27 +190,53 @@ func (mw LoggingMiddleware) CheckWorkflow(id string) (result string, err error) 
 	return result, err
 }
 
-func (mw LoggingMiddleware) CloseAllWorkflows() (err error) {
+func (mw LoggingMiddleware) StopAllWorkflows() (err error) {
 	defer func(begin time.Time) {
 		mw.logger.Log(
-			"function", "CloseAllWorkflows",
+			"function", "StopAllWorkflows",
 			"err", err,
 			"took", time.Since(begin),
 		)
 	}(time.Now())
-	err = mw.Service.CloseAllWorkflows()
+	err = mw.Service.StopAllWorkflows()
 	return err
 }
 
-func (mw LoggingMiddleware) CloseWorkflow(id string) (err error) {
+func (mw LoggingMiddleware) StopWorkflow(id string) (err error) {
 	defer func(begin time.Time) {
 		mw.logger.Log(
-			"function", "CloseWorkflow",
+			"function", "StopWorkflow",
 			"id", id,
 			"err", err,
 			"took", time.Since(begin),
 		)
 	}(time.Now())
-	err = mw.Service.CloseWorkflow(id)
+	err = mw.Service.StopWorkflow(id)
+	return err
+}
+
+func (mw LoggingMiddleware) CreateAndRunDefaultSenzorWorkflows(senzorid string) (err error) {
+	defer func(begin time.Time) {
+		mw.logger.Log(
+			"function", "CreateAndRunDefaultSenzorWorkflows",
+			"senzorid", senzorid,
+			"err", err,
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+	err = mw.Service.CreateAndRunDefaultSenzorWorkflows(senzorid)
+	return err
+}
+
+func (mw LoggingMiddleware) StopAndDeleteDefaultSenzorWorkflows(senzorid string) (err error) {
+	defer func(begin time.Time) {
+		mw.logger.Log(
+			"function", "StopAndDeleteDefaultSenzorWorkflows",
+			"senzorid", senzorid,
+			"err", err,
+			"took", time.Since(begin),
+		)
+	}(time.Now())
+	err = mw.Service.StopAndDeleteDefaultSenzorWorkflows(senzorid)
 	return err
 }

@@ -27,6 +27,7 @@ import { AccordionModule } from 'primeng/primeng';
 import { AutoCompleteModule } from 'primeng/primeng';
 import { BreadcrumbModule } from 'primeng/primeng';
 import { ButtonModule } from 'primeng/primeng';
+import {CardModule} from 'primeng/primeng';
 import { CalendarModule } from 'primeng/primeng';
 import { CarouselModule } from 'primeng/primeng';
 import { ChartModule } from 'primeng/primeng';
@@ -102,12 +103,20 @@ import { InlineSVGModule } from 'ng-inline-svg';
 //Google maps
 import { AgmCoreModule } from '@agm/core';
 
+
+//GraphQL - Apollo
+import { ApolloModule, Apollo } from 'apollo-angular';
+import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+
+
 //CELLARSTONE COMPONENTS ------------------------------------
 import { AppComponent } from './app.component';
 
 import { SharedService } from './service/shared.service';
 import { IoTService } from './service/iot.service';
-import { CdnService } from './service/cdn.service';
+import { OfficeGraphqlService } from './service/office-graphql.service';
+import { FileService } from './service/file.service';
 import { WorkflowService } from './service/workflow.service';
 import { MqttService } from './service/mqtt.service';
 
@@ -150,6 +159,7 @@ import { WorkflowDetail } from './view/workflow/detail/workflow-detail';
 import { WorkflowListComponent } from './components/workflow/list/list.component';
 import { Rand2MqttWorkflowComponent } from './components/workflow/rand2mqtt/rand2mqtt.component';
 import { TestExceptionWorkflowComponent } from './components/workflow/testexception/testexception.component';
+import { DefaultSenzorWorkflowComponent } from './components/workflow/defaultsenzor/defaultsenzor.component';
 import { Test1WorkflowComponent } from './components/workflow/test1/test1.component';
 import { TimeTriggerComponent } from './components/trigger/time/time.component';
 import { MqttTriggerComponent } from './components/trigger/mqtt/mqtt.component';
@@ -174,8 +184,20 @@ import { MqttEffects } from 'app/state/effects/mqtt.effects';
 
 
 
+//Auth0
+import { AuthService } from './auth/auth.service';
+import { CallbackComponent } from './callback/callback.component';
+import { WelcomeComponent } from './view/welcome/welcome.component';
 
 
+// Wizard multi-step component
+import { MultiStepWizardComponent } from './view/workflow/wizard/multi-step-wizard.component';
+
+// Wizard service 
+import { MultiStepWizardService } from './view/workflow/wizard/wizard.service';
+// import { KeysPipe } from 'app/service/keys.pipe';
+import { PropertyComponent } from './components/meeting-room/property/property.component';
+import { OfficeEffects } from './state/effects/office.effects';
 
 
 
@@ -193,13 +215,14 @@ import { MqttEffects } from 'app/state/effects/mqtt.effects';
         StoreDevtoolsModule.instrument({
           maxAge: 25
         }),
-        EffectsModule.forRoot([MqttEffects, WorkflowEffects, SenzorEffects, SpaceEffects, PlaceEffects, RouterEffects]),
+        EffectsModule.forRoot([MqttEffects, WorkflowEffects, SenzorEffects, SpaceEffects, PlaceEffects, RouterEffects, OfficeEffects]),
         StoreRouterConnectingModule,
         //PrimeNG
         AccordionModule,
         AutoCompleteModule,
         BreadcrumbModule,
         ButtonModule,
+        CardModule,
         CalendarModule,
         CarouselModule,
         ChartModule,
@@ -271,8 +294,12 @@ import { MqttEffects } from 'app/state/effects/mqtt.effects';
         //Google maps
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyCzctD36QgFcCo-CwKjSBY68CDI80BSoTc'
-        })
-    ],
+        }),
+
+        //GraphQL - Apollo
+        ApolloModule,
+        HttpLinkModule
+    ]   ,
     declarations: [
         AppComponent,
         AppMenuComponent,
@@ -298,22 +325,47 @@ import { MqttEffects } from 'app/state/effects/mqtt.effects';
         Rand2MqttWorkflowComponent,
         Test1WorkflowComponent,
         TestExceptionWorkflowComponent,
+        DefaultSenzorWorkflowComponent,
         TimeTriggerComponent,
         MqttTriggerComponent,
         Dht11Panel,
         PirPanel,
         RelayPanel,
-        SenzorWorkflowList
+        SenzorWorkflowList,
+        CallbackComponent,
+        WelcomeComponent,
+        MultiStepWizardComponent,
+        // KeysPipe,
+        PropertyComponent
     ],
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         { provide: RouterStateSerializer, useClass: CustomSerializer },
         IoTService,
-        CdnService,
+        OfficeGraphqlService,
+        FileService,
         SharedService,
         WorkflowService,
-        MqttService
+        MqttService,
+        AuthService,
+        MultiStepWizardService
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+    constructor(apollo: Apollo, httpLink: HttpLink) {
+        apollo.create({
+          link: httpLink.create({
+            uri: 'http://iot.cellarstone.hub/graphql'
+          }),
+          cache: new InMemoryCache()
+        }, "iot");
+
+        apollo.create({
+            link: httpLink.create({
+              uri: 'http://officeapi.cellarstone.hub/graphql'
+            }),
+            cache: new InMemoryCache()
+          }, "office");
+      }
+}

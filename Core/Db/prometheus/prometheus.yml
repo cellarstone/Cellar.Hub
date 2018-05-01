@@ -26,9 +26,22 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  - job_name: 'pushgateway'
+  - job_name: 'iot-microservice'
+    static_configs:
+      - targets: ['cellar-hub-core-iot:44403']
+  
+  - job_name: 'user-microservice'
+    static_configs:
+      - targets: ['cellar-hub-core-user:44407']
 
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
+  - job_name: 'workflow-microservice'
+    static_configs:
+      - targets: ['cellar-hub-core-workflow:44405']
+
+  - job_name: 'office-api-microservice'
+    static_configs:
+      - targets: ['cellar-hub-module-office-api:44513']
+
+  - job_name: 'pushgateway'
     static_configs:
       - targets: ['pushgateway:9091']

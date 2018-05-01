@@ -1,0 +1,12 @@
+<div class="container">
+
+  <app-calendar-section [selectedDate]="selectedDate" 
+                        (onSelectDate)="selectDate($event)"></app-calendar-section>
+
+  <app-booking-section [selectedDate]="selectedDate" 
+                       [meetingRoomEmail]="(meetingRoom$ | async).email" 
+                       [bookedMeetings]="bookings$ | async" 
+                       (onCreateMeeting)="createMeeting($event)"
+                       (onDeleteMeeting)="deleteMeeting($event)"></app-booking-section>
+
+</div>

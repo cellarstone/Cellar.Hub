@@ -35,10 +35,59 @@ func MakeHttpHandler(ctx context.Context, endpoint Endpoints, logger kitlog.Logg
 		options...,
 	)).Methods("GET")
 
+	r.Path("/engine/workflows/run").Handler(httptransport.NewServer(
+		endpoint.RunAllWorkflowsEndpoint,
+		decodeRunAllWorkflowsRequest,
+		encodeRunAllWorkflowsResponse,
+		options...,
+	)).Methods("GET")
+
+	r.Path("/engine/workflows/check").Handler(httptransport.NewServer(
+		endpoint.CheckAllWorkflowsEndpoint,
+		decodeCheckAllWorkflowsRequest,
+		encodeCheckAllWorkflowsResponse,
+		options...,
+	)).Methods("GET")
+
+	r.Path("/engine/workflows/stop").Handler(httptransport.NewServer(
+		endpoint.StopAllWorkflowsEndpoint,
+		decodeStopAllWorkflowsRequest,
+		encodeStopAllWorkflowsResponse,
+		options...,
+	)).Methods("GET")
+
 	r.Path("/engine/workflows/{senzorname}").Handler(httptransport.NewServer(
 		endpoint.GetWorkflowsEndpoint,
 		decodeGetWorkflowsRequest,
 		encodeGetWorkflowsResponse,
+		options...,
+	)).Methods("GET")
+
+	r.Path("/engine/workflows/{senzorname}").Handler(httptransport.NewServer(
+		endpoint.DeleteWorkflowsEndpoint,
+		decodeDeleteWorkflowsRequest,
+		encodeDeleteWorkflowsResponse,
+		options...,
+	)).Methods("DELETE")
+
+	r.Path("/engine/workflows/{senzorname}/run").Handler(httptransport.NewServer(
+		endpoint.RunWorkflowsEndpoint,
+		decodeRunWorkflowsRequest,
+		encodeRunWorkflowsResponse,
+		options...,
+	)).Methods("GET")
+
+	r.Path("/engine/workflows/{senzorname}/check").Handler(httptransport.NewServer(
+		endpoint.CheckWorkflowsEndpoint,
+		decodeCheckWorkflowsRequest,
+		encodeCheckWorkflowsResponse,
+		options...,
+	)).Methods("GET")
+
+	r.Path("/engine/workflows/{senzorname}/stop").Handler(httptransport.NewServer(
+		endpoint.StopWorkflowsEndpoint,
+		decodeStopWorkflowsRequest,
+		encodeStopWorkflowsResponse,
 		options...,
 	)).Methods("GET")
 
@@ -70,27 +119,11 @@ func MakeHttpHandler(ctx context.Context, endpoint Endpoints, logger kitlog.Logg
 		options...,
 	)).Methods("DELETE")
 
-	// engine/workflows/run
-	r.Path("/engine/runallworkflows").Handler(httptransport.NewServer(
-		endpoint.RunAllWorkflowsEndpoint,
-		decodeRunAllWorkflowsRequest,
-		encodeRunAllWorkflowsResponse,
-		options...,
-	)).Methods("GET")
-
 	// engine/workflow/{id}/run
 	r.Path("/engine/workflow/{id}/run").Handler(httptransport.NewServer(
 		endpoint.RunWorkflowEndpoint,
 		decodeRunWorkflowRequest,
 		encodeRunWorkflowResponse,
-		options...,
-	)).Methods("GET")
-
-	// engine/workflows/check
-	r.Path("/engine/checkallworkflows").Handler(httptransport.NewServer(
-		endpoint.CheckAllWorkflowsEndpoint,
-		decodeCheckAllWorkflowsRequest,
-		encodeCheckAllWorkflowsResponse,
 		options...,
 	)).Methods("GET")
 
@@ -102,19 +135,27 @@ func MakeHttpHandler(ctx context.Context, endpoint Endpoints, logger kitlog.Logg
 		options...,
 	)).Methods("GET")
 
-	// engine/workflows/stop
-	r.Path("/engine/stopallworkflows").Handler(httptransport.NewServer(
-		endpoint.CloseAllWorkflowsEndpoint,
-		decodeCloseAllWorkflowsRequest,
-		encodeCloseAllWorkflowsResponse,
+	// engine/workflow/{id or name}/stop
+	r.Path("/engine/workflow/{id}/stop").Handler(httptransport.NewServer(
+		endpoint.StopWorkflowEndpoint,
+		decodeStopWorkflowRequest,
+		encodeStopWorkflowResponse,
 		options...,
 	)).Methods("GET")
 
-	// engine/workflow/{id or name}/stop
-	r.Path("/engine/workflow/{id}/stop").Handler(httptransport.NewServer(
-		endpoint.CloseWorkflowEndpoint,
-		decodeCloseWorkflowRequest,
-		encodeCloseWorkflowResponse,
+	// engine/senzor/{id}/createandrundefault
+	r.Path("/engine/senzor/{id}/createandrundefault").Handler(httptransport.NewServer(
+		endpoint.CreateAndRunDefaultSenzorEndpoint,
+		decodeCreateAndRunDefaultSenzorWorkflowsRequest,
+		encodeCreateAndRunDefaultSenzorWorkflowsResponse,
+		options...,
+	)).Methods("GET")
+
+	// engine/senzor/{id}/stopanddeletedefault
+	r.Path("/engine/senzor/{id}/stopanddeletedefault").Handler(httptransport.NewServer(
+		endpoint.StopAndDeleteDefaultSenzorEndpoint,
+		decodeStopAndDeleteDefaultSenzorWorkflowsRequest,
+		encodeStopAndDeleteDefaultSenzorWorkflowsResponse,
 		options...,
 	)).Methods("GET")
 
@@ -127,34 +168,7 @@ func MakeHttpHandler(ctx context.Context, endpoint Endpoints, logger kitlog.Logg
 
 // decode url path variables into request
 func decodeGetAllWorkflowsRequest(_ context.Context, r *http.Request) (interface{}, error) {
-
-	//PARSING JSON
-	defer r.Body.Close()
-
-	htmlData, err := ioutil.ReadAll(r.Body) //<--- here!
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-
-	m, ok := gjson.Parse(string(htmlData)).Value().(map[string]interface{})
-	if !ok {
-		fmt.Println("Error")
-	}
-
-	jsonBytes, err := json.Marshal(m)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	item := &GetAllWorkflowsRequest{}
-	parseErr := json.Unmarshal(jsonBytes, item)
-	if parseErr != nil {
-		fmt.Println("JSON Error")
-		fmt.Println(parseErr)
-	}
-
-	return *item, nil
+	return &GetAllWorkflowsRequest{}, nil
 }
 
 // encode response from endpoint
@@ -191,6 +205,134 @@ func decodeGetWorkflowsRequest(_ context.Context, r *http.Request) (interface{},
 
 // encode response from endpoint
 func encodeGetWorkflowsResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
+	if e, ok := response.(errorer); ok && e.error() != nil {
+		// Not a Go kit transport error, but a business-logic error.
+		// Provide those as HTTP errors.
+		encodeError(ctx, e.error(), w)
+		return nil
+	}
+	w.Header().Set("Content-Type", "application/json")
+	return json.NewEncoder(w).Encode(response)
+}
+
+//*************************
+// DELETE WORKFLOWS
+//*************************
+
+// decode url path variables into request
+func decodeDeleteWorkflowsRequest(_ context.Context, r *http.Request) (interface{}, error) {
+
+	vars := mux.Vars(r)
+	senzorname, ok := vars["senzorname"]
+	if !ok {
+		return nil, errors.New("bad route")
+	}
+
+	item := &DeleteWorkflowsRequest{
+		SenzorName: senzorname,
+	}
+
+	return *item, nil
+}
+
+// encode response from endpoint
+func encodeDeleteWorkflowsResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
+	if e, ok := response.(errorer); ok && e.error() != nil {
+		// Not a Go kit transport error, but a business-logic error.
+		// Provide those as HTTP errors.
+		encodeError(ctx, e.error(), w)
+		return nil
+	}
+	w.Header().Set("Content-Type", "application/json")
+	return json.NewEncoder(w).Encode(response)
+}
+
+//*************************
+// RUN WORKFLOWS
+//*************************
+
+// decode url path variables into request
+func decodeRunWorkflowsRequest(_ context.Context, r *http.Request) (interface{}, error) {
+
+	vars := mux.Vars(r)
+	senzorname, ok := vars["senzorname"]
+	if !ok {
+		return nil, errors.New("bad route")
+	}
+
+	item := &RunWorkflowsRequest{
+		SenzorName: senzorname,
+	}
+
+	return *item, nil
+}
+
+// encode response from endpoint
+func encodeRunWorkflowsResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
+	if e, ok := response.(errorer); ok && e.error() != nil {
+		// Not a Go kit transport error, but a business-logic error.
+		// Provide those as HTTP errors.
+		encodeError(ctx, e.error(), w)
+		return nil
+	}
+	w.Header().Set("Content-Type", "application/json")
+	return json.NewEncoder(w).Encode(response)
+}
+
+//*************************
+// CHECK WORKFLOWS
+//*************************
+
+// decode url path variables into request
+func decodeCheckWorkflowsRequest(_ context.Context, r *http.Request) (interface{}, error) {
+
+	vars := mux.Vars(r)
+	senzorname, ok := vars["senzorname"]
+	if !ok {
+		return nil, errors.New("bad route")
+	}
+
+	item := &CheckWorkflowsRequest{
+		SenzorName: senzorname,
+	}
+
+	return *item, nil
+}
+
+// encode response from endpoint
+func encodeCheckWorkflowsResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
+	if e, ok := response.(errorer); ok && e.error() != nil {
+		// Not a Go kit transport error, but a business-logic error.
+		// Provide those as HTTP errors.
+		encodeError(ctx, e.error(), w)
+		return nil
+	}
+	w.Header().Set("Content-Type", "application/json")
+	return json.NewEncoder(w).Encode(response)
+}
+
+//*************************
+// STOP WORKFLOWS
+//*************************
+
+// decode url path variables into request
+func decodeStopWorkflowsRequest(_ context.Context, r *http.Request) (interface{}, error) {
+
+	vars := mux.Vars(r)
+	senzorname, ok := vars["senzorname"]
+	if !ok {
+		return nil, errors.New("bad route")
+	}
+
+	item := &StopWorkflowsRequest{
+		SenzorName: senzorname,
+	}
+
+	return *item, nil
+}
+
+// encode response from endpoint
+func encodeStopWorkflowsResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
 	if e, ok := response.(errorer); ok && e.error() != nil {
 		// Not a Go kit transport error, but a business-logic error.
 		// Provide those as HTTP errors.
@@ -251,7 +393,7 @@ func decodeRunAllWorkflowsRequest(_ context.Context, r *http.Request) (interface
 
 	m, ok := gjson.Parse(string(htmlData)).Value().(map[string]interface{})
 	if !ok {
-		fmt.Println("Error")
+		fmt.Println("Error in parsing json")
 	}
 
 	jsonBytes, err := json.Marshal(m)
@@ -366,11 +508,11 @@ func encodeCheckWorkflowResponse(ctx context.Context, w http.ResponseWriter, res
 }
 
 //*************************
-// CLOSE ALL WORKFLOWS
+// STOP ALL WORKFLOWS
 //*************************
 
 // decode url path variables into request
-func decodeCloseAllWorkflowsRequest(_ context.Context, r *http.Request) (interface{}, error) {
+func decodeStopAllWorkflowsRequest(_ context.Context, r *http.Request) (interface{}, error) {
 
 	//PARSING JSON
 	defer r.Body.Close()
@@ -383,7 +525,7 @@ func decodeCloseAllWorkflowsRequest(_ context.Context, r *http.Request) (interfa
 
 	m, ok := gjson.Parse(string(htmlData)).Value().(map[string]interface{})
 	if !ok {
-		fmt.Println("Error")
+		fmt.Println("Error in parsing json")
 	}
 
 	jsonBytes, err := json.Marshal(m)
@@ -391,7 +533,7 @@ func decodeCloseAllWorkflowsRequest(_ context.Context, r *http.Request) (interfa
 		fmt.Println(err)
 	}
 
-	item := &CloseAllWorkflowsRequest{}
+	item := &StopAllWorkflowsRequest{}
 	parseErr := json.Unmarshal(jsonBytes, item)
 	if parseErr != nil {
 		fmt.Println("JSON Error")
@@ -402,7 +544,7 @@ func decodeCloseAllWorkflowsRequest(_ context.Context, r *http.Request) (interfa
 }
 
 // encode response from endpoint
-func encodeCloseAllWorkflowsResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
+func encodeStopAllWorkflowsResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
 	if e, ok := response.(errorer); ok && e.error() != nil {
 		// Not a Go kit transport error, but a business-logic error.
 		// Provide those as HTTP errors.
@@ -414,11 +556,11 @@ func encodeCloseAllWorkflowsResponse(ctx context.Context, w http.ResponseWriter,
 }
 
 //*************************
-// CLOSE WORKFLOW
+// STOP WORKFLOW
 //*************************
 
 // decode url path variables into request
-func decodeCloseWorkflowRequest(_ context.Context, r *http.Request) (interface{}, error) {
+func decodeStopWorkflowRequest(_ context.Context, r *http.Request) (interface{}, error) {
 
 	vars := mux.Vars(r)
 	id, ok := vars["id"]
@@ -426,7 +568,7 @@ func decodeCloseWorkflowRequest(_ context.Context, r *http.Request) (interface{}
 		return nil, errors.New("bad route")
 	}
 
-	item := &CloseWorkflowRequest{
+	item := &StopWorkflowRequest{
 		ID: id,
 	}
 
@@ -434,7 +576,7 @@ func decodeCloseWorkflowRequest(_ context.Context, r *http.Request) (interface{}
 }
 
 // encode response from endpoint
-func encodeCloseWorkflowResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
+func encodeStopWorkflowResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
 	if e, ok := response.(errorer); ok && e.error() != nil {
 		// Not a Go kit transport error, but a business-logic error.
 		// Provide those as HTTP errors.
@@ -463,7 +605,7 @@ func decodeSaveWorkflowRequest(_ context.Context, r *http.Request) (interface{},
 
 	m, ok := gjson.Parse(string(htmlData)).Value().(map[string]interface{})
 	if !ok {
-		fmt.Println("Error")
+		fmt.Println("Error in parsing json")
 	}
 
 	jsonBytes, err := json.Marshal(m)
@@ -514,7 +656,7 @@ func decodeUpdateWorkflowRequest(_ context.Context, r *http.Request) (interface{
 
 	m, ok := gjson.Parse(string(htmlData)).Value().(map[string]interface{})
 	if !ok {
-		fmt.Println("Error")
+		fmt.Println("Error parsing json")
 	}
 
 	jsonBytes, err := json.Marshal(m)
@@ -529,8 +671,8 @@ func decodeUpdateWorkflowRequest(_ context.Context, r *http.Request) (interface{
 		fmt.Println(parseErr)
 	}
 
-	fmt.Println(item)
-	fmt.Println(*item)
+	// fmt.Println(item)
+	// fmt.Println(*item)
 
 	return *item, nil
 }
@@ -600,4 +742,66 @@ func encodeError(_ context.Context, err error, w http.ResponseWriter) {
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"error": err.Error(),
 	})
+}
+
+//*************************
+// CREATE AND RUN DEFAULT SENZOR's WORKFLOWS
+//*************************
+
+func decodeCreateAndRunDefaultSenzorWorkflowsRequest(_ context.Context, r *http.Request) (interface{}, error) {
+
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		return nil, errors.New("bad route")
+	}
+
+	item := &CreateAndRunDefaultSenzorWorkflowsRequest{
+		ID: id,
+	}
+
+	return *item, nil
+}
+
+// encode response from endpoint
+func encodeCreateAndRunDefaultSenzorWorkflowsResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
+	if e, ok := response.(errorer); ok && e.error() != nil {
+		// Not a Go kit transport error, but a business-logic error.
+		// Provide those as HTTP errors.
+		encodeError(ctx, e.error(), w)
+		return nil
+	}
+	w.Header().Set("Content-Type", "application/json")
+	return json.NewEncoder(w).Encode(response)
+}
+
+//*************************
+// STOP AND DELETE DEFAULT SENZOR's WORKFLOWS
+//*************************
+
+func decodeStopAndDeleteDefaultSenzorWorkflowsRequest(_ context.Context, r *http.Request) (interface{}, error) {
+
+	vars := mux.Vars(r)
+	id, ok := vars["id"]
+	if !ok {
+		return nil, errors.New("bad route")
+	}
+
+	item := &StopAndDeleteDefaultSenzorWorkflowsRequest{
+		ID: id,
+	}
+
+	return *item, nil
+}
+
+// encode response from endpoint
+func encodeStopAndDeleteDefaultSenzorWorkflowsResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
+	if e, ok := response.(errorer); ok && e.error() != nil {
+		// Not a Go kit transport error, but a business-logic error.
+		// Provide those as HTTP errors.
+		encodeError(ctx, e.error(), w)
+		return nil
+	}
+	w.Header().Set("Content-Type", "application/json")
+	return json.NewEncoder(w).Encode(response)
 }

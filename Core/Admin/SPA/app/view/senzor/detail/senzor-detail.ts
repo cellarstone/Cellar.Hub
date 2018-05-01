@@ -1,4 +1,4 @@
-﻿//angular
+//angular
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -20,6 +20,8 @@ import { LoadCellarSenzorAction, SaveCellarSenzorAction, DeleteCellarSenzorActio
 import * as RouterActions from 'app/state/actions/router.actions';
 import { PublishToMqttModel } from 'app/models/publishToMqtt.model';
 import { PublishToMqttAction } from 'app/state/actions/mqtt.actions';
+import { CellarWorkflow } from '../../../entities/CellarWorkflow';
+import { WorkflowService } from '../../../service/workflow.service';
 
 @Component({
     templateUrl: './senzor-detail.html',
@@ -31,12 +33,17 @@ export class SenzorDetail {
 
     private sub: any;
 
-    senzorName = "";
+    //senzorName = "";
+
+    id = "";
+    //sensor: string = 'Sensor Overview';
+
 
 
     constructor(
         private route: ActivatedRoute,
-        private store: Store<ApplicationState>) {
+        private store: Store<ApplicationState>,
+        private workflowservice: WorkflowService) {
 
         //this.item$ = this.store.select(mapSenzorFromState);
         this.item$ = this.store.select(mapSenzorFromState)
@@ -45,7 +52,7 @@ export class SenzorDetail {
                 console.log(data);
 
                 if (data != null && data.id != null) {
-                    this.senzorName = data.name;
+                    //this.senzorName = data.name;
                 }
 
                 return Observable.of(data);
@@ -55,12 +62,23 @@ export class SenzorDetail {
 
 
     ngOnInit() {
+
         this.sub = this.route.params.subscribe(params => {
 
             let id = params['id']; // (+) converts string 'id' to a number
+            this.id = id;
+
             this.store.dispatch(new LoadCellarSenzorAction(id));
 
         });
+
+        // this.pathCheck = {
+        //     newSenzor0: this.route.snapshot.params['id']
+        // }
+
+        // if (this.pathCheck.newSenzor0 === '0') {
+        //     this.sensor = 'New Sensor';
+        // }
 
     }
     ngOnDestroy() {
@@ -68,7 +86,7 @@ export class SenzorDetail {
 
         this.sub.unsubscribe();
     }
-   
+
 
     //*********************************/
     /* SENZOR */
@@ -79,6 +97,8 @@ export class SenzorDetail {
     }
     private deleteSenzor(item: CellarSenzor) {
         this.store.dispatch(new DeleteCellarSenzorAction(item));
+
+
     }
     private cancelSenzor() {
         this.store.dispatch(new RouterActions.Back());

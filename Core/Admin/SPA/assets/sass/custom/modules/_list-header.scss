@@ -1,0 +1,38 @@
+.list-header{
+  display: flex;
+  width: 100%;
+  font-family: $font-roboto;
+  // margin: 15px 0 0 0;
+  position: relative;
+  font-weight: 300;
+  &__text {
+      display: flex;
+      font-size: 24px;
+      flex-grow: 1;
+      font-weight: 300;
+      color: $color-white-default;
+      background-color: $color-black-1 ;
+      justify-content: center;
+      align-items: center;
+      height: 60px;
+      margin: 0;
+
+      @media (max-width: 1200px){
+        font-size: 20px;
+      }
+
+  }
+
+  &__button--add {
+      border: none;
+      color: $color-white-default;
+      // border: 1px solid $color-white-default;
+      background-color: transparent;
+      position: absolute;
+      padding-left: 20px;
+      height: 60px;
+      font-weight: 300 !important;
+      font-size: 18px;
+  }
+
+}

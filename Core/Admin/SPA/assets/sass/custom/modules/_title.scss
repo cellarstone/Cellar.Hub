@@ -1,0 +1,60 @@
+
+.title{
+  font-family: $font-roboto;
+  position: relative;
+
+  &__button-add {
+    position: absolute;
+    font-size: 30px;
+    font-weight: 300;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    bottom: -25px;
+    right: 20px;
+    font-size: 36px;
+    z-index: 1010;
+    box-shadow: $shadow-1;
+    border: none;
+    background-color: $color-blue-main;
+    color: $color-white-default;
+}
+
+  &__text {
+      display: flex;
+      flex-grow: 1;
+      
+      color: white;
+      letter-spacing: 1px;
+      font-weight: 300;
+      font-size: 35px;
+      justify-content: start;
+      align-items: center;
+      height: 100px;
+      padding-left: 45px;  
+      margin: 0 !important;
+
+      &--purple {
+        background-color: $color-purple-main;
+      }
+
+      &--blue {
+        background-color: $color-blue-main;
+      }
+
+      &--red {
+        background-color: $color-red-main;
+      }
+
+      &--workflow{
+        background-color: $color-workflow-main;
+      }
+
+      @media screen and (max-width:475px) {
+        font-size: 30px;
+        height: 80px;
+      }
+
+      
+  }
+}

@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { CellarSpace } from 'app/entities/CellarSpace';
 import { Message } from 'primeng/primeng';
-import { CdnService } from 'app/service/cdn.service';
+import { ActivatedRoute } from '@angular/router';
+import { FileService } from 'app/service/file.service';
 
 
 
@@ -37,10 +38,36 @@ export class SpaceBaseInfoComponent implements OnInit {
   isPathValid: boolean = true;
 
 
+  deleteModal: boolean = false;
+  allowEdit: boolean = false;
+  imgUpload: string = 'Change photo';
+  pathCheck: any;
+  colorMap: any;
 
-  constructor(public cdnservice: CdnService) { }
+  constructor(public fileservice: FileService, private route: ActivatedRoute) { 
+    this.colorMap = { 1: 'newStatePanel', 2: 'approvedStatePanel', 3: 'forbiddenStatePanel' };
+  }
 
   ngOnInit() {
+
+
+    this.pathCheck = {
+      newSpace0: this.route.snapshot.params['id']
+    }
+
+    if (this.pathCheck.newSpace0 === '0') {
+      this.allowEdit = true; 
+      this.item.name = 'New Place'; 
+      this.imgUpload = 'Upload photo';
+    }
+
+    if(this.item.image === '') {
+      this.imgUpload = 'Upload a photo';
+    } else {
+      this.imgUpload = 'Change photo';
+    }
+
+
   }
 
 
@@ -107,11 +134,11 @@ export class SpaceBaseInfoComponent implements OnInit {
   }
 
 
-  deleteSpace(){
+  deleteSpace() {
     this.onDelete.emit(this.item);
   }
 
-  cancelSpace(){
+  cancelSpace() {
     this.onCancel.emit();
   }
 
@@ -143,38 +170,12 @@ export class SpaceBaseInfoComponent implements OnInit {
 
     if (aaa === "new") {
       this.item.state = "1";
-
-
-
-      jQuery("#new").removeClass();
-      jQuery("#approved").removeClass();
-      jQuery("#forbidden").removeClass();
-
-      jQuery("#new").addClass("btn btn-warning");
-      jQuery("#approved").addClass("btn");
-      jQuery("#forbidden").addClass("btn");
     }
     else if (aaa === "approved") {
       this.item.state = "2";
-
-      jQuery("#new").removeClass();
-      jQuery("#approved").removeClass();
-      jQuery("#forbidden").removeClass();
-
-      jQuery("#new").addClass("btn");
-      jQuery("#approved").addClass("btn btn-success");
-      jQuery("#forbidden").addClass("btn");
     }
     else if (aaa === "forbidden") {
       this.item.state = "3";
-
-      jQuery("#new").removeClass();
-      jQuery("#approved").removeClass();
-      jQuery("#forbidden").removeClass();
-
-      jQuery("#new").addClass("btn");
-      jQuery("#approved").addClass("btn");
-      jQuery("#forbidden").addClass("btn btn-danger");
     }
 
 
@@ -192,7 +193,7 @@ export class SpaceBaseInfoComponent implements OnInit {
       let fileToUpload = fileInput.target.files[0];
       console.log(fileToUpload.name);
 
-      this.cdnservice.upload(fileToUpload)
+      this.fileservice.upload(fileToUpload)
         .subscribe(art => {
           let response = art;
 
@@ -205,7 +206,7 @@ export class SpaceBaseInfoComponent implements OnInit {
 
             console.log(url);
 
-            this.item.image = "http://cdn.cellarstone.hub/" + url;
+            this.item.image = "http://file.cellarstone.hub/" + url;
             // this.item.image = "http://localhost:44404/" + url;
 
             console.log(this.item.image);
@@ -233,12 +234,12 @@ export class SpaceBaseInfoComponent implements OnInit {
             console.error(response.exceptionText);
           }
         },
-        error => {
-          console.error(error);
-        },
-        () => {
-          console.log('addMainPictureChangeEvent() completed');
-        });
+          error => {
+            console.error(error);
+          },
+          () => {
+            console.log('addMainPictureChangeEvent() completed');
+          });
 
     }
   }

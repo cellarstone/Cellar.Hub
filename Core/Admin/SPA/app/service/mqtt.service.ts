@@ -11,33 +11,15 @@ import { PublishToMqttModel } from 'app/models/publishToMqtt.model';
 
 @Injectable()
 export class MqttService {
-    isProduction = environment.production;
-    isHttps = environment.https;
+    private serverUrl: string = environment.iotUrl;
 
-    private serverUrl: string = '';
-
-    private url_publishToMqtt: string;
+    private url_publishToMqtt = this.serverUrl + '/iot/publishtomqtt';
 
     private headers: HttpHeaders;
 
 
 
-    constructor(private http: HttpClient) {
-        if (this.isProduction == true && this.isHttps == true) {
-            this.serverUrl = "https://api.cellarstone.hub";
-        }
-        else if (this.isProduction == true && this.isHttps == false) {
-            this.serverUrl = "http://api.cellarstone.hub";
-        }
-        else if (this.isProduction == false && this.isHttps == true) {
-            this.serverUrl = "https://localhost:44403";
-        }
-        else if (this.isProduction == false && this.isHttps == false) {
-            this.serverUrl = "http://localhost:44403";
-        }
-
-        this.url_publishToMqtt = this.serverUrl + '/mqtt/publishtomqtt';
-    }
+    constructor(private http: HttpClient) {}
 
 
 

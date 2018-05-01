@@ -1,0 +1,8 @@
+
+<div *ngIf="items$ | async">
+
+<div *ngFor="let item of (items$ | async)" (click)="selectRoom(item)">
+  {{item.name}} - {{item.email}}
+</div>
+
+</div>

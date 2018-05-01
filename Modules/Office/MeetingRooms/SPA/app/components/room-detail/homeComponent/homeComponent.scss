@@ -1,0 +1,57 @@
+@import '~scss/variables';
+@import '~scss/base';
+
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+    // background-color: var(--color-green-success);
+}
+
+.homeBody{
+    // background-color: blue;
+    color: white;
+    position: relative;
+    top: 10%;
+}
+
+.changeStatus .buttons {
+    padding: 0 10px;
+    text-transform: lowercase;
+    font-family: var(--font-microsoft);
+    cursor: pointer;
+}
+
+.room, .presenter, .status {
+    display: block;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 10px;
+    
+}
+
+.room, .presenter {
+    font-size: 500%;
+    font-family: var(--font-microsoft);
+}
+.room {
+    margin-top: 15vh;
+}
+.presenter {
+    margin-top: 4vh;
+}
+.status {
+    font-size: 120px;
+    font-family: var(--font-varela);
+    margin-top: 4vh;
+}
+.presenter span {
+    font-size: 20px;
+    text-transform: lowercase !important;
+}
+.presenter div {
+    display: inline-block;
+}
+
+
+

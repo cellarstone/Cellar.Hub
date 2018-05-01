@@ -1,0 +1,16 @@
+<div class="ui-g meeting-room">
+  <div class="ui-g-12 no-padding meeting-room__chip">
+    <p-checkbox [(ngModel)]="isMeetingRoomValues" label="is Meeting Room" binary="true" (onChange)="checkboxChanged()"></p-checkbox>
+  </div>
+  <div class="ui-g-12 no-padding meeting-room__mail" *ngIf="isMeetingRoomValues">
+    <form class="form-section">
+      <div class="ui-fluid">
+        <input id="email" class="form-section__input" name="email" type="email" [(ngModel)]="meetingRoomEmail" required (focusout)="myFunction($event)"
+        />
+      </div>
+      <div *ngIf="isInvalid" class="alert alert-danger">
+        Email is invalid.
+      </div>
+    </form>
+  </div>
+</div>

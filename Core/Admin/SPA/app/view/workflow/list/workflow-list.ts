@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as RouterActions from 'app/state/actions/router.actions';
 import { LoadAllCellarWorkflowsAction } from 'app/state/actions/workflow.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'workflow-list',
@@ -15,7 +16,7 @@ export class WorkflowList implements OnInit {
 
   items$: Observable<CellarWorkflow[]>;
 
-    constructor(private store: Store<ApplicationState>) {
+    constructor(private store: Store<ApplicationState>, private router: Router) {
         this.items$ = this.store.select(mapWorkflowsFromState);
     }
 
@@ -23,10 +24,14 @@ export class WorkflowList implements OnInit {
         this.store.dispatch(new LoadAllCellarWorkflowsAction())
     }
 
+    // newWorkflow() {
+    //     this.store.dispatch(new RouterActions.Go({
+    //         path: ['workflow/' + 0]
+    //     }));
+    // }
+
     newWorkflow() {
-        this.store.dispatch(new RouterActions.Go({
-            path: ['workflow/' + 0]
-        }));
+        this.router.navigate(['workflow', 0 ,'new']);
     }
 
     selectWorkflow(item: CellarWorkflow){

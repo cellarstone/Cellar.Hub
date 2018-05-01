@@ -1,0 +1,191 @@
+
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-navy-dark-1);
+  }
+  
+.calendar,
+.booking {
+  display: flex;
+  flex-direction: column;
+  border-radius: .25rem;
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-3);
+  overflow: hidden;
+  height: 85vh;
+}
+
+.calendar {
+  align-items: center;
+  background: var(--color-grey-light-1);
+  flex: 0 0 57.5%;
+  font-size: inherit;
+  font-weight: 400;
+}
+
+.current-month {
+  display: flex;
+  width: 84rem;
+  justify-content: center;
+  margin: 4rem auto;
+  position: relative;
+  // background-color: lightblue;
+}
+
+.month-home {
+  color: var(--color-grey-dark-1);
+  position: absolute;
+  font-size: inherit;
+  padding: .5rem 1rem;
+  left: 0;
+  top: -.5rem;
+  border: 1px solid var(--color-grey-dark-1);
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.month-year {
+  
+  width: 30rem;
+  text-align: center;
+  font-size: inherit;
+  font-weight: 300;
+  font-family: var(--font-lato);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-grey-dark-1);
+}
+
+.arrow-left {
+  width: 0;
+  height: 0;
+  border-top: 1.25rem solid transparent;
+  border-bottom: 1.25rem solid transparent;
+  border-left: 2.2rem solid transparent;
+  border-right: 2.2rem solid var(--color-grey-dark-1);
+  margin-right: 1rem;
+}
+
+.arrow-right {
+  width: 0;
+  height: 0;
+  border-top: 1.25rem solid transparent;
+  border-bottom: 1.25rem solid transparent;
+  border-left: 2.2rem solid var(--color-grey-dark-1);
+  border-right: 2.2rem solid transparent;
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+
+.days-of-week {
+  display: flex;
+  font-size: 2rem;
+  font-weight: 400;
+  width: 84rem;
+  margin-bottom: 1rem;
+  color: var(--color-grey-dark-1);
+  justify-content: space-evenly;
+}
+
+.calendar-days {
+  text-align: center;
+  width: 12rem; 
+  margin-bottom: 1rem;
+  // background-color: lightblue;
+}
+
+#hr {
+  width: 84rem;
+  height: .1rem;
+  background-color: var(--color-grey-dark-1);
+  border-radius: 50px;
+  box-shadow: var(--shadow-3);
+}
+
+.days {
+  padding: 1rem 0;
+  display: flex;
+  width: 84rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  
+  @media only screen and (max-width: 100em) {
+   
+  }
+}
+
+.meeting-counter {
+  width: 2.5rem;
+  height: 2.5rem; // background-color: red;
+  border-radius: 100%;
+  position: absolute; // transform: translate(5.5rem, 1rem);
+  justify-content: center;
+  align-items: center;
+  color: var(--color-white);
+}
+
+.day-box {
+  margin: 1rem;
+  width: 9.7rem;
+  height: 9.7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: inherit;
+  border-radius: 100%;
+  transition: border .25s ease-out;
+  // background-color: lightgreen;
+}
+
+.current-week-body {
+  border-top: .1rem solid var(--color-navy-dark-1);
+  border-bottom: .1rem solid var(--color-navy-dark-1);
+}
+
+.current-week-start {
+  border-top-left-radius: 100%;
+  border-top: .1rem solid var(--color-navy-dark-1);
+  border-bottom: .1rem solid var(--color-navy-dark-1);
+  border-bottom-left-radius: 100%;
+  border-left: .1rem solid var(--color-navy-dark-1);
+}
+
+.current-week-end {
+  border-top: .1rem solid var(--color-navy-dark-1);
+  border-right: .1rem solid var(--color-navy-dark-1);
+  border-bottom: .1rem solid var(--color-navy-dark-1);
+  border-top-right-radius: 100%;
+  border-bottom-right-radius: 100%;
+}
+
+.bigger-font {
+  font-size: 3.5rem;
+  color: var(--color-grey-dark-1);
+
+  @media only screen and (max-width: 100em) {
+    font-size: 2.75rem;
+  }
+}
+
+.inactive {
+  opacity: .15;
+  color: var(--color-grey-1) !important;
+}
+
+.today {
+  margin: 1rem;
+  background-color: var(--color-purplish-1);
+  width: 9.7rem;
+  height: 9.7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.95rem;
+  color: var(--color-white) !important;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

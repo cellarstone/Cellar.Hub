@@ -19,11 +19,12 @@ import (
 )
 
 const (
-	defaultPort          = "44405"
-	defaultMongoUrl      = "localhost"
-	defaultMqttUrl       = "localhost"
-	defaultInfluxUrl     = "http://localhost:8086"
-	defaultWebsocketsUrl = "localhost:44406"
+	defaultPort              = "44405"
+	defaultMongoUrl          = "localhost"
+	defaultMqttUrl           = "localhost"
+	defaultInfluxUrl         = "http://localhost:8086"
+	defaultWebsocketsUrl     = "localhost:44406"
+	defaultCellarstoneApiUrl = "localhost:44413"
 )
 
 func init() {
@@ -33,11 +34,12 @@ func init() {
 
 func main() {
 	var (
-		addr          = envString("PORT", defaultPort)
-		mongourl      = envString("MONGO_URL", defaultMongoUrl)
-		mqtturl       = envString("MQTT_URL", defaultMqttUrl)
-		influxurl     = envString("INFLUX_URL", defaultInfluxUrl)
-		websocketsurl = envString("WEBSOCKETS_URL", defaultWebsocketsUrl)
+		addr               = envString("PORT", defaultPort)
+		mongourl           = envString("MONGO_URL", defaultMongoUrl)
+		mqtturl            = envString("MQTT_URL", defaultMqttUrl)
+		influxurl          = envString("INFLUX_URL", defaultInfluxUrl)
+		websocketsurl      = envString("WEBSOCKETS_URL", defaultWebsocketsUrl)
+		cellarstoneapisurl = envString("CELLAR_API_URL", defaultCellarstoneApiUrl)
 
 		httpAddr = flag.String("http.addr", ":"+addr, "HTTP listen address")
 
@@ -45,6 +47,10 @@ func main() {
 	)
 
 	flag.Parse()
+
+	// -------------------------------------------------
+	// -------------------------------------------------
+	// -------------------------------------------------
 
 	var logger log.Logger
 	logger = log.NewLogfmtLogger(log.NewSyncWriter(os.Stderr))
@@ -54,7 +60,7 @@ func main() {
 
 	// WORKFLOW ENGINE --------------------------
 	var bs engine.Service
-	bs = engine.NewService(mongourl, mqtturl, influxurl, websocketsurl)
+	bs = engine.NewService(mongourl, mqtturl, influxurl, websocketsurl, cellarstoneapisurl)
 	bs = engine.NewLoggingMiddleware(log.With(logger, "component", "workflowengine"), bs)
 	bs = engine.NewMetricsMiddleware(
 		kitprometheus.NewCounterFrom(stdprometheus.CounterOpts{
@@ -74,17 +80,26 @@ func main() {
 
 	workflowengineendpoints := engine.Endpoints{
 		GetAllWorkflowsEndpoint:   engine.MakeGetAllWorkflowsEndpoint(bs),
-		GetWorkflowsEndpoint:      engine.MakeGetWorkflowsEndpoint(bs),
-		GetWorkflowEndpoint:       engine.MakeGetWorkflowEndpoint(bs),
 		RunAllWorkflowsEndpoint:   engine.MakeRunAllWorkflowsEndpoint(bs),
-		RunWorkflowEndpoint:       engine.MakeRunWorkflowEndpoint(bs),
 		CheckAllWorkflowsEndpoint: engine.MakeCheckAllWorkflowsEndpoint(bs),
-		CheckWorkflowEndpoint:     engine.MakeCheckWorkflowEndpoint(bs),
-		CloseAllWorkflowsEndpoint: engine.MakeCloseAllWorkflowsEndpoint(bs),
-		CloseWorkflowEndpoint:     engine.MakeCloseWorkflowEndpoint(bs),
-		SaveWorkflowEndpoint:      engine.MakeSaveWorkflowEndpoint(bs),
-		UpdateWorkflowEndpoint:    engine.MakeUpdateWorkflowEndpoint(bs),
-		DeleteWorkflowEndpoint:    engine.MakeDeleteWorkflowEndpoint(bs),
+		StopAllWorkflowsEndpoint:  engine.MakeStopAllWorkflowsEndpoint(bs),
+
+		GetWorkflowsEndpoint:    engine.MakeGetWorkflowsEndpoint(bs),
+		DeleteWorkflowsEndpoint: engine.MakeDeleteWorkflowsEndpoint(bs),
+		RunWorkflowsEndpoint:    engine.MakeRunWorkflowsEndpoint(bs),
+		CheckWorkflowsEndpoint:  engine.MakeCheckWorkflowsEndpoint(bs),
+		StopWorkflowsEndpoint:   engine.MakeStopWorkflowsEndpoint(bs),
+
+		CreateAndRunDefaultSenzorEndpoint:  engine.MakeCreateAndRunDefaultSenzorWorkflowsEndpoint(bs),
+		StopAndDeleteDefaultSenzorEndpoint: engine.MakeStopAndDeleteDefaultSenzorWorkflowsEndpoint(bs),
+
+		GetWorkflowEndpoint:    engine.MakeGetWorkflowEndpoint(bs),
+		SaveWorkflowEndpoint:   engine.MakeSaveWorkflowEndpoint(bs),
+		UpdateWorkflowEndpoint: engine.MakeUpdateWorkflowEndpoint(bs),
+		DeleteWorkflowEndpoint: engine.MakeDeleteWorkflowEndpoint(bs),
+		RunWorkflowEndpoint:    engine.MakeRunWorkflowEndpoint(bs),
+		CheckWorkflowEndpoint:  engine.MakeCheckWorkflowEndpoint(bs),
+		StopWorkflowEndpoint:   engine.MakeStopWorkflowEndpoint(bs),
 	}
 
 	// SERVER -------------------------------------------

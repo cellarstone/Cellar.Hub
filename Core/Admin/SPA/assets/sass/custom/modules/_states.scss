@@ -1,0 +1,50 @@
+.newState
+{
+    background-color: $color-yellow-main;
+    height: 30px;
+    width: 50%;
+    margin: 0 auto;
+
+    transition: background-color .25s ease-in-out;
+    &:hover {
+        background-color: $color-yellow-main-darker;
+    }
+}
+
+.approvedState
+{
+    background-color: $color-green-approved;
+    height: 30px;
+    width: 50%;
+    margin: 0 auto;
+
+    transition: background-color .25s ease-in-out;
+    &:hover {
+        background-color: $color-green-approved-darker;
+    }
+}
+
+.forbiddenState
+{
+    background-color: $color-red-forbidden;
+    height: 30px;
+    width: 50%;
+    margin: 0 auto;
+
+    transition: background-color .25s ease-in-out;
+    &:hover {
+        background-color: $color-red-forbidden-darker;
+    }
+}
+
+.newStatePanel{
+    border-left: 7px solid $color-yellow-main !important;
+  }
+  
+  .approvedStatePanel{
+    border-left: 7px solid $color-green-approved !important;
+  }
+  
+  .forbiddenStatePanel{
+    border-left: 7px solid $color-red-forbidden !important;
+  }

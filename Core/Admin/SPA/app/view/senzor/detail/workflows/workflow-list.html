@@ -1,7 +1,7 @@
-<div style="margin-bottom: 15px">
-  <button type="button" pButton icon="fa-plus" label="Add" (click)="newWorkflow()"></button>
+<div class="ui-g loop-title">
+    <h3 class="loop-title__text">Workflows</h3>
+    <button type="button" class="loop-title__button-add" icon="fa-plus" (click)="newWorkflow()">Add Workflow</button>
 </div>
-
 
 <div *ngIf="items$ | async">
   <app-workflow-list [items]="items$ | async" (onSelect)="selectWorkflow($event)"></app-workflow-list>

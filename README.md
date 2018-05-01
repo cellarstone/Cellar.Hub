@@ -1,4 +1,64 @@
 
+# Vyresit
+
+- ukazovat jen jmeno? Pokud ano, tak schuzky zalozene timto systemem budou mit vzdy jmeno "KonzoleToExchange"
+- ukazovat nazev schuzky? 
+
+- Nemuzu mazat schuzky zalozene jinym subjektem nez "KonzoleToExchange" - Otazka polozena Jan Rezab
+
+- Kazdou ??minutu?? nastavovat :
+    - Home = aktualizovat timeline
+    - Calendar = aktualizovat schuzky pro ??vybrany?? den? Dnesni den??
+    - Obecne = vracet na uvodni obrazovku ???? 
+
+DOMLUVA
+Kazdou minutu po neaktivite vracet na HOME
+
+
+
+
+# Others problems
+
+PROBLEM ZE NEMAM PRISTUP PO ZPRISTUPNENI ADMIN PRES NGROK
+url v SPA vedu na nedostupne url adresy
+RESENI >> zpristupneni ALL hub ven - Admin, Websocket, Api, Workflow
+
+
+PROBLEM SE ZADAVANIM IP ADRESY HUBU DO SENZORU
+RESENI >> cloudDNS ?? vezmu si jeho IP adresu z cloudu ? protoze mi hub kazdou minutu hlasi svoji IP adresu ve vnitrni siti
+
+
+
+# Steps
+
+1. Run Hub
+ - Connect to the Wifi
+ - Set Account and password
+ THEN
+ - hub will send informations (HW, IP address ... etc) to the cloud and pair this informations with account
+
+2. Run Senzor
+3. Connect into AP mode and fill 
+    - Wifi SSID
+    - Wifi password
+    - Account name
+    - Account password
+
+4. Senzor GET Hub IP from Cloud
+5. Senzor send data into Hub
+
+
+
+
+# Setup Unify DNS
+
+ssh Cellarstone@192.168.1.1
+
+write password
+
+sudo vi /etc/hosts
+
+
 # Run
 
 Run everything with this command.
@@ -34,7 +94,7 @@ Linux : `docker stack deploy -c docker-stack.yml cellarhub --with-registry-auth`
     ```Shell
     192.168.1.19   web.cellarstone.hub
     192.168.1.19   admin.cellarstone.hub
-    192.168.1.19   api.cellarstone.hub
+    192.168.1.19   iot.cellarstone.hub
     192.168.1.19   cdn.cellarstone.hub
     192.168.1.19   workflow.cellarstone.hub
     192.168.1.19   websockets.cellarstone.hub
@@ -64,12 +124,13 @@ Application | Url
 --- | ---
 Hub Web | http://web.cellarstone.hub
 Hub Admin | http://admin.cellarstone.hub
-Hub Api | http://api.cellarstone.hub/metrics
-Hub Cdn | http://cdn.cellarstone.hub
+Hub Iot | http://iot.cellarstone.hub/metrics
+File server | http://file.cellarstone.hub
+Websocket server | http://websockets.cellarstone.hub
 Workflow Manager | http://workflow.cellarstone.hub
-Websockets | http://websockets.cellarstone.hub
 Office - meeting rooms | http://meetingrooms.cellarstone.hub
 Office - reception | http://reception.cellarstone.hub
+Office - welcome | http://welcome.cellarstone.hub
 Office - api | http://officeapi.cellarstone.hub
 
 
@@ -80,10 +141,11 @@ Port | Application
 80 | Traefik proxy
 44401 | Core - Web
 44402 | Core - Admin
-44403 | Core - Api
-44404 | Core - Cdn
-44405 | Core - Workflow
-44406 | Core - Websocket
+44403 | Core - Iot Microservice
+44404 | Core - File Server
+44405 | Core - Workflow Microservice
+44406 | Core - Websocket Server
+44407 | Core - User Microservice
 27017 | Core - mongodb
 1883 | Core - mqtt
 24224 | Core - fluentd
@@ -96,10 +158,13 @@ Port | Application
 8888 | Core - chronograf
 8094 | Core - telegraf
 9092 | Core - kapacitor
+16686 | Core - Jaeger
 19999 | Core - sysmon (netdata)
 44511 | Office Module - Meeting rooms Web App
 44512 | Office Module - Reception Web App
 44513 | Office Module - Api
+44514 | Office Module - Cafe Web App
+44515 | Office Module - Welcome
 
 
 

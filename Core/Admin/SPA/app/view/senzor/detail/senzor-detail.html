@@ -1,73 +1,61 @@
-﻿<h1>Senzor Detail</h1>
 <div id="senzor-detail">
 
 
-    <div class="ui-g" *ngIf="item$ | async">
+    <div *ngIf="item$ | async">
+        <div class="ui-g-12 ui-sm-12 ui-lg-12">
 
-        <!--*********************************************************************************************-->
-        <!--*********************************************************************************************-->
-        <!-- BASE INFO -->
-        <!--*********************************************************************************************-->
-        <!--*********************************************************************************************-->
 
-        <div class="ui-g-12">
-            <div class="card">
+            <div class="ui-g title">
+                <h3 class="title__text title__text--red" *ngIf="id === '0'">New Senzor</h3>
+                <h3 class="title__text title__text--red" *ngIf="id != '0'">Sensor Overview</h3>
+            </div>
 
+            <div class="card card-w-title border padding-around">
                 <app-senzor-base-info [item]="item$ | async" (onSave)="saveSenzor($event)" (onDelete)="deleteSenzor($event)" (onCancel)="cancelSenzor()"></app-senzor-base-info>
 
+                <div *ngIf="id != '0'">
+                    <senzor-workflow-list [senzorName]="(item$ | async).name"></senzor-workflow-list>
+
+                    <div class="divider margin-b-large"></div>
+                </div>
+
+
+                <div *ngIf="(item$ | async).type == 'CellarSenzor Power v1.0'">
+
+                    <relay-panel [senzorName]="(item$ | async).name"></relay-panel>
+
+                </div>
+
+                <div>
+                    <div *ngIf="(item$ | async).type == 'CellarSenzor Temperature v1.0'">
+
+                        <dht11-panel [senzorName]="(item$ | async).name"></dht11-panel>
+
+                    </div>
+
+                    <!--*********************************************************************************************-->
+                    <!--PIR-->
+                    <!--*********************************************************************************************-->
+
+                    <div *ngIf="(item$ | async).type == 'CellarSenzor Motion v1.0'">
+
+                        <pir-panel [senzorName]="(item$ | async).name"></pir-panel>
+
+                    </div>
+                </div>
+
+
+
             </div>
+
+
         </div>
 
 
-        <!--*********************************************************************************************-->
-        <!--*********************************************************************************************-->
-        <!-- WORKFLOWS -->
-        <!--*********************************************************************************************-->
-        <!--*********************************************************************************************-->
-
-        <div class="ui-g-12">
-            <div class="card">
-
-                <senzor-workflow-list [senzorName]="(item$ | async).name"></senzor-workflow-list>
-
-            </div>
-        </div>
-
-        <!--*********************************************************************************************-->
-        <!--*********************************************************************************************-->
-        <!--PANELS-->
-        <!--*********************************************************************************************-->
-        <!--*********************************************************************************************-->
-
-        <!--*********************************************************************************************-->
-        <!--POWER-->
-        <!--*********************************************************************************************-->
-
-        <div class="ui-g-12" *ngIf="(item$ | async).type == 'CellarSenzor Power v1.0'">
-            <div class="card">
-                <relay-panel [senzorName]="(item$ | async).name"></relay-panel>
-            </div>
-        </div>
 
         <!--*********************************************************************************************-->
         <!--DHT11-->
         <!--*********************************************************************************************-->
-
-        <div class="ui-g-12" *ngIf="(item$ | async).type == 'CellarSenzor Temperature v1.0'">
-            <div class="card">
-                <dht11-panel [senzorName]="(item$ | async).name"></dht11-panel>
-            </div>
-        </div>
-
-        <!--*********************************************************************************************-->
-        <!--PIR-->
-        <!--*********************************************************************************************-->
-
-        <div class="ui-g-12" *ngIf="(item$ | async).type == 'CellarSenzor Motion v1.0'">
-            <div class="card">
-                <pir-panel [senzorName]="(item$ | async).name"></pir-panel>
-            </div>
-        </div>
 
 
     </div>

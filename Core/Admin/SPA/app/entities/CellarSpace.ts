@@ -15,6 +15,8 @@ export class CellarSpace {
     public id: string;
     public name: string;
 
+    public officeemailaddress: string;
+
     //NEW
     //APPROVED
     //FORBIDDEN
@@ -32,12 +34,18 @@ export class CellarSpace {
 
     public getSubPath(): string {
         let result = "";
+        var nameTemp = "";
+        
+        if(this.name != undefined){
+            nameTemp = this.name.replace(/ /g, "-");
+        }
+        
 
         if (this.path == "/") {
-            result = this.path + this.name.toLowerCase();
+            result = this.path + nameTemp.toLowerCase();
         }
         else {
-            result = this.path + "/" + this.name.toLowerCase();
+            result = this.path + "/" + nameTemp.toLowerCase();
         }
 
         return result;

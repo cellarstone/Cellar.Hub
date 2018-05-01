@@ -1,21 +1,11 @@
 package engine
 
 import (
-	"fmt"
 	"os"
 
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
-
-type CellarWorkflow struct {
-	ID             bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	WorkflowType   string        `json:"workflowtype" bson:"workflowtype"`
-	WorkflowParams interface{}   `json:"workflowparams" bson:"workflowparams"`
-	Tags           []string      `json:"tags" bson:"tags"`
-	TriggerType    string        `json:"triggertype" bson:"triggertype"`
-	TriggerParams  interface{}   `json:"triggerparams" bson:"triggerparams"`
-}
 
 const (
 	defaultmongourl = "localhost"
@@ -33,7 +23,7 @@ func InitRepository() {
 
 func GetAllCellarWorkflows() ([]CellarWorkflow, error) {
 
-	fmt.Println(mongourl)
+	//fmt.Println(mongourl)
 
 	session, err := mgo.Dial(mongourl)
 	if err != nil {
@@ -77,6 +67,29 @@ func GetCellarWorkflows(senzorname string) ([]CellarWorkflow, error) {
 	//log.Println(result)
 
 	return result, nil
+}
+
+func DeleteCellarWorkflows(senzorname string) error {
+	// Get session
+	session, err := mgo.Dial(mongourl)
+	if err != nil {
+		return err
+	}
+	defer session.Close()
+
+	// Error check on every access
+	session.SetSafe(&mgo.Safe{})
+
+	// Get collection
+	collection := session.DB(mongoDatabase).C("Workflows")
+
+	// Delete record
+	err = collection.Remove(bson.M{"tags": bson.M{"$in": []string{senzorname}}})
+	if err != nil && err.Error() != "not found" {
+		return err
+	}
+
+	return nil
 }
 
 func GetCellarWorkflow(id string) (CellarWorkflow, error) {
@@ -129,7 +142,7 @@ func IsExistCellarWorkflow(id string) (bool, error) {
 	return false, nil
 }
 
-func AddCellarWorkflow(wf *CellarWorkflow) (CellarWorkflow, error) {
+func AddCellarWorkflow(wf CellarWorkflow) (CellarWorkflow, error) {
 	session, err := mgo.Dial(mongourl)
 	if err != nil {
 		return CellarWorkflow{}, err
@@ -142,14 +155,14 @@ func AddCellarWorkflow(wf *CellarWorkflow) (CellarWorkflow, error) {
 	wf.ID = bson.NewObjectId()
 
 	//INSERT
-	err = workflowsTable.Insert(wf)
+	err = workflowsTable.Insert(&wf)
 	if err != nil {
 		return CellarWorkflow{}, err
 	}
 
 	//log.Println(wf)
 
-	return *wf, nil
+	return wf, nil
 }
 
 func UpdateCellarWorkflow(wf *CellarWorkflow) (CellarWorkflow, error) {

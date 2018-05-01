@@ -1,0 +1,410 @@
+@import '~scss/variables';
+@import '~scss/base';
+
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-navy-dark-2);
+}
+
+.container {
+    display: flex;
+    justify-content: space-evenly;
+    position: relative;
+    top: 10%;
+}
+
+#service-icon,
+#snacks-icon,
+#summoning-icon,
+#something-icon {
+    margin-top: 13rem;
+    width: 30rem;
+    height: 40rem;
+    border-radius: .35rem;
+    transition: all .3s;
+    padding-bottom: 6rem;
+    box-shadow: var(--shadow-3);
+}
+
+#service-icon {
+    background: linear-gradient(215deg, #4ecffc, #5189ea);
+}
+
+#snacks-icon {
+    background: linear-gradient(215deg, #5189ea, #0a47b1);
+}
+
+#summoning-icon {
+    background: linear-gradient(215deg, #6018DC, rgb(36, 69, 151));
+}
+
+#something-icon {
+    background: linear-gradient(215deg, #F761A1, #FD6585);
+}
+
+
+/* UTILITIES */
+
+.modals {
+    font-family: var(--font-lato);
+}
+
+.u-center {
+    text-align: center;
+}
+
+.u-abs-center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* TYPOGRAPHY  */
+
+.heading-primary {
+    display: block;
+    font-size: 30px;
+    font-weight: 700;
+    background-image: linear-gradient(to bottom, #777,#333 );
+    -webkit-background-clip: text;
+    color: transparent;
+    letter-spacing: 2px;
+}
+
+.heading-pin {
+    color: #979595;
+    text-align: center;
+    font-family: lato;
+    margin: auto;
+    margin-bottom: 8%;
+    font-size: 25px;
+    letter-spacing: 1px;
+    display: block;
+}
+
+/* HIGHLIGHTER */
+
+.highlight-1 {
+    display: block;
+    width: 0;
+    height: 4px;
+    border-radius: 50px;
+    background-color: transparent;
+    transition: all .3s;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .2);
+}
+
+/* (OK - CONFIRM) BUTTON */
+
+.ok-button {
+    display: inline-block;
+    background-color: rgb(3, 169, 244);
+    border-radius: 2px;
+    padding: 1.5rem 5rem;
+    font-family: var(--font-lato);
+    font-size: 3rem;
+    letter-spacing: 2px;
+    color: #fff;
+    text-transform: uppercase;
+    box-shadow: var(--shadow-1)
+}
+
+.confirm-button {
+    display: block;
+    border: none;
+    background-color: rgb(3, 169, 244);
+    color: #fff;
+    border-radius: 5px;
+    padding: 20px 50px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-transform: uppercase;
+    font-size: 30px;
+    letter-spacing: 1px;
+    transition: background-color .2s;
+}
+
+.confirm-button:focus {
+    outline: none;
+}
+
+.confirm-button:active {
+    background-color: rgb(0, 119, 199);
+}
+
+
+/* CLOSE BUTTON */
+
+.close-button {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    right: 0;
+    top: 0;
+}
+
+.close-button:after,
+.close-button:before {
+    position: absolute;
+    content: '';
+    height: 33px;
+    width: 6px;
+    background-color: #777;
+    top: 15px;
+    right: 25px;
+    border-radius: 25px;
+}
+
+.close-button:after {
+    transform: rotate(45deg);
+}
+
+.close-button:before {
+    transform: rotate(-45deg);
+}
+
+
+/* /////////////////// SERVICE MODAL /////////////////// */
+
+.service-modal {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+.service-modal__content {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 70rem;
+    // height: 40rem;
+    text-align: center;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    transform: translate(-50%, -50%);
+}
+.service-modal__h4 {
+    display: block;
+    color: #333;
+    font-size: 3rem;
+    margin-top: 12rem;
+    text-align: center;
+}
+.service-modal__ok-button {
+    position: static;
+    margin: 8rem auto;
+    transition: background-color .2s;
+    &:active {
+        background-color: rgb(0, 119, 199);
+    }
+}
+
+/* /////////////////// PIN MODAL /////////////////// */
+
+.reception-modal {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.card {
+    perspective: 300rem;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: 40%;
+    height: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.card__side {
+    z-index: 20;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 3px;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .2);
+}
+
+.card__side-front {
+    background-color: #fff;
+}
+
+.card__animation {
+    animation: shakingFront .5s ease-in;
+}
+
+.card__side-back {
+    background-color: #fff;
+    transform: translate(-50%, -50%) rotatex(180deg);
+}
+
+.align-center {
+    text-align: center;
+}
+
+.pin-modal__close-button {
+    position: absolute;
+    top: -3rem;
+    right: -3rem;
+    box-shadow: 5px -5px 60px rgba(0, 0, 0, .2);
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+}
+
+.pin__h1 {
+    margin-top: 8%;
+}
+
+.pin__input {
+    border: none;
+    margin-top: 10%;
+    width: 30%;
+    text-align: center;
+    font-size: 100px;
+    letter-spacing: 5px;
+}
+
+.pin__input:focus {
+    outline: none;
+}
+
+.pin__input:focus+.highlight-1 {
+    width: 40%;
+    background-color: rgb(3, 169, 244);
+}
+
+.pin__highlight {
+    margin: 0 auto 8% auto;
+}
+
+.reception-modal__h4 {
+    display: inline-block;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    width: 100%;
+    transform: translate(-50%, -50%);
+}
+
+.reception-modal__ok-button {
+    
+    margin: 5rem auto;
+}
+
+.snack-modal {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    // transition: all .3s;
+}
+
+.snack-modal__content {
+    perspective: 100rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40%;
+    height: 50%;
+    background-color: #fff;
+    box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    transform: translate(-50%, -50%);
+}
+
+.snack-modal__content .snack-3d {
+    backface-visibility: hidden;
+    border-radius: 3px;
+    overflow: hidden;
+    transform-style: preserve-3d;
+}
+
+.snack__pin--animation {
+    animation: shakingSnackPin .5s ease-in;
+}
+
+.something-else-modal {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.something-else-modal__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40%;
+    height: 40%;
+    background-color: #fff;
+    box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes shakingFront {
+    0% {
+        transform: translate(-50%, -50%) rotateY(15deg)
+    }
+    20% {
+        transform: translate(-50%, -50%) rotateY(-15deg)
+    }
+    40% {
+        transform: translate(-50%, -50%) rotateY(15deg)
+    }
+    60% {
+        transform: translate(-50%, -50%) rotateY(-10deg)
+    }
+    80% {
+        transform: translate(-50%, -50%) rotateY(10deg)
+    }
+    100% {
+        transform: translate(-50%, -50%) rotateY(0deg)
+    }
+}
+
+@keyframes shakingSnackPin {
+    0% {
+        transform: translate(-50%, -50%) rotateY(15deg)
+    }
+    20% {
+        transform: translate(-50%, -50%) rotateY(-15deg)
+    }
+    40% {
+        transform: translate(-50%, -50%) rotateY(15deg)
+    }
+    60% {
+        transform: translate(-50%, -50%) rotateY(-10deg)
+    }
+    80% {
+        transform: translate(-50%, -50%) rotateY(10deg)
+    }
+    100% {
+        transform: translate(-50%, -50%) rotateY(0deg)
+    }
+}

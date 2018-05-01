@@ -17,10 +17,18 @@ import { WorkflowCli } from './view/workflow/cli/workflow-cli';
 import { WorkflowList } from './view/workflow/list/workflow-list';
 import { WorkflowDetail } from 'app/view/workflow/detail/workflow-detail';
 
+import { CallbackComponent } from './callback/callback.component';
+
+
+
+// Wizard multi-step component
+import { MultiStepWizardComponent } from './view/workflow/wizard/multi-step-wizard.component';
+
 export const routes: Routes = [
     {
         path: '', component: DashboardDemo 
     },
+    { path: 'callback', component: CallbackComponent },
     { path: 'dashboard', component: DashboardDemo },
     { path: 'places/dashboard', component: PlaceDashboard },
     { path: 'place/:id', component: PlaceDetail },
@@ -31,6 +39,8 @@ export const routes: Routes = [
     { path: 'workflow/cli', component: WorkflowCli },
     { path: 'workflows', component: WorkflowList },
     { path: 'workflow/:id', component: WorkflowDetail },
+    { path: 'workflow/0/new', component: MultiStepWizardComponent},
+    { path: '**', redirectTo: '' }
 ];
 
 // export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routes);

@@ -10,51 +10,36 @@ import { CellarWorkflow } from 'app/entities/CellarWorkflow';
 
 @Injectable()
 export class WorkflowService {
-  isProduction = environment.production;
-  isHttps = environment.https;
+  private serverUrl: string = environment.workflowUrl;
 
-  private serverUrl: string = '';
+  private url_getAllCellarWorkflows = this.serverUrl + '/engine/workflows';
+  private url_RunAllCellarWorkflows = this.serverUrl + '/engine/workflows/run';
+  private url_CheckAllCellarWorkflows = this.serverUrl + '/engine/workflows/check';
+  private url_StopAllCellarWorkflows = this.serverUrl + '/engine/workflows/stop';
 
-  private url_processes: string;
-  private url_actualDirectory: string;
-  private url_getAllCellarWorkflows: string;
-  private url_getCellarWorkflows: string;
-  private url_CellarWorkflow: string;
-  private url_RunCellarWorkflow: string;
-  private url_RunAllCellarWorkflows: string;
-  private url_StopCellarWorkflow: string;
-  private url_StopAllCellarWorkflows: string;
-  private url_CheckCellarWorkflow: string;
-  private url_CheckProcessCellarWorkflow: string;
+  private url_GetCellarWorkflows= this.serverUrl + '/engine/workflows/{senzorname}';
+  private url_DeleteCellarWorkflows= this.serverUrl + '/engine/workflows/{senzorname}';
+  private url_RunCellarWorkflows= this.serverUrl + '/engine/workflows/{senzorname}/run';
+  private url_CheckCellarWorkflows = this.serverUrl + '/engine/workflows/{senzorname}/check';
+  private url_StopCellarWorkflows= this.serverUrl + '/engine/workflows/{senzorname}/stop';
 
+  private url_CellarWorkflow= this.serverUrl + '/engine/workflow';
+  private url_RunCellarWorkflow = this.serverUrl + '/engine/workflow/{id}/run';
+  private url_CheckCellarWorkflow= this.serverUrl + '/engine/workflow/{id}/check';
+  private url_StopCellarWorkflow= this.serverUrl + '/engine/workflow/{id}/stop';
+  
+  private url_CreateAndRunDefaultSenzorWorkflows= this.serverUrl + '/engine/senzor/{id}/createandrundefault';
+  private url_StopAndDeleteDefaultSenzorWorkflows= this.serverUrl + '/engine/senzor/{id}/stopanddeletedefault';
+
+  // private url_processes: string;
+  // private url_actualDirectory: string;
+  
+  
+  
+  
   private headers: HttpHeaders;
 
-  constructor(private http: HttpClient) {
-    if (this.isProduction == true && this.isHttps == true) {
-      this.serverUrl = "https://workflow.cellarstone.hub";
-    }
-    else if (this.isProduction == true && this.isHttps == false) {
-      this.serverUrl = "http://workflow.cellarstone.hub";
-    }
-    else if (this.isProduction == false && this.isHttps == true) {
-      this.serverUrl = "https://localhost:44405";
-    }
-    else if (this.isProduction == false && this.isHttps == false) {
-      this.serverUrl = "http://localhost:44405";
-    }
-
-    // this.url_processes = this.serverUrl + '/api/processes';
-    // this.url_actualDirectory = this.serverUrl + '/api/actualdirectory';
-    this.url_getAllCellarWorkflows = this.serverUrl + '/engine/workflows';
-    this.url_getCellarWorkflows = this.serverUrl + '/engine/workflows';
-    this.url_CellarWorkflow = this.serverUrl + '/engine/workflow';
-    this.url_RunCellarWorkflow = this.serverUrl + '/engine/workflow/{id}/run';
-    this.url_RunAllCellarWorkflows = this.serverUrl + '/engine/runallworkflows';
-    this.url_StopCellarWorkflow = this.serverUrl + '/engine/workflow/{id}/stop';
-    this.url_StopAllCellarWorkflows = this.serverUrl + '/engine/stopallworkflows';
-    this.url_CheckCellarWorkflow = this.serverUrl + '/engine/workflow/{id}/check';
-    // this.url_CheckProcessCellarWorkflow = this.serverUrl + '/api/checkprocessworkflow';
-  }
+  constructor(private http: HttpClient) {}
 
   private setHeaders() {
     let headerJson = {
@@ -88,9 +73,58 @@ export class WorkflowService {
     this.setHeaders();
     let options = { headers: this.headers };
 
-    return this.http.get(this.url_getCellarWorkflows + "/" + senzorName, options)
+    return this.http.get(this.url_GetCellarWorkflows.replace("{senzorname}", senzorName), options)
       .catch(this.handleError);
   }
+
+
+  public DeleteCellarWorkflows(senzorName: string): Observable<CellarDTO> {
+    console.log('WorkflowService DeleteCellarWorkflows()');
+
+    this.setHeaders();
+
+    let options = { headers: this.headers };
+
+    return this.http.delete(this.url_GetCellarWorkflows.replace("{senzorname}", senzorName), options)
+      .catch(this.handleError);
+  }
+
+
+  public RunCellarWorkflows(senzorName: string): Observable<CellarDTO> {
+    console.log('WorkflowService RunCellarWorkflows()');
+
+    this.setHeaders();
+
+    let options = { headers: this.headers };
+
+    return this.http.get(this.url_RunCellarWorkflows.replace("{senzorname}", senzorName), options)
+      .catch(this.handleError);
+  }
+
+
+  public CheckCellarWorkflows(senzorName: string): Observable<CellarDTO> {
+    console.log('WorkflowService CheckCellarWorkflows()');
+
+    this.setHeaders();
+
+    let options = { headers: this.headers };
+
+    return this.http.get(this.url_CheckCellarWorkflows.replace("{senzorname}", senzorName), options)
+      .catch(this.handleError);
+  }
+
+
+  public StopCellarWorkflows(senzorName: string): Observable<CellarDTO> {
+    console.log('WorkflowService StopCellarWorkflows()');
+
+    this.setHeaders();
+
+    let options = { headers: this.headers };
+
+    return this.http.get(this.url_StopCellarWorkflows.replace("{senzorname}", senzorName), options)
+      .catch(this.handleError);
+  }
+
 
   public GetCellarWorkflow(id: string): Observable<CellarDTO> {
     console.log('WorkflowService GetCellarWorkflow()');
@@ -227,6 +261,38 @@ export class WorkflowService {
   }
 
 
+  //CREATE AND RUN DEFAULT SENZOR WORKFLOWS
+  public CreateAndRunDefaultSenzorWorkflows(senzorid: string): Observable<CellarDTO> {
+    console.log('WorkflowService CreateAndRunDefaultSenzorWorkflows()');
+
+    this.setHeaders();
+    let options = { headers: this.headers };
+
+    let realAddress = this.url_CreateAndRunDefaultSenzorWorkflows.replace("{id}", senzorid)
+
+    console.log(realAddress);
+
+    return this.http.get(realAddress, options)
+      .catch(this.handleError);
+  }
+
+
+  //STOP AND DELETE DEFAULT SENZOR WORKFLOWS
+  public StopAndDeleteDefaultSenzorWorkflows(senzorid: string): Observable<CellarDTO> {
+    console.log('WorkflowService StopAndDeleteDefaultSenzorWorkflows()');
+
+    this.setHeaders();
+    let options = { headers: this.headers };
+
+    let realAddress = this.url_StopAndDeleteDefaultSenzorWorkflows.replace("{id}", senzorid)
+
+    console.log(realAddress);
+
+    return this.http.get(realAddress, options)
+      .catch(this.handleError);
+  }
+
+
 
 
   /**********************************************/
@@ -234,15 +300,15 @@ export class WorkflowService {
   /**********************************************/
 
 
-  public GetRunningProcesses(): Observable<CellarDTO> {
-    console.log('WorkflowService GetRunningProcesses()');
+  // public GetRunningProcesses(): Observable<CellarDTO> {
+  //   console.log('WorkflowService GetRunningProcesses()');
 
-    this.setHeaders();
-    let options = { headers: this.headers };
+  //   this.setHeaders();
+  //   let options = { headers: this.headers };
 
-    return this.http.get(this.url_processes, options)
-      .catch(this.handleError);
-  }
+  //   return this.http.get(this.url_processes, options)
+  //     .catch(this.handleError);
+  // }
 
   public RunAllCellarWorkflows(): Observable<CellarDTO> {
     console.log('WorkflowService RunAllWorkflows()');
@@ -265,15 +331,15 @@ export class WorkflowService {
       .catch(this.handleError);
   }
 
-  public GetActualDirectory(): Observable<CellarDTO> {
-    console.log('WorkflowService GetActualDirectory()');
+  // public GetActualDirectory(): Observable<CellarDTO> {
+  //   console.log('WorkflowService GetActualDirectory()');
 
-    this.setHeaders();
-    let options = { headers: this.headers };
+  //   this.setHeaders();
+  //   let options = { headers: this.headers };
 
-    return this.http.get(this.url_actualDirectory, options)
-      .catch(this.handleError);
-  }
+  //   return this.http.get(this.url_actualDirectory, options)
+  //     .catch(this.handleError);
+  // }
 
 
 

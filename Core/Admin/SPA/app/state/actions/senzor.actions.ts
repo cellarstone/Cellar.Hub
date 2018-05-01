@@ -55,3 +55,10 @@ export class DeleteCellarSenzorAction implements Action {
     readonly type = DELETE_CELLAR_SENZOR;
     constructor(public payload: CellarSenzor){}
 }
+
+
+export const DELETE_CELLAR_SENZOR_FAILURE = '[CellarSenzor] Delete failure';
+export class DeleteCellarSenzorFailureAction implements Action {
+    readonly type = DELETE_CELLAR_SENZOR_FAILURE;
+    constructor(public payload: string){}
+}
