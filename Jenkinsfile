@@ -149,7 +149,7 @@ pipeline {
           },
           office_cafe: {
             sh 'docker tag cellar.hub.module.office.cafe cellarstone/cellar.hub.module.office.cafe:0.50.0'
-            sh 'docker push cellarstone/cellar.hub.module.office.reception:0.50.0'
+            sh 'docker push cellarstone/cellar.hub.module.office.cafe:0.50.0'
           },
           office_welcome: {
             sh 'docker tag cellar.hub.module.office.welcome cellarstone/cellar.hub.module.office.welcome:0.50.0'
