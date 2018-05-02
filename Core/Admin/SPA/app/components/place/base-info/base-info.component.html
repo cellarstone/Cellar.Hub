@@ -41,18 +41,18 @@
     <!--STATE + BASE INDORMATIONS-->
     <!--BASE INDORMATIONS-->
     <!--MAP-->
-    <div class="ui-g-12 no-padding information">
-      <div class="no-padding map-wrapper" *ngIf="!allowEdit" [ngClass]="colorMap[item.state]"
-        [ngClass]="{'nonvalid': !isMainPictureValid }">
-        <agm-map class="map-mini" [latitude]="lat" [longitude]="lng">
+    <div class="ui-g-12 no-padding information" *ngIf="!allowEdit">
+
+      <div [ngClass]="colorMap[item.state]" [ngClass]="{'nonvalid': !isMainPictureValid }">
+        <agm-map class="information__thumbnail information__thumbnail--photo" [latitude]="lat" [longitude]="lng">
           <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
         </agm-map>
       </div>
 
-      <div class="information__flex" *ngIf="!allowEdit">
+      <div class="information__flex">
+
         <h3 class="no-margin information__name">{{ item.name }}</h3>
         <div class="information__address">{{ item.street + ', ' + item.city + ' - ' + item.country }} </div>
-
       </div>
       <button *ngIf="item.id" type="button" label="Edit" class="information__button-edit" (click)="allowEdit = !allowEdit">Edit Place</button>
     </div>
