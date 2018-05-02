@@ -746,7 +746,7 @@ if [ "$IS_HUBCOREIOT_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_HUBCOREIOT_EXIST
 
-    docker service update --image cellarstone/cellar.hub.core.iot:0.51.0 \
+    docker service update --image cellarstone/cellar.hub.core.iot:0.50.0 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -789,7 +789,7 @@ else
                       --with-registry-auth \
                       --publish 44403:44403 \
                       --publish 44413:44413 \
-                      cellarstone/cellar.hub.core.iot:0.51.0     
+                      cellarstone/cellar.hub.core.iot:0.50.0     
 
 fi
 
@@ -967,7 +967,7 @@ if [ "$IS_HUBMODULE_OFFICEMEETINGS_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_HUBMODULE_OFFICEMEETINGS_EXIST
 
-    docker service update --image cellarstone/cellar.hub.module.office.meetingrooms:0.50.0 \
+    docker service update --image cellarstone/cellar.hub.module.office.meetingrooms:0.51.0 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -1006,7 +1006,7 @@ else
                       --log-opt tag="docker.cellar-hub-module-office-meetingrooms" \
                       --publish 44511:44511 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.module.office.meetingrooms:0.50.0
+                      cellarstone/cellar.hub.module.office.meetingrooms:0.51.0
 
 fi
 
