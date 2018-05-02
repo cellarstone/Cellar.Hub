@@ -21,7 +21,9 @@ export class FileService {
 
 
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {
+        console.log(this.serverUrl);
+    }
 
 
     private setHeaders() {
