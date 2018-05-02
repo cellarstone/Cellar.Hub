@@ -746,7 +746,7 @@ if [ "$IS_HUBCOREIOT_EXIST" != "" ]; then
 	echo "EXIST!"
     echo $IS_HUBCOREIOT_EXIST
 
-    docker service update --image cellarstone/cellar.hub.core.iot:0.50.0 \
+    docker service update --image cellarstone/cellar.hub.core.iot:0.51.0 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
@@ -788,7 +788,8 @@ else
                       --log-opt tag="docker.cellar.hub.core.iot" \
                       --with-registry-auth \
                       --publish 44403:44403 \
-                      cellarstone/cellar.hub.core.iot:0.50.0     
+                      --publish 44413:44413 \
+                      cellarstone/cellar.hub.core.iot:0.51.0     
 
 fi
 

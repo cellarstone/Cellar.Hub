@@ -140,8 +140,8 @@ pipeline {
             sh 'docker push cellarstone/cellar.hub.module.office.api:0.50.0'
           },
           office_meeting_rooms: {
-            sh 'docker tag cellar.hub.module.office.meetingrooms cellarstone/cellar.hub.module.office.meetingrooms:0.50.0'
-            sh 'docker push cellarstone/cellar.hub.module.office.meetingrooms:0.50.0'
+            sh 'docker tag cellar.hub.module.office.meetingrooms cellarstone/cellar.hub.module.office.meetingrooms:0.51.0'
+            sh 'docker push cellarstone/cellar.hub.module.office.meetingrooms:0.51.0'
           },
           office_reception: {
             sh 'docker tag cellar.hub.module.office.reception cellarstone/cellar.hub.module.office.reception:0.50.0'
