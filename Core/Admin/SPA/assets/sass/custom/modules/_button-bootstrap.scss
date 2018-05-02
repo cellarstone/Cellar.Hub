@@ -31,11 +31,11 @@
     border: none;
     outline: none;
     background-color: transparent;
-    color: $color-black-default;
+    color: transparent;
 
     transition: background-color .25s ease-in-out;
     &:hover {
-        background-color: $color-green-approved-darker;
+        background-color: $color-green-approved;
         color: $color-white-default;
     }
 }
@@ -47,6 +47,10 @@
     outline: none;
     background-color: $color-green-approved;
     color: $color-white-default;
+
+    &:hover {
+        background-color: $color-green-approved-darker;
+    }
 }
 
 .btn-warning
@@ -56,10 +60,10 @@
     border: none;
     outline: none;
     background-color: transparent;
-    color: $color-black-default;
+    color: transparent;
 
     &:hover {
-        background-color: $color-yellow-main-darker;
+        background-color: $color-yellow-main;
         color: $color-black-default;
     }
 }
@@ -71,6 +75,10 @@
     outline: none;
     background-color: $color-yellow-main;
     color: $color-black-default;
+
+    &:hover {
+        background-color: $color-yellow-main-darker;
+    }
 }
 
 .btn-danger
@@ -80,11 +88,11 @@
     border: none;
     outline: none;
     background-color: transparent;
-    color: $color-black-default;
+    color: transparent;
 
     transition: background-color .25s ease-in-out;
     &:hover {
-        background-color: $color-red-forbidden-darker;
+        background-color: $color-red-forbidden;
         color: $color-white-default;
     }
 }
@@ -96,6 +104,10 @@
     outline: none;
     background-color: $color-red-forbidden;
     color: $color-white-default;
+
+    &:hover {
+        background-color: $color-red-forbidden-darker;
+    }
 }
 
 //Button group
