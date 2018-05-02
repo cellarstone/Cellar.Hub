@@ -189,6 +189,8 @@ export class SpaceBaseInfoComponent implements OnInit {
 
   addMainPictureChangeEvent(fileInput: any) {
 
+    console.log(fileInput);
+
     if (fileInput.target.files && fileInput.target.files[0]) {
       let fileToUpload = fileInput.target.files[0];
       console.log(fileToUpload.name);

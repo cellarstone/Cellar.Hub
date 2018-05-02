@@ -5,8 +5,8 @@ export const environment = {
     // iotUrl: "http://iot.cellarstone.hub",
     // workflowUrl: "http://workflow.cellarstone.hub",
     // callbackUrl: "http://admin.cellarstone.hub/callback"
-    fileServerUrl: "http://localhost:44404",
-    iotUrl: "http://localhost:44403",
-    workflowUrl: "http://localhost:44405",
-    callbackUrl: "http://localhost:44402/callback"
+    fileServerUrl: "http://127.0.0.1:44404",
+    iotUrl: "http://127.0.0.1:44403",
+    workflowUrl: "http://127.0.0.1:44405",
+    callbackUrl: "http://127.0.0.1:44402/callback"
 };
