@@ -5,7 +5,7 @@
 }
 
 .button-upload {
-  border: 1px solid $color-grey-basic !important;
+  border: 1px solid $color-grey-basic;
   color: $color-grey-basic;
   background-color: white;
   padding: 8px 20px;
@@ -15,8 +15,9 @@
   transition: all .25s ease-in-out;
 
   &:hover {
-    background-color: $color-text-dark;
-    color: $color-white-default;
+    background-color: $color-border-grey;
+    border: 1px solid transparent;
+    color: $color-text-dark;
   }
 }
 
