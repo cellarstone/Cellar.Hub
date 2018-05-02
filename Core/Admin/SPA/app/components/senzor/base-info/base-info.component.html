@@ -41,9 +41,11 @@
     </div>
 
     <div *ngIf="!allowEdit" class="ui-g-12 no-padding information">
+
       <div>
         <img class="information__thumbnail" [ngClass]="colorMap[item.state]" src="{{ selectedTypeImage }}" alt="sensor_img">
       </div>
+
       <div class="information__flex">
         <h3 class="information__name no-margin">{{ item.name }}</h3>
         <div class="information__address">{{ item.type }}</div>
