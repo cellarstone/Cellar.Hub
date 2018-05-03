@@ -356,16 +356,14 @@ export class AppModule {
     constructor(apollo: Apollo, httpLink: HttpLink) {
         apollo.create({
           link: httpLink.create({
-            //uri: 'http://iot.cellarstone.hub/graphql'
-            uri: 'http://127.0.0.1:44403/graphql'
+            uri: 'http://iot.cellarstone.hub/graphql'
           }),
           cache: new InMemoryCache()
         }, "iot");
 
         apollo.create({
             link: httpLink.create({
-              //uri: 'http://officeapi.cellarstone.hub/graphql'
-              uri: 'http://127.0.0.1:44513/graphql'
+              uri: 'http://officeapi.cellarstone.hub/graphql'
             }),
             cache: new InMemoryCache()
           }, "office");
