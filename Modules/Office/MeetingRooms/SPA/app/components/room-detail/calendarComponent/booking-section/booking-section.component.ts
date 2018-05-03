@@ -60,6 +60,10 @@ export class BookingSectionComponent implements OnInit {
       vm.location = "Jednačka Butan 10";
     } else if (this.meetingRoomEmail == "jednacka.zero@alza.cz") {
       vm.location = "Jednačka Zero 20 (Projektor)"; //
+    } else if (this.meetingRoomEmail == "jednacka.propan@alza.cz") {
+      vm.location = "Jednačka Propan 10"; //
+    } else if (this.meetingRoomEmail == "jednacka.septima@alza.cz") {
+      vm.location = "Jednačka Septima 6"; //
     }
     vm.start = meeting.start;
     vm.end = meeting.end;
