@@ -146,15 +146,13 @@ export class AppModule {
   constructor(apollo: Apollo, httpLink: HttpLink) {
     apollo.create({
       link: httpLink.create({
-        // uri: 'http://localhost:44513/graphql'
-        uri: 'http://127.0.0.1:44513/graphql'
+        uri: 'http://officeapi.cellarstone.hub/graphql'
       }),
       cache: new InMemoryCache()
     }, "office");
     
     apollo.create({
       link: httpLink.create({
-        // uri: 'http://13649ba8.ngrok.io/api/graphql'
         uri: 'http://7e8685a0.ngrok.io/api/graphql'
       }),
       cache: new InMemoryCache()
