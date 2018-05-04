@@ -35,6 +35,8 @@ export class HomeComponent implements OnInit {
   subject: string = "";
   isLoaded: boolean = false;
 
+  rebuildStatus: Observable<number>;
+
   constructor(private store: Store<ApplicationState>) { 
     this.meetingRoom$ = this.store.select(state => state.uiState.selectedMeetingRoom);
     this.bookings$ = this.store.select(state => state.storeData.timelineBookings);
@@ -43,6 +45,12 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
     this.loadTimelineBookings();
+
+    this.rebuildStatus = Observable.interval(30000);
+    this.rebuildStatus
+      .subscribe(i => { 
+          this.loadTimelineBookings();
+      });
     
   }
 
