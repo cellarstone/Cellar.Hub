@@ -15,10 +15,15 @@
     top: 10%;
 }
 
+#timelineBody {
+    position:absolute;
+    bottom:0;
+    width:100%;
+}
+
 .changeStatus .buttons {
     padding: 0 10px;
     text-transform: lowercase;
-    font-family: var(--font-microsoft);
     cursor: pointer;
 }
 
@@ -32,7 +37,6 @@
 
 .room, .presenter {
     font-size: 500%;
-    font-family: var(--font-microsoft);
 }
 .room {
     margin-top: 15vh;
@@ -42,7 +46,6 @@
 }
 .status {
     font-size: 120px;
-    font-family: var(--font-varela);
     margin-top: 4vh;
 }
 .presenter span {

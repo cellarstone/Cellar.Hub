@@ -14,7 +14,6 @@
     box-shadow: var(--shadow-3);
     color: #fff;
     font-weight: 300;
-    // font-family: var(--font-varela);
 }   
 .navbar div {
     display: inline-block;
@@ -31,7 +30,6 @@
     text-decoration: none;
     font-size: 2.5rem;
     letter-spacing: 1px;
-    font-family: var(--font-microsoft);
 }
 .active-tab {
     display: block;
@@ -54,11 +52,11 @@
     background-color: black;
 }
 .time {
-    display: inline-block;
-    position: absolute;
+    // display: inline-block;
+    // position: absolute;
+    float: right;
     padding: 2rem;
     right: 0;
-    font-family: var(--font-lato);
     font-size: 3rem;
 }
 .special {

@@ -6,7 +6,7 @@
     </div>
 </div>
 
-<div *ngIf="isLoaded" style="height:500px">
+<div id="timelineBody" *ngIf="isLoaded">
     <app-timeline [bookings]="bookings$ | async"></app-timeline>
 </div>
 
