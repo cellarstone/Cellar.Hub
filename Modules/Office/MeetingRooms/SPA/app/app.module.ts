@@ -81,7 +81,7 @@ import { ApplicationEffects } from 'app/state/effects/application.effects';
 import { MeetingStatusDialogComponent } from './components/room-detail/calendarComponent/meeting-status-dialog/meeting-status-dialog.component';
 
 
-
+import { environment } from '../environments/environment';
 
 @NgModule({
   imports: [
@@ -145,17 +145,20 @@ import { MeetingStatusDialogComponent } from './components/room-detail/calendarC
   bootstrap: [AppComponent]
 })
 export class AppModule { 
+  private officeapiUrl: string = environment.officeApiUrl;
+  private k2exchangeUrl: string = environment.k2exchangeUrl;
+
   constructor(apollo: Apollo, httpLink: HttpLink) {
     apollo.create({
       link: httpLink.create({
-        uri: 'http://officeapi.cellarstone.hub/graphql'
+        uri: this.officeapiUrl + '/graphql'
       }),
       cache: new InMemoryCache()
     }, "office");
     
     apollo.create({
       link: httpLink.create({
-        uri: 'http://1969e7df.ngrok.io/api/graphql'
+        uri: this.k2exchangeUrl + '/graphql'
       }),
       cache: new InMemoryCache()
     }, "k2exchange");

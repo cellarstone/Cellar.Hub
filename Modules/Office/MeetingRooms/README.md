@@ -1,6 +1,11 @@
 
 This is application for meeting rooms
 
+# Run
+
+```Shell
+ng serve --port 44511
+```
 
 # Must be done
 

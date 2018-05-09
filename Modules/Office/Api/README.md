@@ -1,6 +1,12 @@
 
-
 This is whole office API
+
+# Run
+
+```Shell
+go run server.d/main.go
+```
+
 
 
 # Queries

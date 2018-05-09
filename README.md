@@ -1,34 +1,4 @@
 
-# Vyresit
-
-- ukazovat jen jmeno? Pokud ano, tak schuzky zalozene timto systemem budou mit vzdy jmeno "KonzoleToExchange"
-- ukazovat nazev schuzky? 
-
-- Nemuzu mazat schuzky zalozene jinym subjektem nez "KonzoleToExchange" - Otazka polozena Jan Rezab
-
-- Kazdou ??minutu?? nastavovat :
-    - Home = aktualizovat timeline
-    - Calendar = aktualizovat schuzky pro ??vybrany?? den? Dnesni den??
-    - Obecne = vracet na uvodni obrazovku ???? 
-
-DOMLUVA
-Kazdou minutu po neaktivite vracet na HOME
-
-
-
-
-# Others problems
-
-PROBLEM ZE NEMAM PRISTUP PO ZPRISTUPNENI ADMIN PRES NGROK
-url v SPA vedu na nedostupne url adresy
-RESENI >> zpristupneni ALL hub ven - Admin, Websocket, Api, Workflow
-
-
-PROBLEM SE ZADAVANIM IP ADRESY HUBU DO SENZORU
-RESENI >> cloudDNS ?? vezmu si jeho IP adresu z cloudu ? protoze mi hub kazdou minutu hlasi svoji IP adresu ve vnitrni siti
-
-
-
 # Steps
 
 1. Run Hub
@@ -78,30 +48,13 @@ Linux : `docker stack deploy -c docker-stack.yml cellarhub --with-registry-auth`
 
 
 1. On target device must exist all folders necessary for apps :
-    - /data/cellarstone.hub/core/cdn
+    - /data/cellarstone.hub/core/file
     - /data/cellarstone.hub/core/mongodb
     - /data/cellarstone.hub/core/elasticsearch
     - /data/cellarstone.hub/core/prometheus
     - /data/cellarstone.hub/core/grafana
     - /data/cellarstone.hub/core/influxdb
 
-2. On target device must be set all address on local /etc/hosts DNS file
-
-    So, open the file `sudo gedit /etc/hosts`
-
-    Add, all Hub's addresses. You will find you local IP address by `ifconfig` command
-
-    ```Shell
-    192.168.1.19   web.cellarstone.hub
-    192.168.1.19   admin.cellarstone.hub
-    192.168.1.19   iot.cellarstone.hub
-    192.168.1.19   cdn.cellarstone.hub
-    192.168.1.19   workflow.cellarstone.hub
-    192.168.1.19   websockets.cellarstone.hub
-    192.168.1.19   meetingrooms.cellarstone.hub
-    192.168.1.19   reception.cellarstone.hub
-    192.168.1.19   officeapi.cellarstone.hub
-    ```
 
 # Development
 
@@ -133,6 +86,27 @@ Office - reception | http://reception.cellarstone.hub
 Office - welcome | http://welcome.cellarstone.hub
 Office - api | http://officeapi.cellarstone.hub
 
+
+## Optional 
+
+2. On target device can be set all address on local /etc/hosts DNS file
+
+    So, open the file `sudo gedit /etc/hosts`
+
+    Add, all Hub's addresses. You will find you local IP address by `ifconfig` command
+
+    Example :
+    ```Shell
+    192.168.1.19   web.cellarstone.hub
+    192.168.1.19   admin.cellarstone.hub
+    192.168.1.19   iot.cellarstone.hub
+    192.168.1.19   cdn.cellarstone.hub
+    192.168.1.19   workflow.cellarstone.hub
+    192.168.1.19   websockets.cellarstone.hub
+    192.168.1.19   meetingrooms.cellarstone.hub
+    192.168.1.19   reception.cellarstone.hub
+    192.168.1.19   officeapi.cellarstone.hub
+    ```
 
 # Ports
 
@@ -209,9 +183,6 @@ sudo systemctl restart docker
 #Docker_Hub_Network=$(sudo docker network ls --filter "name=cellarhub_default" --format "{{.ID}}")
 sudo docker network rm ${Docker_Hub_Network}
 
-
-# SET ENVIRONMENT for aspnet core app
-export ASPNETCORE_ENVIRONMENT="Development"
 
 # ----------------------------------
 # CORE
@@ -319,6 +290,10 @@ sudo docker run -d -p 44512:44512 -t cellar.hub.module.office.reception
 docker rm --force @(docker ps -aq)
 docker rmi --force @(docker images -aq)
 
+docker-compose -f docker-compose.windows.yml up
+
+docker-compose -f docker-compose.windows.yml up --build
+
 ```
 
 
@@ -341,3 +316,34 @@ Build version
 Production version
 
 ![PROD VERSION](https://storage.googleapis.com/cellarstone-public-images/PROD_VERSION.png "Production version")
+
+
+
+# Vyresit
+
+- ukazovat jen jmeno? Pokud ano, tak schuzky zalozene timto systemem budou mit vzdy jmeno "KonzoleToExchange"
+- ukazovat nazev schuzky? 
+
+- Nemuzu mazat schuzky zalozene jinym subjektem nez "KonzoleToExchange" - Otazka polozena Jan Rezab
+
+- Kazdou ??minutu?? nastavovat :
+    - Home = aktualizovat timeline
+    - Calendar = aktualizovat schuzky pro ??vybrany?? den? Dnesni den??
+    - Obecne = vracet na uvodni obrazovku ???? 
+
+DOMLUVA
+Kazdou minutu po neaktivite vracet na HOME
+
+
+
+
+# Others problems
+
+PROBLEM ZE NEMAM PRISTUP PO ZPRISTUPNENI ADMIN PRES NGROK
+url v SPA vedu na nedostupne url adresy
+RESENI >> zpristupneni ALL hub ven - Admin, Websocket, Api, Workflow
+
+
+PROBLEM SE ZADAVANIM IP ADRESY HUBU DO SENZORU
+RESENI >> cloudDNS ?? vezmu si jeho IP adresu z cloudu ? protoze mi hub kazdou minutu hlasi svoji IP adresu ve vnitrni siti
+
