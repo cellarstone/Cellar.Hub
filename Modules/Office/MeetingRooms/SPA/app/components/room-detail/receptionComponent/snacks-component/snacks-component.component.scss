@@ -24,7 +24,6 @@ button {
     position: relative;
     overflow: hidden;
     top: 10%;
-    font-family: var(--font-segoe);
     background-color: #fff;
     justify-content: space-between;
     border-radius: .5rem;
@@ -85,7 +84,6 @@ button {
 }
 
 .snack-items {
-    font-family: var(--font-microsoft);
     font-weight: 400;
     // word-wrap: break-word;
     // overflow: hidden;
@@ -198,7 +196,6 @@ button {
     height: 5rem;
     color: #95989A;
     font-size: 4rem;
-    font-family: var(--font-lato);
 }
 
 .minus {
@@ -237,7 +234,6 @@ button {
     height: 5rem;
     color: #95989A;
     font-size: 4rem;
-    font-family: var(--font-lato);
 }
 
 .order {}
@@ -266,7 +262,6 @@ button {
     border-radius: .35rem;
     box-shadow: var(--shadow-3);
     background-color: var(--color-navy-dark-2);
-    font-family: var(--font-microsoft);
     color: var(--color-grey-light-1);
     &:focus {
         outline: none !important;

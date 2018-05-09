@@ -30,6 +30,7 @@ import {MatDialogModule,
   MatChipsModule,
   MatIconModule,
   MatCardModule,
+  MatListModule,
   MatSnackBarModule} from '@angular/material';
  
 import {CdkTableModule} from '@angular/cdk/table';
@@ -106,6 +107,7 @@ import { MeetingStatusDialogComponent } from './components/room-detail/calendarC
     MatDatepickerModule,
     MatSelectModule,
     MatChipsModule,
+    MatListModule,
     MatIconModule,
     CdkTableModule,
     A11yModule,
@@ -153,7 +155,7 @@ export class AppModule {
     
     apollo.create({
       link: httpLink.create({
-        uri: 'http://7e8685a0.ngrok.io/api/graphql'
+        uri: 'http://1969e7df.ngrok.io/api/graphql'
       }),
       cache: new InMemoryCache()
     }, "k2exchange");

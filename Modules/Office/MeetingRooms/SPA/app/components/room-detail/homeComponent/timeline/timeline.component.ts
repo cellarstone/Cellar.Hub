@@ -48,7 +48,7 @@ export class TimelineComponent implements OnInit {
 
     // Configuration for the Timeline
     var options = {
-      height: '300px',
+      height: '200px',
       // moment: function(date) {
       //   return vis.moment(date).local('cs');
       // },
@@ -87,7 +87,7 @@ export class TimelineComponent implements OnInit {
   resetTimeline(){
     console.log("resetTimeline");
     var options = {
-      height: '300px',
+      height: '200px',
       // moment: function(date) {
       //   return vis.moment(date).utc();
       // },
