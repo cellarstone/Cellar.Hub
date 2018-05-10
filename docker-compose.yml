@@ -39,26 +39,26 @@ services:
   #   ports:
   #   - "44401:44401"
 
-  cellar-hub-core-admin:
-    image: cellar.hub.core.admin
-    build:
-      context: ./Core/Admin
-      dockerfile: Dockerfile
-    labels:
-      - "traefik.enabled=true"
-      - "traefik.port=44402"
-      - "traefik.backend=core-admin"
-      - "traefik.frontend.rule=Host:admin.cellarstone.hub"
-    links:
-      - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-        tag: docker.cellar.hub.core.admin
-        mode: non-blocking
-    ports:
-    - "44402:44402"
+  # cellar-hub-core-admin:
+  #   image: cellar.hub.core.admin
+  #   build:
+  #     context: ./Core/Admin
+  #     dockerfile: Dockerfile
+  #   labels:
+  #     - "traefik.enabled=true"
+  #     - "traefik.port=44402"
+  #     - "traefik.backend=core-admin"
+  #     - "traefik.frontend.rule=Host:admin.cellarstone.hub"
+  #   links:
+  #     - fluentd
+  #   logging:
+  #     driver: "fluentd"
+  #     options:
+  #       fluentd-address: localhost:24224
+  #       tag: docker.cellar.hub.core.admin
+  #       mode: non-blocking
+  #   ports:
+  #   - "44402:44402"
 
   cellar-hub-core-file:
     image: cellar.hub.core.file
@@ -126,7 +126,7 @@ services:
     links:
       - fluentd
       - mongodb
-      - jaeger
+      # - jaeger
     logging:
       driver: "fluentd"
       options:
@@ -260,15 +260,15 @@ services:
     ports:
       - 9091:9091
 
-  grafana:
-    image: grafana/grafana
-    links:
-      - prometheus
-      - elasticsearch
-    volumes:
-      - /data/cellarstone.hub/core/grafana:/var/lib/grafana
-    ports:
-      - '3000:3000'
+  # grafana:
+  #   image: grafana/grafana
+  #   links:
+  #     - prometheus
+  #     - elasticsearch
+  #   volumes:
+  #     - /data/cellarstone.hub/core/grafana:/var/lib/grafana
+  #   ports:
+  #     - '3000:3000'
 
   sysmon:
     image: titpetric/netdata
@@ -318,18 +318,18 @@ services:
     ports:
       - '8888:8888'
 
-  jaeger:
-    image: jaegertracing/all-in-one:latest
-    environment:
-      - COLLECTOR_ZIPKIN_HTTP_PORT=9411
-    ports:
-      - '5775:5775/udp'
-      - '6831:6831/udp'
-      - '6832:6832/udp'
-      - '5778:5778'
-      - '16686:16686'
-      - '14268:14268'
-      - '9411:9411'
+  # jaeger:
+  #   image: jaegertracing/all-in-one:latest
+  #   environment:
+  #     - COLLECTOR_ZIPKIN_HTTP_PORT=9411
+  #   ports:
+  #     - '5775:5775/udp'
+  #     - '6831:6831/udp'
+  #     - '6832:6832/udp'
+  #     - '5778:5778'
+  #     - '16686:16686'
+  #     - '14268:14268'
+  #     - '9411:9411'
 
 
 
@@ -352,7 +352,7 @@ services:
       - "traefik.frontend.rule=Host:officeapi.cellarstone.hub"
     links:
       - fluentd
-      - jaeger
+      # - jaeger
     logging:
       driver: "fluentd"
       options:
