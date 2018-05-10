@@ -3,6 +3,7 @@ import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
 //RxJS
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/interval';
+import 'rxjs/add/operator/takeUntil';
 //ngRX
 import { Store } from '@ngrx/store';
 

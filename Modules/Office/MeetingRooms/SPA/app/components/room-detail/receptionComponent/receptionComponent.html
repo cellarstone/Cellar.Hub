@@ -44,30 +44,53 @@
     </div>
   </div> -->
 
+  <div 
+    class="reception-modal"
+    *ngIf="receptionModalIsShown"
+    @showReceptionModal>
+    <div class="card">
+      <div class="card__side card__side-front">
+        <form [formGroup]="form" class="align-center">
+          <div class="close-button" (click)="receptionModalIsShown = false"></div>
+          <label for="pin" class="pin__h1 heading-primary">Enter your PIN</label>
+          <input appAutofocus formControlName="pinNumber" type="password" name="pin" class="pin__input" placeholder="****" maxlength="4">
+          <div class="pin__highlight highlight-1"></div>
+          <button (click)="onReceptionPinSubmit()" class="pin__confirm-button ok-button">Confirm</button>
+        </form>
+      </div>
+      <div class="card__side card__side-back" *ngIf="receptionModalFlip">
+        <div class="u-center">
+          <h4 class="heading-primary reception-modal__h4">A receptionist will arrive shortly.</h4>
+          <button (click)="receptionModalIsShown = false" class="ok-button reception-modal__ok-button">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- SNACKS MODAL (routing to Snacks component) -->
 
-  <!-- <div 
+  <div 
     class="snack-modal"
     *ngIf="snackModalIsShown"
     @showSnackModal>
     <div class="card">
       <div class="card__side card__side-front">
-        <form (submit)="onSnackPinSubmit()" class="align-center">
+        <form [formGroup]="form2" class="align-center">
           <div class="close-button" (click)="snackModalIsShown = false"></div>
           <label for="pin" class="pin__h1 heading-primary">Enter your PIN</label>
-          <input appAutofocus [(ngModel)]="pinNumber" type="password" name="pin" class="pin__input" placeholder="****" maxlength="4">
+          <input appAutofocus formControlName="pinNumber" type="password" name="pin" class="pin__input" placeholder="****" maxlength="4">
           <div class="pin__highlight highlight-1"></div>
-          <button type="submit" class="pin__confirm-button ok-button">Confirm</button>
+          <button (click)="onSnackPinSubmit()" class="pin__confirm-button ok-button">Confirm</button>
         </form>
       </div>
       <div class="card__side card__side-back">
         <div class="u-center">
           <h4 class="heading-primary reception-modal__h4">TEST</h4>
-          <button class="ok-button reception-modal__ok-button" (click)="receptionModalIsShown = false">CLOSE</button>
+          <button (click)="receptionModalIsShown = false" class="ok-button reception-modal__ok-button" >CLOSE</button>
         </div>
       </div>
     </div>
-  </div> -->
+  </div>
 
   <!-- <div 
     class="snack-modal"
@@ -92,7 +115,7 @@
 
   <!-- SOMETHING ELSE MODAL -->
 
-  <!-- <div 
+   <div 
     class="something-else-modal"
     *ngIf="somethingElseModalIsShown"
     @showSomethingElseModal>
@@ -102,6 +125,6 @@
         <button (click)='somethingElseModalIsShown = false' class="ok-button service-modal__ok-button">SEND</button>
       </div>
     </div>
-  </div> -->
+  </div> 
 
 </div>
