@@ -7,20 +7,6 @@ This is application for meeting rooms
 ng serve --port 44511
 ```
 
-# Must be done
-
-1. zmenit v _base.scss - na 100% - material componenty jsou pak hrozne maly
-```JS
-html{
-    font-size: 62.5%;
-    box-sizing: border-box;
-}
-```
-
-2. Calendar > Edit , pridat cancel nebo od-edit
-
-
-
 
 # K2 - Exchange GraphQL
 

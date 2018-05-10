@@ -23,9 +23,6 @@ export class TimelineComponent implements OnInit {
 
   ngOnInit() {
     
-    console.log("ngOnInit - timeline");
-    console.log(this.bookings);
-
     // DOM element where the Timeline will be attached
     var container = document.getElementById('visualization');
 
@@ -42,8 +39,6 @@ export class TimelineComponent implements OnInit {
       count++;
     }
 
-    console.log(dsitems);
-    
     var items = new vis.DataSet(dsitems);
 
     // Configuration for the Timeline

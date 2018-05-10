@@ -84,11 +84,8 @@ export class CalendarComponent implements OnInit {
     const dialogRef = this.dialog.open(MeetingStatusDialogComponent,
       dialogConfig);
 
-    //!!!!!!!!!!!!!
-    //Zkontroluj atendees mail !!!!!
     this.store.dispatch(new SetCreateMeetingStatusAction("Creating..."));
     this.store.dispatch(new CreateMeetingAction(result));
-    //!!!!!!!!!!!!!
 
     dialogRef.afterClosed()
       .subscribe(value => {
@@ -163,20 +160,6 @@ export class CalendarComponent implements OnInit {
 
   }
 
-
-
-  // compare(a, b) {
-
-  //   var startTime = moment(a, "HH:mm");
-  //   var endTime = moment(b, "HH:mm");
-
-
-  //   if (startTime.isBefore(endTime))
-  //     return -1;
-  //   if (startTime.isAfter(endTime))
-  //     return 1;
-  //   return 0;
-  // }
 
 }
 
