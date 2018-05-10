@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { showEditButtonsTrigger } from './booking-section.animation';
 import { BookingVM } from 'app/models/BookingVM';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import { CreateMeetingVM } from 'app/models/CreateMeetingVM';
 import { DeleteMeetingVM } from 'app/models/DeleteMeetingVM';
 import * as moment from 'moment';
 import { MeetingStatusVM } from 'app/components/room-detail/calendarComponent/meeting-status-dialog/MeetingStatusVM';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-booking-section',
@@ -15,9 +16,10 @@ import { MeetingStatusVM } from 'app/components/room-detail/calendarComponent/me
   styleUrls: ['./booking-section.component.scss'],
   animations: [
     showEditButtonsTrigger
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BookingSectionComponent implements OnInit {
+export class BookingSectionComponent implements OnInit, OnDestroy {
 
   @Input()
   meetingRoomEmail: string;
@@ -34,6 +36,8 @@ export class BookingSectionComponent implements OnInit {
   public showEditButtons: boolean = false;
 
   actualDateTime = new Date();
+
+  private unsubscribe$ = new Subject();
   
   constructor(private dialog: MatDialog) { }
 
@@ -42,6 +46,11 @@ export class BookingSectionComponent implements OnInit {
     setInterval(() => {
       this.actualDateTime = new Date();
     }, 1000);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   createMeeting(meeting: BookingVM){
@@ -79,6 +88,7 @@ export class BookingSectionComponent implements OnInit {
 
 
     dialogRef.afterClosed()
+    .takeUntil(this.unsubscribe$)
     .subscribe(value => {
       let valueObj = <CreateMeetingVM>value;
       this.onCreateMeeting.emit(valueObj);

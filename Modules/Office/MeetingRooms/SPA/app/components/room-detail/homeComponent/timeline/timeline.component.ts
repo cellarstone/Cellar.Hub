@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 
 declare var vis: any;
 // import * as vis from 'vis';
@@ -6,20 +6,25 @@ import * as moment from 'moment';
 import { BookingVM } from 'app/models/BookingVM';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/interval';
+import { Subject } from 'rxjs/Subject';
 
 
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
-  styleUrls: ['./timeline.component.scss']
+  styleUrls: ['./timeline.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TimelineComponent implements OnInit {
+export class TimelineComponent implements OnInit, OnDestroy {
   
   @Input()
   bookings: BookingVM[] = [];
 
   timeline: any;
   rebuildTimeline: Observable<number>;
+
+  private unsubscribe$ = new Subject();
+
 
   ngOnInit() {
     
@@ -73,11 +78,19 @@ export class TimelineComponent implements OnInit {
     // timeline.moveTo(moment());
     this.rebuildTimeline = Observable.interval(60000);
     this.rebuildTimeline
+      .takeUntil(this.unsubscribe$)
       .subscribe(i => { 
           this.resetTimeline();
       });
 
   }
+
+  
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
 
   resetTimeline(){
     console.log("resetTimeline");

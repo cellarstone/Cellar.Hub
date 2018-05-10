@@ -15,6 +15,7 @@ import 'rxjs/add/operator/take';
 import { BookingVM } from 'app/models/BookingVM';
 import { Store } from '@ngrx/store';
 import { ApplicationState } from 'app/state/state/application.state';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'home-component',
@@ -24,7 +25,7 @@ import { ApplicationState } from 'app/state/state/application.state';
     homeSlideStateTrigger
   ]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   meetingRoom$: Observable<MeetingRoomDTO>;
   bookings$: Observable<BookingVM[]>;
@@ -34,6 +35,8 @@ export class HomeComponent implements OnInit {
   isLoaded: boolean = false;
 
   rebuildStatus: Observable<number>;
+
+  private unsubscribe$ = new Subject();
 
   constructor(private store: Store<ApplicationState>) { 
     this.meetingRoom$ = this.store.select(state => state.uiState.selectedMeetingRoom);
@@ -46,10 +49,16 @@ export class HomeComponent implements OnInit {
 
     this.rebuildStatus = Observable.interval(30000);
     this.rebuildStatus
+      .takeUntil(this.unsubscribe$)
       .subscribe(i => { 
           this.loadTimelineBookings();
       });
     
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
 

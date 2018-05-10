@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AutofocusDirective } from '../../../shared/autofocus.directive'
 import { receptionSlideStateTrigger } from '../../../shared/route-animations';
@@ -16,7 +16,8 @@ declare var $: any;
     showReceptionModalTrigger,
     showSnackModalTrigger,
     showSomethingElseModalTrigger
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReceptionComponent implements OnInit {
   @HostBinding('@receptionSlideState') routeAnimation = true;

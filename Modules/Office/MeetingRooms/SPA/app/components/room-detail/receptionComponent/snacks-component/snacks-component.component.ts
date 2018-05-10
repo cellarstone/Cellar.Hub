@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ChangeDetectionStrategy } from '@angular/core';
 import { SortimentItem } from 'app/models/SortimentItem';
 import { Router } from '@angular/router';
 import { snackSlideStateTrigger, snacksMenuTrigger, snacksSubcategoriesMenuTrigger, shoppingCartItemsTrigger } from './snacks.animation';
@@ -17,8 +17,8 @@ declare var $: any;
     snacksMenuTrigger,
     snacksSubcategoriesMenuTrigger,
     shoppingCartItemsTrigger
-  ]
-  
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SnacksComponentComponent implements OnInit {
   @HostBinding('@snackSlideState') routeAnimation = true;

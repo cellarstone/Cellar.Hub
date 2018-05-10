@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input, ChangeDetectionStrategy } from '@angular/core';
 import { calendarSlideStateTrigger } from 'app/shared/route-animations';
 import { calendarSlideRightTrigger, calendarSlideLeftTrigger, calendarTodayTrigger } from './calendar-section.animations';
 
@@ -13,7 +13,8 @@ import * as moment from 'moment';
     calendarSlideRightTrigger,
     calendarSlideLeftTrigger,
     calendarTodayTrigger
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CalendarSectionComponent implements OnInit {
 
@@ -72,25 +73,48 @@ export class CalendarSectionComponent implements OnInit {
       days.push(rrr);
     };
 
+    let rows = days.length / 7;
+
     //After last day in month
-    if (days.length <= 42) {
-      for (let n = 0; (42 - days.length); n++) {
-        let rrr = moment(selectedDateLocal).add(1, 'M').startOf('M').add(n, 'd');
-        days.push(rrr);
+    if(rows > 5){
+      if (days.length <= 42) {
+        for (let n = 0; (42 - days.length); n++) {
+          let rrr = moment(selectedDateLocal).add(1, 'M').startOf('M').add(n, 'd');
+          days.push(rrr);
+        }
+      }
+    } else {
+      if (days.length <= 35) {
+        for (let n = 0; (35 - days.length); n++) {
+          let rrr = moment(selectedDateLocal).add(1, 'M').startOf('M').add(n, 'd');
+          days.push(rrr);
+        }
       }
     }
+
+    
 
     return days;
   }
 
   public todayCheck(day: moment.Moment) {
     let temp = moment().hour(0).minute(0).second(0).millisecond(0);
-    let result = temp.isSame(day);
-    return result;
+
+    if(temp.year() == day.year() &&
+      temp.month() == day.month() &&
+      temp.date() == day.date())
+      {
+        console.log(temp);
+        console.log(day);
+
+        return true;
+      } else {
+        return false;
+      }
   }
 
   public selectedDateCheck(day: moment.Moment) {
-    // console.log("selectedDateCheck");
+    console.log("selectedDateCheck");
     let temp1 = moment(day);
     let temp2 = moment(this.selectedDate);
     let result = temp1.isSame(temp2);
