@@ -8,8 +8,6 @@ import { homeSlideStateTrigger } from '../../../shared/route-animations';
 import { MeetingRoomDTO } from 'app/dto/MeetingRoomDTO';
 
 declare var $: any;
-declare var vis: any;
-// import * as vis from 'vis';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
@@ -17,6 +15,7 @@ import 'rxjs/add/operator/take';
 import { BookingVM } from 'app/models/BookingVM';
 import { Store } from '@ngrx/store';
 import { ApplicationState } from 'app/state/state/application.state';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'home-component',
@@ -26,7 +25,7 @@ import { ApplicationState } from 'app/state/state/application.state';
     homeSlideStateTrigger
   ]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   meetingRoom$: Observable<MeetingRoomDTO>;
   bookings$: Observable<BookingVM[]>;
@@ -36,6 +35,8 @@ export class HomeComponent implements OnInit {
   isLoaded: boolean = false;
 
   rebuildStatus: Observable<number>;
+
+  private unsubscribe$ = new Subject();
 
   constructor(private store: Store<ApplicationState>) { 
     this.meetingRoom$ = this.store.select(state => state.uiState.selectedMeetingRoom);
@@ -48,10 +49,16 @@ export class HomeComponent implements OnInit {
 
     this.rebuildStatus = Observable.interval(30000);
     this.rebuildStatus
+      .takeUntil(this.unsubscribe$)
       .subscribe(i => { 
           this.loadTimelineBookings();
       });
     
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
 
@@ -60,7 +67,6 @@ export class HomeComponent implements OnInit {
     this.bookings$
     .subscribe((values) => {
 
-      // console.log(values);
       if(values == null){
         return
       }
@@ -72,32 +78,10 @@ export class HomeComponent implements OnInit {
         let start = meeting.start;
         let end = meeting.end;
   
-        
-        // console.log(actualTime);
-        // console.log(start);
-        // console.log(end);
         let isActual = actualTime.isBetween(start,end);
-        // console.log(isActual);
         if(isActual){
-          // console.log('-------------------');
-          // console.log(meeting.status);
-          // console.log(meeting.subject);
-          // console.log(meeting.location);
-          // console.log(meeting.start);
-          // console.log(meeting.end);
-          // console.log('-------------------');
-
           isReserved = true;
           this.subject = meeting.by;
-          // if (this.item.state == "Reserved") {
-            
-          // } else if (this.item.state == "Available") {
-            
-          // } else if (this.item.state == "Maintenance") {
-          //   this.onMaintenance();
-          // } else {
-          //   this.onAvailable();
-          // }
         } 
       }
 
@@ -117,8 +101,6 @@ export class HomeComponent implements OnInit {
     $("body").css("background-color", "#F44336");
     $('.status').text('Reserved');
     $('.homeBody').css({ 'color': 'white' });
-    // $('.presenter').children('span').text('by');
-    // $('.presenter').children('div').text('Jan Novák');
     this.state = "Reserved";
   }
 
@@ -126,8 +108,6 @@ export class HomeComponent implements OnInit {
     $("body").css('background-color', "#4CAF50");
     $('.status').text('Available');
     $('.homeBody').css({ 'color': 'white' });
-    // $('.presenter').children('span').text('');
-    // $('.presenter').children('div').text('');
     this.state = "Available";
   }
 
@@ -135,8 +115,6 @@ export class HomeComponent implements OnInit {
     $("body").css('background-color', "#FFEB3B");
     $('.status').text('Maintenance');
     $('.homeBody').css({ 'color': 'black' });
-    // $('.presenter').children('span').text('');
-    // $('.presenter').children('div').text('');
     this.state = "Maintenance";
   }
 

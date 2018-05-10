@@ -1,5 +1,5 @@
 //Angular
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, OnDestroy } from '@angular/core';
 //RxJS
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/interval';
@@ -23,6 +23,7 @@ import { LoadCalendarBookingsModel } from 'app/state/models/application.models';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MeetingStatusVM } from 'app/components/room-detail/calendarComponent/meeting-status-dialog/MeetingStatusVM';
 import { MeetingStatusDialogComponent } from './meeting-status-dialog/meeting-status-dialog.component';
+import { Subject } from 'rxjs/Subject';
 
 
 @Component({
@@ -30,7 +31,7 @@ import { MeetingStatusDialogComponent } from './meeting-status-dialog/meeting-st
   templateUrl: './calendarComponent.html',
   styleUrls: ['./calendarComponent.scss']
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnDestroy {
 
   meetingRoom$: Observable<MeetingRoomDTO>;
   bookings$: Observable<BookingVM[]>;
@@ -39,6 +40,8 @@ export class CalendarComponent implements OnInit {
   selectedDate: moment.Moment;
 
   rebuildCalendar: Observable<number>;
+
+  private unsubscribe$ = new Subject();
 
   constructor(private store: Store<ApplicationState>,
     private dialog: MatDialog) {
@@ -49,6 +52,11 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit() {
     this.selectedDate = moment().hour(0).minute(0).second(0).millisecond(0);
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
 
@@ -84,13 +92,11 @@ export class CalendarComponent implements OnInit {
     const dialogRef = this.dialog.open(MeetingStatusDialogComponent,
       dialogConfig);
 
-    //!!!!!!!!!!!!!
-    //Zkontroluj atendees mail !!!!!
     this.store.dispatch(new SetCreateMeetingStatusAction("Creating..."));
     this.store.dispatch(new CreateMeetingAction(result));
-    //!!!!!!!!!!!!!
 
     dialogRef.afterClosed()
+      .takeUntil(this.unsubscribe$)
       .subscribe(value => {
         console.log(value);
       });
@@ -129,6 +135,7 @@ export class CalendarComponent implements OnInit {
     this.store.dispatch(new DeleteMeetingAction(result));
 
     dialogRef.afterClosed()
+      .takeUntil(this.unsubscribe$)
       .subscribe(value => {
         console.log(value);
       });
@@ -147,7 +154,9 @@ export class CalendarComponent implements OnInit {
 
     let mail = "";
 
-    this.meetingRoom$.subscribe(value => {
+    this.meetingRoom$
+    .takeUntil(this.unsubscribe$)
+    .subscribe(value => {
       mail = value.email;
     })
 
@@ -163,20 +172,6 @@ export class CalendarComponent implements OnInit {
 
   }
 
-
-
-  // compare(a, b) {
-
-  //   var startTime = moment(a, "HH:mm");
-  //   var endTime = moment(b, "HH:mm");
-
-
-  //   if (startTime.isBefore(endTime))
-  //     return -1;
-  //   if (startTime.isAfter(endTime))
-  //     return 1;
-  //   return 0;
-  // }
 
 }
 

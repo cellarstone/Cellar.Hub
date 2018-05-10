@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, ChangeDetectionStrategy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AutofocusDirective } from '../../../shared/autofocus.directive'
 import { receptionSlideStateTrigger } from '../../../shared/route-animations';
@@ -16,7 +16,8 @@ declare var $: any;
     showReceptionModalTrigger,
     showSnackModalTrigger,
     showSomethingElseModalTrigger
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReceptionComponent implements OnInit {
   @HostBinding('@receptionSlideState') routeAnimation = true;
@@ -26,7 +27,7 @@ export class ReceptionComponent implements OnInit {
   somethingElseModalIsShown: boolean = false;
   receptionModalFlip: boolean = true;
 
-  pinNumber: string = '';
+  public pinNumber: string = '';
 
   private currentRoute;
 
@@ -68,93 +69,93 @@ export class ReceptionComponent implements OnInit {
     };
   }
   
-  // openServiceModal() {
-  //   $('.service-modal').css({
-  //     "opacity": "1", "visibility": "visible"
-  //   });
+  openServiceModal() {
+    $('.service-modal').css({
+      "opacity": "1", "visibility": "visible"
+    });
 
-  //   $('.service-modal__content').css({
-  //     "transform": "translate(-50%, -50%) scale(1)"
-  //   });
-  // }
+    $('.service-modal__content').css({
+      "transform": "translate(-50%, -50%) scale(1)"
+    });
+  }
 
-  // closeServiceModal() {
-  //   $('.service-modal').css({
-  //     "opacity": "0", "visibility": "hidden"
-  //   });
-  //   $('.service-modal__content').css({
-  //     "transform": "translate(-50%, -50%) scale(0)"
-  //   });
-  // }
+  closeServiceModal() {
+    $('.service-modal').css({
+      "opacity": "0", "visibility": "hidden"
+    });
+    $('.service-modal__content').css({
+      "transform": "translate(-50%, -50%) scale(0)"
+    });
+  }
 
-  // openReceptionPinModal() {
-  //   $('.reception-modal').css({
-  //     "opacity": "1", "visibility": "visible"
-  //   });
-  //   $('.card').css({
-  //     "transform": "translate(-50%, -50%) scale(1)"
-  //   });
-  // }
+  openReceptionPinModal() {
+    $('.reception-modal').css({
+      "opacity": "1", "visibility": "visible"
+    });
+    $('.card').css({
+      "transform": "translate(-50%, -50%) scale(1)"
+    });
+  }
 
-  // closeReceptionPinModal() {
-  //   $('.reception-modal').css({
-  //     "opacity": "0", "visibility": "hidden"
-  //   })
-  //   $('.card').css({
-  //     "transform": "translate(-50%, -50%) scale(0)"
-  //   });
-  // }
+  closeReceptionPinModal() {
+    $('.reception-modal').css({
+      "opacity": "0", "visibility": "hidden"
+    })
+    $('.card').css({
+      "transform": "translate(-50%, -50%) scale(0)"
+    });
+  }
 
-  // closeReceptionModal(){
-  //   $('.reception-modal').css({
-  //     "opacity":"0", "visibility":"hidden"
-  //   });
-  //   $('.card').css({
-  //     "transform":"translate(-50%, -50%) scale(0)"
-  //   });
-  //   $('.card__side-front').css({
-  //     "transform": "translate(-50%, -50%) rotatex(0deg)"
-  //   });
-  //   $('.card__side-back').css({
-  //     "transform": "translate(-50%, -50%) rotatex(-180deg)"
-  //   });
-  // }
+  closeReceptionModal(){
+    $('.reception-modal').css({
+      "opacity":"0", "visibility":"hidden"
+    });
+    $('.card').css({
+      "transform":"translate(-50%, -50%) scale(0)"
+    });
+    $('.card__side-front').css({
+      "transform": "translate(-50%, -50%) rotatex(0deg)"
+    });
+    $('.card__side-back').css({
+      "transform": "translate(-50%, -50%) rotatex(-180deg)"
+    });
+  }
 
-  // openSnackPinModal(){
-  //   $('.snack-modal').css({
-  //     "opacity":"1", "visibility":"visible"
-  //   });
-  //   $('.snack-modal__content').css({
-  //     "transform":"translate(-50%, -50%) scale(1)"
-  //   });
-  // }
+  openSnackPinModal(){
+    $('.snack-modal').css({
+      "opacity":"1", "visibility":"visible"
+    });
+    $('.snack-modal__content').css({
+      "transform":"translate(-50%, -50%) scale(1)"
+    });
+  }
 
-  // closeSnackPinModal(){
-  //   $('.snack-modal').css({
-  //     "opacity":"0", "visibility":"hidden"
-  //   });
-  //   $('.snack-modal__content').css({
-  //     "transform":"translate(-50%, -50%) scale(0)"
-  //   });
-  // }
+  closeSnackPinModal(){
+    $('.snack-modal').css({
+      "opacity":"0", "visibility":"hidden"
+    });
+    $('.snack-modal__content').css({
+      "transform":"translate(-50%, -50%) scale(0)"
+    });
+  }
 
-  // openSomethingElseModal(){
-  //   $('.something-else-modal').css({
-  //     "opacity":"1", "visibility":"visible"
-  //   });
-  //   $('.something-else-modal__content').css({
-  //     "transform":"translate(-50%, -50%) scale(1)"
-  //   });
-  // }
+  openSomethingElseModal(){
+    $('.something-else-modal').css({
+      "opacity":"1", "visibility":"visible"
+    });
+    $('.something-else-modal__content').css({
+      "transform":"translate(-50%, -50%) scale(1)"
+    });
+  }
 
-  // closeSomethingElseModal(){
-  //   $('.something-else-modal').css({
-  //     "opacity":"0", "visibility":"hidden"
-  //   });
-  //   $('.something-else-modal__content').css({
-  //     "transform":"translate(-50%, -50%) scale(0)"
-  //   });
-  // }
+  closeSomethingElseModal(){
+    $('.something-else-modal').css({
+      "opacity":"0", "visibility":"hidden"
+    });
+    $('.something-else-modal__content').css({
+      "transform":"translate(-50%, -50%) scale(0)"
+    });
+  }
 
   onSnackSubmit() {
     this.router.navigate(['snacks'], {relativeTo: this.route, queryParamsHandling: 'preserve'});

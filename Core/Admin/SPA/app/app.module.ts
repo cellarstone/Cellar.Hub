@@ -199,7 +199,7 @@ import { MultiStepWizardService } from './view/workflow/wizard/wizard.service';
 import { PropertyComponent } from './components/meeting-room/property/property.component';
 import { OfficeEffects } from './state/effects/office.effects';
 
-
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -353,17 +353,20 @@ import { OfficeEffects } from './state/effects/office.effects';
     bootstrap: [AppComponent]
 })
 export class AppModule { 
+    private iotUrl: string = environment.iotUrl;
+    private officeapiUrl: string = environment.officeApiUrl;
+
     constructor(apollo: Apollo, httpLink: HttpLink) {
         apollo.create({
           link: httpLink.create({
-            uri: 'http://iot.cellarstone.hub/graphql'
+            uri: this.iotUrl + '/graphql'
           }),
           cache: new InMemoryCache()
         }, "iot");
 
         apollo.create({
             link: httpLink.create({
-              uri: 'http://officeapi.cellarstone.hub/graphql'
+              uri: this.officeapiUrl + '/graphql'
             }),
             cache: new InMemoryCache()
           }, "office");

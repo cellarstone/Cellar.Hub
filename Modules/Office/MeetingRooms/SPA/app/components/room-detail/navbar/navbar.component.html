@@ -1,6 +1,6 @@
 <div class="navbar">
 
-      <div (click)="onHome()" class="button home-button" [routerLink]="[{outlets:{roomDetail:'home'}}]">
+      <div class="button home-button" [routerLink]="[{outlets:{roomDetail:'home'}}]">
             <a 
                   [routerLink]="[{outlets:{roomDetail:'home'}}]"
                   routerLinkActive="normal-shadow"
@@ -14,7 +14,7 @@
             </span>
       </div>
 
-      <div (click)="onCalendar()" class="button calendar-button" [routerLink]="[{outlets:{roomDetail:'calendar'}}]">
+      <div class="button calendar-button" [routerLink]="[{outlets:{roomDetail:'calendar'}}]">
             <a 
                   [routerLink]="[{outlets:{roomDetail:'calendar'}}]"
                   routerLinkActive="normal-shadow"
@@ -28,7 +28,7 @@
             </span>
       </div>
 
-      <div (click)="onReception()" class="button reception" [routerLink]="[{outlets:{roomDetail:'reception'}}]">
+      <div class="button reception" [routerLink]="[{outlets:{roomDetail:'reception'}}]">
             <a 
                   [routerLink]="[{outlets:{roomDetail:'reception'}}]"
                   routerLinkActive="normal-shadow"
@@ -41,13 +41,6 @@
                   id="reception" >
             </span>
       </div>
-
-      <!-- <span 
-            class="time" 
-            [ngClass]="(sharedService.state=='Maintenance')&& (sharedService.activeTab=='Home')?'special':'normal'"
-            >
-            {{ myDate | date:'HH:mm:ss' }} 
-      </span> -->
       <span 
             class="time" 
             [ngClass]="'normal'"

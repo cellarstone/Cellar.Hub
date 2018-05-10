@@ -82,7 +82,7 @@ services:
         tag: docker.cellar.hub.core.file
         mode: non-blocking
     volumes:
-     - /data/cellarstone.hub/core/file:/app/data
+     - C:/data/cellarstone.hub/core/file:/app/data
     ports:
     - "44404:44404"
 
@@ -228,7 +228,7 @@ services:
   elasticsearch:
     image: elasticsearch
     volumes:
-        - /data/cellarstone.hub/core/elasticsearch:/var/lib/elasticsearch
+        - C:/data/cellarstone.hub/core/elasticsearch:/var/lib/elasticsearch
     expose:
       - 9200
     ports:
@@ -247,7 +247,7 @@ services:
       context: ./Core/Db/prometheus
       dockerfile: Dockerfile
     volumes:
-      - /data/cellarstone.hub/core/prometheus:/data/prometheus
+      - C:/data/cellarstone.hub/core/prometheus:/data/prometheus
     ports:
       - '9090:9090'
     links:
@@ -266,19 +266,19 @@ services:
   #     - prometheus
   #     - elasticsearch
   #   volumes:
-  #     - /data/cellarstone.hub/core/grafana:/var/lib/grafana
+  #     - C:/data/cellarstone.hub/core/grafana:/var/lib/grafana
   #   ports:
   #     - '3000:3000'
 
-  sysmon:
-    image: titpetric/netdata
-    cap_add:
-      - SYS_PTRACE
-    volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-    ports:
-      - '19999:19999'
+  # sysmon:
+  #   image: titpetric/netdata
+  #   cap_add:
+  #     - SYS_PTRACE
+  #   volumes:
+  #     - /proc:/host/proc:ro
+  #     - /sys:/host/sys:ro
+  #   ports:
+  #     - '19999:19999'
 
   telegraf:
     image: cellar.hub.telegraf
@@ -293,7 +293,7 @@ services:
   influxdb:
     image: influxdb:1.3.5
     volumes:
-      - /data/cellarstone.hub/core/influxdb:/var/lib/influxdb
+      - C:/data/cellarstone.hub/core/influxdb:/var/lib/influxdb
     ports:
       - '8086:8086'
   
