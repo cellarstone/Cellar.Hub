@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AutofocusDirective } from '../../../shared/autofocus.directive'
 import { receptionSlideStateTrigger } from '../../../shared/route-animations';
 import { showServiceModalTrigger, showReceptionModalTrigger, showSnackModalTrigger, showSomethingElseModalTrigger } from './reception.animation';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 
 declare var $: any;
 
@@ -27,12 +28,24 @@ export class ReceptionComponent implements OnInit {
   somethingElseModalIsShown: boolean = false;
   receptionModalFlip: boolean = true;
 
-  public pinNumber: string = '';
+  // public pinNumber: string = '';
+  // public pinNumber2: string = '';
 
   private currentRoute;
 
-  constructor(
-    private router: Router, private route: ActivatedRoute) { }
+  form: FormGroup;
+  form2: FormGroup;
+
+  constructor(private fb: FormBuilder,
+    private router: Router, 
+    private route: ActivatedRoute) { 
+      this.form = fb.group({
+        pinNumber: ["", Validators.required]
+      });
+      this.form2 = fb.group({
+        pinNumber: ["", Validators.required]
+      });
+    }
 
   ngOnInit() {
     this.currentRoute = this.route.parent.snapshot.params['name'];
@@ -41,32 +54,47 @@ export class ReceptionComponent implements OnInit {
   }
 
   onReceptionPinSubmit() {
-    if (this.pinNumber === '1234') {
+    let asdf = this.form.get('pinNumber').value;
+    if (asdf === '1234') {
       $('.card__side-front').css({
         "transform": "translate(-50%, -50%) rotatex(180deg)"
       });
       $('.card__side-back').css({
         "transform": "translate(-50%, -50%) rotatex(0deg)"
       });
-      this.pinNumber = '';
     } else {
       $('.card__side-front').removeClass('card__animation').animate({ 'nothing': null }, 1, function () {
         $(this).addClass('card__animation');
       });
-      this.pinNumber = '';
     };
+    this.rebuildForm();
+  }
+
+  rebuildForm() {
+    this.form.reset({
+      pinNumber: ''
+    });
+  }
+  rebuildForm2() {
+    this.form2.reset({
+      pinNumber: ''
+    });
   }
 
   onSnackPinSubmit(){
-    if (this.pinNumber === '1234') {
-      this.router.navigate(['snacks'], {relativeTo: this.route, queryParamsHandling: 'preserve'});
-      this.pinNumber = '';
+    let asdf = this.form2.get('pinNumber').value;
+    if (asdf === '1234') {
+      // this.router.navigate([{outlets:{roomDetail: 'snacks'}}]);
+      // this.router.navigate([{outlets:{roomDetail: 'snacks'}}], { relativeTo: this.route });
+      // this.router.navigate(['snacks'], { relativeTo: this.route });
+      //this.router.navigate(['',{outlets: {'roomDetail':'home'}}]);
+      this.router.navigateByUrl('(roomDetail:snacks)');
     } else {
       $('.card__side-front').removeClass('card__animation').animate({ 'nothing': null }, 1, function () {
         $(this).addClass('card__animation');
       })
-      this.pinNumber = '';
     };
+    this.rebuildForm2()
   }
   
   openServiceModal() {

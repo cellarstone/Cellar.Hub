@@ -11,6 +11,7 @@ declare var $: any;
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/takeUntil';
 
 import { BookingVM } from 'app/models/BookingVM';
 import { Store } from '@ngrx/store';

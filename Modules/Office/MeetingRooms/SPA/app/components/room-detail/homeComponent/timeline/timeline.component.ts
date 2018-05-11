@@ -7,6 +7,7 @@ import { BookingVM } from 'app/models/BookingVM';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/interval';
 import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 
 
 @Component({

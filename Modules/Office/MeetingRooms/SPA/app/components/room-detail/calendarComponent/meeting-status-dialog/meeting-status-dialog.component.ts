@@ -5,6 +5,7 @@ import { timer } from 'rxjs/observable/timer';
 import { take, map } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
   selector: 'app-meeting-status-dialog',

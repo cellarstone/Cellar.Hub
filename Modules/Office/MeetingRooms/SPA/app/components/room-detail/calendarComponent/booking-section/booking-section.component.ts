@@ -9,6 +9,7 @@ import { DeleteMeetingVM } from 'app/models/DeleteMeetingVM';
 import * as moment from 'moment';
 import { MeetingStatusVM } from 'app/components/room-detail/calendarComponent/meeting-status-dialog/MeetingStatusVM';
 import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 
 @Component({
   selector: 'app-booking-section',

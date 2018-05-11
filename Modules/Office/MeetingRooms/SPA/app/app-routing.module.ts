@@ -18,7 +18,7 @@ const appRoutes: Routes = [
     { path: 'home', component: HomeComponent, outlet: 'roomDetail'},
     { path: 'calendar', component: CalendarComponent, outlet: 'roomDetail'},
     { path: 'reception', component: ReceptionComponent, outlet: 'roomDetail'},
-    { path: 'reception/snacks', component: SnacksComponentComponent, outlet: 'roomDetail'}
+    { path: 'snacks', component: SnacksComponentComponent, outlet: 'roomDetail'}
   ] }
 ];
 
