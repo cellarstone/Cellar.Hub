@@ -29,6 +29,7 @@ import { LoadCellarSpaceAction, SaveCellarSpaceAction, DeleteCellarSpaceAction }
 import { DeleteCellarSenzorAction, SaveCellarSenzorAction } from 'app/state/actions/senzor.actions';
 import { CellarMeetingRoom } from 'app/entities/CellarMeetingRoom';
 import { LoadCellarMeetingRoomAction, CleanSelectedCellarMeetingRoomAction, SaveCellarMeetingRoomAction, DeleteCellarMeetingRoomAction } from 'app/state/actions/office.actions';
+import { stat } from 'fs';
 
 
 @Component({
@@ -106,8 +107,9 @@ export class SpaceDetail {
             let id = params['id']; // (+) converts string 'id' to a number
             this.itemID = id;
             this.store.dispatch(new LoadCellarSpaceAction(id));
-            this.store.dispatch(new LoadCellarMeetingRoomAction(id));
-
+            if(id != "0"){
+                this.store.dispatch(new LoadCellarMeetingRoomAction(id));
+            }
         });
 
         this.pathCheck = {
