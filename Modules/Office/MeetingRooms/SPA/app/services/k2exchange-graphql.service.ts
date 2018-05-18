@@ -62,7 +62,18 @@ export class K2ExchangeGraphqlService {
       .valueChanges
       .map(({ data }) => {
           let result = <MeetingDTO[]>data.info;
-          return result;
+
+          //remove canceled meetings
+          let result2 = new Array<MeetingDTO>();
+
+          for (const item of result) {
+            if(item.status.toLowerCase() != "free"){
+              let objCopy = Object.assign({}, item);
+              result2.push(objCopy);
+            }
+          }
+
+          return result2;
       })
       .catch(data => {
         console.log(data);

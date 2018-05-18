@@ -131,15 +131,20 @@ export class ApplicationEffects {
         temp.start = moment(item.start); // ???? right ???
         temp.end = moment(item.end); // ???? right ???
 
-        let tempArr = item.subject.split(' ');
-        if (item.subject.includes("KonzoleToExchange")) {
-          temp.by = tempArr[0];
-        } else {
-          temp.by = tempArr[0] + " " + tempArr[1];
-        }
-        temp.subject = item.subject.replace(temp.by + " ", '');
+        // console.log(item);
 
-        console.log(temp);
+        // let tempArr = item.subject.split(' ');
+        // if (item.subject.includes("KonzoleToExchange")) {
+        //   temp.by = tempArr[0];
+        // } else {
+        //   temp.by = tempArr[0] + " " + tempArr[1];
+        // }
+        // temp.subject = item.subject.replace(temp.by + " ", '');
+
+        // console.log(temp);
+
+        temp.subject = item.subject;
+        temp.by = item.subject;
 
         result.push(temp);
       }
@@ -223,13 +228,20 @@ export class ApplicationEffects {
         temp.start = moment(item.start); // ???
         temp.end = moment(item.end); // ???
 
-        let tempArr = item.subject.split(' ');
-        if (item.subject.includes("KonzoleToExchange")) {
-          temp.by = tempArr[0];
-        } else {
-          temp.by = tempArr[0] + " " + tempArr[1];
-        }
-        temp.subject = item.subject.replace(temp.by + " ", '');
+        // console.log(item);
+
+        // let tempArr = item.subject.split(' ');
+        // if (item.subject.includes("KonzoleToExchange")) {
+        //   temp.by = tempArr[0];
+        // } else {
+        //   temp.by = tempArr[0] + " " + tempArr[1];
+        // }
+        // temp.subject = item.subject.replace(temp.by + " ", '');
+
+        temp.subject = item.subject; //is needed ??
+        temp.by = item.subject; //is needed ??
+
+        console.log(item.status);
 
         result.push(temp);
       }
@@ -256,7 +268,7 @@ export class ApplicationEffects {
           temp.start = moment(start); 
           temp.end = moment(end); 
           temp.by = "Available";
-          console.log(temp);
+          // console.log(temp);
           result.push(temp);
 
           availableFrom = moment(item.end);
@@ -272,7 +284,7 @@ export class ApplicationEffects {
             temp.start = moment(availableFrom);
             temp.end = moment(availableTo); 
             temp.by = "Available";
-            console.log(temp);
+            // console.log(temp);
             result.push(temp);
           }
 
@@ -289,7 +301,7 @@ export class ApplicationEffects {
           temp.start = moment(start); 
           temp.end = moment(end); 
           temp.by = "Available";
-          console.log(temp);
+          // console.log(temp);
           result.push(temp);
         }
       }
@@ -309,7 +321,7 @@ export class ApplicationEffects {
         return 0;
       });
 
-      console.log(result);
+      // console.log(result);
 
       return result;
     })
@@ -413,25 +425,25 @@ export class ApplicationEffects {
       let meetings = <MeetingDTO[]>model[1];
       let createdMeeting: MeetingDTO;
       let isExist = false;
-      console.log(meetings);
+      // console.log(meetings);
       for (const meeting of meetings) {
 
-        console.log(meeting.subject);
-        console.log(payload.subject);
+        // console.log(meeting.subject);
+        // console.log(payload.subject);
 
         if(meeting.subject.includes(payload.subject)){
 
           let start = moment(meeting.start);
           let end = moment(meeting.end);
 
-          console.log(start);
-          console.log(payload.start);
+          // console.log(start);
+          // console.log(payload.start);
 
           let startSame = payload.start.isSame(start);
           let endSame = payload.end.isSame(end);
 
           if(startSame && endSame){
-            console.log("isExist");
+            // console.log("isExist");
             isExist = true;
             createdMeeting = meeting;
           }
@@ -445,7 +457,7 @@ export class ApplicationEffects {
         vm.start = moment(payload.start).startOf('D'); // ???? right ???
         vm.end = moment(payload.end).add(1, 'days').startOf('D'); // ???? right ???
 
-        console.log(vm);
+        // console.log(vm);
 
         return new CreateMeetingTestingSuccessAction(vm); 
       } else {
@@ -458,7 +470,7 @@ export class ApplicationEffects {
     .map(toPayload)
     .switchMap((payload: CreateMeetingTestingSuccessModel) => {
 
-      console.log(payload);
+      // console.log(payload);
 
       let vm = new LoadCalendarBookingsModel();
       vm.email = payload.email;
@@ -484,7 +496,7 @@ export class ApplicationEffects {
                         .pipe(mapTo(payload));
     })
     .switchMap(item => {
-      console.log(item);
+      // console.log(item);
 
       let roomMailAddress = item.meetingRoomMail;
       let vm = new DeleteMeetingTestingModel();
@@ -504,11 +516,11 @@ export class ApplicationEffects {
     .ofType(DELETE_MEETING_TESTING)
     .map(toPayload)
     .switchMap((payload: DeleteMeetingTestingModel) => {
-      console.log(payload);
+      // console.log(payload);
       return Observable.of(payload).delay(5000);
     })
     .switchMap((payload: DeleteMeetingTestingModel) => {
-      console.log(payload);
+      // console.log(payload);
       //--------------------------------------------------
       // GET Actual meetings for this day for this Meeting Room
       //--------------------------------------------------
@@ -524,7 +536,7 @@ export class ApplicationEffects {
       asdf.minimumSuggestionQuality = 0;
       asdf.requestedFreeBusyView = 4;
 
-      console.log(asdf);
+      // console.log(asdf);
 
       return this.k2exchangeService.getInfo(asdf)
                     .map((values) => {
@@ -535,30 +547,30 @@ export class ApplicationEffects {
                     });
 
     }).map((model) => {
-      console.log(model);
+      // console.log(model);
       let payload = <DeleteMeetingTestingModel>model[0];
       let meetings = <MeetingDTO[]>model[1];
       let createdMeeting: MeetingDTO;
       let isExist = false;
-      console.log(meetings);
+      // console.log(meetings);
       for (const meeting of meetings) {
 
-        console.log(meeting.subject);
-        console.log(payload.subject);
+        // console.log(meeting.subject);
+        // console.log(payload.subject);
 
         if(meeting.subject.includes(payload.subject)){
 
           let start = moment(meeting.start);
           let end = moment(meeting.end);
 
-          console.log(start);
-          console.log(payload.start);
+          // console.log(start);
+          // console.log(payload.start);
 
           let startSame = payload.start.isSame(start);
           let endSame = payload.end.isSame(end);
 
           if(startSame && endSame){
-            console.log("isExist");
+            // console.log("isExist");
             isExist = true;
             createdMeeting = meeting;
           }
@@ -573,7 +585,7 @@ export class ApplicationEffects {
         vm.start = moment(payload.start).startOf('D'); // ???? right ???
         vm.end = moment(payload.end).add(1, 'days').startOf('D'); // ???? right ???
 
-        console.log(vm);
+        // console.log(vm);
 
         return new DeleteMeetingTestingSuccessAction(vm); 
       } else {
@@ -586,7 +598,7 @@ export class ApplicationEffects {
     .map(toPayload)
     .switchMap((payload: DeleteMeetingTestingSuccessModel) => {
 
-      console.log(payload);
+      // console.log(payload);
 
       let vm = new LoadCalendarBookingsModel();
       vm.email = payload.email;
