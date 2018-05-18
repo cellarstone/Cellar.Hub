@@ -77,8 +77,6 @@ function mapSenzorToState2(state: UiState, action: LoadCellarSenzorAction): UiSt
 
 function mapSenzorToState(state: UiState, action: LoadCellarSenzorSuccessAction): UiState {
 
-    console.log(action.payload);
-
     return {
         ...state,
         selectedSenzor: action.payload

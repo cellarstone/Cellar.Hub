@@ -52,6 +52,19 @@
             "showLog": true
         },
         {
+            "name": "OfficeApi",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "remotePath": "",
+            "port": 44513,
+            "host": "127.0.0.1",
+            "program": "${workspaceRoot}/Modules/Office/Api/server.d",
+            "env": {},
+            "args": [],
+            "showLog": true
+        },
+        {
             "name": "User",
             "type": "go",
             "request": "launch",

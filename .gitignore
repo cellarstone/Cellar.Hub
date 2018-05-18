@@ -15,5 +15,6 @@ output/
 *.zip
 vendor/
 *.lock
+debug
 
 
