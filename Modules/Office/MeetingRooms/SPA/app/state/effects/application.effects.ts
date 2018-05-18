@@ -279,13 +279,16 @@ export class ApplicationEffects {
           availableTo = moment(item.start);
 
           if (availableFrom.format("HH:mm") != availableTo.format("HH:mm")) {
-            let temp = new BookingVM();
-            temp.status = "available";
-            temp.start = moment(availableFrom);
-            temp.end = moment(availableTo); 
-            temp.by = "Available";
-            // console.log(temp);
-            result.push(temp);
+            // Issue #50
+            if(availableFrom.isBefore(availableTo)){
+              let temp = new BookingVM();
+              temp.status = "available";
+              temp.start = moment(availableFrom);
+              temp.end = moment(availableTo); 
+              temp.by = "Available";
+              // console.log(temp);
+              result.push(temp);
+            }
           }
 
           availableFrom = moment(item.end);
