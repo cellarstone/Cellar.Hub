@@ -56,6 +56,7 @@ func main() {
 	logger = log.NewLogfmtLogger(log.NewSyncWriter(os.Stderr))
 	logger = log.With(logger, "ts", log.DefaultTimestampUTC)
 	logger = log.With(logger, "caller", log.DefaultCaller)
+	logger = log.With(logger, "TEST", "TEST")
 
 	fieldKeys := []string{"method"}
 
@@ -134,11 +135,15 @@ func main() {
 	http.Handle("/graphql", handlers.CORS(headersOk, originsOk, methodsOk)(api.MakeGraphqlHandler(queries, mutations)))
 	http.Handle("/metrics", promhttp.Handler())
 
-	logger.Log("API IS RUNNING")
+	logger.Log("API IS RUNNING 000")
+	logger.Log("API IS RUNNING 111")
+
+	fmt.Println("API IS RUNNING 222")
 
 	go func() {
 		logger.Log("transport", "http", "address", *httpAddr, "msg", "listening")
-		errs <- http.ListenAndServe(*httpAddr, nil)
+		// errs <- http.ListenAndServe(*httpAddr, nil)
+		logger.Log(http.ListenAndServe(*httpAddr, nil))
 	}()
 
 	//-----------------------------------------

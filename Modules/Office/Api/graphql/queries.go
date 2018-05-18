@@ -44,6 +44,10 @@ func GetMeetingRoomsQuery() *graphql.Field {
 			result, err := MyService.GetAllMeetingRooms()
 			MyServiceLock.Unlock()
 
+			if err != nil {
+				log.Printf("error : {0}", err)
+			}
+
 			return result, err
 
 		},
@@ -62,7 +66,7 @@ func GetMeetingRoomsModelQuery() *graphql.Field {
 			log.Printf("[query] CellarMeetingRoomModel\n")
 
 			idQuery, _ := params.Args["id"].(string)
-			fmt.Println(idQuery)
+			fmt.Println("id : ", idQuery)
 			if idQuery != "" {
 				// Goroutines safe
 				MyServiceLock.Lock()
@@ -77,6 +81,10 @@ func GetMeetingRoomsModelQuery() *graphql.Field {
 			MyServiceLock.Lock()
 			result, err := MyService.GetAllMeetingRoomsModel()
 			MyServiceLock.Unlock()
+
+			if err != nil {
+				log.Printf("error : {0}", err)
+			}
 
 			return result, err
 
