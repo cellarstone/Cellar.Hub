@@ -524,59 +524,6 @@ else
 
 fi
 
-
-
-# HUB CORE - WEB --------------------------------------------------
-
-# docker service rm cellar-hub-core-web
-IS_HUBCOREWEB_EXIST=`docker service ps cellar-hub-core-web`
-if [ "$IS_HUBCOREWEB_EXIST" != "" ]; then
-	echo "EXIST!"
-    echo $IS_HUBCOREWEB_EXIST
-
-    docker service update --image cellarstone/cellar.hub.core.web:0.58.1 \
-                      --replicas 1 \
-                      --update-parallelism 2 \
-                      --update-delay 5s \
-                      --update-order start-first \
-                      --restart-condition on-failure \
-                      --restart-delay 5s \
-                      --restart-max-attempts 3 \
-                      --restart-window 120s \
-                      --log-driver fluentd \
-                      --log-opt mode=non-blocking \
-                      --log-opt tag="docker.cellar.hub.core.web" \
-                      --with-registry-auth \
-                      cellar-hub-core-web
-
-else
-	echo "DOESN'T EXIST!"
-    echo $IS_HUBCOREWEB_EXIST
-
-    docker service create --name cellar-hub-core-web \
-                      --replicas 1 \
-                      --update-parallelism 2 \
-                      --update-delay 5s \
-                      --update-order start-first \
-                      --restart-condition on-failure \
-                      --restart-delay 5s \
-                      --restart-max-attempts 3 \
-                      --restart-window 120s \
-                      --network cellarstone-net \
-                      --label traefik.enable=true \
-                      --label traefik.port=44401 \
-                      --label traefik.docker.network=cellarstone-net \
-                      --label traefik.backend=core-web \
-                      --label traefik.frontend.rule=Host:web.cellarstone.hub \
-                      --log-driver fluentd \
-                      --log-opt mode=non-blocking \
-                      --log-opt tag="docker.cellar.hub.core.web" \
-                      --with-registry-auth \
-                      --publish 44401:44401 \
-                      cellarstone/cellar.hub.core.web:0.58.1     
-
-fi
-
 # HUB CORE - ADMIN --------------------------------------------------
 
 # docker service rm cellar-hub-core-admin
@@ -792,60 +739,6 @@ else
                       cellarstone/cellar.hub.core.iot:0.58.1     
 
 fi
-
-# HUB CORE - USER --------------------------------------------------
-
-# docker service rm cellar-hub-core-user
-# IS_HUBCOREUSER_EXIST=`docker service ps cellar-hub-core-user`
-# if [ "$IS_HUBCOREUSER_EXIST" != "" ]; then
-# 	echo "EXIST!"
-#     echo $IS_HUBCOREUSER_EXIST
-
-#     docker service update --image cellarstone/cellar.hub.core.user:0.58.1 \
-#                       --replicas 1 \
-#                       --update-parallelism 2 \
-#                       --update-delay 5s \
-#                       --update-order start-first \
-#                       --restart-condition on-failure \
-#                       --restart-delay 5s \
-#                       --restart-max-attempts 3 \
-#                       --restart-window 120s \
-#                       --log-driver fluentd \
-#                       --log-opt mode=non-blocking \
-#                       --log-opt tag="docker.cellar.hub.core.user" \
-#                       --with-registry-auth \
-#                       cellar-hub-core-user
-
-# else
-# 	echo "DOESN'T EXIST!"
-#     echo $IS_HUBCOREUSER_EXIST
-
-#     docker service create --name cellar-hub-core-user \
-#                       --replicas 1 \
-#                       --update-parallelism 2 \
-#                       --update-delay 5s \
-#                       --update-order start-first \
-#                       --restart-condition on-failure \
-#                       --restart-delay 5s \
-#                       --restart-max-attempts 3 \
-#                       --restart-window 120s \
-#                       --network cellarstone-net \
-#                       --env PORT=44403 \
-#                       --env MQTT_URL=mqtt \
-#                       --env MONGO_URL=mongodb \
-#                       --label traefik.enable=true \
-#                       --label traefik.port=44407 \
-#                       --label traefik.docker.network=cellarstone-net \
-#                       --label traefik.backend=core-user \
-#                       --label traefik.frontend.rule=Host:user.cellarstone.hub \
-#                       --log-driver fluentd \
-#                       --log-opt mode=non-blocking \
-#                       --log-opt tag="docker.cellar.hub.core.user" \
-#                       --with-registry-auth \
-#                       --publish 44407:44407 \
-#                       cellarstone/cellar.hub.core.user:0.58.1     
-
-# fi
 
 # HUB CORE - WORKFLOW --------------------------------------------------
 
