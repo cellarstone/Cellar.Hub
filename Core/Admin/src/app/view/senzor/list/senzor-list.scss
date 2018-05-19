@@ -1,0 +1,14 @@
+@import './src/assets/sass/custom/base/variables';
+@import './src/assets/sass/custom/modules';
+
+
+.ui-widget-header {
+    background-color: $color-black-1 !important;
+  }
+
+.ui-datatable table
+{
+    table-layout: auto !important;
+}
+
+
