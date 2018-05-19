@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { map, filter, switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import { map, filter, switchMap, catchError } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { MeetingDTO } from '../dto/MeetingDTO';
 import { GetInfoInput } from '../dto/GetInfoInput';
 import { CreateMeetingInput } from '../dto/CreateMeetingInput';
@@ -60,28 +59,30 @@ export class K2ExchangeGraphqlService {
       fetchPolicy: 'network-only'
     })
       .valueChanges
-      .map(({ data }) => {
+      .pipe(
+        map(({ data }) => {
           let result = <MeetingDTO[]>data.info;
 
           //remove canceled meetings
           let result2 = new Array<MeetingDTO>();
 
           for (const item of result) {
-            if(item.status.toLowerCase() != "free"){
+            if (item.status.toLowerCase() != "free") {
               let objCopy = Object.assign({}, item);
               result2.push(objCopy);
             }
           }
 
           return result2;
-      })
-      .catch(data => {
-        console.log(data);
-        let aa = new MeetingDTO();
-        let bb = new Array<MeetingDTO>();
-        bb.push(aa);
-        return Observable.of(bb);
-      });
+        }),
+        catchError(data => {
+          console.log(data);
+          let aa = new MeetingDTO();
+          let bb = new Array<MeetingDTO>();
+          bb.push(aa);
+          return of(bb);
+        })
+      );
   }
 
   //-----------------------------------------
@@ -128,19 +129,19 @@ export class K2ExchangeGraphqlService {
   }
 
 
-    /**********************************************/
-    /*              HELPERS                    */
-    /**********************************************/
-    // private extractData(res: CellarDTO): any {
-    //     return res || {};
-    // }
-    private handleError(error: any): Promise<any> {
-      console.error('An error occurred', error); // for demo purposes only
-      return Promise.reject(error.message || error);
+  /**********************************************/
+  /*              HELPERS                    */
+  /**********************************************/
+  // private extractData(res: CellarDTO): any {
+  //     return res || {};
+  // }
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error); // for demo purposes only
+    return Promise.reject(error.message || error);
   }
 
   public getId(objectid: string): string {
-    let asdf = objectid.replace("ObjectIdHex(\"","").replace("\")","");
+    let asdf = objectid.replace("ObjectIdHex(\"", "").replace("\")", "");
     console.log("asdf");
     console.log(asdf);
     return asdf;

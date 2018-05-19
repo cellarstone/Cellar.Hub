@@ -6,15 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 // RxJS
-import 'rxjs';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/catch'
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-
+import { Subject, Observable } from 'rxjs';
 
 //ngRx
 import { StoreModule } from '@ngrx/store';
@@ -43,7 +35,7 @@ import {ObserversModule} from '@angular/cdk/observers';
 import {PortalModule} from '@angular/cdk/portal';
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 
-import { MaterialTimeControlModule } from './modules/timePicker/material-time-control.module';
+// import { MaterialTimeControlModule } from './modules/timePicker/material-time-control.module';
 
 
 //GraphQL - Apollo
@@ -118,7 +110,7 @@ import { environment } from '../environments/environment';
     PlatformModule,
     PortalModule,
     MatMomentDateModule,
-    MaterialTimeControlModule
+    // MaterialTimeControlModule
   ],
   declarations: [
     AppComponent,

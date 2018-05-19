@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { map, filter, switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import { map, filter, switchMap, catchError } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { MeetingRoomDTO } from 'app/dto/MeetingRoomDTO';
 
 //QUERIES object ----------------------------------
@@ -46,19 +45,21 @@ export class OfficeGraphqlService {
       fetchPolicy: 'network-only'
     })
       .valueChanges
-      .map(({ data }) => {
-        // console.log("GRAPHQL map")
-        // console.log(data);
-          let result = <MeetingRoomDTO[]>data.meetingroommodel;
-          return result;
-      })
-      .catch(data => {
-        console.log(data);
-        let aa = new MeetingRoomDTO();
-        let bb = new Array<MeetingRoomDTO>();
-        bb.push(aa);
-        return Observable.of(bb);
-      });
+      .pipe(
+        map(({ data }) => {
+          // console.log("GRAPHQL map")
+          // console.log(data);
+            let result = <MeetingRoomDTO[]>data.meetingroommodel;
+            return result;
+        }),
+        catchError(data => {
+          console.log(data);
+          let aa = new MeetingRoomDTO();
+          let bb = new Array<MeetingRoomDTO>();
+          bb.push(aa);
+          return of(bb);
+        })
+      );
   }
 
     /**********************************************/
