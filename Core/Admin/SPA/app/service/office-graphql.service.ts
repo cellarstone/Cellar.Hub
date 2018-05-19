@@ -45,6 +45,7 @@ export class OfficeGraphqlService {
     })
       .valueChanges
       .map(({ data }) => {
+        console.log(data);
           let result = <CellarMeetingRoom[]>data.cellarmeetingroom;
           return result;
       })

@@ -15,15 +15,23 @@ export class OfficeEffects {
   @Effect() loadAllMeetingRoomsEffect$: Observable<Action> = this.actions$
     .ofType(LOAD_ALL_CELLAR_MEETING_ROOMS)
     .switchMap(() => this.officeservice.getMeetingRoom(""))
-    .map(items => new LoadAllCellarMeetingRoomsSuccessAction(<CellarMeetingRoom[]>items));
+    .map(items => {
+        console.log("ASDFASDF");
+        console.log(items);
+        return new LoadAllCellarMeetingRoomsSuccessAction(<CellarMeetingRoom[]>items)
+    });
 
   @Effect() loadMeetingRoomEffect$: Observable<Action> = this.actions$
     .ofType(LOAD_CELLAR_MEETING_ROOM)
     .map(toPayload)
     .switchMap((payload) => {
-        return this.officeservice.getMeetingRoom(payload)
+        console.log("ASDFASDF22221");
+        console.log(payload);
+        return this.officeservice.getMeetingRoom(payload);
     })
     .map(items => {
+        console.log("ASDFASDF22222");
+        console.log(items);
         //Convert BSON ID to string
         let result = new Array<CellarMeetingRoom>();
         for (let index = 0; index < items.length; index++) {
