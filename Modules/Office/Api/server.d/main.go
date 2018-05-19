@@ -134,11 +134,12 @@ func main() {
 	http.Handle("/graphql", handlers.CORS(headersOk, originsOk, methodsOk)(api.MakeGraphqlHandler(queries, mutations)))
 	http.Handle("/metrics", promhttp.Handler())
 
-	logger.Log("API IS RUNNING")
+	fmt.Println("API IS RUNNING")
 
 	go func() {
 		logger.Log("transport", "http", "address", *httpAddr, "msg", "listening")
 		errs <- http.ListenAndServe(*httpAddr, nil)
+		// fmt.Println(http.ListenAndServe(*httpAddr, nil))
 	}()
 
 	//-----------------------------------------

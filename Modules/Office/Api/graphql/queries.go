@@ -1,7 +1,6 @@
 package cellargraphql
 
 import (
-	"fmt"
 	"log"
 
 	service "github.com/cellarstone/Cellar.Hub/Modules/Office/Api/service"
@@ -35,6 +34,10 @@ func GetMeetingRoomsQuery() *graphql.Field {
 				resultS, err := MyService.GetMeetingRoom(idQuery)
 				MyServiceLock.Unlock()
 
+				if err != nil {
+					log.Printf("error : {0}", err)
+				}
+
 				resultArray := []service.CellarMeetingRoom{resultS}
 				return resultArray, err
 			}
@@ -43,6 +46,10 @@ func GetMeetingRoomsQuery() *graphql.Field {
 			MyServiceLock.Lock()
 			result, err := MyService.GetAllMeetingRooms()
 			MyServiceLock.Unlock()
+
+			if err != nil {
+				log.Printf("error : {0}", err)
+			}
 
 			return result, err
 
@@ -62,14 +69,18 @@ func GetMeetingRoomsModelQuery() *graphql.Field {
 			log.Printf("[query] CellarMeetingRoomModel\n")
 
 			idQuery, _ := params.Args["id"].(string)
-			fmt.Println(idQuery)
+			// fmt.Println("id : ", idQuery)
 			if idQuery != "" {
 				// Goroutines safe
 				MyServiceLock.Lock()
 				resultS, err := MyService.GetMeetingRoomModel(idQuery)
+
+				if err != nil {
+					log.Printf("error : {0}", err)
+				}
+
 				resultArray := []service.MeetingRoomVM{resultS}
 				MyServiceLock.Unlock()
-				fmt.Println(resultArray)
 				return resultArray, err
 			}
 
@@ -77,6 +88,10 @@ func GetMeetingRoomsModelQuery() *graphql.Field {
 			MyServiceLock.Lock()
 			result, err := MyService.GetAllMeetingRoomsModel()
 			MyServiceLock.Unlock()
+
+			if err != nil {
+				log.Printf("error : {0}", err)
+			}
 
 			return result, err
 
