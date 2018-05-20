@@ -4,6 +4,8 @@ import { trigger, state, animate, transition, group, query, style } from '@angul
 import { Store } from '@ngrx/store';
 import { ApplicationState } from './state/state/application.state';
 import { LoadAllMeetingRoomsAction } from 'app/state/actions/application.actions';
+import { SwUpdate } from '@angular/service-worker';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -32,13 +34,9 @@ import { LoadAllMeetingRoomsAction } from 'app/state/actions/application.actions
     ])
   ]
 })
-export class AppComponent{
+export class AppComponent implements OnInit{
 
-  // constructor(private store: Store<ApplicationState>) {}
-
-  // ngOnInit() {
-  //   this.store.dispatch(new LoadAllMeetingRoomsAction());
-  // }
+  constructor(private swUpdate: SwUpdate){}
 
   getAnimationData(outlet: RouterOutlet) {
     const routeData = outlet.activatedRouteData['animation'];
@@ -48,5 +46,19 @@ export class AppComponent{
     return routeData['page'];
   }
 
-
+  ngOnInit(){
+    //if service worker is enabled
+      if(this.swUpdate.isEnabled){
+        //set automatically interval to check a new version
+        interval(60000).subscribe(() => {
+          this.swUpdate.checkForUpdate();
+        });
+        //refresh browser if user agreed
+        this.swUpdate.available.subscribe((event) => {
+          if(confirm("New version available. Reload App ? :-)")){
+            window.location.reload();
+          }
+        });
+      }
+  }
 }
