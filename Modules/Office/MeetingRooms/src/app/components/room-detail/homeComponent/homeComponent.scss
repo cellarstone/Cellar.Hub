@@ -1,21 +1,15 @@
 @import '~scss/variables';
 @import '~scss/base';
 
-:host {
-    display: block;
-    width: 100%;
-    height: 100%;
-    // background-color: var(--color-green-success);
-}
-
-.homeBody{
+.home-body{
     // background-color: blue;
     color: white;
     position: relative;
-    top: 10%;
+    top: $nav-height;
+    margin-top: 15vh;
 }
 
-#timelineBody {
+#timeline-body {
     position:absolute;
     bottom:0;
     width:100%;
@@ -29,24 +23,21 @@
 
 .room, .presenter, .status {
     display: block;
+    letter-spacing: 10px;
     text-transform: uppercase;
     text-align: center;
-    letter-spacing: 10px;
-    
 }
 
 .room, .presenter {
     font-size: 500%;
 }
 .room {
-    margin-top: 15vh;
+    margin-bottom: 4vh;
 }
 .presenter {
-    margin-top: 4vh;
 }
 .status {
     font-size: 120px;
-    margin-top: 4vh;
 }
 .presenter span {
     font-size: 20px;

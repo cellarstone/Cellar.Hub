@@ -1,4 +1,4 @@
-<div class="homeBody" *ngIf="meetingRoom$ | async">
+<div class="home-body" *ngIf="meetingRoom$ | async">
     <div class="room">{{ (meetingRoom$ | async).name }}</div>
     <div class="status">{{ state }}</div>
     <div class="presenter">
@@ -6,7 +6,7 @@
     </div>
 </div>
 
-<div id="timelineBody" *ngIf="isLoaded">
+<div id="timeline-body" *ngIf="isLoaded">
     <app-timeline [bookings]="bookings$ | async"></app-timeline>
 </div>
 
