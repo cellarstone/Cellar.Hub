@@ -66,6 +66,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   loadTimelineBookings(){
     this.bookings$
+    .takeUntil(this.unsubscribe$)
     .subscribe((values) => {
 
       if(values == null){
