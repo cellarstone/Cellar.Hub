@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
-import { Subscription, Observable, interval, Subject } from 'rxjs';
+import { Observable, interval, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
  
 import { TweenMax, TimelineMax, Power1, Power4, Circ } from 'gsap';

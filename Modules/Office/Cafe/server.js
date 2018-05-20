@@ -16,10 +16,10 @@ const server = express();
 
 
 server.use(bodyParser.urlencoded({ extended: false }));
-server.use(express.static("wwwroot"));
+server.use(express.static("dist"));
 
 server.get('/*', function (req, res) {
-    res.sendFile('index.html' , { root : 'wwwroot'});
+    res.sendFile('index.html' , { root : 'dist'});
 });
 
 // catch 404 and forward to error handler

@@ -2,7 +2,7 @@
   "name": "cellar-hub-office-welcome",
   "version": "1.1.1",
   "scripts": {
-    "myappbuild": "node --max_old_space_size=8192 node_modules/.bin/ng build --prod"
+    "myappbuild": "node --max_old_space_size=8192 node_modules/.bin/ng build --aot --prod"
   },
   "private": true,
   "dependencies": {

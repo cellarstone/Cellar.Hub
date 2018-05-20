@@ -1,7 +1,14 @@
-# Run
+# Run development
 
 ```Shell
 ng serve --port 44514
+```
+
+# Run production (in docker)
+
+```Shell
+docker build -t cellar.office.cafe .
+docker run -d -p 44514:44514 -t cellar.office.cafe
 ```
 
 # Create Project
