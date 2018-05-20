@@ -1,4 +1,4 @@
-import {Component,AfterViewInit,ElementRef,Renderer,ViewChild} from '@angular/core';
+import {Component,AfterViewInit,ElementRef,Renderer,ViewChild, OnInit} from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { SwUpdate } from '@angular/service-worker';
 import { interval } from 'rxjs';
