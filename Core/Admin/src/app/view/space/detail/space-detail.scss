@@ -1,0 +1,29 @@
+@import './src/assets/sass/custom/base/variables';
+@import './src/assets/sass/custom/modules';
+
+.myerror{
+    width: 100%;
+    background-color: red;
+}
+
+
+.space {
+    // position: relative;
+    font-family: $font-roboto;
+    // z-index: 1000;
+    &__text {
+        display: flex;
+        flex-grow: 1;
+        background-color: $color-blue-main;
+        color: white;
+        letter-spacing: 1px;
+        font-weight: 300;
+        font-size: 35px;
+        justify-content: start;
+        align-items: center;
+        height: 100px;
+        padding-left: 45px;  
+        margin: 0 !important;
+    }
+}
+
