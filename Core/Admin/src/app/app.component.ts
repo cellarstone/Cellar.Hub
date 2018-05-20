@@ -1,5 +1,7 @@
 import {Component,AfterViewInit,ElementRef,Renderer,ViewChild} from '@angular/core';
 import { AuthService } from './auth/auth.service';
+import { SwUpdate } from '@angular/service-worker';
+import { interval } from 'rxjs';
 
 enum MenuOrientation {
     STATIC,
@@ -17,7 +19,7 @@ declare var jQuery: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit {
     
     layoutCompact: boolean = false;
 
@@ -54,7 +56,8 @@ export class AppComponent implements AfterViewInit {
     @ViewChild('layoutMenuScroller') layoutMenuScrollerViewChild: ElementRef;
 
     constructor(public renderer: Renderer,
-        public auth: AuthService) {
+                public auth: AuthService,
+                private swUpdate: SwUpdate ) {
             auth.handleAuthentication();
 
             if(!this.auth.isAuthenticated()){
@@ -69,6 +72,22 @@ export class AppComponent implements AfterViewInit {
     login(){
         this.auth.login()
     }
+
+    ngOnInit(){
+        //if service worker is enabled
+          if(this.swUpdate.isEnabled){
+            //set automatically interval to check a new version
+            interval(60000).subscribe(() => {
+              this.swUpdate.checkForUpdate();
+            });
+            //refresh browser if user agreed
+            this.swUpdate.available.subscribe((event) => {
+              if(confirm("New version available. Reload App ? :-)")){
+                window.location.reload();
+              }
+            });
+          }
+      }
 
     ngAfterViewInit() {
         if(!this.auth.isAuthenticated()){
