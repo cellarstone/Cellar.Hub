@@ -7,6 +7,13 @@ This is application for meeting rooms
 ng serve --port 44511
 ```
 
+# Run PWA
+
+```Shell
+ng build --prod
+node server.js
+```
+
 # Run production (in docker)
 
 ```Shell
