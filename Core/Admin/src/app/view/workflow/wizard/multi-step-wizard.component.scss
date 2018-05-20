@@ -1,0 +1,95 @@
+@import './src/assets/sass/custom/base/variables';
+@import './src/assets/sass/custom/modules';
+
+.ui-steps .ui-steps-item {
+  width: 25%;
+}
+
+.block-inline {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.ui-steps {
+  border-top: none !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+
+.tags-section, .trigger-section, .workflow-section {
+  display: flex;
+  font-size: 18px;
+
+  @media only screen and (max-width: 625px) {
+    font-size: 16px;
+  }
+}
+
+.tags-section__right, .trigger-section__right, .workflow-section__right {
+  margin-bottom: 5px;
+  text-align: right; 
+  
+  h4 {
+    padding-right: 15px;
+
+
+    @media only screen and (max-width: 625px) {
+      font-size: 16px;
+      padding-right: 10px;
+    }
+  }
+}
+
+.tag {
+  color: $color-white-default;
+  background-color: #63c9f1;
+  padding: 1.75px 7px;
+  margin-right: 2px;
+  font-size: 18px;
+
+  @media only screen and (max-width: 625px) {
+    font-size: 16px;
+  }
+}
+
+
+.ui-fluid {
+  margin-top: 15px;
+}
+
+
+.workflow-setup {
+  display: flex;
+  position: relative;
+  width: 100%;
+  // background-color: lightgreen;
+  &__text {
+      display: flex;
+      font-weight: 300;
+      flex-grow: 1;
+      background-color: #2d353c;
+      color: white;
+      font-weight: 300;
+      font-size: 24px !important;
+      justify-content: center;
+      align-items: center;
+      height: 65px;
+      margin: 0;
+      border: none;
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+
+      @media (max-width: 1200px){
+        font-size: 20px;
+      }
+
+  }
+
+
+  @media (max-width: 1025px) {
+    width: 100%;
+  }
+}

@@ -1,0 +1,29 @@
+@import './src/assets/sass/custom/base/variables';
+@import './src/assets/sass/custom/modules';
+
+.nonvalid
+{
+    background-color: #FFCDD2;
+}
+
+  .img-thumbnail
+{
+    background-color: #fff;
+    // border: 1px solid #ddd;
+    border-radius: 2px;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    object-position: center center;
+
+    @media only screen and (max-width: 580px) {
+        height: 240px;
+    }
+
+    @media only screen and (max-width: 500px) {
+        height: 220px;
+    }
+}

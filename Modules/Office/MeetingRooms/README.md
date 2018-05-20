@@ -1,11 +1,19 @@
 
 This is application for meeting rooms
 
-# Run
+# Run development
 
 ```Shell
 ng serve --port 44511
 ```
+
+# Run production (in docker)
+
+```Shell
+docker build -t cellar.office.meetingrooms .
+docker run -d -p 44511:44511 -t cellar.office.meetingrooms
+```
+
 
 
 # K2 - Exchange GraphQL
