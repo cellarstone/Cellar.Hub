@@ -91,8 +91,10 @@ export class BookingSectionComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed()
     .takeUntil(this.unsubscribe$)
     .subscribe(value => {
-      let valueObj = <CreateMeetingVM>value;
-      this.onCreateMeeting.emit(valueObj);
+      if(value != null){
+        let valueObj = <CreateMeetingVM>value;
+        this.onCreateMeeting.emit(valueObj);
+      }
     });
   }
 

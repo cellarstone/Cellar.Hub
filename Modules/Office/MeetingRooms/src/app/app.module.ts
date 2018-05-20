@@ -35,7 +35,7 @@ import {ObserversModule} from '@angular/cdk/observers';
 import {PortalModule} from '@angular/cdk/portal';
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 
-// import { MaterialTimeControlModule } from './modules/timePicker/material-time-control.module';
+import { MaterialTimeControlModule } from './modules/timePicker/material-time-control.module';
 
 
 //GraphQL - Apollo
@@ -110,7 +110,7 @@ import { environment } from '../environments/environment';
     PlatformModule,
     PortalModule,
     MatMomentDateModule,
-    // MaterialTimeControlModule
+    MaterialTimeControlModule
   ],
   declarations: [
     AppComponent,

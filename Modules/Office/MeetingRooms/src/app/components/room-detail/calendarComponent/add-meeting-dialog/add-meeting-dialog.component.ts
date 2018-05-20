@@ -155,7 +155,7 @@ export class AddMeetingDialogComponent implements OnInit {
   }
 
   close() {
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 
 }
