@@ -1,7 +1,8 @@
-import {Component,AfterViewInit,ElementRef,Renderer,ViewChild, OnInit} from '@angular/core';
+import {Component,AfterViewInit,ElementRef,Renderer,ViewChild, OnInit, OnDestroy} from '@angular/core';
 import { AuthService } from './auth/auth.service';
 import { SwUpdate } from '@angular/service-worker';
-import { interval } from 'rxjs';
+import { interval, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 enum MenuOrientation {
     STATIC,
@@ -19,7 +20,7 @@ declare var jQuery: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnDestroy, AfterViewInit {
     
     layoutCompact: boolean = false;
 
@@ -55,6 +56,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     @ViewChild('layoutMenuScroller') layoutMenuScrollerViewChild: ElementRef;
 
+    private unsubscribe$ = new Subject();
+
     constructor(public renderer: Renderer,
                 public auth: AuthService,
                 private swUpdate: SwUpdate ) {
@@ -67,26 +70,53 @@ export class AppComponent implements OnInit, AfterViewInit {
                 console.log("IS AUTHENTICATED 1")
             }
 
+
+        //if service worker is enabled
+          if(this.swUpdate.isEnabled){
+            console.log("service worker is enabled");
+            //set automatically interval to check a new version
+            interval(60000)
+            .pipe(
+                takeUntil(this.unsubscribe$)
+            )
+            .subscribe(() => {
+              console.log("check for update");
+              this.swUpdate.checkForUpdate()
+                            .then(() => {
+                                console.log('checkForUpdate completed')
+                            })
+                            .catch(err => {
+                                console.error(err);
+                            });
+            });
+
+
+            //refresh browser if user agreed
+            this.swUpdate.available
+            .pipe(
+                takeUntil(this.unsubscribe$)
+            )
+            .subscribe((event) => {
+              console.log("new update available");
+              if(confirm("New version available. Reload App ? :-)")){
+                window.location.reload();
+              }
+            });
+          }
         }
 
     login(){
         this.auth.login()
     }
 
-    ngOnInit(){
-        //if service worker is enabled
-          if(this.swUpdate.isEnabled){
-            //set automatically interval to check a new version
-            interval(60000).subscribe(() => {
-              this.swUpdate.checkForUpdate();
-            });
-            //refresh browser if user agreed
-            this.swUpdate.available.subscribe((event) => {
-              if(confirm("New version available. Reload App ? :-)")){
-                window.location.reload();
-              }
-            });
-          }
+
+      ngOnDestroy() {
+        if(this.documentClickListener) {
+            this.documentClickListener();
+        }  
+
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
       }
 
     ngAfterViewInit() {
@@ -118,6 +148,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         //     jQuery(this.layoutMenuScroller).nanoScroller({flash:true});
         // }, 10);
         }
+
+        
     }
 
     onMenuButtonClick(event) {
@@ -210,14 +242,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     changeToHorizontalMenu() {
         this.layoutMode = MenuOrientation.HORIZONTAL;
-    }
-
-    ngOnDestroy() {
-        if(this.documentClickListener) {
-            this.documentClickListener();
-        }  
-
-        //jQuery(this.layoutMenuScroller).nanoScroller({flash:true});
     }
 
 }

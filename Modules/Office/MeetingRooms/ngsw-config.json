@@ -1,8 +1,9 @@
 {
   "index": "/index.html",
   "assetGroups": [{
-    "name": "app",
+    "name": "MeetingRoomsStaticData",
     "installMode": "prefetch",
+    "updateMode": "prefetch",
     "resources": {
       "files": [
         "/favicon.ico",
@@ -12,7 +13,7 @@
       ]
     }
   }, {
-    "name": "assets",
+    "name": "MeetingRoomsAssets",
     "installMode": "lazy",
     "updateMode": "prefetch",
     "resources": {

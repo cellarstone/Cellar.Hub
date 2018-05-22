@@ -86,7 +86,7 @@ Office - welcome | http://welcome.cellarstone.hub
 Office - api | http://officeapi.cellarstone.hub
 
 
-## Optional 
+## Optional for debugging production version
 
 2. On target device can be set all address on local /etc/hosts DNS file
 
