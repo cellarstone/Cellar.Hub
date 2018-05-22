@@ -19,9 +19,6 @@ pipeline {
           traefik: {
             sh 'docker build -t cellar.hub.proxy ./Traefik'
           },
-          web: {
-            sh 'docker build -t cellar.hub.core.web ./Core/Web'
-          },
           admin: {
             sh 'docker build -t cellar.hub.core.admin ./Core/Admin'
           },
@@ -85,10 +82,6 @@ pipeline {
           traefik: {
             sh 'docker tag cellar.hub.proxy cellarstone/cellar.hub.proxy:0.58.1'
             sh 'docker push cellarstone/cellar.hub.proxy:0.58.1'
-          },
-          web: {
-            sh 'docker tag cellar.hub.core.web cellarstone/cellar.hub.core.web:0.58.1'
-            sh 'docker push cellarstone/cellar.hub.core.web:0.58.1'
           },
           admin: {
             sh 'docker tag cellar.hub.core.admin cellarstone/cellar.hub.core.admin:0.58.1'

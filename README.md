@@ -75,7 +75,6 @@ You can see every registered service with :
 
 Application | Url
 --- | ---
-Hub Web | http://web.cellarstone.hub
 Hub Admin | http://admin.cellarstone.hub
 Hub Iot | http://iot.cellarstone.hub/metrics
 File server | http://file.cellarstone.hub
@@ -87,7 +86,7 @@ Office - welcome | http://welcome.cellarstone.hub
 Office - api | http://officeapi.cellarstone.hub
 
 
-## Optional 
+## Optional for debugging production version
 
 2. On target device can be set all address on local /etc/hosts DNS file
 
@@ -97,7 +96,6 @@ Office - api | http://officeapi.cellarstone.hub
 
     Example :
     ```Shell
-    192.168.1.19   web.cellarstone.hub
     192.168.1.19   admin.cellarstone.hub
     192.168.1.19   iot.cellarstone.hub
     192.168.1.19   cdn.cellarstone.hub
@@ -113,13 +111,11 @@ Office - api | http://officeapi.cellarstone.hub
 Port | Application
 --- | ---
 80 | Traefik proxy
-44401 | Core - Web
 44402 | Core - Admin
 44403 | Core - Iot Microservice
 44404 | Core - File Server
 44405 | Core - Workflow Microservice
 44406 | Core - Websocket Server
-44407 | Core - User Microservice
 27017 | Core - mongodb
 1883 | Core - mqtt
 24224 | Core - fluentd
@@ -191,10 +187,6 @@ sudo docker network rm ${Docker_Hub_Network}
 # Proxy
 sudo docker build -t cellar.hub.proxy .
 sudo docker run -d -p 80:80 -p 8080:8080 -t cellar.hub.proxy
-
-# Web
-sudo docker build -t cellar.hub.core.web .
-sudo docker run -d -p 44401:44401 -t cellar.hub.core.web
 
 # Admin
 sudo docker build -t cellar.hub.core.admin .
