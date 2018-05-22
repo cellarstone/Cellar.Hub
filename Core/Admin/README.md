@@ -4,6 +4,13 @@
 ng serve --port 44402
 ```
 
+# Run PWA
+
+```Shell
+ng build --prod
+node server.js
+```
+
 # Run production (in docker)
 
 ```Shell
