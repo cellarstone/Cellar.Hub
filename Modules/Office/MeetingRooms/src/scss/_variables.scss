@@ -22,7 +22,9 @@
 
 // DIMENSIONS AND GAPS
 $nav-height: 70px;
+$nav-ofset: 45px;
 // COLORS
+$color-transparent: transparent;
 $color-navy-light: #3C5595;
 $color-navy-dark: #1C2961;
 $color-purplish: #5366ea;
@@ -34,7 +36,12 @@ $color-green: #4CAF50;
 $color-green-dark: #009688;
 $color-red: #F44336;
 // BOX SHADOW
-$shadow-5: 0 20px 60px rgba(0, 0, 0, .5);
-$shadow-3: 0 20px 60px rgba(0, 0, 0, .3);
-$shadow-2: 0 20px 60px rgba(0, 0, 0, .2);
-$shadow-1: 0 20px 60px rgba(0, 0, 0, .1);
+$shadow-blur: 60px;
+$shadow-y-ofset: 20px;
+$shadow-5: 0 $shadow-y-ofset $shadow-blur rgba(0, 0, 0, .5);
+$shadow-3: 0 $shadow-y-ofset $shadow-blur rgba(0, 0, 0, .3);
+$shadow-2: 0 $shadow-y-ofset $shadow-blur rgba(0, 0, 0, .2);
+$shadow-1: 0 $shadow-y-ofset $shadow-blur rgba(0, 0, 0, .1);
+//OTHER
+$radius: 4px;
+$gap-vertical: 30px;

@@ -1,3 +1,4 @@
+
 <div class="home-body" *ngIf="meetingRoom$ | async">
     <div class="room">{{ (meetingRoom$ | async).name }}</div>
     <div class="status">{{ state }}</div>

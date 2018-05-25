@@ -1,11 +1,7 @@
 
-:host {
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-color: var(--color-navy-dark-1);
-  }
-  
+:host{
+  width: 59%;
+}
 .calendar,
 .booking {
   display: flex;

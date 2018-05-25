@@ -1,5 +1,7 @@
-<app-calendar-section [selectedDate]="selectedDate" (onSelectDate)="selectDate($event)">
-</app-calendar-section>
+<div class="container">
+  <app-calendar-section class="half" [selectedDate]="selectedDate" (onSelectDate)="selectDate($event)">
+  </app-calendar-section>
 
-<app-booking-section [selectedDate]="selectedDate" [meetingRoomEmail]="(meetingRoom$ | async).email" [bookedMeetings]="bookings$ | async"
-  (onCreateMeeting)="createMeeting($event)" (onDeleteMeeting)="deleteMeeting($event)"></app-booking-section>
+  <app-booking-section class="half" [selectedDate]="selectedDate" [meetingRoomEmail]="(meetingRoom$ | async).email" [bookedMeetings]="bookings$ | async"
+    (onCreateMeeting)="createMeeting($event)" (onDeleteMeeting)="deleteMeeting($event)"></app-booking-section>
+</div>
