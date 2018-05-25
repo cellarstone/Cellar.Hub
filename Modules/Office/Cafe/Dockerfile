@@ -31,14 +31,15 @@ FROM node:9-alpine
 COPY --from=builder /usr/src/app/dist /usr/src/app/dist
 # COPY --from=builder /usr/src/app/node_modules /usr/src/app/node_modules
 COPY --from=builder /usr/src/app/package.json /usr/src/app/package.json
-COPY --from=builder /usr/src/app/server.js /usr/src/app/server.js
+# COPY --from=builder /usr/src/app/server.js /usr/src/app/server.js
 
 WORKDIR /usr/src/app
 
 RUN pwd
 RUN ls -l
 
-RUN npm install express
+# RUN npm install express
+RUN npm install -g http-server
 
 # RUN npm install --only=production
 
@@ -55,4 +56,5 @@ RUN npm install express
 # RUN pwd
 # RUN ls -l
 
-CMD node server.js
+# CMD node server.js
+CMD http-server -c-1 -p 44514 dist/

@@ -200,6 +200,7 @@ import { PropertyComponent } from './components/meeting-room/property/property.c
 import { OfficeEffects } from './state/effects/office.effects';
 
 import { environment } from '../environments/environment';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -298,7 +299,8 @@ import { environment } from '../environments/environment';
 
         //GraphQL - Apollo
         ApolloModule,
-        HttpLinkModule
+        HttpLinkModule,
+        ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
     ]   ,
     declarations: [
         AppComponent,

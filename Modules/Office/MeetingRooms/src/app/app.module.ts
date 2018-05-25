@@ -74,6 +74,7 @@ import { MeetingStatusDialogComponent } from './components/room-detail/calendarC
 
 
 import { environment } from '../environments/environment';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   imports: [
@@ -110,7 +111,8 @@ import { environment } from '../environments/environment';
     PlatformModule,
     PortalModule,
     MatMomentDateModule,
-    MaterialTimeControlModule
+    MaterialTimeControlModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   declarations: [
     AppComponent,

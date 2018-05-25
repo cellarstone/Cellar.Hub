@@ -10,6 +10,8 @@ import { MainTableComponent } from './main-table/main-table.component';
 import { MainDashComponent } from './main-dash/main-dash.component';
 import { MainEmptyComponent } from './main-empty/main-empty.component';
 import { AppRoutingModule } from './/app-routing.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { AppRoutingModule } from './/app-routing.module';
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]

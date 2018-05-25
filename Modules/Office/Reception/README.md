@@ -4,6 +4,13 @@
 ng serve --port 44512
 ```
 
+# Run PWA
+
+```Shell
+ng build --prod
+node server.js
+```
+
 # Run production (in docker)
 
 ```Shell
@@ -58,4 +65,9 @@ Generate routing module
 ng generate module app-routing --flat --module=app
 ```
 
+# PWA
+
+```Shell
+ng add @angular/pwa
+```
 
