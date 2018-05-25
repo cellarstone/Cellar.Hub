@@ -160,16 +160,5 @@ pipeline {
          sh 'gsutil cp docker-stack.delete.sh gs://cellarhub-dockerstack-files/'
       }
     }
-    // stage('Human Check - Publish files to Dropbox') {
-    //   steps {
-    //     input "Can I ?"
-    //   }
-    // }
-    // stage('Hub dropbox') {
-    //   steps {
-    //      dropbox cleanRemote: true, configName: 'cellarstone', remoteDirectory: '', removePrefix: '', sourceFiles: 'docker-compose.full.production.linux.yml'
-    //      dropbox cleanRemote: false, configName: 'cellarstone', remoteDirectory: '', removePrefix: '', sourceFiles: 'Production.sh'
-    //   }
-    // }
   }
 }
