@@ -33,7 +33,7 @@ services:
   #   logging:
   #     driver: "fluentd"
   #     options:
-  #       fluentd-address: localhost:24224
+  #       fluentd-address: 127.0.0.1:24224
   #       tag: docker.cellar.hub.core.admin
   #       mode: non-blocking
   #   ports:
@@ -57,7 +57,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: localhost:24224
+        fluentd-address: 127.0.0.1:24224
         tag: docker.cellar.hub.core.file
         mode: non-blocking
     volumes:
@@ -81,7 +81,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: localhost:24224
+        fluentd-address: 127.0.0.1:24224
         tag: docker.cellar.hub.core.websockets
         mode: non-blocking
     ports:
@@ -109,7 +109,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: localhost:24224
+        fluentd-address: 127.0.0.1:24224
         tag: docker.cellar.hub.core.iot
         mode: non-blocking
     ports:
@@ -142,7 +142,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: localhost:24224
+        fluentd-address: 127.0.0.1:24224
         tag: docker.cellar.hub.core.workflow
         mode: non-blocking
     ports:
@@ -310,7 +310,7 @@ services:
     logging:
       driver: "fluentd"
       options:
-        fluentd-address: localhost:24224
+        fluentd-address: 127.0.0.1:24224
         tag: docker.cellar.hub.module.office.api
         mode: non-blocking
     ports:
@@ -331,7 +331,7 @@ services:
   #   logging:
   #     driver: "fluentd"
   #     options:
-  #       fluentd-address: localhost:24224
+  #       fluentd-address: 127.0.0.1:24224
   #       tag: docker.cellar.hub.module.office.meetingrooms
   #       mode: non-blocking
 
@@ -350,7 +350,7 @@ services:
   #   logging:
   #     driver: "fluentd"
   #     options:
-  #       fluentd-address: localhost:24224
+  #       fluentd-address: 127.0.0.1:24224
   #       tag: docker.cellar.hub.module.office.reception
   #       mode: non-blocking
 
@@ -369,7 +369,7 @@ services:
   #   logging:
   #     driver: "fluentd"
   #     options:
-  #       fluentd-address: localhost:24224
+  #       fluentd-address: 127.0.0.1:24224
   #       tag: docker.cellar.hub.module.office.cafe
   #       mode: non-blocking
 
@@ -388,7 +388,7 @@ services:
   #   logging:
   #     driver: "fluentd"
   #     options:
-  #       fluentd-address: localhost:24224
+  #       fluentd-address: 127.0.0.1:24224
   #       tag: docker.cellar.hub.module.office.welcome
   #       mode: non-blocking
 
