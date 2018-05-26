@@ -1,33 +1,36 @@
+<div class="calendar">
 
-  <div class="calendar">
+  <div class="current-month">
+    <button class="month-home" (click)="monthHome()">Today</button>
+    <span class="mounth-nav">
+      <span class="arrow-left" (click)="previousMonth()"></span>
+      <span class="month-year">{{ selectedDate.format('MMMM YYYY') }}</span>
+      <span class="arrow-right" (click)="nextMonth()"></span>
+    </span>
+  </div>
 
-    <div class="current-month">
-      <div class="month-home" (click)="monthHome()">Today</div>
-      <div class="arrow-left" (click)="previousMonth()"></div>
-      <div class="month-year">{{ selectedDate.format('MMMM YYYY') }}</div>
-      <div class="arrow-right" (click)="nextMonth()"></div>
-    </div>
+  <div class="days-of-week">
+    <div class="calendar-days">MON</div>
+    <div class="calendar-days">TUE</div>
+    <div class="calendar-days">WED</div>
+    <div class="calendar-days">THU</div>
+    <div class="calendar-days">FRI</div>
+    <div class="calendar-days">SAT</div>
+    <div class="calendar-days">SUN</div>
+  </div>
 
-    <div class="days-of-week">
-      <div class="calendar-days">MON</div>
-      <div class="calendar-days">TUE</div>
-      <div class="calendar-days">WED</div>
-      <div class="calendar-days">THU</div>
-      <div class="calendar-days">FRI</div>
-      <div class="calendar-days">SAT</div>
-      <div class="calendar-days">SUN</div>
-    </div>
-    <div id="hr"></div>
-    <div class="days" [@calendarSlideRight]="calendarDaysSlideRight" [@calendarSlideLeft]="calendarDaysSlideLeft" [@calendarToday]="calendarTodayAnimation">
-      <div *ngFor="let day of daysArr">
-        <div [ngClass]="{'current-week-body': thisWeekCheck(day), 'current-week-start': thisWeekCheckFirst(day), 'current-week-end': thisWeekCheckLast(day)}">
-          <span class="meeting-counter" [ngClass]="{'inactive':!day}"> </span>
-          <div class="day-box" [ngClass]="{'today': selectedDateCheck(day), 'inactive': !thisMonthCheck(day), 'bigger-font': thisWeekCheck(day)}"
-            (click)="selectDate(day)" [ngStyle]="{'border': todayCheck(day) ? '1px solid var(--color-navy-dark-2)' : '1px solid transparent', 'color': day.isoWeekday() === 6 || day.isoWeekday() === 7 ? '#F44336' : 'var(--color-grey-dark-3)'}">
-            {{day?.date()}}
-          </div>
+  <div id="hr"></div>
+
+  <div class="days" [@calendarSlideRight]="calendarDaysSlideRight" [@calendarSlideLeft]="calendarDaysSlideLeft" [@calendarToday]="calendarTodayAnimation">
+    <div *ngFor="let day of daysArr">
+      <div [ngClass]="{'current-week-body': thisWeekCheck(day), 'current-week-start': thisWeekCheckFirst(day), 'current-week-end': thisWeekCheckLast(day)}">
+        <span class="meeting-counter" [ngClass]="{'inactive':!day}"> </span>
+        <div class="day-box" [ngClass]="{'today': selectedDateCheck(day), 'inactive': !thisMonthCheck(day), 'bigger-font': thisWeekCheck(day)}"
+          (click)="selectDate(day)" [ngStyle]="{'border': todayCheck(day) ? '1px solid var(--color-navy-dark-2)' : '1px solid transparent', 'color': day.isoWeekday() === 6 || day.isoWeekday() === 7 ? '#F44336' : 'var(--color-grey-dark-3)'}">
+          {{day?.date()}}
         </div>
       </div>
     </div>
-
   </div>
+
+</div>
