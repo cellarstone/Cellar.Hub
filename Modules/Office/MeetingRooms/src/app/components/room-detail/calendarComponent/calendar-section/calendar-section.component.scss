@@ -1,6 +1,12 @@
 @import '~scss/variables';
+$calendar-inner-gap: 20px;
 :host {
     width: 59%;
+    min-width: 288px;
+    @media only screen and (max-width: 590px) {
+        display: block;
+        width: 100%;
+    }
 }
 
 .calendar {
@@ -12,135 +18,143 @@
     overflow: hidden;
     height: 100%;
     max-height: 100%;
-    flex: 0 0 57.5%;
 }
 
 .current-month {
-    margin: 40px auto;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $calendar-inner-gap;
+    width: 100%;
+    height: 12%;
+    min-height: 70px;
     .month-home {
-        cursor: pointer;
-        color: $color-grey;
-        padding: 5px 10px;
+        background: $color-white;
         border: 1px solid $color-grey;
-        border-radius: 10px;
+        border-radius: $radius;
+        color: $color-grey;
+        cursor: pointer;
+        font-size: 1.2rem;
+        padding: 10px 20px;
     }
     .mounth-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
         .month-year {
-            width: 300px;
-            text-align: center; // font-size: inherit;
-            font-weight: lighter;
-            text-transform: uppercase; // letter-spacing: 1px;
             color: $color-grey;
+            display: inline-block;
+            font-size: 1.4rem;
+            font-weight: lighter;
+            text-align: center;
+            text-transform: uppercase;
+            margin: auto;
         }
         .arrow-left {
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-left: 22px solid transparent;
+            border-right: 22px solid $color-grey-dark;
+            display: inline-block;
+            margin-right: 10px;
             width: 0;
             height: 0;
-            border-top: 12.5px solid transparent;
-            border-bottom: 12.5px solid transparent;
-            border-left: 22px solid transparent;
-            border-right: 22px solid var(--color-grey-dark-1);
-            margin-right: 10px;
         }
         .arrow-right {
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-left: 22px solid $color-grey-dark;
+            border-right: 22px solid transparent;
+            display: inline-block;
+            margin-left: 10px;
             width: 0;
             height: 0;
-            border-top: 12.5px solid transparent;
-            border-bottom: 12.5px solid transparent;
-            border-left: 22px solid var(--color-grey-dark-1);
-            border-right: 22px solid transparent;
-            margin-right: 10px;
-            margin-left: 10px;
         }
     }
 }
 
 .days-of-week {
-    display: flex;
-    font-size: 1.25rem; // font-weight: 400;
-    width: 840px;
-    margin-bottom: 10px;
-    color: $color-grey;
-    justify-content: space-evenly;
     border-bottom: 1px solid $color-grey;
-}
-
-.calendar-days {
-    text-align: center;
-    width: 120px;
-    margin-bottom: 10px;
+    box-sizing: border-box;
+    color: $color-grey;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.25rem;
+    padding: $calendar-inner-gap;
+    width: 100%;
+    .calendar-day {
+        text-align: center;
+        width: (100% / 7);
+    }
 }
 
 .days {
-    padding: 10px 0;
+    box-sizing: border-box;
     display: flex;
-    width: 840px;
+    align-items: center;
+    justify-content: space-between;
     flex-wrap: wrap;
-    justify-content: center;
-}
-
-.meeting-counter {
-    width: 25px;
-    height: 25px;
-    border-radius: 100%;
-    position: absolute;
-    justify-content: center;
-    align-items: center;
-    color: $color-white;
-}
-
-.day-box {
-    margin: 10px;
-    width: 97px;
-    height: 97px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: inherit;
-    border-radius: 100%;
-    transition: border .25s ease-out;
-}
-
-.current-week-body {
-    border-top: 1px solid $color-navy-light;
-    border-bottom: 1px solid $color-navy-light;
-}
-
-.current-week-start {
-    border-top-left-radius: 100%;
-    border-top: 1px solid $color-navy-light;
-    border-bottom: 1px solid $color-navy-light;
-    border-bottom-left-radius: 100%;
-    border-left: 1px solid $color-navy-light;
-}
-
-.current-week-end {
-    border-top: 1px solid $color-navy-light;
-    border-right: 1px solid $color-navy-light;
-    border-bottom: 1px solid $color-navy-light;
-    border-top-right-radius: 100%;
-    border-bottom-right-radius: 100%;
-}
-
-.bigger-font {
-    font-size: 2.1875rem;
-    color: $color-grey-dark;
-}
-
-.inactive {
-    opacity: .15;
-    color: $color-grey-light !important;
-}
-
-.today {
-    margin: 10px;
-    background-color: $color-purplish;
-    width: 97px;
-    height: 97px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.84375rem;
-    color: $color-white !important;
+    padding: $calendar-inner-gap;
+    width: 100%;
+    .day {
+        width: (100% / 7);
+        margin: 0 -1px;
+        padding: 5% 0;
+        position: relative;
+    }
+    .meeting-counter {
+        color: $color-white;
+        border-radius: 100%;
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .day-box {
+        border-radius: 100%;
+        font-size: 1.8rem;
+        text-align: center;
+        transition: border .25s ease-out;
+    }
+    .current-week-body {
+        border-top: 1px solid $color-navy-light;
+        border-bottom: 1px solid $color-navy-light;
+    }
+    .current-week-start {
+        border-top-left-radius: 100%;
+        border-top: 1px solid $color-navy-light;
+        border-bottom: 1px solid $color-navy-light;
+        border-bottom-left-radius: 100%;
+        border-left: 1px solid $color-navy-light;
+    }
+    .current-week-end {
+        border-top: 1px solid $color-navy-light;
+        border-right: 1px solid $color-navy-light;
+        border-bottom: 1px solid $color-navy-light;
+        border-top-right-radius: 100%;
+        border-bottom-right-radius: 100%;
+    }
+    .bigger-font {
+        font-size: 2rem;
+        color: $color-grey-dark;
+    }
+    .inactive {
+        opacity: .15;
+        color: $color-grey !important;
+    }
+    .today {
+        // margin: 10px;
+        background-color: $color-purplish; // width: 97px;
+        // height: 97px;
+        // display: flex;
+        // justify-content: center;
+        // align-items: center;
+        color: $color-white;
+    }
 }
 
 ::-webkit-scrollbar {

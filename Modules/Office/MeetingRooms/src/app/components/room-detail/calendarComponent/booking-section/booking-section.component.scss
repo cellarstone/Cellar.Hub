@@ -1,6 +1,11 @@
 @import '~scss/variables';
 :host {
     width: 39%;
+    min-width: 190px;
+    @media only screen and (max-width: 590px){
+        display: block;
+        width: 100%;
+    }
 }
 
 .booking {
@@ -20,6 +25,7 @@
     justify-content: center;
     align-items: center;
     height: 24%;
+    min-height: 6.875rem; // min height as date font size
     margin: auto;
     .date {
         font-size: 6.875rem;
