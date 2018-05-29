@@ -1,10 +1,11 @@
 @import '~scss/variables';
-$calendar-inner-gap: 20px;
+
 :host {
     width: 59%;
     min-width: 288px;
     @media only screen and (max-width: 590px) {
         display: block;
+        margin-bottom: 20px;
         width: 100%;
     }
 }
@@ -12,10 +13,12 @@ $calendar-inner-gap: 20px;
 .calendar {
     background: $color-white;
     border-radius: $radius;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: hidden;
+    padding: $gap-inner;
     height: 100%;
     max-height: 100%;
 }
@@ -24,8 +27,8 @@ $calendar-inner-gap: 20px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: $calendar-inner-gap;
+    justify-content: space-between;    
+    padding-bottom: $gap-inner;    
     width: 100%;
     height: 12%;
     min-height: 70px;
@@ -83,7 +86,8 @@ $calendar-inner-gap: 20px;
     align-items: center;
     justify-content: space-between;
     font-size: 1.25rem;
-    padding: $calendar-inner-gap;
+    margin-bottom: $gap-inner;
+    padding-bottom: $gap-inner;
     width: 100%;
     .calendar-day {
         text-align: center;
@@ -94,66 +98,93 @@ $calendar-inner-gap: 20px;
 .days {
     box-sizing: border-box;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: space-between;
     flex-wrap: wrap;
-    padding: $calendar-inner-gap;
     width: 100%;
+    height: 100%;
     .day {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: (100% / 7);
         margin: 0 -1px;
-        padding: 5% 0;
         position: relative;
     }
     .meeting-counter {
         color: $color-white;
-        border-radius: 100%;
+        border-radius: 50%;
+        pointer-events: none;
+        /* you can click through */
         position: absolute;
+        top: 29px;
+        left: 69px;
         width: 25px;
         height: 25px;
         text-align: center;
         vertical-align: middle;
     }
     .day-box {
-        border-radius: 100%;
+        border-radius: 50%;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-size: 1.8rem;
         text-align: center;
         transition: border .25s ease-out;
+        width: 90%;
+        height: 90%;
+        &.bigger-font {
+            color: $color-grey-dark;
+            font-size: 2rem;
+        }
+        &.inactive {
+            color: $color-grey !important;
+            opacity: .3;
+        }
+        &.today {
+            // background-color: $color-purplish;
+            color: $color-white !important;
+            position: relative;
+            z-index: 0;
+            &::before {
+                background-color: $color-purplish;
+                border-radius: 50%;
+                content: "";
+                display: block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+            }
+        }
+    }
+    .current-week-body,
+    .current-week-start,
+    .current-week-end {
+        align-self: stretch;
     }
     .current-week-body {
         border-top: 1px solid $color-navy-light;
         border-bottom: 1px solid $color-navy-light;
     }
     .current-week-start {
-        border-top-left-radius: 100%;
+        border-top-left-radius: 50%;
+        border-bottom-left-radius: 50%;
         border-top: 1px solid $color-navy-light;
         border-bottom: 1px solid $color-navy-light;
-        border-bottom-left-radius: 100%;
         border-left: 1px solid $color-navy-light;
     }
     .current-week-end {
         border-top: 1px solid $color-navy-light;
         border-right: 1px solid $color-navy-light;
         border-bottom: 1px solid $color-navy-light;
-        border-top-right-radius: 100%;
-        border-bottom-right-radius: 100%;
-    }
-    .bigger-font {
-        font-size: 2rem;
-        color: $color-grey-dark;
-    }
-    .inactive {
-        opacity: .15;
-        color: $color-grey !important;
-    }
-    .today {
-        // margin: 10px;
-        background-color: $color-purplish; // width: 97px;
-        // height: 97px;
-        // display: flex;
-        // justify-content: center;
-        // align-items: center;
-        color: $color-white;
+        border-top-right-radius: 50%;
+        border-bottom-right-radius: 50%;
     }
 }
 

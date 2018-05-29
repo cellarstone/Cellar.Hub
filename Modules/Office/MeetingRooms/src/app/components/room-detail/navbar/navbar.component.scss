@@ -24,6 +24,9 @@
             &:focus {
                 color: white;
             }
+            @media only screen and (max-width: 640px) and (min-width: 380px) {
+                font-size: 1.171875rem;
+            }
         }
         .active-tab {
             display: block;
@@ -45,6 +48,9 @@
         @media only screen and (max-width: 1072px) {
             float: none;
         }
+    }
+    @media only screen and (max-width: 490px) {
+        height: auto;
     }
 }
 

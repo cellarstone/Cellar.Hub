@@ -7,15 +7,22 @@
     height: 100%;
     overflow: hidden;
     padding: ($nav-height + $gap-vertical) 0 $gap-vertical 0;
+    @media only screen and (max-width: 590px) {
+        height: auto;
+    }
 }
 
 .container {
     display: flex;
     justify-content: space-between;
     align-items: stretch;
+    height: 100%;
     margin: auto;
     max-height: 100%;
     max-width: 95%;
     overflow: hidden;
-    position: relative;    
+    position: relative;
+    @media only screen and (max-width: 590px) {
+        display: block;
+    }
 }
