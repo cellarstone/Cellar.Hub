@@ -157,7 +157,7 @@ services:
     image: cellar.hub.mongodb
     build: 
       context: ./Core/Db/mongodb
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.ARM
     ports:
     - "27017:27017"
     volumes:

@@ -62,6 +62,12 @@ Run everything with this command.
 
 Linux : `docker-compose up` or `docker-compose up --build`
 
+Windows : `docker-compose -f docker-compose.windows.yml up` or `docker-compose -f docker-compose.windows.yml up --build`
+
+ARM Linux : `docker-compose -f docker-compose.ARM.yml up` or `docker-compose -f docker-compose.ARM.yml up --build`
+
+
+
 # Proxy
 
 You can see every registered service with :

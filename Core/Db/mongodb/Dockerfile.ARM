@@ -1,0 +1,2 @@
+FROM zsimo/rpi-mongo
+EXPOSE 27017
