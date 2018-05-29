@@ -89,6 +89,12 @@ export class CreateMeetingAction implements Action {
     constructor(public payload: CreateMeetingInput){}
 }
 
+export const CREATE_MEETING_FAILURE = '[MeetingDTO] Create Failure';
+export class CreateMeetingFailureAction implements Action {
+    readonly type = CREATE_MEETING_FAILURE;
+    constructor(public payload: string){}
+}
+
 export const CREATE_MEETING_TESTING = '[MeetingDTO] Create Testing';
 export class CreateMeetingTestingAction implements Action {
     readonly type = CREATE_MEETING_TESTING;
