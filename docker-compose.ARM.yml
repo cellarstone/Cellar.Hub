@@ -162,9 +162,10 @@ services:
     - "27017:27017"
     volumes:
      - /data/cellarstone.hub/core/mongodb:/data/db 
+     - ./Db/mongodb/mongod.conf:/etc/mongod.conf
 
   mqtt:
-    image: toke/mosquitto
+    image: ericmick/armhf-mosquitto
     ports:
     - "1883:1883"
 

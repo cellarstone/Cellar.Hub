@@ -10,7 +10,7 @@ RUN go get ./...
 # RUN go-wrapper download
 # RUN go-wrapper install
 #RUN go build -o cellarwebsockets  
-RUN GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -o cellarwebsockets
+RUN GOOS=linux GOARCH=arm CGO_ENABLED=0 go build -o cellarwebsockets
 
 # helpers
 # RUN echo $GOPATH

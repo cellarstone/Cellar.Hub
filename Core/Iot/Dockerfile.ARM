@@ -11,7 +11,7 @@ WORKDIR $GOPATH/src/github.com/cellarstone/Cellar.Hub/Core/Iot/server.d
 
 RUN go get -u github.com/golang/dep/cmd/dep
 RUN dep ensure
-RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o cellarhubiot
+RUN GOOS=linux GOARCH=arm CGO_ENABLED=0 go build -o cellarhubiot
 
 # helpers
 # RUN echo $GOPATH
