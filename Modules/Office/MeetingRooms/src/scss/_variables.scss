@@ -1,32 +1,48 @@
+// TODO: refactor to sass variables
 :root {
-
     // MEDIA QUERIES
-    $bp-large: 100em;
-
-    // COLORS
+    $bp-large: 100em; // COLORS
     --color-navy-dark-1: #3C5595;
     --color-navy-dark-2: #1C2961;
     --color-purplish-1: #5366ea;
-
     --color-white: #ffffff;
-
     --color-grey-light-1: #faf9f9;
     --color-grey-light-2: #e9e5e5;
-
     --color-grey-dark-1: #95989A;
     --color-grey-dark-2: #807f7f;
     --color-grey-dark-3: #696969;
-    
-
     --color-green-success: #4CAF50;
     --color-green-dark: #009688;
-    --color-red-dark: #F44336;
-    
-
-    // BOX SHADOW
+    --color-red-dark: #F44336; // BOX SHADOW
     --shadow-5: 0 2rem 6rem rgba(0, 0, 0, .5);
     --shadow-3: 0 2rem 6rem rgba(0, 0, 0, .3);
     --shadow-2: 0 2rem 6rem rgba(0, 0, 0, .2);
     --shadow-1: 0 2rem 6rem rgba(0, 0, 0, .1);
-
 }
+
+// DIMENSIONS AND GAPS
+$nav-height: 70px;
+$nav-ofset: 45px;
+// COLORS
+$color-transparent: transparent;
+$color-navy-light: #3C5595;
+$color-navy-dark: #1C2961;
+$color-purplish: #5366ea;
+$color-white: #ffffff;
+$color-grey-light: #e9e5e5;
+$color-grey: #95989A;
+$color-grey-dark: #696969;
+$color-green: #4CAF50;
+$color-green-dark: #009688;
+$color-red: #F44336;
+// BOX SHADOW
+$shadow-blur: 60px;
+$shadow-y-ofset: 20px;
+$shadow-5: 0 $shadow-y-ofset $shadow-blur rgba(0, 0, 0, .5);
+$shadow-3: 0 $shadow-y-ofset $shadow-blur rgba(0, 0, 0, .3);
+$shadow-2: 0 $shadow-y-ofset $shadow-blur rgba(0, 0, 0, .2);
+$shadow-1: 0 $shadow-y-ofset $shadow-blur rgba(0, 0, 0, .1);
+//OTHER
+$radius: 4px;
+$gap-inner: 20px;
+$gap-vertical: 30px;
