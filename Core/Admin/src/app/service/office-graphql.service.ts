@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable} from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { CellarMeetingRoom } from '../entities/CellarMeetingRoom';
 

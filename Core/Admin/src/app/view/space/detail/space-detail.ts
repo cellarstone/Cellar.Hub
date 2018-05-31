@@ -104,6 +104,11 @@ export class SpaceDetail {
 
             let id = params['id']; // (+) converts string 'id' to a number
             this.itemID = id;
+
+
+            console.log("ASDFASDF33333");
+            console.log(id);
+
             this.store.dispatch(new LoadCellarSpaceAction(id));
             if(id != "0"){
                 this.store.dispatch(new LoadCellarMeetingRoomAction(id));

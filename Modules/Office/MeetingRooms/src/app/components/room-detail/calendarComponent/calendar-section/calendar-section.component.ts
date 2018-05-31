@@ -140,7 +140,7 @@ export class CalendarSectionComponent implements OnInit {
     let aaa = day.isoWeek();
     let bbb = moment().isoWeek();
 
-    if(aaa == bbb && day.isoWeekday() != 1 && day.isoWeekday() != 7){
+    if(aaa == bbb && day.isoWeekday() != 1 && day.isoWeekday() != 7 && day.year() == moment().year()){
       return true;
     } else {
       return false;
@@ -152,7 +152,7 @@ export class CalendarSectionComponent implements OnInit {
     let aaa = day.isoWeek();
     let bbb = moment().isoWeek();
 
-    if(aaa == bbb && day.isoWeekday() === 1){
+    if(aaa == bbb && day.isoWeekday() === 1 && day.year() == moment().year()){
       return true;
     } else {
       return false;
@@ -164,7 +164,7 @@ export class CalendarSectionComponent implements OnInit {
     let aaa = day.isoWeek();
     let bbb = moment().isoWeek();
 
-    if(aaa == bbb && day.isoWeekday() === 7){
+    if(aaa == bbb && day.isoWeekday() === 7 && day.year() == moment().year()){
       return true;
     } else {
       return false;

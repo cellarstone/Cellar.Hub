@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from "rxjs";
-import { switchMap, map, mapTo, delay } from 'rxjs/operators';
+import { switchMap, map, mapTo, delay, catchError } from 'rxjs/operators';
 import { forEachOf } from 'async';
 import { Action } from "@ngrx/store";
 import { Actions, Effect, ofType } from "@ngrx/effects";
@@ -41,7 +41,8 @@ import { LOAD_ALL_MEETING_ROOMS,
   LoadMeetingRoomAction,
   LoadTimelineBookingsAction,
   CreateMeetingAction,
-  DeleteMeetingAction} from 'app/state/actions/application.actions';
+  DeleteMeetingAction,
+  CreateMeetingFailureAction} from 'app/state/actions/application.actions';
 
 
 
@@ -348,10 +349,24 @@ export class ApplicationEffects {
     map((action: CreateMeetingAction) => action.payload),
     switchMap((payload: CreateMeetingInput) => {
       return this.k2exchangeService.createMeeting(payload)
-                        .pipe(mapTo(payload));
+                        .pipe(
+                          mapTo(payload)
+                        );
     }),
-    switchMap(item => {
+    catchError((err, caught) => {
+
+      console.log(err);
+      console.log(caught);
+
+      return [ null ]
+    }),
+    map(item => {
       console.log(item);
+
+      if(item == null){
+        return new CreateMeetingFailureAction("I DONT KNOW");
+      }
+
       //First value must be a room address !!!
       let roomMailAddress = item.attendeeMails[0];
       let vm = new CreateMeetingTestingModel();
