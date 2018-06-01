@@ -30,7 +30,7 @@ export class MeetingStatusDialogComponent implements OnInit, OnDestroy {
     .takeUntil(this.unsubscribe$)
     .subscribe(value => {
       if(value == "Testing..."){
-        let count = 6;
+        let count = 7;
         this.countdown = timer(0,1000).pipe(
                 take(count),
                 map(()=> --count)

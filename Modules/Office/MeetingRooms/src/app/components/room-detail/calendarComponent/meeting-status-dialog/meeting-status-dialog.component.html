@@ -1,4 +1,3 @@
-
 <!-- <h2 mat-dialog-title>{{subject}}</h2> -->
 
 
@@ -6,30 +5,56 @@
 
     <div class="example-container" *ngIf="inputData.status | async">
 
-      <div *ngIf="(inputData.status | async) == 'Testing...'">
-          {{countdown | async}}
-      </div>
-         
-      </div>
-  <div class="example-container">
+        <div *ngIf="(inputData.status | async) == 'Testing...'">
 
+            <div id="countdown">
+                <div id="countdown-number">{{countdown | async}}</div>
+                <svg>
+                    <circle r="72" cx="80" cy="80"></circle>
+                </svg>
+            </div>
 
+        </div>
 
+        <div *ngIf="(inputData.status | async) == 'Created' || (inputData.status | async) == 'Deleted'">
 
-    {{inputData.status | async}}
+            <div class="wrapper">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    viewBox="0 0 98.5 98.5" enable-background="new 0 0 98.5 98.5" xml:space="preserve">
+                    <path class="checkmark" fill="none" stroke-width="8" stroke-miterlimit="10" d="M81.7,17.8C73.5,9.3,62,4,49.2,4
+                   C24.3,4,4,24.3,4,49.2s20.3,45.2,45.2,45.2s45.2-20.3,45.2-45.2c0-8.6-2.4-16.6-6.5-23.4l0,0L45.6,68.2L24.7,47.3"
+                    />
+                </svg>
+            </div>
 
-     
-  </div>
+        </div>
+
+    </div>
+
+    <div class="example-container" *ngIf="inputData.status | async">
+        <div *ngIf="(inputData.status | async) == 'Deleting...'">
+            <section>
+                <span class="trash">
+                    <span></span>
+                    <i></i>
+                </span>
+            </section>
+        </div>
+    </div>
+
+    <div class="example-container" *ngIf="inputData.status | async">
+        <div class="wrapper2" *ngIf="(inputData.status | async) != 'Created' && (inputData.status | async) != 'Deleted'">
+            {{inputData.status | async}}
+        </div>
+    </div>
 
 </mat-dialog-content>
 
 <mat-dialog-actions *ngIf="inputData.status | async">
 
-    <button *ngIf="(inputData.status | async) == 'Created' || (inputData.status | async) == 'Deleted'  || (inputData.status | async) == 'Failed'" class="mat-raised-button"
-            (click)="close()">
+    <button mat-raised-button *ngIf="(inputData.status | async) == 'Created' || (inputData.status | async) == 'Deleted'  || (inputData.status | async) == 'Failed'"
+        (click)="close()">
         Close
     </button>
 
 </mat-dialog-actions>
-
-
