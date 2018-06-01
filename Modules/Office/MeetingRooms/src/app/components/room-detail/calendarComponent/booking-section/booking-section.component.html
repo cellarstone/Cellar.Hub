@@ -24,7 +24,7 @@
           {{ meeting.start.format('HH:mm') }} - {{ meeting.end.format('HH:mm') }}
         </div>
         <div class="reservation__by">
-          {{ meeting.by }}
+          {{ meeting.subject }}
         </div>
 
         <div [@showEditButtons]="showEditButtons" *ngIf="showEditButtons" (click)="deleteMeeting(meeting)">
