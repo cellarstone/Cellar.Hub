@@ -19,7 +19,9 @@
     <div class="calendar-day">SUN</div>
   </div>
 
-  <div class="days" [@calendarSlideRight]="calendarDaysSlideRight" [@calendarSlideLeft]="calendarDaysSlideLeft" [@calendarToday]="calendarTodayAnimation">
+  <div class="days" [@calendarSlideRight]="calendarDaysSlideRight" (@calendarSlideRight.done)="calendarDaysSlideRightIsDone($event)"
+                    [@calendarSlideLeft]="calendarDaysSlideLeft" (@calendarSlideLeft.done)="calendarDaysSlideLeftIsDone($event)"
+                    [@calendarToday]="calendarTodayAnimation" (@calendarToday.done)="calendarTodayIsDone($event)">
     <div class="day" *ngFor="let day of daysArr" [ngClass]="{'current-week-body': thisWeekCheck(day), 'current-week-start': thisWeekCheckFirst(day), 'current-week-end': thisWeekCheckLast(day)}">
       <span class="meeting-counter" [ngClass]="{'inactive':!day}"> </span>
       <div class="day-box" [ngClass]="{'today': selectedDateCheck(day), 'inactive': !thisMonthCheck(day), 'bigger-font': thisWeekCheck(day)}"
