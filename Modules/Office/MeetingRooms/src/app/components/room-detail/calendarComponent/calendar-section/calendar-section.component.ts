@@ -174,48 +174,38 @@ export class CalendarSectionComponent implements OnInit {
   // On Click, give a new array of days of current month.
   public monthHome() {
     this.calendarTodayAnimation = true;
-    setTimeout(() => {
-      let newOne = moment().hour(0).minute(0).second(0).millisecond(0);
-      this.selectDate(newOne);
-    }, 500);
-    setTimeout(() => {
-      this.calendarTodayAnimation = false;
-    }, 0);
 
+    let newOne = moment().hour(0).minute(0).second(0).millisecond(0);
+    this.selectDate(newOne);
   }
 
   // On click, go to next month.
   public nextMonth() {
-
     this.calendarDaysSlideRight = true;
-    setTimeout(() => {
-      let newOne = moment(this.selectedDate).add(1, 'months');
-      this.selectDate(newOne);
 
-      // this.selectedDate.add(1, 'months');
-      // this.daysArr = this.createCalendar(this.selectedDate);
-    }, 150);
-    setTimeout(() => {
-      this.calendarDaysSlideRight = false;
-    }, 0);
+    let newOne = moment(this.selectedDate).add(1, 'months');
+      this.selectDate(newOne);
   }
 
   // On click, go back to previous month
   public previousMonth() {
-
     this.calendarDaysSlideLeft = true;
-    setTimeout(() => {
-      let newOne = moment(this.selectedDate).subtract(1, 'months');
-      this.selectDate(newOne);
 
-      // this.selectedDate.subtract(1, 'months');
-      // this.daysArr = this.createCalendar(this.selectedDate);
-    }, 150);
-    setTimeout(() => {
-      this.calendarDaysSlideLeft = false;
-    }, 0);
+    let newOne = moment(this.selectedDate).subtract(1, 'months');
+      this.selectDate(newOne);
   }
 
+  calendarDaysSlideRightIsDone($event) {
+    this.calendarDaysSlideRight = false;
+  }
+
+  calendarDaysSlideLeftIsDone($event) {
+    this.calendarDaysSlideLeft = false;
+  }
+
+  calendarTodayIsDone($event) {
+    this.calendarTodayAnimation = false;
+  }
   
 
 }
