@@ -1,3 +1,5 @@
+
+//COUNTDOWN 
 #countdown {
     position: relative;
     margin: auto;
@@ -68,6 +70,47 @@
     }
   }
 
+
+  //FAILED
+  $color: #e55454;
+
+.cross__svg {
+    border-radius: 50%;
+    display: block;
+    height: 160px;
+    margin: auto;
+    stroke-width: 4;
+    width: 160px;
+}
+
+.cross__circle {
+    animation: 0.6s ease 0s normal forwards 1 running asdf;
+    fill: none;
+    margin: 0 auto;
+    stroke: $color;
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 4;
+}
+
+.cross__path {
+    stroke: $color;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    transform-origin: 50% 50% 0;
+    &--right {
+      animation: 0.3s ease 0.8s normal forwards 1 running asdf;
+    }
+    &--left {
+      animation: 1s ease 0.8s normal forwards 1 running asdf;
+    }
+}
+
+@keyframes asdf {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
 
 
 
