@@ -93,6 +93,7 @@ export class BookingSectionComponent implements OnInit, OnDestroy {
     .subscribe(value => {
       if(value != null){
         let valueObj = <CreateMeetingVM>value;
+        console.log(valueObj);
         this.onCreateMeeting.emit(valueObj);
       }
     });

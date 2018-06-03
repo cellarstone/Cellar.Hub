@@ -37,7 +37,7 @@ export class TimelineComponent implements OnInit, OnDestroy {
     for (let ii of this.bookings) {
       let temp = {
         id: count,
-        content: ii.by,
+        content: ii.subject,
         start: ii.start,
         end: ii.end
       }

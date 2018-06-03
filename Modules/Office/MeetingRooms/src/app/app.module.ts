@@ -15,6 +15,7 @@ import { EffectsModule } from '@ngrx/effects';
 
 //Angular Material
 import {MatDialogModule,
+  MatButtonModule,
   MatFormFieldModule,
   MatInputModule,
   MatDatepickerModule,
@@ -95,6 +96,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     HttpLinkModule,
     //Material
     MatDialogModule,
+    MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,

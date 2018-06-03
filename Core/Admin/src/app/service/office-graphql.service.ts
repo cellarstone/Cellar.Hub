@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { Observable} from 'rxjs';
+import { Observable, of} from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { CellarMeetingRoom } from '../entities/CellarMeetingRoom';
 
@@ -48,7 +48,13 @@ export class OfficeGraphqlService {
           let result = <CellarMeetingRoom[]>data.cellarmeetingroom;
           return result;
         }),
-        catchError(this.handleError)
+        catchError(data => {
+          console.log(data);
+          let aa = new CellarMeetingRoom();
+          let bb = new Array<CellarMeetingRoom>();
+          bb.push(aa);
+          return of(bb);
+        })
       );
   }
 
