@@ -73,6 +73,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         return
       }
 
+      this.subject = "";
+
       let isReserved = false;
       for (let meeting of values) {
 
