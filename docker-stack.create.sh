@@ -773,7 +773,7 @@ else
                       --env MQTT_URL=mqtt \
                       --env INFLUX_URL=http://influxdb:8086 \
                       --env WEBSOCKETS_URL=cellar-hub-core-websockets:44406 \
-                      --env CELLAR_API_URL=cellar-hub-core-api:44413 \
+                      --env CELLAR_API_URL=cellar-hub-core-iot:44413 \
                       --replicas 1 \
                       --update-parallelism 2 \
                       --update-delay 5s \
