@@ -26,6 +26,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    min-height: 90px;
     .date {
         font-size: 6.875rem;
         color: $color-navy-light;
@@ -46,6 +47,7 @@
     }
     @media only screen and (max-width: 590px) {
         margin-bottom: $gap-inner;
+        min-height: auto;
     }
 }
 
@@ -69,6 +71,7 @@
         .reservation {
             color: $color-grey;
             display: flex;
+            margin-bottom: 10px;
             padding: 13px 0 13px 70px;
             position: relative;
             align-items: center;
@@ -91,9 +94,6 @@
             .duration {
                 width: 100%;
                 margin-right: 10px;
-            }
-            .created-by {
-                // font-size: 1.25rem;
             }
         }
     }
