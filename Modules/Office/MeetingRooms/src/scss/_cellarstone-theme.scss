@@ -1,0 +1,29 @@
+/*
+This styles changes default material design
+*/
+
+@import "./variables";
+// button
+button.mat-raised-button {
+    line-height: 50px;
+    padding: 0 36px;
+    font-size: 1.2rem;
+}
+
+// chip
+.mat-chip {
+    font-size: 1rem;
+}
+
+// dialog
+.cdk-overlay-pane {
+    width: 100%;
+    max-width: 650px !important;
+    min-width: auto !important;
+}
+
+//time picker
+.time-picker-button.mat-button {
+    // tested in add-meeting-dialog-component
+    margin: 0 10px 27px 0 !important;
+}

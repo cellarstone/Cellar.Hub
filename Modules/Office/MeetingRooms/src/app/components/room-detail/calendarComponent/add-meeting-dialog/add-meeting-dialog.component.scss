@@ -1,8 +1,18 @@
-.example-container {
+@import '~scss/variables';
+:host {
+    font-family: $font-family;
+    font-size: 1.4rem;
+}
+
+mat-dialog-content {
     display: flex;
-    flex-direction: column;
-  }
-  
-  .example-container > * {
-    width: 100%;
-  }
+    flex-flow: column;
+    max-height: none;
+    &>* {
+        width: 100%;
+    }
+}
+
+mat-dialog-actions {
+    justify-content: flex-end;
+}
