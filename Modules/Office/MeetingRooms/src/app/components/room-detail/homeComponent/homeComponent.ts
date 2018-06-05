@@ -73,6 +73,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         return
       }
 
+      this.subject = "";
+
       let isReserved = false;
       for (let meeting of values) {
 
@@ -83,7 +85,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         let isActual = actualTime.isBetween(start,end);
         if(isActual){
           isReserved = true;
-          this.subject = meeting.by;
+          this.subject = meeting.subject;
         } 
       }
 

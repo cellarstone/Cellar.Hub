@@ -18,7 +18,7 @@
             <img src="../../assets/icons/plus.svg" alt="Add" class="add">
         </div>
 
-        <div [@showEditButtons]="showEditButtons" *ngIf="showEditButtons && meeting.status === 'reserved'" (click)="deleteMeeting(meeting)">
+        <div [@showEditButtons]="showEditButtons" *ngIf="showEditButtons && meeting.status === 'reserved' && meeting.subject.includes('KonzoleToExchange')" (click)="deleteMeeting(meeting)">
             <img src="../../assets/icons/Minus.svg" alt="Remove" class="remove">          
         </div>
 

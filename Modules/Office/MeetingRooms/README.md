@@ -59,7 +59,7 @@ Input
 ```JSON
 { 
   "in": {
-    "attendees": ["lukas.kellerstein@alza.cz", "simon.kubita@alza.cz", "jednacka.butan@alza.cz"],
+    "attendeeMails": ["lukas.kellerstein@alza.cz", "jednacka.butan@alza.cz"],
     "start": "1.1.2018 22:00:00",
     "end": "1.1.2018 22:15:00",
     "location": "Jednačka Butan 10",

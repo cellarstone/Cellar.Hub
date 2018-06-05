@@ -2,7 +2,7 @@ import { trigger, state, animate, transition, style, group, query, keyframes } f
 
 
 export const calendarSlideRightTrigger = trigger('calendarSlideRight', [
-    transition('* => *', [
+    transition('* => true', [
       style({
         opacity: '0',
         transform: 'translateX(-100%)'
@@ -43,7 +43,7 @@ export const calendarSlideRightTrigger = trigger('calendarSlideRight', [
   ]);
   
   export const calendarSlideLeftTrigger = trigger('calendarSlideLeft', [
-    transition('* => *', [
+    transition('* => true', [
       style({
         opacity: '0',
         transform: 'translateX(100%)'
@@ -85,7 +85,7 @@ export const calendarSlideRightTrigger = trigger('calendarSlideRight', [
   
   
   export const calendarTodayTrigger = trigger('calendarToday', [
-    transition('* => *', [
+    transition('* => true', [
       style({
         opacity: '0',
         transform: 'scale(0)'

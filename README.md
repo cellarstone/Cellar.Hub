@@ -339,3 +339,14 @@ RESENI >> zpristupneni ALL hub ven - Admin, Websocket, Api, Workflow
 PROBLEM SE ZADAVANIM IP ADRESY HUBU DO SENZORU
 RESENI >> cloudDNS ?? vezmu si jeho IP adresu z cloudu ? protoze mi hub kazdou minutu hlasi svoji IP adresu ve vnitrni siti
 
+
+
+# ARM
+
+OS Rasbian 
+
+Etcher - https://etcher.io
+Rasbian - https://www.raspberrypi.org/downloads/raspbian/
+Docker on Rasbian - https://www.marksei.com/docker-on-raspberry-pi-raspbian/
+
+

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from "rxjs";
-import { switchMap, map, mapTo, delay } from 'rxjs/operators';
+import { switchMap, map, mapTo, delay, catchError, tap } from 'rxjs/operators';
 import { forEachOf } from 'async';
 import { Action } from "@ngrx/store";
 import { Actions, Effect, ofType } from "@ngrx/effects";
@@ -15,18 +15,19 @@ import { DeleteMeetingInput } from '../../dto/DeleteMeetingInput';
 import * as moment from 'moment';
 import { LoadCalendarBookingsModel, CreateMeetingTestingModel, CreateMeetingTestingSuccessModel, DeleteMeetingTestingModel, DeleteMeetingTestingSuccessModel } from 'app/state/models/application.models';
 
-import { LOAD_ALL_MEETING_ROOMS, 
-  LoadAllMeetingRoomsSuccessAction, 
-  LOAD_TIMELINE_BOOKINGS, 
-  LOAD_CALENDAR_BOOKINGS, 
-  LoadTimelineBookingsSuccessAction, 
-  LoadCalendarBookingsSuccessAction, 
-  CREATE_MEETING, 
-  CreateMeetingTestingSuccessAction, 
-  CreateMeetingTestingFailureAction, 
-  DELETE_MEETING, 
-  LOAD_MEETING_ROOM, 
-  LoadMeetingRoomSuccessAction, 
+import {
+  LOAD_ALL_MEETING_ROOMS,
+  LoadAllMeetingRoomsSuccessAction,
+  LOAD_TIMELINE_BOOKINGS,
+  LOAD_CALENDAR_BOOKINGS,
+  LoadTimelineBookingsSuccessAction,
+  LoadCalendarBookingsSuccessAction,
+  CREATE_MEETING,
+  CreateMeetingTestingSuccessAction,
+  CreateMeetingTestingFailureAction,
+  DELETE_MEETING,
+  LOAD_MEETING_ROOM,
+  LoadMeetingRoomSuccessAction,
   CreateMeetingTestingAction,
   CREATE_MEETING_TESTING,
   SetCreateMeetingStatusAction,
@@ -41,7 +42,9 @@ import { LOAD_ALL_MEETING_ROOMS,
   LoadMeetingRoomAction,
   LoadTimelineBookingsAction,
   CreateMeetingAction,
-  DeleteMeetingAction} from 'app/state/actions/application.actions';
+  DeleteMeetingAction,
+  CreateMeetingFailureAction
+} from 'app/state/actions/application.actions';
 
 
 
@@ -52,7 +55,7 @@ export class ApplicationEffects {
     private officeservice: OfficeGraphqlService,
     private k2exchangeService: K2ExchangeGraphqlService) { }
 
-  @Effect() 
+  @Effect()
   loadAllMeetingRoomsEffect$ = this.actions$.pipe(
     ofType(LOAD_ALL_MEETING_ROOMS),
     switchMap(() => {
@@ -76,7 +79,7 @@ export class ApplicationEffects {
     map(items => new LoadAllMeetingRoomsSuccessAction(<MeetingRoomDTO[]>items))
   );
 
-  @Effect() 
+  @Effect()
   loadMeetingRoomEffect$ = this.actions$.pipe(
     ofType(LOAD_MEETING_ROOM),
     map((action: LoadMeetingRoomAction) => action.payload),
@@ -100,7 +103,7 @@ export class ApplicationEffects {
     })
   );
 
-  @Effect() 
+  @Effect()
   loadTimelineBookingsEffect$ = this.actions$.pipe(
     ofType(LOAD_TIMELINE_BOOKINGS),
     map((action: LoadTimelineBookingsAction) => action.payload),
@@ -139,7 +142,7 @@ export class ApplicationEffects {
         temp.start = moment(item.start); // ???? right ???
         temp.end = moment(item.end); // ???? right ???
 
-        // console.log(item);
+        console.log(item);
 
         // let tempArr = item.subject.split(' ');
         // if (item.subject.includes("KonzoleToExchange")) {
@@ -176,7 +179,7 @@ export class ApplicationEffects {
   );
 
 
-  @Effect() 
+  @Effect()
   loadCalendarBookingsEffect$ = this.actions$.pipe(
     ofType(LOAD_CALENDAR_BOOKINGS),
     map((action: LoadCalendarBookingsAction) => action.payload),
@@ -211,7 +214,7 @@ export class ApplicationEffects {
       let payload = <LoadCalendarBookingsModel>model[0];
       let meetings = <MeetingDTO[]>model[1];
 
-      
+
       console.log(meetings);
       let result = new Array<BookingVM>();
 
@@ -239,7 +242,7 @@ export class ApplicationEffects {
         temp.start = moment(item.start); // ???
         temp.end = moment(item.end); // ???
 
-        // console.log(item);
+        console.log(item);
 
         // let tempArr = item.subject.split(' ');
         // if (item.subject.includes("KonzoleToExchange")) {
@@ -276,8 +279,8 @@ export class ApplicationEffects {
 
           let temp = new BookingVM();
           temp.status = "available";
-          temp.start = moment(start); 
-          temp.end = moment(end); 
+          temp.start = moment(start);
+          temp.end = moment(end);
           temp.by = "Available";
           // console.log(temp);
           result.push(temp);
@@ -291,11 +294,11 @@ export class ApplicationEffects {
 
           if (availableFrom.format("HH:mm") != availableTo.format("HH:mm")) {
             // Issue #50
-            if(availableFrom.isBefore(availableTo)){
+            if (availableFrom.isBefore(availableTo)) {
               let temp = new BookingVM();
               temp.status = "available";
               temp.start = moment(availableFrom);
-              temp.end = moment(availableTo); 
+              temp.end = moment(availableTo);
               temp.by = "Available";
               // console.log(temp);
               result.push(temp);
@@ -312,8 +315,8 @@ export class ApplicationEffects {
 
           let temp = new BookingVM();
           temp.status = "available";
-          temp.start = moment(start); 
-          temp.end = moment(end); 
+          temp.start = moment(start);
+          temp.end = moment(end);
           temp.by = "Available";
           // console.log(temp);
           result.push(temp);
@@ -342,33 +345,61 @@ export class ApplicationEffects {
     map(items => new LoadCalendarBookingsSuccessAction(<BookingVM[]>items))
   );
 
-  @Effect() 
+  @Effect()
   createMeetingEffect$ = this.actions$.pipe(
     ofType(CREATE_MEETING),
     map((action: CreateMeetingAction) => action.payload),
     switchMap((payload: CreateMeetingInput) => {
-      return this.k2exchangeService.createMeeting(payload)
-                        .pipe(mapTo(payload));
-    }),
-    switchMap(item => {
-      console.log(item);
-      //First value must be a room address !!!
-      let roomMailAddress = item.attendeeMails[0];
-      let vm = new CreateMeetingTestingModel();
-      vm.email = roomMailAddress;
-      vm.start = moment(item.start);
-      vm.end = moment(item.end);
-      vm.subject = item.subject;
 
-      // return Observable.of(new CreateMeetingTestingAction(vm), new SetCreateMeetingStatusAction("Testing..."))
-      return [
-        new CreateMeetingTestingAction(vm),
-        new SetCreateMeetingStatusAction("Testing...")
-      ]
+      return this.k2exchangeService.createMeeting(payload)
+        .pipe(
+          // catchError((err, caught) => {
+
+          //   console.log(err);
+          //   console.log(caught);
+
+          //   return caught;
+          // }),
+          map(value => {
+            console.log(value);
+            return payload;
+          })
+        );
+
+    }),
+    // catchError((err, caught) => {
+
+    //   console.log(err);
+    //   console.log(caught);
+
+    //   return new CreateMeetingFailureAction("I DONT KNOW");
+    // }),
+    switchMap((item: CreateMeetingInput) => {
+      console.log(item);
+
+      if (item.start == "") {
+        //return new CreateMeetingFailureAction("I DONT KNOW");
+      } else {
+        //First value must be a room address !!!
+        let roomMailAddress = item.attendeeMails[0];
+        let vm = new CreateMeetingTestingModel();
+        vm.email = roomMailAddress;
+        vm.start = moment(item.start);
+        vm.end = moment(item.end);
+        vm.subject = item.subject;
+
+
+        // return Observable.of(new CreateMeetingTestingAction(vm), new SetCreateMeetingStatusAction("Testing..."))
+        return [
+          new CreateMeetingTestingAction(vm),
+          new SetCreateMeetingStatusAction("Testing...")
+        ]
+        //return new CreateMeetingTestingAction(vm)
+      }
     })
   );
 
-  @Effect() 
+  @Effect()
   createMeetingTestingEffect$ = this.actions$.pipe(
     ofType(CREATE_MEETING_TESTING),
     map((action: CreateMeetingTestingAction) => action.payload),
@@ -417,7 +448,7 @@ export class ApplicationEffects {
         // console.log(meeting.subject);
         // console.log(payload.subject);
 
-        if(meeting.subject.includes(payload.subject)){
+        if (meeting.subject.includes(payload.subject)) {
 
           let start = moment(meeting.start);
           let end = moment(meeting.end);
@@ -428,7 +459,7 @@ export class ApplicationEffects {
           let startSame = payload.start.isSame(start);
           let endSame = payload.end.isSame(end);
 
-          if(startSame && endSame){
+          if (startSame && endSame) {
             // console.log("isExist");
             isExist = true;
             createdMeeting = meeting;
@@ -436,7 +467,7 @@ export class ApplicationEffects {
         }
       }
 
-      if(isExist){
+      if (isExist) {
 
         let vm = new CreateMeetingTestingSuccessModel();
         vm.email = payload.email;
@@ -445,14 +476,14 @@ export class ApplicationEffects {
 
         // console.log(vm);
 
-        return new CreateMeetingTestingSuccessAction(vm); 
+        return new CreateMeetingTestingSuccessAction(vm);
       } else {
         return new CreateMeetingTestingFailureAction("I DONT KNOW");
       }
     })
   );
 
-  @Effect() 
+  @Effect()
   createMeetingTestingSuccessEffect$ = this.actions$.pipe(
     ofType(CREATE_MEETING_TESTING_SUCCESS),
     map((action: CreateMeetingTestingSuccessAction) => action.payload),
@@ -473,29 +504,31 @@ export class ApplicationEffects {
   );
 
 
-    // ------------------------------------------------------------------
-    // DELETE 
-    // ------------------------------------------------------------------
+  // ------------------------------------------------------------------
+  // DELETE 
+  // ------------------------------------------------------------------
 
-  @Effect() 
+  @Effect()
   deleteMeetingEffect$ = this.actions$.pipe(
     ofType(DELETE_MEETING),
     map((action: DeleteMeetingAction) => action.payload),
     switchMap((payload: DeleteMeetingInput) => {
+      console.log(payload);
       return this.k2exchangeService.deleteMeeting(payload)
-                        .pipe(mapTo(payload));
+        .pipe(mapTo(payload));
     }),
     switchMap(item => {
-      // console.log(item);
+      console.log(item);
 
       let roomMailAddress = item.meetingRoomMail;
       let vm = new DeleteMeetingTestingModel();
       vm.email = roomMailAddress;
       vm.start = moment(item.start);
       vm.end = moment(item.end);
+
       vm.subject = item.subject;
 
-      // return Observable.of(new CreateMeetingTestingAction(vm), new SetCreateMeetingStatusAction("Testing..."))
+      //      return Observable.of(new CreateMeetingTestingAction(vm), new SetCreateMeetingStatusAction("Testing..."))
       return [
         new DeleteMeetingTestingAction(vm),
         new SetDeleteMeetingStatusAction("Testing...")
@@ -503,92 +536,92 @@ export class ApplicationEffects {
     })
   );
 
-    @Effect() 
-    deleteMeetingTestingEffect$ = this.actions$.pipe(
-      ofType(DELETE_MEETING_TESTING),
-      map((action: DeleteMeetingTestingAction) => action.payload),
-      switchMap((payload: DeleteMeetingTestingModel) => {
-        // console.log(payload);
-        return of(payload).pipe(delay(5000));
-      }),
-      switchMap((payload: DeleteMeetingTestingModel) => {
-        // console.log(payload);
-        //--------------------------------------------------
-        // GET Actual meetings for this day for this Meeting Room
-        //--------------------------------------------------
-  
-        let asdf = new GetInfoInput();
-        asdf.attendeeMails.push(payload.email);
-        asdf.start = moment(payload.start).startOf('D').format('YYYY-MM-DDTHH:mm:ss') + "Z"; // ???? right ???
-        asdf.end = moment(payload.end).add(1, 'days').startOf('D').format('YYYY-MM-DDTHH:mm:ss') + "Z"; // ???? right ???
-        asdf.goodSuggestionThreshold = 49;
-        asdf.maximumNonWorkHoursSuggestionsPerDay = 0;
-        asdf.maximumSuggestionsPerDay = 48;
-        asdf.meetingDuration = 60;
-        asdf.minimumSuggestionQuality = 0;
-        asdf.requestedFreeBusyView = 4;
-  
-        // console.log(asdf);
-  
-        return this.k2exchangeService.getInfo(asdf).pipe(
-          map((values) => {
-            let result = new Array<{}>();
-            result.push(payload);
-            result.push(values);
-            return result;
-          })
-        );
-  
-      }),
-      map((model) => {
-        // console.log(model);
-        let payload = <DeleteMeetingTestingModel>model[0];
-        let meetings = <MeetingDTO[]>model[1];
-        let createdMeeting: MeetingDTO;
-        let isExist = false;
-        // console.log(meetings);
-        for (const meeting of meetings) {
-  
-          // console.log(meeting.subject);
-          // console.log(payload.subject);
-  
-          if(meeting.subject.includes(payload.subject)){
-  
-            let start = moment(meeting.start);
-            let end = moment(meeting.end);
-  
-            // console.log(start);
-            // console.log(payload.start);
-  
-            let startSame = payload.start.isSame(start);
-            let endSame = payload.end.isSame(end);
-  
-            if(startSame && endSame){
-              // console.log("isExist");
-              isExist = true;
-              createdMeeting = meeting;
-            }
+  @Effect()
+  deleteMeetingTestingEffect$ = this.actions$.pipe(
+    ofType(DELETE_MEETING_TESTING),
+    map((action: DeleteMeetingTestingAction) => action.payload),
+    switchMap((payload: DeleteMeetingTestingModel) => {
+      // console.log(payload);
+      return of(payload).pipe(delay(5000));
+    }),
+    switchMap((payload: DeleteMeetingTestingModel) => {
+      // console.log(payload);
+      //--------------------------------------------------
+      // GET Actual meetings for this day for this Meeting Room
+      //--------------------------------------------------
+
+      let asdf = new GetInfoInput();
+      asdf.attendeeMails.push(payload.email);
+      asdf.start = moment(payload.start).startOf('D').format('YYYY-MM-DDTHH:mm:ss') + "Z"; // ???? right ???
+      asdf.end = moment(payload.end).add(1, 'days').startOf('D').format('YYYY-MM-DDTHH:mm:ss') + "Z"; // ???? right ???
+      asdf.goodSuggestionThreshold = 49;
+      asdf.maximumNonWorkHoursSuggestionsPerDay = 0;
+      asdf.maximumSuggestionsPerDay = 48;
+      asdf.meetingDuration = 60;
+      asdf.minimumSuggestionQuality = 0;
+      asdf.requestedFreeBusyView = 4;
+
+      // console.log(asdf);
+
+      return this.k2exchangeService.getInfo(asdf).pipe(
+        map((values) => {
+          let result = new Array<{}>();
+          result.push(payload);
+          result.push(values);
+          return result;
+        })
+      );
+
+    }),
+    map((model) => {
+      // console.log(model);
+      let payload = <DeleteMeetingTestingModel>model[0];
+      let meetings = <MeetingDTO[]>model[1];
+      let createdMeeting: MeetingDTO;
+      let isExist = false;
+      // console.log(meetings);
+      for (const meeting of meetings) {
+
+        // console.log(meeting.subject);
+        // console.log(payload.subject);
+
+        if (meeting.subject.includes(payload.subject)) {
+
+          let start = moment(meeting.start);
+          let end = moment(meeting.end);
+
+          // console.log(start);
+          // console.log(payload.start);
+
+          let startSame = payload.start.isSame(start);
+          let endSame = payload.end.isSame(end);
+
+          if (startSame && endSame) {
+            // console.log("isExist");
+            isExist = true;
+            createdMeeting = meeting;
           }
         }
-  
-        //If meeting doesn't exist, it is OK
-        if(!isExist){
-  
-          let vm = new DeleteMeetingTestingSuccessModel();
-          vm.email = payload.email;
-          vm.start = moment(payload.start).startOf('D'); // ???? right ???
-          vm.end = moment(payload.end).add(1, 'days').startOf('D'); // ???? right ???
-  
-          // console.log(vm);
-  
-          return new DeleteMeetingTestingSuccessAction(vm); 
-        } else {
-          return new DeleteMeetingTestingFailureAction("I DONT KNOW");
-        }
-      })
-    );
+      }
 
-  @Effect() 
+      //If meeting doesn't exist, it is OK
+      if (!isExist) {
+
+        let vm = new DeleteMeetingTestingSuccessModel();
+        vm.email = payload.email;
+        vm.start = moment(payload.start).startOf('D'); // ???? right ???
+        vm.end = moment(payload.end).add(1, 'days').startOf('D'); // ???? right ???
+
+        // console.log(vm);
+
+        return new DeleteMeetingTestingSuccessAction(vm);
+      } else {
+        return new DeleteMeetingTestingFailureAction("I DONT KNOW");
+      }
+    })
+  );
+
+  @Effect()
   deleteMeetingTestingSuccessEffect$ = this.actions$.pipe(
     ofType(DELETE_MEETING_TESTING_SUCCESS),
     map((action: DeleteMeetingTestingSuccessAction) => action.payload),
