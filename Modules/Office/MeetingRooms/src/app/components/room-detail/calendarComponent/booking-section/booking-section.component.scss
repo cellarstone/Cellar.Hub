@@ -14,7 +14,7 @@
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     flex-direction: column;
     overflow: hidden;
     padding: $gap-inner;
@@ -26,7 +26,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 90px;
+    min-height: 6.875rem; // same as font size of date
     .date {
         font-size: 6.875rem;
         color: $color-navy-light;
@@ -51,36 +51,30 @@
     }
 }
 
-.separator {
-    background-color: $color-navy-dark;
-    border-radius: 50px;
-    box-shadow: $shadow-1;
-    display: block;
-    margin: auto;
-    width: 95%;
-    max-width: 250px;
-    height: 3px;
-}
-
 .wrapper {
+    border-top: 1px solid $color-navy-dark;
+    border-bottom: 1px solid $color-navy-dark;
+    margin: 0 auto;
+    padding: 30px 0 0 0;
     position: relative;
     overflow: scroll;
     width: 100%;
-    height: 60%;
+    height: 100%;
     .reservations {
         .reservation {
             color: $color-grey;
-            display: flex;
             margin-bottom: 10px;
-            padding: 13px 0 13px 70px;
+            padding: 0 0 13px 70px;
             position: relative;
-            align-items: center;
             font-size: 1.3rem;
             &.available {
                 color: $color-green;
             }
             &.reserved {
                 color: $color-red;
+                .event {
+                    color: $color-grey;
+                }
             }
             .remove,
             .add {
@@ -90,11 +84,14 @@
                 left: 0;
                 top: 50%;
                 transform: translateY(-50%);
+                margin-top: -6px; // instead of parent top padding
             }
             .duration {
-                width: 100%;
+                font-weight: bold;
                 margin-right: 10px;
+                width: 100%;
             }
+            .event {}
         }
     }
 }
@@ -138,4 +135,15 @@
 
 ::-webkit-scrollbar {
     display: none;
+}
+
+.separator {
+    background-color: $color-navy-dark;
+    border-radius: 50px;
+    box-shadow: $shadow-1;
+    display: block;
+    margin: auto;
+    width: 95%;
+    max-width: 250px;
+    height: 3px;
 }

@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <div class="separator"></div>
+  <!-- <div class="separator"></div> -->
 
   <div class="wrapper">
     <div class="reservations" *ngFor="let meeting of bookedMeetings">
@@ -22,19 +22,19 @@
             <img src="../../assets/icons/Minus.svg" alt="Remove" class="remove">          
         </div>
 
-        <span class="duration">
+        <div class="duration">
           {{ meeting.start.format('HH:mm') }} - {{ meeting.end.format('HH:mm') }}
-        </span>
-        <span class="created-by">
+        </div>
+        <div class="event">
           {{ meeting.by }}
-        </span>
+        </div>
 
       </div>
     </div>
   </div>
 
   <div class="btn-block">
-    <div class="separator"></div>
+    <!-- <div class="separator"></div> -->
     <button class="edit-button" (click)="onEditButton()">EDIT</button>
   </div>
 
