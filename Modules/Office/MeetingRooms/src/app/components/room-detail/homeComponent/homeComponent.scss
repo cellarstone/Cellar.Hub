@@ -1,24 +1,17 @@
 @import '~scss/variables';
 @import '~scss/base';
+.home-body {
+    color: $color-white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
-:host {
-    display: block;
+#timeline-body {
+    position: absolute;
+    bottom: 0;
     width: 100%;
-    height: 100%;
-    // background-color: var(--color-green-success);
-}
-
-.homeBody{
-    // background-color: blue;
-    color: white;
-    position: relative;
-    top: 10%;
-}
-
-#timelineBody {
-    position:absolute;
-    bottom:0;
-    width:100%;
 }
 
 .changeStatus .buttons {
@@ -27,34 +20,33 @@
     cursor: pointer;
 }
 
-.room, .presenter, .status {
+.room,
+.presenter,
+.status {
     display: block;
+    letter-spacing: 10px;
     text-transform: uppercase;
     text-align: center;
-    letter-spacing: 10px;
-    
 }
 
-.room, .presenter {
-    font-size: 500%;
-}
-.room {
-    margin-top: 15vh;
-}
+.room,
 .presenter {
-    margin-top: 4vh;
+    font-size: 3.5rem;
 }
+
+.room {
+    margin-bottom: 4vh;
+}
+
 .status {
-    font-size: 120px;
-    margin-top: 4vh;
+    font-size: 7.5rem;
 }
+
 .presenter span {
-    font-size: 20px;
+    font-size: 1.25rem;
     text-transform: lowercase !important;
 }
+
 .presenter div {
     display: inline-block;
 }
-
-
-

@@ -341,7 +341,9 @@ RESENI >> cloudDNS ?? vezmu si jeho IP adresu z cloudu ? protoze mi hub kazdou m
 
 
 
-# Raspbian
+# ARM
+
+OS Rasbian 
 
 Etcher - https://etcher.io
 Rasbian - https://www.raspberrypi.org/downloads/raspbian/

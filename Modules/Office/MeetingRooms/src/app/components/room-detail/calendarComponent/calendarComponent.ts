@@ -113,7 +113,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     //convert from VM to Input
     let result = new DeleteMeetingInput();
     result.meetingRoomMail = meeting.meetingRoomMail;
-    result.subject = meeting.subject;
+    result.subject = meeting.subject.replace("KonzoleToExchange ", "");
     result.start = meeting.start.format();
     result.end = meeting.end.format();
 
