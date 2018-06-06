@@ -19,7 +19,8 @@
     --shadow-2: 0 2rem 6rem rgba(0, 0, 0, .2);
     --shadow-1: 0 2rem 6rem rgba(0, 0, 0, .1);
 }
-
+// FONT
+$font-family: 'Lato', Tahoma, Geneva, Verdana, sans-serif;
 // DIMENSIONS AND GAPS
 $nav-height: 70px;
 $nav-ofset: 45px;
@@ -43,6 +44,6 @@ $shadow-3: 0 $shadow-y-ofset $shadow-blur rgba(0, 0, 0, .3);
 $shadow-2: 0 $shadow-y-ofset $shadow-blur rgba(0, 0, 0, .2);
 $shadow-1: 0 $shadow-y-ofset $shadow-blur rgba(0, 0, 0, .1);
 //OTHER
-$radius: 4px;
+$radius: 2px;
 $gap-inner: 20px;
 $gap-vertical: 30px;

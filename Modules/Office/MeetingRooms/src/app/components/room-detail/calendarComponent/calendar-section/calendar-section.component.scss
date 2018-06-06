@@ -133,8 +133,8 @@
         font-size: 1.8rem;
         text-align: center;
         transition: border .25s ease-out;
-        width: 90%;
-        height: 90%;
+        width: 50px; //90% - test pevne velikosti
+        height: 50px; // 90%
         &.bigger-font {
             color: $color-grey-dark;
             font-size: 2rem;
@@ -173,8 +173,8 @@
         border-bottom: 1px solid $color-navy-light;
     }
     .current-week-start {
-        border-top-left-radius: 50%;
-        border-bottom-left-radius: 50%;
+        border-top-left-radius: 50px;
+        border-bottom-left-radius: 50px;
         border-top: 1px solid $color-navy-light;
         border-bottom: 1px solid $color-navy-light;
         border-left: 1px solid $color-navy-light;
@@ -183,8 +183,8 @@
         border-top: 1px solid $color-navy-light;
         border-right: 1px solid $color-navy-light;
         border-bottom: 1px solid $color-navy-light;
-        border-top-right-radius: 50%;
-        border-bottom-right-radius: 50%;
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50px;
     }
 }
 
