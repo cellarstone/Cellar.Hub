@@ -24,8 +24,8 @@
                     [@calendarToday]="calendarTodayAnimation" (@calendarToday.done)="calendarTodayIsDone($event)">
     <div class="day" *ngFor="let day of daysArr" [ngClass]="{'current-week-body': thisWeekCheck(day), 'current-week-start': thisWeekCheckFirst(day), 'current-week-end': thisWeekCheckLast(day)}">
       <span class="meeting-counter" [ngClass]="{'inactive':!day}"> </span>
-      <div class="day-box" [ngClass]="{'today': selectedDateCheck(day), 'inactive': !thisMonthCheck(day), 'bigger-font': thisWeekCheck(day)}"
-        (click)="selectDate(day)" [ngStyle]="{'border': todayCheck(day) ? '1px solid var(--color-navy-dark-2)' : '1px solid transparent', 'color': day.isoWeekday() === 6 || day.isoWeekday() === 7 ? '#F44336' : 'var(--color-grey-dark-3)'}">
+      <div class="day-box" [ngClass]="{'selected': selectedDateCheck(day), 'inactive': !thisMonthCheck(day), 'today': todayCheck(day), 'weekend':day.isoWeekday() === 6 || day.isoWeekday() === 7}"
+        (click)="selectDate(day)">
         {{day?.date()}}
       </div>
     </div>
