@@ -544,6 +544,7 @@ if [ "$IS_HUBCOREADMIN_EXIST" != "" ]; then
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.admin" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --with-registry-auth \
                       cellar-hub-core-admin
 
@@ -569,6 +570,7 @@ else
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.admin" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --with-registry-auth \
                       --publish 44402:44402 \
                       cellarstone/cellar.hub.core.admin:0.66.0     
@@ -595,6 +597,7 @@ if [ "$IS_HUBCOREFILE_EXIST" != "" ]; then
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.file" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --with-registry-auth \
                       cellar-hub-core-file
 
@@ -622,6 +625,7 @@ else
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.file" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --mount type=bind,source=/data/cellarstone.hub/core/file,target=/app/data \
                       --publish 44404:44404 \
                       --with-registry-auth \
@@ -650,6 +654,7 @@ if [ "$IS_HUBCOREWEBSOCKETS_EXIST" != "" ]; then
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.websockets" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --with-registry-auth \
                       cellar-hub-core-websockets
 
@@ -675,6 +680,7 @@ else
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.websockets" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --publish 44406:44406 \
                       --with-registry-auth \
                       cellarstone/cellar.hub.core.websockets:0.66.0     
@@ -705,6 +711,7 @@ if [ "$IS_HUBCOREIOT_EXIST" != "" ]; then
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.iot" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --with-registry-auth \
                       cellar-hub-core-iot
 
@@ -733,6 +740,7 @@ else
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.iot" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --with-registry-auth \
                       --publish 44403:44403 \
                       --publish 44413:44413 \
@@ -760,6 +768,7 @@ if [ "$IS_HUBCOREWORKFLOW_EXIST" != "" ]; then
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.workflow" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --with-registry-auth \
                       cellar-hub-core-workflow
 
@@ -791,6 +800,7 @@ else
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.core.workflow" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --publish 44405:44405 \
                       --with-registry-auth \
                       cellarstone/cellar.hub.core.workflow:0.66.0     
@@ -817,6 +827,7 @@ if [ "$IS_HUBMODULE_OFFICEAPI_EXIST" != "" ]; then
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar-hub-module-office-api" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --with-registry-auth \
                       cellar-hub-module-office-api
 
@@ -846,6 +857,7 @@ else
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar-hub-module-office-api" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --publish 44513:44513 \
                       --with-registry-auth \
                       cellarstone/cellar.hub.module.office.api:0.66.0
@@ -872,6 +884,7 @@ if [ "$IS_HUBMODULE_OFFICEMEETINGS_EXIST" != "" ]; then
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar-hub-module-office-meetingrooms" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --with-registry-auth \
                       cellar-hub-module-office-meetingrooms
 
@@ -897,6 +910,7 @@ else
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar-hub-module-office-meetingrooms" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --publish 44511:44511 \
                       --with-registry-auth \
                       cellarstone/cellar.hub.module.office.meetingrooms:0.66.0
@@ -923,6 +937,7 @@ if [ "$IS_HUBMODULE_OFFICERECEPTION_EXIST" != "" ]; then
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar-hub-module-office-reception" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --with-registry-auth \
                       cellar-hub-module-office-reception
 
@@ -948,6 +963,7 @@ else
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar-hub-module-office-reception" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --publish 44512:44512 \
                       --with-registry-auth \
                       cellarstone/cellar.hub.module.office.reception:0.66.0
@@ -974,6 +990,7 @@ if [ "$IS_HUBMODULE_OFFICECAFE_EXIST" != "" ]; then
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar-hub-module-office-cafe" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --with-registry-auth \
                       cellar-hub-module-office-cafe
 
@@ -999,6 +1016,7 @@ else
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar-hub-module-office-cafe" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --publish 44514:44514 \
                       --with-registry-auth \
                       cellarstone/cellar.hub.module.office.cafe:0.66.0
@@ -1026,6 +1044,7 @@ if [ "$IS_HUBMODULE_OFFICEWELCOME_EXIST" != "" ]; then
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar-hub-module-office-welcome" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --with-registry-auth \
                       cellar-hub-module-office-welcome
 
@@ -1051,6 +1070,7 @@ else
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar-hub-module-office-welcome" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --publish 44515:44515 \
                       --with-registry-auth \
                       cellarstone/cellar.hub.module.office.welcome:0.66.0
@@ -1080,6 +1100,7 @@ if [ "$IS_HUBPROXY_EXIST" != "" ]; then
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.proxy" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --with-registry-auth \
                       cellar-hub-proxy
 
@@ -1102,6 +1123,7 @@ else
                       --log-driver fluentd \
                       --log-opt mode=non-blocking \
                       --log-opt tag="docker.cellar.hub.proxy" \
+                      --log-opt fluentd-address=localhost:24224 \
                       --publish 80:80 \
                       --publish 8080:8080 \
                       --with-registry-auth \
