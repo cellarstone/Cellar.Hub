@@ -2,6 +2,9 @@
 :host {
     width: 39%;
     min-width: 190px;
+    @media only screen and (max-width: 910px) {        
+        width: 49%;
+    }
     @media only screen and (max-width: 590px) {
         display: block;
         width: 100%;

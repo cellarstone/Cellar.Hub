@@ -3,6 +3,9 @@
 :host {
     width: 59%;
     min-width: 288px;
+    @media only screen and (max-width: 910px) {        
+        width: 49%;
+    }
     @media only screen and (max-width: 590px) {
         display: block;
         margin-bottom: 20px;
@@ -110,6 +113,9 @@
         width: (100% / 7);
         margin: 0 -1px;
         position: relative;
+        @media only screen and (max-width: 590px) {
+            padding: 16px 0;
+        }
     }
     .meeting-counter {
         color: $color-white;
@@ -125,6 +131,7 @@
         vertical-align: middle;
     }
     .day-box {
+        color: $color-grey-dark;
         border-radius: 50%;
         box-sizing: border-box;
         display: flex;
@@ -133,32 +140,51 @@
         font-size: 1.8rem;
         text-align: center;
         transition: border .25s ease-out;
-        width: 50px; //90% - test pevne velikosti
-        height: 50px; // 90%
-        &.bigger-font {
-            color: $color-grey-dark;
-            font-size: 2rem;
-        }
+        width: 90%; //90% - test pevne velikosti
+        height: 90%;
         &.inactive {
-            color: $color-grey !important;
+            color: $color-grey;
             opacity: .3;
         }
-        &.today {
-            // background-color: $color-purplish;
-            color: $color-white !important;
+        &.weekend{
+            color: $color-red;
+        }
+        &.today {            
             position: relative;
             z-index: 0;
             &::before {
-                background-color: $color-purplish;
+                background-color: $color-white;
+                border: 1px solid $color-navy-dark;
                 border-radius: 50%;
                 content: "";
                 display: block;
+                padding-top: 90%; // instead height for proporcion
                 position: absolute;
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
-                width: 100%;
-                height: 100%;
+                width: 90%;
+                height: auto;
+                z-index: -1;
+            }
+        }
+        &.selected {
+            color: $color-white !important;            
+            position: relative;
+            z-index: 0;
+            &::before {
+                background-color: $color-purplish;
+                border: 1px solid $color-navy-dark;
+                border-radius: 50%;
+                content: "";
+                display: block;
+                padding-top: 90%; // instead height for proporcion
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90%;
+                height: auto;
                 z-index: -1;
             }
         }
