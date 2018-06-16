@@ -17,9 +17,8 @@ import 'rxjs/add/operator/takeUntil';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TimelineComponent implements OnInit, OnDestroy {
-  
-  @Input()
-  bookings: BookingVM[] = [];
+
+  @Input() bookings: BookingVM[] = [];
 
   timeline: any;
   rebuildTimeline: Observable<number>;
@@ -28,27 +27,27 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    
-    // DOM element where the Timeline will be attached
-    var container = document.getElementById('visualization');
 
-    let dsitems = new Array<{}>(); 
-    let count: number = 1;
-    for (let ii of this.bookings) {
-      let temp = {
+    // DOM element where the Timeline will be attached
+    const container = document.getElementById('visualization');
+
+    const dsitems = new Array<{}>();
+    let count = 1;
+    for (const ii of this.bookings) {
+      const temp = {
         id: count,
         content: ii.subject,
         start: ii.start,
         end: ii.end
-      }
+      };
       dsitems.push(temp);
       count++;
     }
 
-    var items = new vis.DataSet(dsitems);
+    const items = new vis.DataSet(dsitems);
 
     // Configuration for the Timeline
-    var options = {
+    const options = {
       height: '200px',
       // moment: function(date) {
       //   return vis.moment(date).local('cs');
@@ -57,8 +56,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
       // moment: function(date) {
       //   return vis.moment(date).utcOffset('+02:00');
       // }
-      start: moment().add(-1,'hours').toDate(),
-      end: moment().add(6,'hours').toDate(),
+      start: moment().add(-1, 'hours').toDate(),
+      end: moment().add(6, 'hours').toDate(),
       horizontalScroll: true,
       zoomKey: 'ctrlKey',
       // rollingMode: {
@@ -80,22 +79,22 @@ export class TimelineComponent implements OnInit, OnDestroy {
     this.rebuildTimeline = Observable.interval(60000);
     this.rebuildTimeline
       .takeUntil(this.unsubscribe$)
-      .subscribe(i => { 
-          this.resetTimeline();
+      .subscribe(i => {
+        this.resetTimeline();
       });
 
   }
 
-  
+
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
 
-  resetTimeline(){
-    console.log("resetTimeline");
-    var options = {
+  resetTimeline() {
+    console.log('resetTimeline');
+    const options = {
       height: '200px',
       // moment: function(date) {
       //   return vis.moment(date).utc();
@@ -104,8 +103,8 @@ export class TimelineComponent implements OnInit, OnDestroy {
       // moment: function(date) {
       //   return vis.moment(date).utcOffset('+02:00');
       // }
-      start: moment().add(-1,'hours').toDate(),
-      end: moment().add(6,'hours').toDate(),
+      start: moment().add(-1, 'hours').toDate(),
+      end: moment().add(6, 'hours').toDate(),
       horizontalScroll: true,
       zoomKey: 'ctrlKey',
       // rollingMode: {
