@@ -42,11 +42,12 @@
     font-size: 7.5rem;
 }
 
-.presenter span {
-    font-size: 1.25rem;
-    text-transform: lowercase !important;
-}
-
-.presenter div {
-    display: inline-block;
+.presenter {
+    div {
+        display: inline-block;
+    }
+    span {
+        font-size: 1.25rem;
+        text-transform: lowercase !important;
+    }
 }
