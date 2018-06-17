@@ -96,6 +96,7 @@ import 'hammerjs';
 //KENDO UI
 import { ButtonsModule } from '@progress/kendo-angular-buttons';
 import { ChartsModule } from '@progress/kendo-angular-charts';
+import { DialogsModule } from '@progress/kendo-angular-dialog';
 
 //Inline SVG
 import { InlineSVGModule } from 'ng-inline-svg';
@@ -203,6 +204,8 @@ import { environment } from '../environments/environment';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 
+
+
 @NgModule({
     imports: [
         //Angular
@@ -288,6 +291,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
         // Kendo UI
         ButtonsModule,
         ChartsModule,
+        DialogsModule,
 
         //Inline SVG
         InlineSVGModule,

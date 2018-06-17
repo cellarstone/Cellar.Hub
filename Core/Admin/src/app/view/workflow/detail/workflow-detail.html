@@ -1,30 +1,31 @@
 <div class="ui-fluid" id="workflow-detail" *ngIf="(item$ | async)">
 
+
+<!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+  <!--DIALOGS ... etc.-->
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+  <div>
+    <kendo-dialog title="Please confirm" *ngIf="deleteModalIsOpen" (close)="deleteModalIsOpen == false" [minWidth]="250" [width]="450">
+        <p style="margin: 30px; text-align: center;">Are you sure you want to delete the workflow? This procedure is irreversible.</p>
+        <p style="text-align: center;">Do you want to proceed?</p>
+        <kendo-dialog-actions>
+            <button kendoButton (click)="deleteModalIsOpen == false">No</button>
+            <button kendoButton (click)="deleteWorkflow()" primary="true">Yes</button>
+        </kendo-dialog-actions>
+    </kendo-dialog>
+  </div>
+
+
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+  <!--WORKFLOW BASE info + CATEGORIES-->
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+
+
     <div class="ui-g-12">
-
-        <div class="modal-delete" *ngIf="deleteModal === true">
-            <div class="content">
-                <div class="content__head">
-                    <h1 class="title">Confirm Delete</h1>
-                    <a class="boxclose" (click)="deleteModal = false" id="boxclose"></a>
-                </div>
-                <div class="content__body">
-                    <p>
-                        You are about to delete a worfklow, this procedure is irreversible.
-                    </p>
-                    <p>
-                        Do you want to proceed?
-                    </p>
-                </div>
-
-                <div class="content__footer">
-                    <button type="button" icon="fa-angle-left" label="Back" (click)="deleteModal = false" class="button-function button-function--yellow">
-                        <i class="fa fa-arrow-left"></i> Cancel</button>
-                    <button type="button" icon="fa-trash" label="Delete" (click)="deleteSenzor()" class="button-function button-function--red">
-                        <i class="fa fa-trash"></i> Delete</button>
-                </div>
-            </div>
-        </div>
 
         <div class="ui-g title">
             <h1 class="title__text title__text--workflow">Workflow Overview</h1>
@@ -284,7 +285,7 @@
 
                             <button *ngIf="allowEdit === true" type="button" pButton icon="fa-check" label="SAVE" (click)="saveWorkflow()" style="width:125px; height: 40px;"
                                 class="ui-button-success"></button>
-                            <button *ngIf="allowEdit === true" type="button" pButton icon="fa-trash" label="DELETE" (click)="deleteModal = true" style="width:125px; height: 40px;"
+                            <button *ngIf="allowEdit === true" type="button" pButton icon="fa-trash" label="DELETE" (click)="deleteModalIsOpen = true" style="width:125px; height: 40px;"
                                 class="ui-button-danger"></button>
                             <button *ngIf="allowEdit === true" type="button" pButton icon="fa-times-circle" label="CANCEL" (click)="cancelEditWorkflow()"
                                 style="width:125px; height: 40px;" class="ui-button-warning"></button>

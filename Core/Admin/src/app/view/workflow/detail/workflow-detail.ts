@@ -52,8 +52,8 @@ export class WorkflowDetail implements OnInit {
   private sub: any;
   private id: string;
 
-  private deleteModal: boolean = false;
-  private allowEdit: boolean = false;
+  deleteModalIsOpen: boolean = false;
+  allowEdit: boolean = false;
 
   objectKeys = Object.keys;
 

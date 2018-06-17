@@ -91,7 +91,8 @@ services:
   cellar-hub-core-iot:
     image: cellar.hub.core.iot
     environment:
-      - PORT=44403
+      - HTTP_PORT=44403
+      - GRPC_PORT=44413
       - MQTT_URL=mqtt
       - MONGO_URL=mongodb
     build:
@@ -100,6 +101,7 @@ services:
     labels:
       - "traefik.enabled=true"
       - "traefik.port=44403"
+      - "traefik.grpc.port=44413"
       - "traefik.backend=core-iot"
       - "traefik.frontend.rule=Host:iot.cellarstone.hub"
     links:

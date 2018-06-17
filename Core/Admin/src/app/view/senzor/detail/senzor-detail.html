@@ -21,27 +21,13 @@
 
 
                 <div *ngIf="(item$ | async).type == 'CellarSenzor Power v1.0'">
-
                     <relay-panel [senzorName]="(item$ | async).name"></relay-panel>
-
                 </div>
-
-                <div>
-                    <div *ngIf="(item$ | async).type == 'CellarSenzor Temperature v1.0'">
-
-                        <dht11-panel [senzorName]="(item$ | async).name"></dht11-panel>
-
-                    </div>
-
-                    <!--*********************************************************************************************-->
-                    <!--PIR-->
-                    <!--*********************************************************************************************-->
-
-                    <div *ngIf="(item$ | async).type == 'CellarSenzor Motion v1.0'">
-
-                        <pir-panel [senzorName]="(item$ | async).name"></pir-panel>
-
-                    </div>
+                <div *ngIf="(item$ | async).type == 'CellarSenzor Temperature v1.0'">
+                    <dht11-panel [senzorName]="(item$ | async).name"></dht11-panel>
+                </div>
+                <div *ngIf="(item$ | async).type == 'CellarSenzor Motion v1.0'">
+                    <pir-panel [senzorName]="(item$ | async).name"></pir-panel>
                 </div>
 
 
@@ -50,12 +36,6 @@
 
 
         </div>
-
-
-
-        <!--*********************************************************************************************-->
-        <!--DHT11-->
-        <!--*********************************************************************************************-->
 
 
     </div>
