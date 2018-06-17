@@ -7,6 +7,26 @@
   <p-messages [value]="messagesToUser"></p-messages>
 
   <p-growl [value]="validations"></p-growl>
+
+
+
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+  <!--DIALOGS ... etc.-->
+  <!--*********************************************************************************************-->
+  <!--*********************************************************************************************-->
+  <div>
+    <kendo-dialog title="Please confirm" *ngIf="deleteModalIsOpen" (close)="deleteModalIsOpen == false" [minWidth]="250" [width]="450">
+        <p style="margin: 30px; text-align: center;">Are you sure you want to delete the sensor? This procedure is irreversible.</p>
+        <p style="text-align: center;">Do you want to proceed?</p>
+        <kendo-dialog-actions>
+            <button kendoButton (click)="deleteModalIsOpen == false">No</button>
+            <button kendoButton (click)="deleteSenzor()" primary="true">Yes</button>
+        </kendo-dialog-actions>
+    </kendo-dialog>
+  </div>
+
+
   <!--*********************************************************************************************-->
   <!--*********************************************************************************************-->
   <!--PRODUCT BASE info + CATEGORIES-->
@@ -15,30 +35,6 @@
 
   <!--STATE + BASE INDORMATIONS-->
   <div class="ui-g">
-
-    <div class="modal-delete" *ngIf="deleteModal === true">
-      <div class="content">
-        <div class="content__head">
-          <h1 class="title">Confirm Delete</h1>
-          <a class="boxclose" (click)="deleteModal = false" id="boxclose"></a>
-        </div>
-        <div class="content__body">
-          <p>
-            You are about to delete a sensor this procedure is irreversible.
-          </p>
-          <p>
-            Do you want to proceed?
-          </p>
-        </div>
-
-        <div class="content__footer">
-          <button type="button" icon="fa-angle-left" label="Back" (click)="deleteModal = false" class="button-function button-function--yellow">
-            <i class="fa fa-arrow-left"></i> Cancel</button>
-          <button type="button" icon="fa-trash" label="Delete" (click)="deleteSenzor()" class="button-function button-function--red">
-            <i class="fa fa-trash"></i> Delete</button>
-        </div>
-      </div>
-    </div>
 
     <div *ngIf="!allowEdit" class="ui-g-12 no-padding information">
 
@@ -104,7 +100,7 @@
           </div>
 
           <div>
-            <button *ngIf="item.id" type="button" label="Delete" (click)="deleteModal = true" class="button-function button-function--red">
+            <button *ngIf="item.id" type="button" label="Delete" (click)="deleteModalIsOpen = true" class="button-function button-function--red">
               <i class="fa fa-trash"></i> Delete</button>
           </div>
         </div>
@@ -127,7 +123,7 @@
 
   <!--*********************************************************************************************-->
   <!--*********************************************************************************************-->
-  <!--BUTTONS-->
+  <!--VALIDATIONS, MESSAGES ... etc.-->
   <!--*********************************************************************************************-->
   <!--*********************************************************************************************-->
 

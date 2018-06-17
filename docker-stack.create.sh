@@ -729,11 +729,13 @@ else
                       --restart-max-attempts 3 \
                       --restart-window 120s \
                       --network cellarstone-net \
-                      --env PORT=44403 \
+                      --env HTTP_PORT=44403 \
+                      --env GRPC_PORT=44413 \
                       --env MQTT_URL=mqtt \
                       --env MONGO_URL=mongodb \
                       --label traefik.enable=true \
                       --label traefik.port=44403 \
+                      --label traefik.grpc.port=44413 \
                       --label traefik.docker.network=cellarstone-net \
                       --label traefik.backend=core-iot \
                       --label traefik.frontend.rule=Host:iot.cellarstone.hub \
