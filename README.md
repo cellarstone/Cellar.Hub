@@ -18,6 +18,16 @@
 4. Senzor GET Hub IP from Cloud
 5. Senzor send data into Hub
 
+# SSL - HTTPS
+
+certificate generate by 
+
+```Shell
+sudo openssl req -x509 -nodes -days 1000 -newkey rsa:2048 -keyout cellarstonehub.key -out cellarstonehub.crt
+```
+
+
+
 ## Routes
 
 Application | Url
