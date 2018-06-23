@@ -1,3 +1,4 @@
+# Production
 
 # Steps
 
@@ -17,61 +18,17 @@
 4. Senzor GET Hub IP from Cloud
 5. Senzor send data into Hub
 
+# SSL - HTTPS
+
+certificate generate by 
+
+```Shell
+sudo openssl req -x509 -nodes -days 1000 -newkey rsa:2048 -keyout cellarstonehub.key -out cellarstonehub.crt
+```
 
 
 
-# Setup Unify DNS
-
-ssh Cellarstone@192.168.1.1
-
-write password
-
-sudo vi /etc/hosts
-
-
-# Run
-
-Run everything with this command.
-
-`./docker-stack.create.sh` for running
-
-`./docker-stack.delete.sh` for stop and clean
-
-
-DEPRECATED - don't use docker stack, because it doesn't support `mode=non-blocking` for logging fluentd driver
-
-Linux : `docker stack deploy -c docker-stack.yml cellarhub --with-registry-auth`
-
-
-
-## Warning
-
-
-1. On target device must exist all folders necessary for apps :
-    - /data/cellarstone.hub/core/file
-    - /data/cellarstone.hub/core/mongodb
-    - /data/cellarstone.hub/core/elasticsearch
-    - /data/cellarstone.hub/core/prometheus
-    - /data/cellarstone.hub/core/grafana
-    - /data/cellarstone.hub/core/influxdb
-
-
-# Development
-
-Run everything with this command.
-
-Linux : `docker-compose up` or `docker-compose up --build`
-
-# Proxy
-
-You can see every registered service with :
-
-`http://localhost:8080` - in docker compose mode
-
-`http://127.0.0.1:8080` - in docker swarm mode
-
-
-# Routes
+## Routes
 
 Application | Url
 --- | ---
@@ -106,7 +63,60 @@ Office - api | http://officeapi.cellarstone.hub
     192.168.1.19   officeapi.cellarstone.hub
     ```
 
-# Ports
+## Setup Unify DNS
+
+ssh Cellarstone@192.168.1.1
+
+write password
+
+sudo vi /etc/hosts
+
+
+## Run
+
+Run everything with this command.
+
+`./docker-stack.create.sh` for running
+
+`./docker-stack.delete.sh` for stop and clean
+
+
+DEPRECATED - don't use docker stack, because it doesn't support `mode=non-blocking` for logging fluentd driver
+
+Linux : `docker stack deploy -c docker-stack.yml cellarhub --with-registry-auth`
+
+
+
+## Warning
+
+
+1. On target device must exist all folders necessary for apps :
+    - /data/cellarstone.hub/core/file
+    - /data/cellarstone.hub/core/mongodb
+    - /data/cellarstone.hub/core/elasticsearch
+    - /data/cellarstone.hub/core/prometheus
+    - /data/cellarstone.hub/core/grafana
+    - /data/cellarstone.hub/core/influxdb
+
+
+
+# Development
+
+Run everything with this command.
+
+Linux : `docker-compose up` or `docker-compose up --build`
+
+## Proxy
+
+You can see every registered service with :
+
+`http://localhost:8080` - in docker compose mode
+
+`http://127.0.0.1:8080` - in docker swarm mode
+
+
+
+## Ports
 
 Port | Application
 --- | ---
@@ -139,7 +149,7 @@ Port | Application
 
 
 
-# Commands for Linux
+## Commands for Linux
 
 ```Shell
 
@@ -276,7 +286,7 @@ sudo docker run -d -p 44512:44512 -t cellar.hub.module.office.reception
 ```
 
 
-# Commands for Windows
+## Commands for Windows
 
 ```Shell
 docker rm --force @(docker ps -aq)
@@ -287,57 +297,6 @@ docker-compose -f docker-compose.windows.yml up
 docker-compose -f docker-compose.windows.yml up --build
 
 ```
-
-
-
-# Author notes
-
-Inspect elasticsearch IP address
-
-`docker inspect cellarhub_elasticsearch_1 | grep IPAddress`
-
-
-
-
-# BUILD VERSION vs. PROD VERSION
-
-Build version
-
-![BUILD VERSION](https://storage.googleapis.com/cellarstone-public-images/BUILD_VERSION.png "Build version")
-
-Production version
-
-![PROD VERSION](https://storage.googleapis.com/cellarstone-public-images/PROD_VERSION.png "Production version")
-
-
-
-# Vyresit
-
-- ukazovat jen jmeno? Pokud ano, tak schuzky zalozene timto systemem budou mit vzdy jmeno "KonzoleToExchange"
-- ukazovat nazev schuzky? 
-
-- Nemuzu mazat schuzky zalozene jinym subjektem nez "KonzoleToExchange" - Otazka polozena Jan Rezab
-
-- Kazdou ??minutu?? nastavovat :
-    - Home = aktualizovat timeline
-    - Calendar = aktualizovat schuzky pro ??vybrany?? den? Dnesni den??
-    - Obecne = vracet na uvodni obrazovku ???? 
-
-DOMLUVA
-Kazdou minutu po neaktivite vracet na HOME
-
-
-
-
-# Others problems
-
-PROBLEM ZE NEMAM PRISTUP PO ZPRISTUPNENI ADMIN PRES NGROK
-url v SPA vedu na nedostupne url adresy
-RESENI >> zpristupneni ALL hub ven - Admin, Websocket, Api, Workflow
-
-
-PROBLEM SE ZADAVANIM IP ADRESY HUBU DO SENZORU
-RESENI >> cloudDNS ?? vezmu si jeho IP adresu z cloudu ? protoze mi hub kazdou minutu hlasi svoji IP adresu ve vnitrni siti
 
 
 

@@ -1,39 +1,45 @@
 ################################################################
 # Global configuration
 ################################################################
+logLevel = "ERROR"
 
-# Optional
-# Default: ["http"]
-#
-# defaultEntryPoints = ["http", "https"]
+# Set HTTP Entrypoint that redirects to HTTPS
+defaultEntryPoints = ["http", "https"]
 
-# Entrypoints definition
-#
-# Optional
-# Default:
 [entryPoints]
-    [entryPoints.http]
-    address = ":80"
+  [entryPoints.http]
+  address = ":80"
+  [entryPoints.https]
+  address = ":443"
+
+    [entryPoints.https.tls]
+      [[entryPoints.https.tls.certificates]]
+      certFile = "/etc/ssl/traefik/cellarstonehub.crt"
+      keyFile = "/etc/ssl/traefik/cellarstonehub.key"
+      [[entryPoints.https.tls.certificates]]
+      certFile = """-----BEGIN CERTIFICATE-----
+                      <cert file content>
+                      -----END CERTIFICATE-----"""
+      keyFile = """-----BEGIN CERTIFICATE-----
+                      <key file content>
+                      -----END CERTIFICATE-----"""
+    [entryPoints.other-https]
+    address = ":4443"
+      [entryPoints.other-https.tls]
+
 
 ################################################################
 # Web configuration backend
 ################################################################
-
-# Enable web configuration backend
 [web]
-
-# Web administration port
-#
-# Required
-#
 address = ":8080"
 
 ################################################################
 # Docker configuration backend
 ################################################################
-
-# Enable Docker configuration backend
 [docker]
+endpoint = "unix:///var/run/docker.sock"
+watch = true
 
 # Docker server endpoint. Can be a tcp or a unix socket endpoint.
 #

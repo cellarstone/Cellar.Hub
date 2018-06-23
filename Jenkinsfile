@@ -80,44 +80,44 @@ pipeline {
       steps {
         parallel (
           traefik: {
-            sh 'docker tag cellar.hub.proxy cellarstone/cellar.hub.proxy:0.66.0'
-            sh 'docker push cellarstone/cellar.hub.proxy:0.66.0'
+            sh 'docker tag cellar.hub.proxy cellarstone/cellar.hub.proxy:0.68.0'
+            sh 'docker push cellarstone/cellar.hub.proxy:0.68.0'
           },
           admin: {
-            sh 'docker tag cellar.hub.core.admin cellarstone/cellar.hub.core.admin:0.66.0'
-            sh 'docker push cellarstone/cellar.hub.core.admin:0.66.0'
+            sh 'docker tag cellar.hub.core.admin cellarstone/cellar.hub.core.admin:0.68.0'
+            sh 'docker push cellarstone/cellar.hub.core.admin:0.68.0'
           },
           iot: {
-            sh 'docker tag cellar.hub.core.iot cellarstone/cellar.hub.core.iot:0.66.0'
-            sh 'docker push cellarstone/cellar.hub.core.iot:0.66.0'
+            sh 'docker tag cellar.hub.core.iot cellarstone/cellar.hub.core.iot:0.68.0'
+            sh 'docker push cellarstone/cellar.hub.core.iot:0.68.0'
           },
           file: {
-            sh 'docker tag cellar.hub.core.file cellarstone/cellar.hub.core.file:0.66.0'
-            sh 'docker push cellarstone/cellar.hub.core.file:0.66.0'
+            sh 'docker tag cellar.hub.core.file cellarstone/cellar.hub.core.file:0.68.0'
+            sh 'docker push cellarstone/cellar.hub.core.file:0.68.0'
           },
           workflow: {
-            sh 'docker tag cellar.hub.core.workflow cellarstone/cellar.hub.core.workflow:0.66.0'
-            sh 'docker push cellarstone/cellar.hub.core.workflow:0.66.0'
+            sh 'docker tag cellar.hub.core.workflow cellarstone/cellar.hub.core.workflow:0.68.0'
+            sh 'docker push cellarstone/cellar.hub.core.workflow:0.68.0'
           },
           websockets: {
-            sh 'docker tag cellar.hub.core.websockets cellarstone/cellar.hub.core.websockets:0.66.0'
-            sh 'docker push cellarstone/cellar.hub.core.websockets:0.66.0'
+            sh 'docker tag cellar.hub.core.websockets cellarstone/cellar.hub.core.websockets:0.68.0'
+            sh 'docker push cellarstone/cellar.hub.core.websockets:0.68.0'
           },
           mongodb: {
-            sh 'docker tag cellar.hub.mongodb cellarstone/cellar.hub.mongodb:0.66.0'
-            sh 'docker push cellarstone/cellar.hub.mongodb:0.66.0'
+            sh 'docker tag cellar.hub.mongodb cellarstone/cellar.hub.mongodb:0.68.0'
+            sh 'docker push cellarstone/cellar.hub.mongodb:0.68.0'
           },
           fluentd: {
-            sh 'docker tag cellar.hub.fluentd cellarstone/cellar.hub.fluentd:0.66.0'
-            sh 'docker push cellarstone/cellar.hub.fluentd:0.66.0'
+            sh 'docker tag cellar.hub.fluentd cellarstone/cellar.hub.fluentd:0.68.0'
+            sh 'docker push cellarstone/cellar.hub.fluentd:0.68.0'
           },
           prometheus: {
-            sh 'docker tag cellar.hub.prometheus cellarstone/cellar.hub.prometheus:0.66.0'
-            sh 'docker push cellarstone/cellar.hub.prometheus:0.66.0'
+            sh 'docker tag cellar.hub.prometheus cellarstone/cellar.hub.prometheus:0.68.0'
+            sh 'docker push cellarstone/cellar.hub.prometheus:0.68.0'
           },
           telegraf: {
-            sh 'docker tag cellar.hub.telegraf cellarstone/cellar.hub.telegraf:0.66.0'
-            sh 'docker push cellarstone/cellar.hub.telegraf:0.66.0'
+            sh 'docker tag cellar.hub.telegraf cellarstone/cellar.hub.telegraf:0.68.0'
+            sh 'docker push cellarstone/cellar.hub.telegraf:0.68.0'
           }
         )
       }
@@ -129,24 +129,24 @@ pipeline {
       steps {
         parallel (
           office_api: {
-            sh 'docker tag cellar.hub.module.office.api cellarstone/cellar.hub.module.office.api:0.66.0'
-            sh 'docker push cellarstone/cellar.hub.module.office.api:0.66.0'
+            sh 'docker tag cellar.hub.module.office.api cellarstone/cellar.hub.module.office.api:0.68.0'
+            sh 'docker push cellarstone/cellar.hub.module.office.api:0.68.0'
           },
           office_meeting_rooms: {
-            sh 'docker tag cellar.hub.module.office.meetingrooms cellarstone/cellar.hub.module.office.meetingrooms:0.66.0'
-            sh 'docker push cellarstone/cellar.hub.module.office.meetingrooms:0.66.0'
+            sh 'docker tag cellar.hub.module.office.meetingrooms cellarstone/cellar.hub.module.office.meetingrooms:0.68.0'
+            sh 'docker push cellarstone/cellar.hub.module.office.meetingrooms:0.68.0'
           },
           office_reception: {
-            sh 'docker tag cellar.hub.module.office.reception cellarstone/cellar.hub.module.office.reception:0.66.0'
-            sh 'docker push cellarstone/cellar.hub.module.office.reception:0.66.0'
+            sh 'docker tag cellar.hub.module.office.reception cellarstone/cellar.hub.module.office.reception:0.68.0'
+            sh 'docker push cellarstone/cellar.hub.module.office.reception:0.68.0'
           },
           office_cafe: {
-            sh 'docker tag cellar.hub.module.office.cafe cellarstone/cellar.hub.module.office.cafe:0.66.0'
-            sh 'docker push cellarstone/cellar.hub.module.office.cafe:0.66.0'
+            sh 'docker tag cellar.hub.module.office.cafe cellarstone/cellar.hub.module.office.cafe:0.68.0'
+            sh 'docker push cellarstone/cellar.hub.module.office.cafe:0.68.0'
           },
           office_welcome: {
-            sh 'docker tag cellar.hub.module.office.welcome cellarstone/cellar.hub.module.office.welcome:0.66.0'
-            sh 'docker push cellarstone/cellar.hub.module.office.welcome:0.66.0'
+            sh 'docker tag cellar.hub.module.office.welcome cellarstone/cellar.hub.module.office.welcome:0.68.0'
+            sh 'docker push cellarstone/cellar.hub.module.office.welcome:0.68.0'
           }
         )
       }
