@@ -9,37 +9,35 @@ services:
     build:
       context: ./Traefik
       dockerfile: Dockerfile
-    # command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG
-    labels:
-      - "traefik.domain=cellarstone.hub"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 80:80
+      - 443:443
       - 8080:8080
 
 # CORE ***************************
 
-  # cellar-hub-core-admin:
-  #   image: cellar.hub.core.admin
-  #   build:
-  #     context: ./Core/Admin
-  #     dockerfile: Dockerfile
-  #   labels:
-  #     - "traefik.enabled=true"
-  #     - "traefik.port=44402"
-  #     - "traefik.backend=core-admin"
-  #     - "traefik.frontend.rule=Host:admin.cellarstone.hub"
-  #   links:
-  #     - fluentd
-  #   logging:
-  #     driver: "fluentd"
-  #     options:
-  #       fluentd-address: localhost:24224
-  #       tag: docker.cellar.hub.core.admin
-  #       mode: non-blocking
-  #   ports:
-  #   - "44402:44402"
+  cellar-hub-core-admin:
+    image: cellar.hub.core.admin
+    build:
+      context: ./Core/Admin
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.enabled=true"
+      - "traefik.port=44402"
+      - "traefik.backend=core-admin"
+      - "traefik.frontend.rule=Host:admin.cellarstone.hub"
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.core.admin
+        mode: non-blocking
+    ports:
+    - "44402:44402"
 
   cellar-hub-core-file:
     image: cellar.hub.core.file
@@ -320,26 +318,26 @@ services:
     ports:
     - "44513:44513"
 
-  # cellar-hub-module-office-meetingrooms:
-  #   image: cellar.hub.module.office.meetingrooms
-  #   build:
-  #     context: ./Modules/Office/MeetingRooms
-  #     dockerfile: Dockerfile
-  #   labels:
-  #     - "traefik.enabled=true"
-  #     - "traefik.port=44511"
-  #     - "traefik.backend=office-meetingrooms"
-  #     - "traefik.frontend.rule=Host:meetingrooms.cellarstone.hub"
-  #   links:
-  #     - fluentd
-  #   logging:
-  #     driver: "fluentd"
-  #     options:
-  #       fluentd-address: localhost:24224
-  #       tag: docker.cellar.hub.module.office.meetingrooms
-  #       mode: non-blocking
-  #   ports:
-  #   - "44511:44511"
+  cellar-hub-module-office-meetingrooms:
+    image: cellar.hub.module.office.meetingrooms
+    build:
+      context: ./Modules/Office/MeetingRooms
+      dockerfile: Dockerfile
+    labels:
+      - "traefik.enabled=true"
+      - "traefik.port=44511"
+      - "traefik.backend=office-meetingrooms"
+      - "traefik.frontend.rule=Host:meetingrooms.cellarstone.hub"
+    links:
+      - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: docker.cellar.hub.module.office.meetingrooms
+        mode: non-blocking
+    ports:
+    - "44511:44511"
 
   # cellar-hub-module-office-reception:
   #   image: cellar.hub.module.office.reception

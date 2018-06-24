@@ -1,9 +1,9 @@
 export const environment = {
     production: true,
     https: false,
-    fileServerUrl: "http://file.cellarstone.hub",
-    iotUrl: "http://iot.cellarstone.hub",
-    officeApiUrl: "http://officeapi.cellarstone.hub",
-    workflowUrl: "http://workflow.cellarstone.hub",
-    callbackUrl: "http://admin.cellarstone.hub/#/callback"
+    fileServerUrl: "https://file.cellarstone.hub",
+    iotUrl: "https://iot.cellarstone.hub",
+    officeApiUrl: "https://officeapi.cellarstone.hub",
+    workflowUrl: "https://workflow.cellarstone.hub",
+    callbackUrl: "https://admin.cellarstone.hub/#/callback"
 };
