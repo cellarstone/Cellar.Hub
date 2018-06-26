@@ -63,12 +63,12 @@ export class TimelineComponent implements OnInit, OnDestroy {
 
     // Create a Timeline
     this.timeline = new vis.Timeline(container, items, this.options);
-    this.rebuildTimeline = Observable.interval(60000);
-    this.rebuildTimeline
-      .takeUntil(this.unsubscribe$)
-      .subscribe(i => {
-        this.resetTimeline();
-      });
+    // this.rebuildTimeline = Observable.interval(60000);
+    // this.rebuildTimeline
+    //   .takeUntil(this.unsubscribe$)
+    //   .subscribe(i => {
+    //     this.resetTimeline();
+    //   });
 
   }
 

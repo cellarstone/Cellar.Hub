@@ -81,7 +81,7 @@ button.mat-raised-button {
 
 .vis-time-axis {
     .vis-grid {
-        background: rgba(0, 0, 0, .5);
+        background: rgba(0, 0, 0, .3);
         border: 0;
         border-left: 2px solid $color-green !important;
         &.vis-minor {
@@ -98,7 +98,6 @@ button.mat-raised-button {
         &.vis-major {
             font-weight: bold;
         }
-        &.vis-minor {}
     }
 }
 
@@ -127,5 +126,22 @@ button.mat-raised-button {
     &.vis-top {
         // border: 1px solid $color-green;
         border: 0;
+    }
+}
+
+.vis-item {
+    background-color: rgba(255, 255, 255, .8);
+    border: 0;
+    .vis-item-content {
+        white-space: nowrap;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+    }
+    &.vis-selected {
+        background-color: rgba(255, 255, 255, .9);
+        border: 0;
+    }
+    &.vis-range {
+        border-radius: 0;
     }
 }
