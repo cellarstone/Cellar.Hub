@@ -101,12 +101,12 @@ services:
     labels:
       - "traefik.enabled=true"
       - "traefik.port=44403"
-      - "traefik.grpc.port=44413"
       - "traefik.backend=core-iot"
       - "traefik.frontend.rule=Host:iot.cellarstone.hub"
     links:
       - fluentd
       - mongodb
+      - mqtt
       # - jaeger
     logging:
       driver: "fluentd"

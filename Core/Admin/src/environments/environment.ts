@@ -7,7 +7,7 @@ export const environment = {
     production: false,
     https: false,
     fileServerUrl: "http://localhost:44404",
-    iotUrl: "http://localhost:44403",
+    iotUrl: "https://iot.cellarstone.hub",
     officeApiUrl: "http://localhost:44513",
     workflowUrl: "http://localhost:44405",
     callbackUrl: "http://localhost:44402/callback"

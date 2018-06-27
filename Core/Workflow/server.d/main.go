@@ -119,6 +119,11 @@ func main() {
 		logger.Log("transport", "http", "address", *httpAddr, "msg", "listening")
 		errs <- http.ListenAndServe(*httpAddr, nil)
 	}()
+
+	//-----------------------------------------
+	// END SIGNAL
+	//-----------------------------------------
+
 	go func() {
 		c := make(chan os.Signal)
 		signal.Notify(c, syscall.SIGINT)
