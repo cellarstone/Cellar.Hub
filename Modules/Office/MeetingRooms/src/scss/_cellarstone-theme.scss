@@ -71,3 +71,77 @@ button.mat-raised-button {
         }
     }
 }
+
+///////////////////////////////////////////////////////////////////
+/// timeline
+////////////
+.vis-timeline {
+    border: 0;
+}
+
+.vis-time-axis {
+    .vis-grid {
+        background: rgba(0, 0, 0, .3);
+        border: 0;
+        border-left: 2px solid $color-green !important;
+        &.vis-minor {
+            border: 0;
+        }
+        &.vis-major {
+            border: 0;
+            box-sizing: border-box;
+        }
+    }
+    .vis-text {
+        color: $color-white;
+        margin-left: 5px;
+        &.vis-major {
+            font-weight: bold;
+        }
+    }
+}
+
+.vis-current-time {
+    background-color: $color-red;
+    width: 2px;
+    &::before {
+        content: "";
+        display: block;
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid $color-red;
+        position: absolute;
+        top: 0;
+        transform: translate(-45%, 0);
+    }
+}
+
+.vis-panel {
+    &.vis-bottom,
+    &.vis-center,
+    &.vis-left,
+    &.vis-right,
+    &.vis-top {
+        // border: 1px solid $color-green;
+        border: 0;
+    }
+}
+
+.vis-item {
+    background-color: rgba(255, 255, 255, .8);
+    border: 0;
+    .vis-item-content {
+        white-space: nowrap;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+    }
+    &.vis-selected {
+        background-color: rgba(255, 255, 255, .9);
+        border: 0;
+    }
+    &.vis-range {
+        border-radius: 0;
+    }
+}
