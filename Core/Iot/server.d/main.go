@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"runtime"
 	"syscall"
 
 	cellargraphql "github.com/cellarstone/Cellar.Hub/Core/Iot/graphql"
@@ -27,6 +28,11 @@ const (
 	defaultMqttUrl  = "localhost"
 	defaultMongoUrl = "localhost"
 )
+
+func init() {
+	// PARALELISM ----------------------
+	runtime.GOMAXPROCS(runtime.NumCPU())
+}
 
 func main() {
 	errs := make(chan error, 2)
