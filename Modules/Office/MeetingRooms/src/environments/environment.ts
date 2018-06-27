@@ -6,5 +6,5 @@
 export const environment = {
   production: false,
   officeApiUrl: "http://localhost:44513",
-  k2exchangeUrl: "http://930048c9.ngrok.io/api"
+  k2exchangeUrl: "http://5aae4917.ngrok.io/api"
 };

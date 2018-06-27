@@ -9,14 +9,14 @@ RUN pwd
 RUN ls -l
 
 
-COPY certs/cellarstonehub.crt /etc/ssl/traefik/cellarstonehub.crt
-COPY certs/cellarstonehub.key /etc/ssl/traefik/cellarstonehub.key
+COPY certs/cellarstonehub.crt /certs/cellarstonehub.crt
+COPY certs/cellarstonehub.key /certs/cellarstonehub.key
 
-# RUN chmod 644 /etc/ssl/traefik/cellarstonehub.crt
-# RUN chmod 600 /etc/ssl/traefik/cellarstonehub.key 
+# RUN chmod 644 /certs/cellarstonehub.crt
+# RUN chmod 600 /certs/cellarstonehub.key 
 
 
-WORKDIR /etc/ssl/traefik
+WORKDIR /certs
 
 RUN pwd
 RUN ls -l
