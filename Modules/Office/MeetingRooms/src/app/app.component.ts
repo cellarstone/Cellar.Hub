@@ -48,6 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject();
 
   constructor(private swUpdate: SwUpdate) {
+
     //if service worker is enabled
     if (this.swUpdate.isEnabled) {
       console.log("service worker is enabled");
