@@ -26,6 +26,19 @@ certificate generate by
 sudo openssl req -x509 -nodes -days 1000 -newkey rsa:2048 -keyout cellarstonehub.key -out cellarstonehub.crt
 ```
 
+## Chrome disable SSL errors
+
+Find on Linux where is Chrome
+
+`whereis google-chrome`
+
+Run Chrome in ignore certificate errors mode
+
+`./google-chrome --ignore-certificate-errors`
+
+OR
+
+install certificate on device
 
 
 ## Routes
