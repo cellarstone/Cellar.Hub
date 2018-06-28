@@ -735,7 +735,6 @@ else
                       --env MONGO_URL=mongodb \
                       --label traefik.enable=true \
                       --label traefik.port=44403 \
-                      --label traefik.grpc.port=44413 \
                       --label traefik.docker.network=cellarstone-net \
                       --label traefik.backend=core-iot \
                       --label traefik.frontend.rule=Host:iot.cellarstone.hub \
