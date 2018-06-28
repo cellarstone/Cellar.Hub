@@ -26,6 +26,13 @@ certificate generate by
 sudo openssl req -x509 -nodes -days 1000 -newkey rsa:2048 -keyout cellarstonehub.key -out cellarstonehub.crt
 ```
 
+
+## SSH into Hub
+
+`ssh cellarstone@0.tcp.ngrok.io -p 16723`
+write password
+
+
 ## Chrome disable SSL errors
 
 Find on Linux where is Chrome
@@ -78,7 +85,7 @@ Office - api | http://officeapi.cellarstone.hub
 
 ## Setup Unify DNS
 
-ssh Cellarstone@192.168.1.1
+`ssh Cellarstone@192.168.1.1`
 
 write password
 
