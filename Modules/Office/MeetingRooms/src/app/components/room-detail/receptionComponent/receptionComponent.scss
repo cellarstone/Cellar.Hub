@@ -1,54 +1,76 @@
 @import '~scss/variables';
 @import '~scss/base';
-
 :host {
+    background-color: $color-navy-dark;
+    box-sizing: border-box;
     display: block;
     width: 100%;
     height: 100%;
-    background-color: $color-navy-dark;
+    overflow: hidden;
+    padding: ($nav-height + $gap-vertical) 0 $gap-vertical 0;
+    @media only screen and (max-width: 590px) {
+        height: auto;
+    }
 }
 
 .container {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    align-items: stretch;
+    align-content: center;
+    flex-flow: wrap;
+    height: 100%;
+    margin: auto;
+    max-height: 400px;
+    max-width: 95%;
     position: relative;
-    top: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    @media only screen and (max-width: 590px) {
+        display: block;
+        top:0;
+        max-height: none;
+        transform: none;
+    }
 }
 
-#service-icon,
-#snacks-icon,
-#summoning-icon,
-#something-icon {
-    margin-top: 13rem;
-    width: 30rem;
-    height: 40rem;
-    border-radius: .35rem;
+.button-card {
+    border-radius: $radius;
+    box-shadow: $shadow-3;
+    box-sizing: border-box;
+    padding-bottom: 45px;
+    width: 24%;
+    height: auto;
     transition: all .3s;
-    padding-bottom: 6rem;
-    box-shadow: var(--shadow-3);
+    text-align: center;
+    img {
+        width: auto;
+        max-width: 100%;
+        height: 350px;
+        max-height: 100%;
+    }
+    &.service {
+        background: linear-gradient(215deg, #4ecffc, #5189ea);
+    }
+    &.snacks {
+        background: linear-gradient(215deg, #5189ea, #0a47b1);
+    }
+    &.summoning {
+        background: linear-gradient(215deg, #6018DC, rgb(36, 69, 151));
+    }
+    &.something {
+        background: linear-gradient(215deg, #F761A1, #FD6585);
+    }
+    @media only screen and (max-width: 590px) {
+        display: block;
+        width: 100%;
+        margin: 0 0 $gap-vertical 0;
+    }
 }
-
-#service-icon {
-    background: linear-gradient(215deg, #4ecffc, #5189ea);
-}
-
-#snacks-icon {
-    background: linear-gradient(215deg, #5189ea, #0a47b1);
-}
-
-#summoning-icon {
-    background: linear-gradient(215deg, #6018DC, rgb(36, 69, 151));
-}
-
-#something-icon {
-    background: linear-gradient(215deg, #F761A1, #FD6585);
-}
-
 
 /* UTILITIES */
 
-.modals {
-}
+.modals {}
 
 .u-center {
     text-align: center;
@@ -60,14 +82,13 @@
     transform: translate(-50%, -50%);
 }
 
-
 /* TYPOGRAPHY  */
 
 .heading-primary {
     display: block;
     font-size: 30px;
     font-weight: 700;
-    background-image: linear-gradient(to bottom, #777,#333 );
+    background-image: linear-gradient(to bottom, #777, #333);
     -webkit-background-clip: text;
     color: transparent;
     letter-spacing: 2px;
@@ -132,7 +153,6 @@
     background-color: rgb(0, 119, 199);
 }
 
-
 /* CLOSE BUTTON */
 
 .close-button {
@@ -163,7 +183,6 @@
     transform: rotate(-45deg);
 }
 
-
 /* /////////////////// SERVICE MODAL /////////////////// */
 
 .service-modal {
@@ -175,12 +194,12 @@
     left: 0;
     z-index: 10;
 }
+
 .service-modal__content {
     position: relative;
     left: 50%;
     top: 50%;
-    width: 70rem;
-    // height: 40rem;
+    width: 70rem; // height: 40rem;
     text-align: center;
     overflow: hidden;
     background-color: #fff;
@@ -188,6 +207,7 @@
     border-radius: 5px;
     transform: translate(-50%, -50%);
 }
+
 .service-modal__h4 {
     display: block;
     color: #333;
@@ -195,6 +215,7 @@
     margin-top: 12rem;
     text-align: center;
 }
+
 .service-modal__ok-button {
     position: static;
     margin: 8rem auto;
@@ -304,7 +325,6 @@
 }
 
 .reception-modal__ok-button {
-    
     margin: 5rem auto;
 }
 
@@ -315,8 +335,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 10;
-    // transition: all .3s;
+    z-index: 10; // transition: all .3s;
 }
 
 .snack-modal__content {

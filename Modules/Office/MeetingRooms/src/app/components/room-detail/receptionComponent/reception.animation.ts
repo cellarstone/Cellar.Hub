@@ -11,11 +11,11 @@ export const showServiceModalTrigger = trigger('showServiceModal', [
           transform: 'scale(0)'
         }),
         animate('0.35s 100ms cubic-bezier(0.68, -0.55, 0.265, 1.55)', keyframes([
-          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 0}),
-          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 1}),
+          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 0 }),
+          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 1 }),
         ]))
-      ], {optional: true}),
-    ]) 
+      ], { optional: true }),
+    ])
   ]),
   transition(':leave', [
     group([
@@ -24,11 +24,11 @@ export const showServiceModalTrigger = trigger('showServiceModal', [
       query('.service-modal__content', [
         style({ opacity: '0', transform: 'scale(0)' }),
         animate('0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55)', keyframes([
-          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 0}),
-          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 1}),
+          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 0 }),
+          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 1 }),
         ]))
-      ], {optional: true}),
-    ])   
+      ], { optional: true }),
+    ])
   ])
 ]);
 
@@ -43,11 +43,11 @@ export const showReceptionModalTrigger = trigger('showReceptionModal', [
           transform: 'scale(0)'
         }),
         animate('0.35s 100ms cubic-bezier(0.68, -0.55, 0.265, 1.55)', keyframes([
-          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 0}),
-          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 1}),
+          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 0 }),
+          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 1 }),
         ]))
-      ], {optional: true}),
-    ]) 
+      ], { optional: true }),
+    ])
   ]),
   transition(':leave', [
     group([
@@ -56,11 +56,11 @@ export const showReceptionModalTrigger = trigger('showReceptionModal', [
       query('.card', [
         style({ opacity: '0', transform: 'scale(0)' }),
         animate('0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55)', keyframes([
-          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 0}),
-          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 1}),
+          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 0 }),
+          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 1 }),
         ]))
-      ], {optional: true}),
-    ])   
+      ], { optional: true }),
+    ])
   ])
 ]);
 
@@ -75,11 +75,11 @@ export const showSnackModalTrigger = trigger('showSnackModal', [
           transform: 'scale(0)'
         }),
         animate('0.35s 100ms cubic-bezier(0.68, -0.55, 0.265, 1.55)', keyframes([
-          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 0}),
-          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 1}),
+          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 0 }),
+          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 1 }),
         ]))
-      ], {optional: true}),
-    ]) 
+      ], { optional: true }),
+    ])
   ]),
   transition(':leave', [
     group([
@@ -88,11 +88,11 @@ export const showSnackModalTrigger = trigger('showSnackModal', [
       query('.card', [
         style({ opacity: '0', transform: 'scale(0)' }),
         animate('0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55)', keyframes([
-          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 0}),
-          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 1}),
+          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 0 }),
+          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 1 }),
         ]))
-      ], {optional: true}),
-    ])   
+      ], { optional: true }),
+    ])
   ])
 ]);
 
@@ -107,11 +107,11 @@ export const showSomethingElseModalTrigger = trigger('showSomethingElseModal', [
           transform: 'scale(0)'
         }),
         animate('0.35s 100ms cubic-bezier(0.68, -0.55, 0.265, 1.55)', keyframes([
-          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 0}),
-          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 1}),
+          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 0 }),
+          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 1 }),
         ]))
-      ], {optional: true}),
-    ]) 
+      ], { optional: true }),
+    ])
   ]),
   transition(':leave', [
     group([
@@ -120,10 +120,10 @@ export const showSomethingElseModalTrigger = trigger('showSomethingElseModal', [
       query('.something-else-modal__content', [
         style({ opacity: '0', transform: 'scale(0)' }),
         animate('0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55)', keyframes([
-          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 0}),
-          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 1}),
+          style({ opacity: '1', transform: 'translateX(-50%) translateY(-50%) scale(1)', offset: 0 }),
+          style({ opacity: '0', transform: 'translateX(-50%) translateY(-50%) scale(0)', offset: 1 }),
         ]))
-      ], {optional: true}),
-    ])   
+      ], { optional: true }),
+    ])
   ])
 ]);
