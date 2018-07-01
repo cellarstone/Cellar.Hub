@@ -37,20 +37,20 @@ export class ReceptionComponent implements OnInit {
   form2: FormGroup;
 
   constructor(private fb: FormBuilder,
-    private router: Router, 
-    private route: ActivatedRoute) { 
-      this.form = fb.group({
-        pinNumber: ["", Validators.required]
-      });
-      this.form2 = fb.group({
-        pinNumber: ["", Validators.required]
-      });
-    }
+    private router: Router,
+    private route: ActivatedRoute) {
+    this.form = fb.group({
+      pinNumber: ["", Validators.required]
+    });
+    this.form2 = fb.group({
+      pinNumber: ["", Validators.required]
+    });
+  }
 
   ngOnInit() {
     this.currentRoute = this.route.parent.snapshot.params['name'];
 
-    $("body").css("background-color", 'var(--color-navy-dark-2)');
+    // $("body").css("background-color", 'var(--color-navy-dark-2)');
   }
 
   onReceptionPinSubmit() {
@@ -81,7 +81,7 @@ export class ReceptionComponent implements OnInit {
     });
   }
 
-  onSnackPinSubmit(){
+  onSnackPinSubmit() {
     let asdf = this.form2.get('pinNumber').value;
     if (asdf === '1234') {
       // this.router.navigate([{outlets:{roomDetail: 'snacks'}}]);
@@ -96,7 +96,7 @@ export class ReceptionComponent implements OnInit {
     };
     this.rebuildForm2()
   }
-  
+
   openServiceModal() {
     $('.service-modal').css({
       "opacity": "1", "visibility": "visible"
@@ -134,12 +134,12 @@ export class ReceptionComponent implements OnInit {
     });
   }
 
-  closeReceptionModal(){
+  closeReceptionModal() {
     $('.reception-modal').css({
-      "opacity":"0", "visibility":"hidden"
+      "opacity": "0", "visibility": "hidden"
     });
     $('.card').css({
-      "transform":"translate(-50%, -50%) scale(0)"
+      "transform": "translate(-50%, -50%) scale(0)"
     });
     $('.card__side-front').css({
       "transform": "translate(-50%, -50%) rotatex(0deg)"
@@ -149,44 +149,44 @@ export class ReceptionComponent implements OnInit {
     });
   }
 
-  openSnackPinModal(){
+  openSnackPinModal() {
     $('.snack-modal').css({
-      "opacity":"1", "visibility":"visible"
+      "opacity": "1", "visibility": "visible"
     });
     $('.snack-modal__content').css({
-      "transform":"translate(-50%, -50%) scale(1)"
+      "transform": "translate(-50%, -50%) scale(1)"
     });
   }
 
-  closeSnackPinModal(){
+  closeSnackPinModal() {
     $('.snack-modal').css({
-      "opacity":"0", "visibility":"hidden"
+      "opacity": "0", "visibility": "hidden"
     });
     $('.snack-modal__content').css({
-      "transform":"translate(-50%, -50%) scale(0)"
+      "transform": "translate(-50%, -50%) scale(0)"
     });
   }
 
-  openSomethingElseModal(){
+  openSomethingElseModal() {
     $('.something-else-modal').css({
-      "opacity":"1", "visibility":"visible"
+      "opacity": "1", "visibility": "visible"
     });
     $('.something-else-modal__content').css({
-      "transform":"translate(-50%, -50%) scale(1)"
+      "transform": "translate(-50%, -50%) scale(1)"
     });
   }
 
-  closeSomethingElseModal(){
+  closeSomethingElseModal() {
     $('.something-else-modal').css({
-      "opacity":"0", "visibility":"hidden"
+      "opacity": "0", "visibility": "hidden"
     });
     $('.something-else-modal__content').css({
-      "transform":"translate(-50%, -50%) scale(0)"
+      "transform": "translate(-50%, -50%) scale(0)"
     });
   }
 
   onSnackSubmit() {
-    this.router.navigate(['snacks'], {relativeTo: this.route, queryParamsHandling: 'preserve'});
+    this.router.navigate(['snacks'], { relativeTo: this.route, queryParamsHandling: 'preserve' });
   }
 
 }

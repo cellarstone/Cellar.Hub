@@ -19,8 +19,13 @@
     --shadow-2: 0 2rem 6rem rgba(0, 0, 0, .2);
     --shadow-1: 0 2rem 6rem rgba(0, 0, 0, .1);
 }
+
 // FONT
-$font-family: 'Lato', Tahoma, Geneva, Verdana, sans-serif;
+$font-family: 'Lato',
+Tahoma,
+Geneva,
+Verdana,
+sans-serif;
 // DIMENSIONS AND GAPS
 $nav-height: 70px;
 $nav-ofset: 45px;
@@ -33,9 +38,11 @@ $color-white: #ffffff;
 $color-grey-light: #e9e5e5;
 $color-grey: #95989A;
 $color-grey-dark: #696969;
+$color-black: #000000;
 $color-green: #4CAF50;
 $color-green-dark: #009688;
 $color-red: #F44336;
+$color-yellow: #FFEB3B;
 // BOX SHADOW
 $shadow-blur: 60px;
 $shadow-y-ofset: 20px;

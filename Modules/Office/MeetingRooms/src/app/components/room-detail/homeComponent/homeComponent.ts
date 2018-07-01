@@ -31,15 +31,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   meetingRoom$: Observable<MeetingRoomDTO>;
   bookings$: Observable<BookingVM[]>;
 
-  state: string= "";
-  subject: string = "";
-  isLoaded: boolean = false;
+  state = '';
+  subject = '';
+  isLoaded = false;
 
   rebuildStatus: Observable<number>;
 
   private unsubscribe$ = new Subject();
 
-  constructor(private store: Store<ApplicationState>) { 
+  constructor(private store: Store<ApplicationState>) {
     this.meetingRoom$ = this.store.select(state => state.uiState.selectedMeetingRoom);
     this.bookings$ = this.store.select(state => state.storeData.timelineBookings);
   }
@@ -51,10 +51,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.rebuildStatus = Observable.interval(30000);
     this.rebuildStatus
       .takeUntil(this.unsubscribe$)
-      .subscribe(i => { 
-          this.loadTimelineBookings();
+      .subscribe(i => {
+        this.loadTimelineBookings();
       });
-    
   }
 
   ngOnDestroy(): void {
@@ -64,63 +63,53 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 
 
-  loadTimelineBookings(){
+  loadTimelineBookings() {
     this.bookings$
-    .takeUntil(this.unsubscribe$)
-    .subscribe((values) => {
+      .takeUntil(this.unsubscribe$)
+      .subscribe((values) => {
 
-      if(values == null){
-        return
-      }
+        if (values == null) {
+          return;
+        }
 
-      this.subject = "";
+        this.subject = '';
 
-      let isReserved = false;
-      for (let meeting of values) {
+        let isReserved = false;
+        for (let meeting of values) {
 
-        let actualTime = moment();
-        let start = meeting.start;
-        let end = meeting.end;
-  
-        let isActual = actualTime.isBetween(start,end);
-        if(isActual){
-          isReserved = true;
-          this.subject = meeting.subject;
-        } 
-      }
+          const actualTime = moment();
+          const start = meeting.start;
+          const end = meeting.end;
 
-      if(isReserved){
-        this.onReserved()
-      } else {
-        this.onAvailable();
-      }
+          const isActual = actualTime.isBetween(start, end);
+          if (isActual) {
+            isReserved = true;
+            this.subject = meeting.subject;
+          }
+        }
 
-      this.isLoaded = true;
-    });
+        if (isReserved) {
+          this.onReserved();
+        } else {
+          this.onAvailable();
+        }
+
+        this.isLoaded = true;
+      });
   }
 
-
-
   onReserved() {
-    $("body").css("background-color", "#F44336");
-    $('.status').text('Reserved');
-    $('.homeBody').css({ 'color': 'white' });
-    this.state = "Reserved";
+    this.state = 'Reserved';
+    $('body').addClass(this.state.toLowerCase());
   }
 
   onAvailable() {
-    $("body").css('background-color', "#4CAF50");
-    $('.status').text('Available');
-    $('.homeBody').css({ 'color': 'white' });
-    this.state = "Available";
+    this.state = 'Available';
+    $('body').addClass(this.state.toLowerCase());
   }
 
   onMaintenance() {
-    $("body").css('background-color', "#FFEB3B");
-    $('.status').text('Maintenance');
-    $('.homeBody').css({ 'color': 'black' });
-    this.state = "Maintenance";
+    this.state = 'Maintenance';
+    $('body').addClass(this.state.toLowerCase());
   }
-
-
 }

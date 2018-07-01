@@ -1,5 +1,4 @@
 @import "./variables";
-
 * {
     margin: 0;
     padding: 0;
@@ -25,6 +24,19 @@ body {
     font-family: $font-family;
     min-height: 100vh;
     transition: all 0.5s;
+    /* Calendar body background colors. Classes are set in homeComponent.ts */
+    &.maintenance {
+        background: $color-yellow;
+        color: $color-black;
+    }
+    &.reserved {
+        background: $color-red;
+        color: $color-white;
+    }
+    &.available {
+        background: $color-green;
+        color: $color-white;
+    }
 }
 
 ::-webkit-scrollbar {
