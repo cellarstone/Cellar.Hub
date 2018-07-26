@@ -9,14 +9,14 @@ defaultEntryPoints = ["https","http"]
 [entryPoints]
   [entryPoints.http]
   address = ":80"
-    [entryPoints.http.redirect]
-    entryPoint = "https"
-  [entryPoints.https]
-  address = ":443"
-  [entryPoints.https.tls]
-    [[entryPoints.https.tls.certificates]]
-      certFile = "/certs/cellarstonehub.crt"
-      keyFile = "/certs/cellarstonehub.key"
+  #   [entryPoints.http.redirect]
+  #   entryPoint = "https"
+  # [entryPoints.https]
+  # address = ":443"
+  # [entryPoints.https.tls]
+  #   [[entryPoints.https.tls.certificates]]
+  #     certFile = "/certs/cellarstonehub.crt"
+  #     keyFile = "/certs/cellarstonehub.key"
 
 [retry]
 

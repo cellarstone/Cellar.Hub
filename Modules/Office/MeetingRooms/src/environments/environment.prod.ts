@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  officeApiUrl: "https://officeapi.cellarstone.hub",
-  k2exchangeUrl: "https://5aae4917.ngrok.io/api"
+  officeApiUrl: "http://officeapi.cellarstone.hub",
+  k2exchangeUrl: "http://1632b2c5.ngrok.io/api"
 };

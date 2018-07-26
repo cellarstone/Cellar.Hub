@@ -1126,13 +1126,8 @@ else
                       --log-opt tag="docker.cellar.hub.proxy" \
                       --log-opt fluentd-address=localhost:24224 \
                       --publish 80:80 \
+                      --publish 443:443 \
                       --publish 8080:8080 \
                       --with-registry-auth \
-                      cellarstone/cellar.hub.proxy:0.71.0 \
-                      --docker \
-                      --docker.swarmmode \
-                      --docker.domain=cellar.hub \
-                      --docker.watch \
-                      --api \
-                      --web
+                      cellarstone/cellar.hub.proxy:0.71.0 
 fi
