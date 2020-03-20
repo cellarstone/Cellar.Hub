@@ -7,7 +7,7 @@ pipeline {
         branch 'master' 
       }
       steps {
-        sh 'docker login -u cellarstone -p Cllrs456IoT'
+        sh 'docker login -u cellarstone -p XXXXXXXXXX'
       }
     }
     stage('Build - Core') {
