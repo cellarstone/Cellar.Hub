@@ -32,7 +32,7 @@
     "font-awesome": "^4.7.0",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.8.0",
-    "gsap": "^1.20.3",
+    "gsap": "^3.6.0",
     "jquery": "^3.2.1",
     "kute.js": "^1.6.5",
     "material-design-icons": "3.0.1",
