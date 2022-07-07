@@ -36,7 +36,7 @@
     "jquery": "^3.2.1",
     "kute.js": "^1.6.5",
     "material-design-icons": "3.0.1",
-    "moment": "^2.20.1",
+    "moment": "^2.29.4",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.0.0",
     "vis": "4.21.0",
